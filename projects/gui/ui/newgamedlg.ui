@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>New Game</string>
+   <string>新建游戏</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <property name="sizeConstraint">
@@ -22,13 +22,13 @@
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>White</string>
+        <string>红方</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QRadioButton" name="m_whitePlayerHumanRadio">
           <property name="text">
-           <string>Human</string>
+           <string>人类</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -41,7 +41,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>CPU</string>
+           <string>电脑</string>
           </property>
          </widget>
         </item>
@@ -110,13 +110,13 @@
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
-        <string>Black</string>
+        <string>黑方</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QRadioButton" name="m_blackPlayerHumanRadio">
           <property name="text">
-           <string>Human</string>
+           <string>人类</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -129,7 +129,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>CPU</string>
+           <string>电脑</string>
           </property>
          </widget>
         </item>

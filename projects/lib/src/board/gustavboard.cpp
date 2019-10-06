@@ -26,7 +26,7 @@ GustavBoard::GustavBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	setPieceType(Adjutant, tr("adjutant-general"), "A",
-		     KnightMovement | BishopMovement | RookMovement, "Q~");
+		     MaMovement | BishopMovement | RookMovement, "Q~");
 }
 
 Board* GustavBoard::copy() const

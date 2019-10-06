@@ -25,8 +25,8 @@ namespace Chess {
 SeirawanBoard::SeirawanBoard()
 	: WesternBoard(new WesternZobrist())
 {
-	setPieceType(Hawk, tr("hawk"), "H", KnightMovement | BishopMovement, "A");
-	setPieceType(Elephant, tr("elephant"), "E", KnightMovement | RookMovement, "C");
+	setPieceType(Hawk, tr("hawk"), "H", MaMovement | BishopMovement, "A");
+	setPieceType(Elephant, tr("elephant"), "E", MaMovement | RookMovement, "C");
 
 	// following "virtual" piece types are only used for castling/channeling disambiguation
 	setPieceType(rookSquareChanneling(Hawk, forward), tr("auxhawk"), "X", 0, "A");

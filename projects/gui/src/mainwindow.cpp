@@ -21,6 +21,7 @@
 #include <QHBoxLayout>
 #include <QMenu>
 #include <QMenuBar>
+#include <QStatusBar>
 #include <QToolBar>
 #include <QDockWidget>
 #include <QTreeView>
@@ -112,6 +113,9 @@ MainWindow::MainWindow(ChessGame* game)
 	createToolBars();
 	createDockWindows();
 
+	// 状态栏
+	statusBar()->showMessage("状态栏: 界面初始化成功了");
+
 	connect(m_moveList, SIGNAL(moveClicked(int,bool)),
 	        m_gameViewer, SLOT(viewMove(int,bool)));
 	connect(m_moveList, SIGNAL(commentClicked(int, QString)),
@@ -133,42 +137,42 @@ MainWindow::~MainWindow()
 
 void MainWindow::createActions()
 {
-	m_newGameAct = new QAction(tr("&New..."), this);
+	m_newGameAct = new QAction(tr("&新建..."), this);
 	m_newGameAct->setShortcut(QKeySequence::New);
 
-	m_closeGameAct = new QAction(tr("&Close"), this);
+	m_closeGameAct = new QAction(tr("&关闭"), this);
 	#ifdef Q_OS_WIN32
 	m_closeGameAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
 	#else
 	m_closeGameAct->setShortcut(QKeySequence::Close);
 	#endif
 
-	m_saveGameAct = new QAction(tr("&Save"), this);
+	m_saveGameAct = new QAction(tr("&保存"), this);
 	m_saveGameAct->setShortcut(QKeySequence::Save);
 
-	m_saveGameAsAct = new QAction(tr("Save &As..."), this);
+	m_saveGameAsAct = new QAction(tr("&另存为..."), this);
 	m_saveGameAsAct->setShortcut(QKeySequence::SaveAs);
 
-	m_copyFenAct = new QAction(tr("Copy F&EN"), this);
+	m_copyFenAct = new QAction(tr("&复制 FEN"), this);
 	QAction* copyFenSequence = new QAction(m_gameViewer);
 	copyFenSequence->setShortcut(QKeySequence::Copy);
 	copyFenSequence->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 	m_gameViewer->addAction(copyFenSequence);
 
-	m_pasteFenAct = new QAction(tr("&Paste FEN"), this);
+	m_pasteFenAct = new QAction(tr("&粘贴 FEN"), this);
 	m_pasteFenAct->setShortcut(QKeySequence(QKeySequence::Paste));
 
-	m_copyPgnAct = new QAction(tr("Copy PG&N"), this);
+	m_copyPgnAct = new QAction(tr("&复制 PGN"), this);
 
-	m_flipBoardAct = new QAction(tr("&Flip Board"), this);
+	m_flipBoardAct = new QAction(tr("&上下翻转棋盘"), this);
 
-	m_adjudicateDrawAct = new QAction(tr("Ad&judicate Draw"), this);
-	m_adjudicateWhiteWinAct = new QAction(tr("Adjudicate Win for White"), this);
-	m_adjudicateBlackWinAct = new QAction(tr("Adjudicate Win for Black"), this);
+	m_adjudicateDrawAct = new QAction(tr("&判定和棋"), this);
+	m_adjudicateWhiteWinAct = new QAction(tr("判定红胜"), this);
+	m_adjudicateBlackWinAct = new QAction(tr("判定黑胜"), this);
 
-	m_resignGameAct = new QAction(tr("Resign"), this);
+	m_resignGameAct = new QAction(tr("认输"), this);
 
-	m_quitGameAct = new QAction(tr("&Quit"), this);
+	m_quitGameAct = new QAction(tr("&退出"), this);
 	m_quitGameAct->setMenuRole(QAction::QuitRole);
 	#ifdef Q_OS_WIN32
 	m_quitGameAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
@@ -176,35 +180,35 @@ void MainWindow::createActions()
 	m_quitGameAct->setShortcut(QKeySequence::Quit);
 	#endif
 
-	m_newTournamentAct = new QAction(tr("&New..."), this);
-	m_stopTournamentAct = new QAction(tr("&Stop"), this);
-	m_showTournamentResultsAct = new QAction(tr("&Results..."), this);
+	m_newTournamentAct = new QAction(tr("&新建..."), this);
+	m_stopTournamentAct = new QAction(tr("&停止"), this);
+	m_showTournamentResultsAct = new QAction(tr("&结局..."), this);
 
-	m_showSettingsAct = new QAction(tr("&Settings"), this);
+	m_showSettingsAct = new QAction(tr("&设置"), this);
 	m_showSettingsAct->setMenuRole(QAction::PreferencesRole);
 
-	m_showGameDatabaseWindowAct = new QAction(tr("&Game Database"), this);
+	m_showGameDatabaseWindowAct = new QAction(tr("&棋局数据库"), this);
 
-	m_showGameWallAct = new QAction(tr("&Active Games"), this);
+	m_showGameWallAct = new QAction(tr("&激活棋局"), this);
 
-	m_minimizeAct = new QAction(tr("&Minimize"), this);
+	m_minimizeAct = new QAction(tr("&最小化"), this);
 	m_minimizeAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
 
-	m_showPreviousTabAct = new QAction(tr("Show &Previous Tab"), this);
+	m_showPreviousTabAct = new QAction(tr("&显示前一局"), this);
 	#ifdef Q_OS_MAC
 	m_showPreviousTabAct->setShortcut(QKeySequence(Qt::MetaModifier + Qt::ShiftModifier + Qt::Key_Tab));
 	#else
 	m_showPreviousTabAct->setShortcut(QKeySequence(Qt::ControlModifier + Qt::ShiftModifier + Qt::Key_Tab));
 	#endif
 
-	m_showNextTabAct = new QAction(tr("Show &Next Tab"), this);
+	m_showNextTabAct = new QAction(tr("&显示下一局"), this);
 	#ifdef Q_OS_MAC
 	m_showNextTabAct->setShortcut(QKeySequence(Qt::MetaModifier + Qt::Key_Tab));
 	#else
 	m_showNextTabAct->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_Tab));
 	#endif
 
-	m_aboutAct = new QAction(tr("&About Cute Chess..."), this);
+	m_aboutAct = new QAction(tr("&关于佳佳象棋..."), this);
 	m_aboutAct->setMenuRole(QAction::AboutRole);
 
 	connect(m_newGameAct, SIGNAL(triggered()), this, SLOT(newGame()));
@@ -272,7 +276,7 @@ void MainWindow::createActions()
 
 void MainWindow::createMenus()
 {
-	m_gameMenu = menuBar()->addMenu(tr("&Game"));
+	m_gameMenu = menuBar()->addMenu(tr("&游戏"));
 	m_gameMenu->addAction(m_newGameAct);
 	m_gameMenu->addSeparator();
 	m_gameMenu->addAction(m_closeGameAct);
@@ -291,27 +295,27 @@ void MainWindow::createMenus()
 	m_gameMenu->addSeparator();
 	m_gameMenu->addAction(m_quitGameAct);
 
-	m_tournamentMenu = menuBar()->addMenu(tr("&Tournament"));
+	m_tournamentMenu = menuBar()->addMenu(tr("&比赛"));
 	m_tournamentMenu->addAction(m_newTournamentAct);
 	m_tournamentMenu->addAction(m_stopTournamentAct);
 	m_tournamentMenu->addAction(m_showTournamentResultsAct);
 	m_stopTournamentAct->setEnabled(false);
 
-	m_toolsMenu = menuBar()->addMenu(tr("T&ools"));
+	m_toolsMenu = menuBar()->addMenu(tr("&设置"));
 	m_toolsMenu->addAction(m_showSettingsAct);
         m_toolsMenu->addAction(m_showGameDatabaseWindowAct);
 
-	m_viewMenu = menuBar()->addMenu(tr("&View"));
+	m_viewMenu = menuBar()->addMenu(tr("&视图"));
 	m_viewMenu->addAction(m_flipBoardAct);
 	m_viewMenu->addSeparator();
 
-	m_windowMenu = menuBar()->addMenu(tr("&Window"));
+	m_windowMenu = menuBar()->addMenu(tr("&窗口"));
 	addDefaultWindowMenu();
 
 	connect(m_windowMenu, SIGNAL(aboutToShow()), this,
 		SLOT(onWindowMenuAboutToShow()));
 
-	m_helpMenu = menuBar()->addMenu(tr("&Help"));
+	m_helpMenu = menuBar()->addMenu(tr("&帮助"));
 	m_helpMenu->addAction(m_aboutAct);
 }
 
@@ -340,12 +344,81 @@ void MainWindow::createToolBars()
 	toolBar->setAllowedAreas(Qt::TopToolBarArea);
 	toolBar->addWidget(m_tabBar);
 	addToolBar(toolBar);
+
+
+	//QAction* actLinkChessBoard;   // 连接其它棋盘
+	//QAction* actEngineThink;      // 让引擎思考
+	//QAction* actEngineStop;       // 让引擎停止
+	//QAction* actEngineAnalyze;    // 让引擎分析
+
+	// 主菜单工具条
+
+	// 连接其它棋盘
+	this->actLinkChessBoard = new QAction(this);
+	this->actLinkChessBoard->setObjectName(QStringLiteral("LinkChessBoard"));
+	QIcon iconLinkChessBoard;
+	iconLinkChessBoard.addFile(QStringLiteral(":/icon/Links.ico"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->actLinkChessBoard->setIcon(iconLinkChessBoard);
+	this->actLinkChessBoard->setText("连线");
+	this->actLinkChessBoard->setToolTip("连接其它棋盘");
+
+	// 让引擎思考
+	this->actEngineThink = new QAction(this);
+	this->actEngineThink->setObjectName(QStringLiteral("EngineThink"));
+	QIcon iconEngineThink;
+	iconEngineThink.addFile(QStringLiteral(":/icon/thought-balloon.ico"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->actEngineThink->setIcon(iconEngineThink);
+	this->actEngineThink->setText("思考");
+	this->actEngineThink->setToolTip("让引擎思考当前棋局，并自动走棋");
+
+	// 让引擎分析
+	this->actEngineAnalyze = new QAction(this);
+	this->actEngineAnalyze->setObjectName(QStringLiteral("EngineAnalyze"));
+	QIcon iconEngineAnalyze;
+	iconEngineAnalyze.addFile(QStringLiteral(":/icon/analyze.ico"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->actEngineAnalyze->setIcon(iconEngineAnalyze);
+	this->actEngineAnalyze->setText("分析");
+	this->actEngineAnalyze->setToolTip("让引擎分析当前棋局");
+
+	// 让引擎分析
+	this->actEngineStop = new QAction(this);
+	this->actEngineStop->setObjectName(QStringLiteral("EngineStop"));
+	QIcon iconEngineStop;
+	iconEngineStop.addFile(QStringLiteral(":/icon/stop.ico"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->actEngineStop->setIcon(iconEngineStop);
+	this->actEngineStop->setText("停止");
+	this->actEngineStop->setToolTip("让引擎停止思考");
+
+	// 引擎设置
+	this->actEngineSetting = new QAction(this);
+	this->actEngineSetting->setObjectName(QStringLiteral("EngineSetting"));
+	QIcon iconEngineSetting;
+	iconEngineSetting.addFile(QStringLiteral(":/icon/Settings.ico"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->actEngineSetting->setIcon(iconEngineSetting);
+	this->actEngineSetting->setText("设置");
+	this->actEngineSetting->setToolTip("设置引擎参数");
+
+	this->mainToolbar = new QToolBar(this);
+	this->mainToolbar->setObjectName(QStringLiteral("mainToolBar"));
+	this->mainToolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); //  ToolButtonTextUnderIcon); ToolButtonIconOnly
+	this->addToolBar(Qt::TopToolBarArea, this->mainToolbar);
+
+	this->mainToolbar->addAction(this->actLinkChessBoard);
+	this->mainToolbar->addAction(this->actEngineThink);
+	this->mainToolbar->addAction(this->actEngineAnalyze);
+	this->mainToolbar->addAction(this->actEngineStop);   
+	this->mainToolbar->addAction(this->actEngineSetting);   
 }
 
 void MainWindow::createDockWindows()
 {
 	// Engine debug
-	QDockWidget* engineDebugDock = new QDockWidget(tr("Engine Debug"), this);
+	QDockWidget* engineDebugDock = new QDockWidget(tr("引擎调试"), this);
 	engineDebugDock->setObjectName("EngineDebugDock");
 	m_engineDebugLog = new PlainTextLog(engineDebugDock);
 	engineDebugDock->setWidget(m_engineDebugLog);
@@ -353,23 +426,23 @@ void MainWindow::createDockWindows()
 	addDockWidget(Qt::BottomDockWidgetArea, engineDebugDock);
 
 	// Evaluation history
-	auto evalHistoryDock = new QDockWidget(tr("Evaluation history"), this);
+	auto evalHistoryDock = new QDockWidget(tr("历史评估曲线"), this);
 	evalHistoryDock->setObjectName("EvalHistoryDock");
 	evalHistoryDock->setWidget(m_evalHistory);
 	addDockWidget(Qt::BottomDockWidgetArea, evalHistoryDock);
 
 	// Players' eval widgets
-	auto whiteEvalDock = new QDockWidget(tr("White's evaluation"), this);
+	auto whiteEvalDock = new QDockWidget(tr("红方评分"), this);
 	whiteEvalDock->setObjectName("WhiteEvalDock");
 	whiteEvalDock->setWidget(m_evalWidgets[Chess::Side::White]);
 	addDockWidget(Qt::RightDockWidgetArea, whiteEvalDock);
-	auto blackEvalDock = new QDockWidget(tr("Black's evaluation"), this);
+	auto blackEvalDock = new QDockWidget(tr("黑方评分"), this);
 	blackEvalDock->setObjectName("BlackEvalDock");
 	blackEvalDock->setWidget(m_evalWidgets[Chess::Side::Black]);
 	addDockWidget(Qt::RightDockWidgetArea, blackEvalDock);
 
 	// Move list
-	QDockWidget* moveListDock = new QDockWidget(tr("Moves"), this);
+	QDockWidget* moveListDock = new QDockWidget(tr("棋步"), this);
 	moveListDock->setObjectName("MoveListDock");
 	moveListDock->setWidget(m_moveList);
 	addDockWidget(Qt::RightDockWidgetArea, moveListDock);
@@ -377,7 +450,7 @@ void MainWindow::createDockWindows()
 	splitDockWidget(whiteEvalDock, blackEvalDock, Qt::Vertical);
 
 	// Tags
-	QDockWidget* tagsDock = new QDockWidget(tr("Tags"), this);
+	QDockWidget* tagsDock = new QDockWidget(tr("标签"), this);
 	tagsDock->setObjectName("TagsDock");
 	QTreeView* tagsView = new QTreeView(tagsDock);
 	tagsView->setModel(m_tagsModel);
@@ -1008,18 +1081,15 @@ void MainWindow::pasteFen()
 void MainWindow::showAboutDialog()
 {
 	QString html;
-	html += "<h3>" + QString("Cute Chess %1")
+	html += "<h3>" + QString("佳佳象棋界面 %1")
 		.arg(CuteChessApplication::applicationVersion()) + "</h3>";
 	html += "<p>" + tr("Using Qt version %1").arg(qVersion()) + "</p>";
-	html += "<p>" + tr("Copyright 2008-2018 "
-			   "Cute Chess authors") + "</p>";
-	html += "<p>" + tr("This is free software; see the source for copying "
-			   "conditions. There is NO warranty; not even for "
-			   "MERCHANTABILITY or FITNESS FOR A PARTICULAR "
-			   "PURPOSE.") + "</p>";
-	html += "<a href=\"http://cutechess.com\">cutechess.com</a><br>";
+	html += "<p>" + tr("版本所有 2008-2019 "
+			   "作者 Lee David") + "</p>";
+	html += "<p>" + tr("感谢您使用佳佳象棋！") + "</p>";
+	html += "<a href=\"http://www.ggzero.cn\">www.ggzero.cn</a><br>";
 
-	QMessageBox::about(this, tr("About Cute Chess"), html);
+	QMessageBox::about(this, tr("关于佳佳象棋界面"), html);
 }
 
 void MainWindow::lockCurrentGame()

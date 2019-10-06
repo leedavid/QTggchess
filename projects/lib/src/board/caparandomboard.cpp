@@ -77,7 +77,7 @@ bool CaparandomBoard::pawnsAreSafe(const QVector<int>& pieces) const
 		{
 			if (j < 0 || j >= size)
 				continue;
-			if (pieceHasMovement(pieces.at(j), KnightMovement))
+			if (pieceHasMovement(pieces.at(j), MaMovement))
 				safe = true;
 		}
 		for (int j = i - 1; j <= i + 1; j += 2)

@@ -71,7 +71,7 @@ class LIB_EXPORT WesternBoard : public Board
 		//};
 
 		/*! Movement mask for Knight moves. */
-		static const unsigned KnightMovement = 2;
+		static const unsigned MaMovement = 2;
 		/*! Movement mask for Bishop moves. */
 		static const unsigned BishopMovement = 4;
 		/*! Movement mask for Rook moves. */

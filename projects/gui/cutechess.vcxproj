@@ -290,6 +290,7 @@
     </QtMoc>
     <QtMoc Include="src\gamewall.h">
     </QtMoc>
+    <ClInclude Include="res\icons\resource.h" />
     <ClInclude Include="src\boardview\graphicsboard.h" />
     <QtMoc Include="src\boardview\graphicspiece.h">
     </QtMoc>
@@ -471,6 +472,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\icons\cutechess_win.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\icons\cutechess_win.ico" />
+    <Image Include="res\icons\cutechess_win.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

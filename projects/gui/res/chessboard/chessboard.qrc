@@ -1,15 +1,23 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-	<file>default.svg</file>
-	<file>merida.svg</file>
-	<file>makruk.svg</file>
-	<file>MaurizioMonge/celtic.svg</file>
-	<file>MaurizioMonge/eyes.svg</file>
-	<file>MaurizioMonge/fantasy.svg</file>
-	<file>MaurizioMonge/fantasy_alt.svg</file>
-	<file>MaurizioMonge/freak.svg</file>
-	<file>MaurizioMonge/prmi.svg</file>
-	<file>MaurizioMonge/skulls.svg</file>
-	<file>MaurizioMonge/spatial.svg</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>default.svg</file>
+        <file>merida.svg</file>
+        <file>makruk.svg</file>
+        <file>MaurizioMonge/celtic.svg</file>
+        <file>MaurizioMonge/eyes.svg</file>
+        <file>MaurizioMonge/fantasy.svg</file>
+        <file>MaurizioMonge/fantasy_alt.svg</file>
+        <file>MaurizioMonge/freak.svg</file>
+        <file>MaurizioMonge/prmi.svg</file>
+        <file>MaurizioMonge/skulls.svg</file>
+        <file>MaurizioMonge/spatial.svg</file>
+        <file>cutechess_win.png</file>
+        <file>icon/screenshot_72px.ico</file>
+        <file>icon/Links.ico</file>
+        <file>icon/thought-balloon.ico</file>
+        <file>icon/Flat-Stop.ico</file>
+        <file>icon/analyze.ico</file>
+        <file>icon/stop.ico</file>
+        <file>icon/Settings.ico</file>
+    </qresource>
 </RCC>

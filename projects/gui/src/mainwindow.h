@@ -129,11 +129,17 @@ class MainWindow : public QMainWindow
 		QMenu* m_windowMenu;
 		QMenu* m_helpMenu;
 
+		QToolBar* mainToolbar;        // 主菜单工具条
+		QAction* actLinkChessBoard;   // 连接其它棋盘
+		QAction* actEngineThink;      // 让引擎思考
+		QAction* actEngineStop;       // 让引擎停止
+		QAction* actEngineAnalyze;    // 让引擎分析
+		QAction* actEngineSetting;    // 引擎设置参数
+
+
 		GameTabBar* m_tabBar;
 
-		// 状态栏
-		QStatusBar* statusBar() const;
-		void setStatusBar(QStatusBar* statusbar);
+		    
 
 		GameViewer* m_gameViewer;
 		MoveList* m_moveList;

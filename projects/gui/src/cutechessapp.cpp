@@ -61,13 +61,13 @@ CuteChessApplication::CuteChessApplication(int& argc, char* argv[])
 
 	// Set the application icon
 	QIcon icon;
-	icon.addFile(":/icons/cutechess_512x512.png");
-	icon.addFile(":/icons/cutechess_256x256.png");
-	icon.addFile(":/icons/cutechess_128x128.png");
-	icon.addFile(":/icons/cutechess_64x64.png");
-	icon.addFile(":/icons/cutechess_32x32.png");
-	icon.addFile(":/icons/cutechess_24x24.png");
-	icon.addFile(":/icons/cutechess_16x16.png");
+	//icon.addFile(":/icons/cutechess_512x512.png");
+	//icon.addFile(":/icons/cutechess_256x256.png");
+	//icon.addFile(":/icons/cutechess_128x128.png");
+	//icon.addFile(":/icons/cutechess_64x64.png");
+	//icon.addFile(":/icons/cutechess_32x32.png");
+	//icon.addFile(":/icons/cutechess_24x24.png");
+	icon.addFile(":/cutechess_win.png");
 	setWindowIcon(icon);
 
 	setQuitOnLastWindowClosed(false);
@@ -106,7 +106,8 @@ CuteChessApplication* CuteChessApplication::instance()
 QString CuteChessApplication::userName()
 {
 	#ifdef Q_OS_WIN32
-	return qgetenv("USERNAME");
+	//return qgetenv("USERNAME");
+	return "œÛ∆Â¥Û ¶";
 	#else
 	if (QSettings().value("ui/use_full_user_name", true).toBool())
 	{

@@ -3,6 +3,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#pragma execution_character_set("utf-8")
+
 #include <QString>
 #include <QVector>
 #include <QVarLengthArray>

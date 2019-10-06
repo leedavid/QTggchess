@@ -26,7 +26,7 @@ HoppelPoppelBoard::HoppelPoppelBoard()
 {
 	// cross-over definitions used for checks and capturing moves
 	setPieceType(Xiang, "Knibis", "N", BishopMovement);
-	setPieceType(Shi, "Biskni", "B", KnightMovement);
+	setPieceType(Shi, "Biskni", "B", MaMovement);
 }
 
 Board* HoppelPoppelBoard::copy() const
@@ -78,7 +78,7 @@ NewZealandBoard::NewZealandBoard()
 {
 	// cross-over definitions used for checks and capturing moves
 	setPieceType(Xiang, "Kniroo", "N", RookMovement);
-	setPieceType(Pao, "Rookni", "R", KnightMovement);
+	setPieceType(Pao, "Rookni", "R", MaMovement);
 }
 
 Board* NewZealandBoard::copy() const

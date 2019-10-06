@@ -28,7 +28,7 @@ OukBoard::OukBoard()
 {
 	// Movements as in chaturanga and shatranj, except Alfil -> Koul (Base, Pillar)
 	setPieceType(Fish, tr("trey"), "P");                       //! Pawn
-	setPieceType(Horse, tr("ses"), "N", KnightMovement);       //! Knight
+	setPieceType(Horse, tr("ses"), "N", MaMovement);       //! Knight
 	setPieceType(Pillar, tr("kol"), "S", SilverGeneralMovement, "E"); //! replaces Alfil
 	setPieceType(Boat, tr("tuuk"), "R", RookMovement);         //! Rook
 	setPieceType(Maiden, tr("neang"), "M", FerzMovement, "F"); //! Queen, Counselor, Mantri, Met

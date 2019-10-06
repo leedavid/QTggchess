@@ -33,12 +33,13 @@ WesternBoard::WesternBoard(WesternZobrist* zobrist)
 	  m_multiDigitNotation(false),
 	  m_zobrist(zobrist)
 {
-	setPieceType(Pawn, tr("pawn"), "P");
-	setPieceType(Xiang, tr("knight"), "N", KnightMovement);
-	setPieceType(Shi, tr("bishop"), "B", BishopMovement);
-	setPieceType(Pao, tr("rook"), "R", RookMovement);
-	setPieceType(Che, tr("queen"), "Q", BishopMovement | RookMovement);
-	setPieceType(King, tr("king"), "K");
+	setPieceType(Pawn, tr("pawn"), "P");                    // 兵
+	setPieceType(Ma, tr("knight"), "N", MaMovement);     // 马
+	setPieceType(Xiang, tr("bishop"), "B", BishopMovement);   // 相
+	setPieceType(Shi, tr("shi"), "A", BishopMovement);      // 仕
+	setPieceType(Che, tr("rook"), "R", RookMovement);       // 车
+	setPieceType(Pao, tr("pao"), "C", BishopMovement | RookMovement);   // 炮
+	setPieceType(King, tr("king"), "K"); // 将
 
 	m_pawnSteps += {CaptureStep, -1};
 	m_pawnSteps += {FreeStep, 0};
@@ -1057,7 +1058,7 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 		return;
 	}
 
-	if (pieceHasMovement(pieceType, KnightMovement))
+	if (pieceHasMovement(pieceType, MaMovement))
 		generateHoppingMoves(square, m_knightOffsets, moves);
 	if (pieceHasMovement(pieceType, BishopMovement))
 		generateSlidingMoves(square, m_bishopOffsets, moves);
@@ -1097,7 +1098,7 @@ bool WesternBoard::inCheck(Side side, int square) const
 	{
 		piece = pieceAt(square + m_knightOffsets[i]);
 		if (piece.side() == opSide
-		&&  pieceHasMovement(piece.type(), KnightMovement))
+		&&  pieceHasMovement(piece.type(), MaMovement))
 			return true;
 	}
 	

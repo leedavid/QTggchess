@@ -564,7 +564,7 @@ bool ChessGame::resetBoard()
 
 	if (!m_board->setFenString(fen))
 	{
-		qWarning("Invalid FEN string: %s", qUtf8Printable(fen));
+		qWarning("ÎÞÐ§µÄ FEN ×Ö·û´®: %s", qUtf8Printable(fen));
 		m_board->reset();
 		if (m_board->isRandomVariant())
 			m_startingFen = m_board->fenString();

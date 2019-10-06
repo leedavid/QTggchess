@@ -23,7 +23,7 @@ namespace Chess {
 AiWokBoard::AiWokBoard()
 	: MakrukBoard()
 {
-	setPieceType(AiWok, tr("ai-wok"), "A", FerzMovement | KnightMovement | RookMovement, "C");
+	setPieceType(AiWok, tr("ai-wok"), "A", FerzMovement | MaMovement | RookMovement, "C");
 }
 
 Board* AiWokBoard::copy() const

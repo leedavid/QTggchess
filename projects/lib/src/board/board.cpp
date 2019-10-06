@@ -119,7 +119,7 @@ void Board::initialize()
 	m_height = height();
 	for (int i = 0; i < (m_width + 2) * (m_height + 4); i++)
 		m_squares.append(Piece::WallPiece);
-	vInitialize();
+	vInitialize();   // ÏÔÊ¾³õÊ¼»¯
 
 	m_maxPieceSymbolLength = 1;
 	for (const PieceData& pd: m_pieceData)
@@ -598,7 +598,15 @@ bool Board::setFenString(const QString& fen)
 		// read ahead for multi-character symbols
 		for (int l = qMin(maxsymlen, token->length() - i); l > 0; l--)
 		{
+			
+			
 			pieceStr = token->mid(i, l);
+
+
+			//if (pieceStr == "b") {
+			//	int a = 0;
+			//}
+
 			Piece piece = pieceFromSymbol(pieceStr);
 			if (piece.isValid())
 			{

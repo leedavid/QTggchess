@@ -29,7 +29,7 @@ MakrukBoard::MakrukBoard()
 {
 	// King, Ferz, Rook, Knight and Pawn as in chaturanga and shatranj
 	setPieceType(Bia, tr("bia"), "P");                    //! Cowry Shell, Chip
-	setPieceType(Ma, tr("ma"), "N", KnightMovement);      //! Horse
+	setPieceType(Ma, tr("ma"), "N", MaMovement);      //! Horse
 	//! Khon (Base) replaces Alfil (Bishop): moves as Shogi's Silver General
 	setPieceType(Khon, tr("khon"), "S", SilverGeneralMovement, "E");
 	setPieceType(Rua, tr("rua"), "R", RookMovement);      //! Boat

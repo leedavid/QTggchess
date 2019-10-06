@@ -25,7 +25,7 @@ AseanBoard::AseanBoard()
 {
 	// all pieces have standard chess names but move like Makruk pieces
 	setPieceType(Pawn, tr("pawn"), "P");
-	setPieceType(Xiang, tr("knight"), "N", KnightMovement);
+	setPieceType(Xiang, tr("knight"), "N", MaMovement);
 	setPieceType(Shi, tr("bishop"), "B", SilverGeneralMovement); //! Khon
 	setPieceType(Pao, tr("rook"), "R", RookMovement);
 	setPieceType(Che, tr("queen"), "Q", FerzMovement); //! Ferz

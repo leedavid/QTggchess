@@ -60,7 +60,8 @@ GraphicsBoard::GraphicsBoard(int files,
 	  m_squareSize(squareSize),
 	  m_coordSize(squareSize / 2.0),
 	  m_lightColor(QColor(0xff, 0xce, 0x9e)),
-	  m_darkColor(QColor(0xd1, 0x8b, 0x47)),
+	  m_darkColor(QColor(0x20, 0x20, 0x20)), // m_darkColor(QColor(0xd1, 0x8b, 0x47)),
+	  //m_darkColor(QColor(0xff, 0xff, 0xff)), // m_darkColor(QColor(0xd1, 0x8b, 0x47)),
 	  m_squares(files * ranks),
 	  m_highlightAnim(nullptr),
 	  m_flipped(false)
@@ -91,7 +92,8 @@ QRectF GraphicsBoard::boundingRect() const
 				       m_coordSize, m_coordSize);
 	return m_rect.marginsAdded(margins);
 }
-
+// 绘制棋盘 坐标
+// https://www.twblogs.net/a/5c10cacfbd9eee5e41838c05/zh-cn
 void GraphicsBoard::paint(QPainter* painter,
 			  const QStyleOptionGraphicsItem* option,
 			  QWidget* widget)
@@ -99,9 +101,151 @@ void GraphicsBoard::paint(QPainter* painter,
 	Q_UNUSED(option);
 	Q_UNUSED(widget);
 
+	// 画背景图
+	QString picPath = QCoreApplication::applicationDirPath() + "/image/backgroud.jpg";	
+	painter->drawPixmap(m_rect.left()-100,m_rect.top()-100, QPixmap(picPath));
+
 	QRectF rect(m_rect.topLeft(), QSizeF(m_squareSize, m_squareSize));
 	const qreal rLeft = rect.left();
 
+	
+	QPen pen(Qt::SolidLine);
+	//pen.setWidth(10);
+	//pen.setColor(Qt::green);
+	//painter->setPen(pen);
+
+	//rect.moveLeft(rLeft);
+
+	qreal y = m_rect.top() + m_squareSize / 2;
+	qreal x = m_rect.left() + m_squareSize / 2;
+	qreal off = m_squareSize/10;
+	qreal cWidth = m_squareSize / 15;
+
+	// 初始化描绘四个绿色点座标
+	//painter->drawPoint(x, y);
+	//painter->drawPoint(x + m_squareSize * 9, y);
+	//painter->drawPoint(x, y + m_squareSize * 10);
+	//painter->drawPoint(x+m_squareSize * 9, y+m_squareSize * 10);
+
+	// 设置画笔颜色和宽度
+	//pen.setColor(Qt::black);
+	pen.setColor(m_darkColor);
+	pen.setWidth(cWidth);
+	painter->setPen(pen);
+
+	// 1.画棋盘的轮廓线
+	painter->drawLine(x-off, y-off, m_squareSize * 8 + x+off, y-off);
+	painter->drawLine(x-off, y-off, x-off, m_squareSize * 9 + y+off);
+	painter->drawLine(m_squareSize * 8 + x+off, y-off, m_squareSize * 8 + x+off, m_squareSize * 9 + y+off);
+	painter->drawLine(x-off, m_squareSize * 9 + y+off, m_squareSize * 8 + x+off, m_squareSize * 9 + y+off);
+
+	// 2.画棋盘的18条垂直线
+	qreal xWidth = m_squareSize / 30;	// 
+	pen.setWidth(xWidth);
+	painter->setPen(pen);
+
+	for (int i = 0; i < 9; i++) {
+		painter->drawLine(x+m_squareSize * i, y, x+m_squareSize * i, y+m_squareSize * 4);
+		painter->drawLine(x+m_squareSize * i, y+m_squareSize * 5,x+m_squareSize * i, y+m_squareSize * 9);
+	}
+
+	// 3.楚河 汉界 二条竖短线
+	painter->drawLine(x, y+m_squareSize * 4, x, y+m_squareSize * 5);
+	painter->drawLine(x+m_squareSize * 8, y+m_squareSize * 4, x+m_squareSize * 8, y+m_squareSize * 5);
+
+
+	// 4.画棋盘的10条水平线
+	for (int i = 0; i <= 9; i++)
+		painter->drawLine(x, y+ m_squareSize * i, x+ m_squareSize * 8, y+ m_squareSize * i);
+
+	// 5.画棋盘“士”行走的斜线
+	painter->drawLine(x+m_squareSize * 3, y, x + m_squareSize * 5, y + m_squareSize * 2);
+	painter->drawLine(x+m_squareSize * 5, y, x + m_squareSize * 3, y + m_squareSize * 2);
+	painter->drawLine(x + m_squareSize * 3, y + m_squareSize * 7, x + m_squareSize * 5, y + m_squareSize * 9);
+	painter->drawLine(x + m_squareSize * 5, y + m_squareSize * 7, x + m_squareSize * 3, y + m_squareSize * 9);
+
+	QPointF point(x+m_squareSize * 1.2, y+m_squareSize * 4.7);
+	painter->setFont(QFont("Arial", m_squareSize/2));
+	//painter->drawText(point, "aefaf         fef");
+	painter->drawText(point, "楚 河              汉 界");
+
+
+	// 7. 直角折线
+	pen.setWidth(m_squareSize/20);
+	painter->setPen(pen);
+
+	qreal r5 = m_squareSize / 10;
+	qreal r15 = m_squareSize / 4;
+
+	for (int j = 2; j > 0; j--)
+	{
+		for (int i = 1; i < 5; i++)  /* 兵的井字格 */
+		{
+			QPoint points1[3] = {
+				QPoint(x+m_squareSize * (2 * i - 2) + r5,  y+m_squareSize * (9 - j * 3) - r15),
+				QPoint(x+m_squareSize * (2 * i - 2) + r5,  y+m_squareSize * (9 - j * 3) - r5),
+				QPoint(x+m_squareSize * (2 * i - 2) + r15, y+m_squareSize * (9 - j * 3) - r5),
+			};
+			painter->drawPolyline(points1, 3);
+
+			QPoint points2[3] = {
+				QPoint(x+m_squareSize * (2 * i + 0) - r15, y+m_squareSize * (9 - j * 3) - r5),
+				QPoint(x+m_squareSize * (2 * i + 0) - r5,  y+m_squareSize * (9 - j * 3) - r5),
+				QPoint(x+m_squareSize * (2 * i + 0) - r5,  y+m_squareSize * (9 - j * 3) - r15),
+			};
+			painter->drawPolyline(points2, 3);
+
+			QPoint points3[3] = {
+				QPoint(x+m_squareSize * (2 * i - 2) + r5,  y+m_squareSize * (9 - j * 3) + r15),
+				QPoint(x+m_squareSize * (2 * i - 2) + r5,  y+m_squareSize * (9 - j * 3) + r5),
+				QPoint(x+m_squareSize * (2 * i - 2) + r15, y+m_squareSize * (9 - j * 3) + r5),
+			};
+			painter->drawPolyline(points3, 3);
+
+			QPoint points4[3] = {
+				QPoint(x+m_squareSize * (2 * i + 0) - r15, y+m_squareSize * (9 - j * 3) + r5),
+				QPoint(x+m_squareSize * (2 * i + 0) - r5,  y+m_squareSize * (9 - j * 3) + r5),
+				QPoint(x+m_squareSize * (2 * i + 0) - r5,  y+m_squareSize * (9 - j * 3) + r15),
+			};											  
+			painter->drawPolyline(points4, 3);
+
+
+			if (i < 3)   /* 炮的井字格 */
+			{
+				QPoint points5[3] = {
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1)- m_squareSize - r15,  y+m_squareSize * (pow(j + 1,2) - 2) - r5),
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize - r5,   y+m_squareSize * (pow(j + 1,2) - 2) - r5),
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize - r5,   y+m_squareSize * (pow(j + 1,2) - 2) - r15),
+				};
+				painter->drawPolyline(points5, 3);
+
+				QPoint points6[3] = {
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize + r15,  y+m_squareSize * (pow(j + 1,2) - 2) - r5),
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize + r5,   y+m_squareSize * (pow(j + 1,2) - 2) - r5),
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize + r5,   y+m_squareSize * (pow(j + 1,2) - 2) - r15),
+				};																					  
+				painter->drawPolyline(points6, 3);
+
+				QPoint points7[3] = {
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize - r15,  y+m_squareSize * (pow(j + 1,2) - 2) + r5),
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize - r5,   y+m_squareSize * (pow(j + 1,2) - 2) + r5),
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize - r5,   y+m_squareSize * (pow(j + 1,2) - 2) + r15),
+				};
+				painter->drawPolyline(points7, 3);
+
+				QPoint points8[3] = {
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize + r15,  y+m_squareSize * (pow(j + 1,2) - 2) + r5),
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize + r5,   y+m_squareSize * (pow(j + 1,2) - 2) + r5),
+					QPoint(x+m_squareSize * pow(2, 2 * i - 1) - m_squareSize + r5,   y+m_squareSize * (pow(j + 1,2) - 2) + r15),
+				};
+				painter->drawPolyline(points8, 3);
+			}
+
+		}
+
+	}
+
+	/*
 	// paint squares
 	for (int y = 0; y < m_ranks; y++)
 	{
@@ -109,48 +253,49 @@ void GraphicsBoard::paint(QPainter* painter,
 		for (int x = 0; x < m_files; x++)
 		{
 			if ((x % 2) == (y % 2))
-				painter->fillRect(rect, m_lightColor);
+				painter->fillRect(rect, m_lightColor);    // 亮色
 			else
-				painter->fillRect(rect, m_darkColor);
+				painter->fillRect(rect, m_darkColor);     // 暗色
 			rect.moveLeft(rect.left() + m_squareSize);
 		}
 		rect.moveTop(rect.top() + m_squareSize);
 	}
+	*/
 
-	auto font = painter->font();
-	font.setPointSizeF(font.pointSizeF() * 0.7);
-	painter->setFont(font);
-	painter->setPen(m_textColor);
+	//auto font = painter->font();
+	//font.setPointSizeF(font.pointSizeF() * 0.7);
+	//painter->setFont(font);
+	//painter->setPen(m_textColor);
 
-	// paint file coordinates
-	const QString alphabet = "abcdefghijklmnopqrstuvwxyz";
-	for (int i = 0; i < m_files; i++)
-	{
-		const qreal tops[] = {m_rect.top() - m_coordSize,
-		                      m_rect.bottom()};
-		for (const auto top : tops)
-		{
-			rect = QRectF(m_rect.left() + (m_squareSize * i), top,
-			              m_squareSize, m_coordSize);
-			int file = m_flipped ? m_files - i - 1 : i;
-			painter->drawText(rect, Qt::AlignCenter, alphabet[file]);
-		}
-	}
+	//// paint file coordinates
+	//const QString alphabet = "abcdefghijklmnopqrstuvwxyz";
+	//for (int i = 0; i < m_files; i++)
+	//{
+	//	const qreal tops[] = {m_rect.top() - m_coordSize,
+	//	                      m_rect.bottom()};
+	//	for (const auto top : tops)
+	//	{
+	//		rect = QRectF(m_rect.left() + (m_squareSize * i), top,
+	//		              m_squareSize, m_coordSize);
+	//		int file = m_flipped ? m_files - i - 1 : i;
+	//		painter->drawText(rect, Qt::AlignCenter, alphabet[file]);
+	//	}
+	//}
 
 	// paint rank coordinates
-	for (int i = 0; i < m_ranks; i++)
-	{
-		const qreal lefts[] = {m_rect.left() - m_coordSize,
-		                       m_rect.right()};
-		for (const auto left : lefts)
-		{
-			rect = QRectF(left, m_rect.top() + (m_squareSize * i),
-			              m_coordSize, m_squareSize);
-			int rank = m_flipped ? i + 1 : m_ranks - i;
-			const auto num = QString::number(rank);
-			painter->drawText(rect, Qt::AlignCenter, num);
-		}
-	}
+	//for (int i = 0; i < m_ranks; i++)
+	//{
+	//	const qreal lefts[] = {m_rect.left() - m_coordSize,
+	//	                       m_rect.right()};
+	//	for (const auto left : lefts)
+	//	{
+	//		rect = QRectF(left, m_rect.top() + (m_squareSize * i),
+	//		              m_coordSize, m_squareSize);
+	//		int rank = m_flipped ? i + 1 : m_ranks - i;
+	//		const auto num = QString::number(rank);
+	//		painter->drawText(rect, Qt::AlignCenter, num);
+	//	}
+	//}
 }
 
 Chess::Square GraphicsBoard::squareAt(const QPointF& point) const

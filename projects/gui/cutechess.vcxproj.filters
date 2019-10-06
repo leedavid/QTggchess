@@ -518,4 +518,15 @@
   <ItemGroup>
     <ResourceCompile Include="res\icons\cutechess_win.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\icons\cutechess_win.ico" />
+    <Image Include="res\icons\cutechess_win.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="res\icons\resource.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

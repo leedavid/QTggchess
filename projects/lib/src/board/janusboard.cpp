@@ -24,7 +24,7 @@ JanusBoard::JanusBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	// Janus uses notation "J" and the graphical image of Archbishop "A"
-	setPieceType(Janus, tr("janus"), "J", KnightMovement | BishopMovement, "A");
+	setPieceType(Janus, tr("janus"), "J", MaMovement | BishopMovement, "A");
 }
 
 Board* JanusBoard::copy() const

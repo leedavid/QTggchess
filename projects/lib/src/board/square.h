@@ -21,6 +21,8 @@
 
 #include <QString>
 
+#pragma execution_character_set("utf-8")   // отй╬жпнд
+
 namespace Chess {
 
 /*!

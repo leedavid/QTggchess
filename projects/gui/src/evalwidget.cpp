@@ -41,7 +41,7 @@ EvalWidget::EvalWidget(QWidget *parent)
 
 	QStringList statsHeaders;
 	statsHeaders << tr("NPS") << tr("Hash")
-		     << tr("Pondermove") << tr("Ponderhit") << tr("TB");
+		     << tr("后台棋步") << tr("后台命中") << tr("残局库");
 	m_statsTable->setHorizontalHeaderLabels(statsHeaders);
 	hHeader->setSectionResizeMode(QHeaderView::Stretch);
 	auto protoItem = new QTableWidgetItem;
@@ -53,8 +53,8 @@ EvalWidget::EvalWidget(QWidget *parent)
 	m_pvTable->verticalHeader()->hide();
 
 	QStringList pvHeaders;
-	pvHeaders << tr("Depth") << tr("Time") << tr("Nodes")
-		  << tr("Score") << tr("PV");
+	pvHeaders << tr("层") << tr("时间") << tr("节点数")
+		  << tr("得分") << tr("关键路线");
 	m_pvTable->setHorizontalHeaderLabels(pvHeaders);
 	m_pvTable->setColumnWidth(0, 60);
 	m_pvTable->setColumnWidth(1, 60);

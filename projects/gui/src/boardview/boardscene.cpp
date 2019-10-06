@@ -116,18 +116,19 @@ void BoardScene::populate()
 	}
 
 	setSceneRect(itemsBoundingRect());
-
+	
 	for (int x = 0; x < m_board->width(); x++)
 	{
 		for (int y = 0; y < m_board->height(); y++)
 		{
 			Chess::Square sq(x, y);
-			GraphicsPiece* piece(createPiece(m_board->pieceAt(sq)));
+			GraphicsPiece* piece(createPiece(m_board->pieceAt(sq)));   // ·ÅÉÏÆå×Ó
 
 			if (piece != nullptr)
 				m_squares->setSquare(sq, piece);
 		}
 	}
+	
 
 	updateMoves();
 }

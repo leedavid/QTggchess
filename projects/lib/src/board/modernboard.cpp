@@ -26,7 +26,7 @@ ModernBoard::ModernBoard()
 {
 	// Use Minister "M" symbol for notation and Archbishop graphics
 	setPieceType(Minister, tr("minister"), "M",
-		     KnightMovement | BishopMovement, "A");
+		     MaMovement | BishopMovement, "A");
 }
 
 Board* ModernBoard::copy() const

@@ -1069,7 +1069,9 @@ QString StandardBoard::variant() const
 
 QString StandardBoard::defaultFenString() const
 {
-	return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+	return "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1";   // StartFen 
+
+	//"1nbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1";
 }
 
 Result StandardBoard::tablebaseResult(unsigned int* dtz) const

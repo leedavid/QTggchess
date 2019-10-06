@@ -26,7 +26,7 @@ SittuyinBoard::SittuyinBoard()
 {
 	// Movements as in makruk, the Elephant has Silver General Movement
 	setPieceType(Pawn, tr("pawn"), "P");                      //!< Ne: Feudal Lord P
-	setPieceType(Knight, tr("knight"), "N", KnightMovement);  //!< Myin: Horse N
+	setPieceType(Knight, tr("knight"), "N", MaMovement);  //!< Myin: Horse N
 	setPieceType(Elephant, tr("elephant"), "S", SilverGeneralMovement, "E"); //! Sin: Elephant E
 	setPieceType(Rook, tr("rook"), "R", RookMovement);        //! Yahhta: Chariot R
 	setPieceType(General, tr("general"), "F", FerzMovement);  //! Sit-ke: General G
