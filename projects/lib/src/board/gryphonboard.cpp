@@ -92,8 +92,8 @@ void GryphonBoard::vMakeMove(const Move& move, BoardTransition* transition)
 	Piece piece = pieceAt(target);
 	m_pieceStack.push_back(Piece(piece));
 
-	if (move.promotion() != Piece::NoPiece)
-		  return;
+	//if (move.promotion() != Piece::NoPiece)
+	//	  return;
 
 	int srcType = piece.type();
 	int tgtType = successorType(srcType, false);

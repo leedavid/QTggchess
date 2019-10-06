@@ -73,12 +73,12 @@ int PocketKnightBoard::reserveType(int) const
 void PocketKnightBoard::vMakeMove(const Move& move, BoardTransition* transition)
 {
 	int source = move.sourceSquare();
-	int prom = move.promotion();
+	//int prom = move.promotion();
 	int ctype = captureType(move);
 
-	if (ctype == Piece::NoPiece
-	&&  source == 0)
-		removeFromReserve(Piece(sideToMove(), prom));
+	//if (ctype == Piece::NoPiece
+	//&&  source == 0)
+	//	removeFromReserve(Piece(sideToMove(), prom));
 
 	WesternBoard::vMakeMove(move, transition);
 }
@@ -86,14 +86,14 @@ void PocketKnightBoard::vMakeMove(const Move& move, BoardTransition* transition)
 void PocketKnightBoard::vUndoMove(const Move& move)
 {
 	int source = move.sourceSquare();
-	int prom = move.promotion();
+	//int prom = move.promotion();
 
 	WesternBoard::vUndoMove(move);
 
-	int ctype = captureType(move);
-	if (ctype == Piece::NoPiece
-	&&  source == 0)
-		addToReserve(Piece(sideToMove(), prom));
+	//int ctype = captureType(move);
+	//if (ctype == Piece::NoPiece
+	//&&  source == 0)
+	//	addToReserve(Piece(sideToMove(), prom));
 }
 
 void PocketKnightBoard::generateMovesForPiece(QVarLengthArray< Move >& moves, int pieceType, int square) const
@@ -107,7 +107,7 @@ void PocketKnightBoard::generateMovesForPiece(QVarLengthArray< Move >& moves, in
 			Piece tmp = pieceAt(i);
 			if (!tmp.isEmpty())
 				continue;
-			moves.append(Move(0, i, pieceType));
+			moves.append(Move(0, i)); // , pieceType));
 		}
 	}
 	else

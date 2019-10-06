@@ -118,7 +118,7 @@ class BoardScene : public QGraphicsScene
 
 	private slots:
 		void onTransitionFinished();
-		void onPromotionChosen(const Chess::Piece& promotion);
+		//void onPromotionChosen(const Chess::Piece& promotion);
 
 	private:
 		void cancelUserMove();

@@ -178,15 +178,15 @@ void MakrukBoard::vMakeMove(const Move& move, BoardTransition* transition)
 		md.pieceCount[Piece::NoPiece][opp]--;
 	}
 
-	int promotion = move.promotion();
-	if (promotion != Piece::NoPiece)
-	{
-		if (move.sourceSquare() == 0)
-			md.pieceCount[Piece::NoPiece][side]++; //drop
-		else
-			md.pieceCount[type][side]--;
-		md.pieceCount[promotion][side]++;
-	}
+	//int promotion = move.promotion();
+	//if (promotion != Piece::NoPiece)
+	//{
+	//	if (move.sourceSquare() == 0)
+	//		md.pieceCount[Piece::NoPiece][side]++; //drop
+	//	else
+	//		md.pieceCount[type][side]--;
+	//	md.pieceCount[promotion][side]++;
+	//}
 
 	// Makruk: Allow counting only if there are no Pawns (Chip, Bia)
 	bool noPawns = (0 == pieceCount(Side::NoSide, Bia));

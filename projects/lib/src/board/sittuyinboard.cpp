@@ -160,7 +160,7 @@ void SittuyinBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 		&&  chessSquare(i).rank() != height() - 1)
 			continue;
 
-		moves.append(Move(0, index, pieceType));
+		moves.append(Move(0, index)); // , pieceType));
 	}
 }
 
@@ -188,9 +188,9 @@ Move SittuyinBoard::moveFromSanString(const QString& str)
 	Move move = MakrukBoard::moveFromSanString(str);
 
 	// Avoid problems with promotion moves in LAN(!) format
-	if (move.sourceSquare() != 0
-	&&  move.promotion() != Piece::NoPiece && !str.contains("=") )
-		return Move();
+	//if (move.sourceSquare() != 0
+	//&&  move.promotion() != Piece::NoPiece && !str.contains("=") )
+	//	return Move();
 
 	return move;
 }
@@ -199,8 +199,8 @@ void SittuyinBoard::vMakeMove(const Move& move, BoardTransition* transition)
 {
 	MakrukBoard::vMakeMove(move, transition);
 
-	if (move.sourceSquare() == 0)
-		removeFromReserve(Piece(sideToMove(), move.promotion()));
+	//if (move.sourceSquare() == 0)
+	//	removeFromReserve(Piece(sideToMove(), move.promotion()));
 
 	m_inSetUp = inSetup();
 }
@@ -209,30 +209,30 @@ void SittuyinBoard::vUndoMove(const Move& move)
 {
 	MakrukBoard::vUndoMove(move);
 
-	if (move.sourceSquare() == 0)
-		addToReserve(Piece(sideToMove(), move.promotion()));
+	//if (move.sourceSquare() == 0)
+	//	addToReserve(Piece(sideToMove(), move.promotion()));
 
 	m_inSetUp = inSetup();
 }
 
 bool SittuyinBoard::vIsLegalMove(const Move& move)
 {
-	int promotion = move.promotion();
+	//int promotion = move.promotion();
 	Side side = sideToMove();
 	Side opp = side.opposite();
 	int oppKingSquare = kingSquare(opp);
 
 	// Pawn promotion: must not give check
-	if (!m_inSetUp && promotion == General)
-	{
-		QVarLengthArray<Move> moves;
-		generateMovesForPiece(moves, General, move.targetSquare());
-		for (const Move& m: moves)
-		{
-			if (m.targetSquare() == oppKingSquare)
-				return false;
-		}
-	}
+	//if (!m_inSetUp && promotion == General)
+	//{
+	//	QVarLengthArray<Move> moves;
+	//	generateMovesForPiece(moves, General, move.targetSquare());
+	//	for (const Move& m: moves)
+	//	{
+	//		if (m.targetSquare() == oppKingSquare)
+	//			return false;
+	//	}
+	//}
 	return MakrukBoard::vIsLegalMove(move);
 }
 
@@ -253,8 +253,8 @@ bool SittuyinBoard::isLegalPosition()
 		return false;
 
 	// Do not allow (discovered) checks by a promotion move
-	if (plyCount() > 0 && lastMove().promotion() != 0 && inCheck(side))
-		return false;
+	//if (plyCount() > 0 && lastMove().promotion() != 0 && inCheck(side))
+	//	return false;
 
 	return true;
 }
@@ -288,7 +288,7 @@ bool SittuyinBoard::canMakeNormalMove()
 
 	for (int i = 0; i < moves.size(); i++)
 	{
-		if (vIsLegalMove(moves[i]) && moves[i].promotion() == Piece::NoPiece)
+		if (vIsLegalMove(moves[i]) /*&& moves[i].promotion() == Piece::NoPiece*/)
 			return true;
 	}
 

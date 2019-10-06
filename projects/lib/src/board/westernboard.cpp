@@ -197,13 +197,13 @@ QString WesternBoard::sanMoveString(const Move& move)
 	undoMove();
 
 	// drop move
-	if (source == 0 && move.promotion() != Piece::NoPiece)
-	{
-		str = lanMoveString(move);
-		if (checkOrMate != 0)
-			str += checkOrMate;
-		return str;
-	}
+	//if (source == 0 && move.promotion() != Piece::NoPiece)
+	//{
+	//	str = lanMoveString(move);
+	//	if (checkOrMate != 0)
+	//		str += checkOrMate;
+	//	return str;
+	//}
 
 	bool needRank = false;
 	bool needFile = false;
@@ -265,8 +265,8 @@ QString WesternBoard::sanMoveString(const Move& move)
 
 	str += squareString(target);
 
-	if (move.promotion() != Piece::NoPiece)
-		str += "=" + pieceSymbol(move.promotion()).toUpper();
+	//if (move.promotion() != Piece::NoPiece)
+	//	str += "=" + pieceSymbol(move.promotion()).toUpper();
 
 	if (checkOrMate != 0)
 		str += checkOrMate;
@@ -385,17 +385,17 @@ Move WesternBoard::moveFromSanString(const QString& str)
 		++it;
 
 		// Drop moves
-		if (*it == '@')
-		{
-			targetSq = chessSquare(mstr.right(1 + digits));
-			if (!isValidSquare(targetSq))
-				return Move();
+		//if (*it == '@')
+		//{
+		//	targetSq = chessSquare(mstr.right(1 + digits));
+		//	if (!isValidSquare(targetSq))
+		//		return Move();
 
-			Move move(0, squareIndex(targetSq), piece.type());
-			if (isLegalMove(move))
-				return move;
-			return Move();
-		}
+		//	Move move(0, squareIndex(targetSq), piece.type());
+		//	if (isLegalMove(move))
+		//		return move;
+		//	return Move();
+		//}
 	}
 
 	bool stringIsCapture = false;
@@ -493,8 +493,8 @@ Move WesternBoard::moveFromSanString(const QString& str)
 		// Castling moves were handled earlier
 		if (pieceAt(target) == Piece(side, Pao))
 			continue;
-		if (move.promotion() != promotion)
-			continue;
+		//if (move.promotion() != promotion)
+		//	continue;
 
 		if (!vIsLegalMove(move))
 			continue;
@@ -855,7 +855,7 @@ void WesternBoard::vMakeMove(const Move& move, BoardTransition* transition)
 	int source = move.sourceSquare();
 	int target = move.targetSquare();
 	Piece capture = pieceAt(target);
-	int promotionType = move.promotion();
+	//int promotionType = move.promotion();
 	int pieceType = pieceAt(source).type();
 
 	//int* rookSq = m_castlingRights.rookSquare[side];
@@ -869,16 +869,16 @@ void WesternBoard::vMakeMove(const Move& move, BoardTransition* transition)
 
 	MoveData md = { capture, m_reversibleMoveCount };
 
-	if (source == 0)
-	{
-		Q_ASSERT(promotionType != Piece::NoPiece);
+	//if (source == 0)
+	//{
+	//	Q_ASSERT(promotionType != Piece::NoPiece);
 
-		pieceType = promotionType;
-		promotionType = Piece::NoPiece;
-		clearSource = false;
-		isReversible = false;
-		//epSq = 0;
-	}
+	//	pieceType = promotionType;
+	//	promotionType = Piece::NoPiece;
+	//	clearSource = false;
+	//	isReversible = false;
+	//	//epSq = 0;
+	//}
 
 	if (source == target)
 		clearSource = 0;
@@ -965,8 +965,8 @@ void WesternBoard::vMakeMove(const Move& move, BoardTransition* transition)
 		isReversible = false;
 	}
 
-	if (promotionType != Piece::NoPiece)
-		isReversible = false;
+	//if (promotionType != Piece::NoPiece)
+	//	isReversible = false;
 
 	if (transition != nullptr)
 	{

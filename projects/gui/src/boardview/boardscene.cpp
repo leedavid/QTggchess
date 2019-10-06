@@ -336,21 +336,21 @@ void BoardScene::onTransitionFinished()
 	updateMoves();
 }
 
-void BoardScene::onPromotionChosen(const Chess::Piece& promotion)
-{
-	m_chooser = nullptr;
-	if (!promotion.isValid() && !m_moves.contains(m_promotionMove))
-	{
-		GraphicsPiece* piece = m_squares->pieceAt(m_promotionMove.sourceSquare());
-		m_anim = pieceAnimation(piece, m_sourcePos);
-		m_anim->start(QAbstractAnimation::DeleteWhenStopped);
-	}
-	else
-	{
-		m_promotionMove.setPromotion(promotion.type());
-		emit humanMove(m_promotionMove, m_board->sideToMove());
-	}
-}
+//void BoardScene::onPromotionChosen(const Chess::Piece& promotion)
+//{
+//	m_chooser = nullptr;
+//	if (!promotion.isValid() && !m_moves.contains(m_promotionMove))
+//	{
+//		GraphicsPiece* piece = m_squares->pieceAt(m_promotionMove.sourceSquare());
+//		m_anim = pieceAnimation(piece, m_sourcePos);
+//		m_anim->start(QAbstractAnimation::DeleteWhenStopped);
+//	}
+//	else
+//	{
+//		m_promotionMove.setPromotion(promotion.type());
+//		emit humanMove(m_promotionMove, m_board->sideToMove());
+//	}
+//}
 
 void BoardScene::onGameFinished(ChessGame* game, Chess::Result result)
 {
@@ -466,7 +466,7 @@ void BoardScene::tryMove(GraphicsPiece* piece, const QPointF& targetPos)
 	{
 		Chess::Square source(m_squares->squareAt(m_squares->mapFromScene(m_sourcePos)));
 
-		QList<Chess::Piece> promotions;
+		//QList<Chess::Piece> promotions;
 		const auto moves = m_moves;
 		for (const auto& move : moves)
 		{
@@ -474,31 +474,31 @@ void BoardScene::tryMove(GraphicsPiece* piece, const QPointF& targetPos)
 			||  move.targetSquare() != target)
 				continue;
 
-			if (move.promotion() != 0)
-				promotions << Chess::Piece(m_board->sideToMove(),
-							   move.promotion());
-			else
-				promotions << Chess::Piece();
+			//if (move.promotion() != 0)
+			//	promotions << Chess::Piece(m_board->sideToMove(),
+			//				   move.promotion());
+			//else
+			//	promotions << Chess::Piece();
 		}
-		Q_ASSERT(!promotions.isEmpty());
+		//Q_ASSERT(!promotions.isEmpty());
 
-		Chess::GenericMove move(source, target, 0);
-		if (promotions.size() > 1)
+		Chess::GenericMove move(source, target); // , 0);
+		//if (promotions.size() > 1)
+		//{
+		//	m_promotionMove = move;
+		//	selectPiece(promotions, SLOT(onPromotionChosen(Chess::Piece)));
+		//}
+		//else
 		{
-			m_promotionMove = move;
-			selectPiece(promotions, SLOT(onPromotionChosen(Chess::Piece)));
-		}
-		else
-		{
-			move.setPromotion(promotions.first().type());
+			//move.setPromotion(promotions.first().type());
 			emit humanMove(move, m_board->sideToMove());
 		}
 	}
 	// Piece drop
 	else if (piece->container() == m_reserve)
 	{
-		Chess::GenericMove move(Chess::Square(), target,
-					piece->pieceType().type());
+		Chess::GenericMove move(Chess::Square(), target);
+					//piece->pieceType().type());
 		emit humanMove(move, m_board->sideToMove());
 	}
 
@@ -616,8 +616,8 @@ void BoardScene::updateMoves()
 			piece = m_squares->pieceAt(gmove.sourceSquare());
 		else
 		{
-			Chess::Piece pieceType(m_board->sideToMove(),
-					       gmove.promotion());
+			Chess::Piece pieceType(m_board->sideToMove());
+					      // gmove.promotion());
 			piece = m_reserve->piece(pieceType);
 		}
 		Q_ASSERT(piece != nullptr);

@@ -493,9 +493,9 @@ class LIB_EXPORT Board
 		 */
 		virtual int reserveType(int pieceType) const;
 		/*! Adds \a count pieces of type \a piece to the reserve. */
-		void addToReserve(const Piece& piece, int count = 1);
+		//void addToReserve(const Piece& piece, int count = 1);
 		/*! Removes a piece of type \a piece from the reserve. */
-		void removeFromReserve(const Piece& piece);
+		//void removeFromReserve(const Piece& piece);
 
 	private:
 		struct PieceData

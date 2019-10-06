@@ -130,7 +130,7 @@ void PlacementBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 		}
 
 		if (ok)
-			moves.append(Move(0, index, pieceType));
+			moves.append(Move(0, index)); // , pieceType));
 	}
 }
 
@@ -159,8 +159,8 @@ void PlacementBoard::vMakeMove(const Move& move, BoardTransition* transition)
 {
 	WesternBoard::vMakeMove(move, transition);
 
-	if (move.sourceSquare() == 0)
-		removeFromReserve(Piece(sideToMove(), move.promotion()));
+	//if (move.sourceSquare() == 0)
+	//	removeFromReserve(Piece(sideToMove())); // , move.promotion()));
 
 	m_inSetUp = inSetup();
 }
@@ -169,8 +169,8 @@ void PlacementBoard::vUndoMove(const Move& move)
 {
 	WesternBoard::vUndoMove(move);
 
-	if (move.sourceSquare() == 0)
-		addToReserve(Piece(sideToMove(), move.promotion()));
+	//if (move.sourceSquare() == 0)
+	//	addToReserve(Piece(sideToMove()); // , move.promotion()));
 
 	m_inSetUp = inSetup();
 }
