@@ -87,9 +87,9 @@ class LIB_EXPORT SittuyinBoard : public MakrukBoard
 		{
 			Pawn = 1,          //!< Ne: Feudal Lord
 			Knight,            //!< Myin: Horse
-			Elephant = Bishop, //!< Sin: Elephant
+			Elephant = Shi, //!< Sin: Elephant
 			Rook,              //!< Yahhta: Chariot
-			General = Queen,   //!< Sit-ke: General
+			General = Che,   //!< Sit-ke: General
 			King               //!< Min-gyi: King
 		};
 
@@ -101,15 +101,13 @@ class LIB_EXPORT SittuyinBoard : public MakrukBoard
 		virtual void generateMovesForPiece(QVarLengthArray<Move>& moves,
 						   int pieceType,
 						   int square) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray< Move >& moves) const;
+
 		virtual bool vSetFenString(const QStringList& fen);
 		virtual Move moveFromSanString(const QString & str);
 		virtual void vMakeMove(const Move& move,
 				       BoardTransition* transition);
 		virtual void vUndoMove(const Move& move);
-		virtual int promotionRank(int file = 0) const;
+
 		virtual bool vIsLegalMove(const Move& move);
 		virtual bool isLegalPosition();
 		virtual int countingLimit() const;

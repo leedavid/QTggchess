@@ -100,13 +100,13 @@ Chess::Result SyzygyTablebase::result(const Chess::Side& side,
 		{
 		case Chess::WesternBoard::Pawn:
 			pawns |= bit; break;
-		case Chess::WesternBoard::Knight:
+		case Chess::WesternBoard::Xiang:
 			knights |= bit; break;
-		case Chess::WesternBoard::Bishop:
+		case Chess::WesternBoard::Shi:
 			bishops |= bit; break;
-		case Chess::WesternBoard::Rook:
+		case Chess::WesternBoard::Pao:
 			rooks |= bit; break;
-		case Chess::WesternBoard::Queen:
+		case Chess::WesternBoard::Che:
 			queens |= bit; break;
 		case Chess::WesternBoard::King:
 			kings |= bit; break;

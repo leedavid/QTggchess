@@ -46,7 +46,7 @@ class LIB_EXPORT EmbassyBoard : public CapablancaBoard
 		virtual Board* copy() const;
 		virtual QString variant() const;
 		virtual QString defaultFenString() const;
-		virtual int castlingFile(CastlingSide castlingSide) const;
+		//virtual int castlingFile(CastlingSide castlingSide) const;
 };
 
 } // namespace Chess

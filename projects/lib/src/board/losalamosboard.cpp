@@ -24,7 +24,7 @@ namespace Chess {
 LosAlamosBoard::LosAlamosBoard()
 	: WesternBoard(new WesternZobrist())
 {
-	setPieceType(Bishop, tr("no-bishop"), "", 0);
+	setPieceType(Shi, tr("no-bishop"), "", 0);
 }
 
 Board* LosAlamosBoard::copy() const
@@ -62,13 +62,6 @@ bool LosAlamosBoard::pawnHasDoubleStep() const
 	return false;
 }
 
-void LosAlamosBoard::addPromotions(int sourceSquare,
-				int targetSquare,
-				QVarLengthArray<Move>& moves) const
-{
-	moves.append(Move(sourceSquare, targetSquare, Knight));
-	moves.append(Move(sourceSquare, targetSquare, Rook));
-	moves.append(Move(sourceSquare, targetSquare, Queen));
-}
+
 
 } // namespace Chess

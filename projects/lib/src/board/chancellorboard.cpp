@@ -53,17 +53,6 @@ int ChancellorBoard::height() const
 	return 9;
 }
 
-int ChancellorBoard::castlingFile(WesternBoard::CastlingSide castlingSide) const
-{
-	Q_ASSERT(castlingSide != NoCastlingSide);
-	// QueenSide denotes lower file side, towards a-rook
-	return castlingSide == QueenSide ? 2 : 6; // c-file and g-file
-}
 
-void ChancellorBoard::addPromotions(int sourceSquare, int targetSquare, QVarLengthArray< Move >& moves) const
-{
-	WesternBoard::addPromotions(sourceSquare, targetSquare, moves);
-	moves.append(Move(sourceSquare, targetSquare, Chancellor));
-}
 
 } // namespace Chess

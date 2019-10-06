@@ -60,11 +60,7 @@ class LIB_EXPORT JanusBoard : public WesternBoard
 			Janus = 7,	//!< Janus = Princess (knight + bishop)
 		};
 
-		// Inherited from WesternBoard
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
-		virtual int castlingFile(CastlingSide castlingSide) const;
+		// Inherited from WesternBoard		
 		virtual QString sanMoveString(const Move& move);
 		virtual Move moveFromSanString(const QString& str);
 };

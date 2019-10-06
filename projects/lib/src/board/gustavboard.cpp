@@ -59,17 +59,6 @@ bool GustavBoard::variantHasWallSquares() const
 	return true;
 }
 
-int GustavBoard::castlingFile(WesternBoard::CastlingSide castlingSide) const
-{
-	Q_ASSERT(castlingSide != NoCastlingSide);
-	// QueenSide denotes lower file side, towards a-rook
-	return castlingSide == QueenSide ? 3 : 7; // d-file and h-file
-}
 
-void GustavBoard::addPromotions(int sourceSquare, int targetSquare, QVarLengthArray< Move >& moves) const
-{
-	WesternBoard::addPromotions(sourceSquare, targetSquare, moves);
-	moves.append(Move(sourceSquare, targetSquare, Adjutant));
-}
 
 } // namespace Chess

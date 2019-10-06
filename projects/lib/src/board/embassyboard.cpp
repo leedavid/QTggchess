@@ -38,13 +38,13 @@ QString EmbassyBoard::variant() const
 
 QString EmbassyBoard::defaultFenString() const
 {
-	return "rnbqkcabnr/pppppppppp/10/10/10/10/PPPPPPPPPP/RNBQKCABNR w KQkq - 0 1";
+	return "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1";
 }
 
-int EmbassyBoard::castlingFile(WesternBoard::CastlingSide castlingSide) const
-{
-	Q_ASSERT(castlingSide != NoCastlingSide);
-	return castlingSide == QueenSide ? 1 : 7; // b-file and h-file
-}
+//int EmbassyBoard::castlingFile(WesternBoard::CastlingSide castlingSide) const
+//{
+//	Q_ASSERT(castlingSide != NoCastlingSide);
+//	return castlingSide == QueenSide ? 1 : 7; // b-file and h-file
+//}
 
 } // namespace Chess

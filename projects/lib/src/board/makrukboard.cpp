@@ -22,7 +22,7 @@ namespace Chess {
 
 MakrukBoard::MakrukBoard()
 	: ShatranjBoard(),
-	  m_promotionRank(5),
+	  //m_promoti onRank(5),
 	  m_rules(Makruk),
 	  m_useWesternCounting(false),
 	  m_history()
@@ -52,10 +52,6 @@ QString MakrukBoard::defaultFenString() const
 	return "rnsmksnr/8/pppppppp/8/8/PPPPPPPP/8/RNSKMSNR w - 0 0 1";
 }
 
-int MakrukBoard::promotionRank(int) const
-{
-	return 5; // counting from zero
-}
 
 MakrukBoard::CountingRules MakrukBoard::countingRules() const
 {
@@ -79,8 +75,7 @@ void MakrukBoard::initHistory()
 void MakrukBoard::vInitialize()
 {
 	ShatranjBoard::vInitialize();
-
-	m_promotionRank = promotionRank();
+	
 	m_rules = countingRules();
 	initHistory();
 
@@ -115,27 +110,27 @@ void MakrukBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 void MakrukBoard::generatePawnMoves(int square,
 				    QVarLengthArray< Move >& moves) const
 {
-	// Generate moves for pawn (bia)
-	QVarLengthArray< Move > moves1;
-	ShatranjBoard::generateMovesForPiece(moves1, Bia, square);
+	//// Generate moves for pawn (bia)
+	//QVarLengthArray< Move > moves1;
+	//ShatranjBoard::generateMovesForPiece(moves1, Bia, square);
 
-	Side side = sideToMove();
-	int arwidth = width() + 2;
+	//Side side = sideToMove();
+	//int arwidth = width() + 2;
 
-	// Add moves, promote pawn (bia) to ferz (met) when reaching the
-	// promotion rank
-	for (const Move& m: moves1)
-	{
-		int rank = height() + 1 - m.targetSquare() / arwidth;
-		int rrank = (side == Side::White) ? rank : height() - 1 - rank;
+	//// Add moves, promote pawn (bia) to ferz (met) when reaching the
+	//// promotion rank
+	//for (const Move& m: moves1)
+	//{
+	//	int rank = height() + 1 - m.targetSquare() / arwidth;
+	//	int rrank = (side == Side::White) ? rank : height() - 1 - rank;
 
-		if (rrank < m_promotionRank)
-			moves.append(m);
-		else if (m.promotion() != 0)
-			moves.append(m);
-		else
-			addPromotions(square, m.targetSquare(), moves);
-	}
+	//	if (rrank < m_promoti onRank)
+	//		moves.append(m);
+	//	else if (m.promotion() != 0)
+	//		moves.append(m);
+	//	else
+	//		addPr omotions(square, m.targetSquare(), moves);
+	//}
 }
 
 bool MakrukBoard::inCheck(Side side, int square) const

@@ -78,15 +78,7 @@ QList<Piece> SeirawanBoard::reservePieceTypes() const
 	return list;
 }
 
-void SeirawanBoard::addPromotions(int sourceSquare,
-				  int targetSquare,
-				  QVarLengthArray<Move>& moves) const
-{
-	WesternBoard::addPromotions(sourceSquare, targetSquare, moves);
 
-	moves.append(Move(sourceSquare, targetSquare, Hawk));
-	moves.append(Move(sourceSquare, targetSquare, Elephant));
-}
 
 bool SeirawanBoard::vSetFenString(const QStringList& fen)
 {
@@ -110,29 +102,29 @@ void SeirawanBoard::updateSquareMap(const Move& move, int increment)
 		m_squareMap[target] += increment;
 }
 
-bool SeirawanBoard::parseCastlingRights(QChar c)
-{
-	Side side = (c.isUpper()) ? upperCaseSide() : upperCaseSide().opposite();
-	QChar ch = c.toLower();
-	QString rank = side == Side::White ? "1" : QString::number(height());
-
-	if (ch >= 'a' && ch <= 'h')
-	{
-		insertIntoSquareMap(squareIndex(ch + rank));
-		return true;
-	}
-	if (ch == 'k')
-	{
-		insertIntoSquareMap(kingSquare(side));
-		insertIntoSquareMap(squareIndex("h" + rank));
-	}
-	if (ch == 'q')
-	{
-		insertIntoSquareMap(kingSquare(side));
-		insertIntoSquareMap(squareIndex("a" + rank));
-	}
-	return WesternBoard::parseCastlingRights(c);
-}
+//bool SeirawanBoard::parseCastlingRights(QChar c)
+//{
+//	Side side = (c.isUpper()) ? upperCaseSide() : upperCaseSide().opposite();
+//	QChar ch = c.toLower();
+//	QString rank = side == Side::White ? "1" : QString::number(height());
+//
+//	if (ch >= 'a' && ch <= 'h')
+//	{
+//		insertIntoSquareMap(squareIndex(ch + rank));
+//		return true;
+//	}
+//	if (ch == 'k')
+//	{
+//		insertIntoSquareMap(kingSquare(side));
+//		insertIntoSquareMap(squareIndex("h" + rank));
+//	}
+//	if (ch == 'q')
+//	{
+//		insertIntoSquareMap(kingSquare(side));
+//		insertIntoSquareMap(squareIndex("a" + rank));
+//	}
+//	return WesternBoard::parseCastlingRights(c);
+//}
 
 QString SeirawanBoard::vFenString(Board::FenNotation notation) const
 {
@@ -314,7 +306,7 @@ Move SeirawanBoard::moveFromLanString(const QString& str)
 	// castling move with channeling onto rook square
 	// coded as castling with promotion to auxiliary type
 	if (promotion != Piece::NoPiece
-	&&  pieceAt(source) == Piece(side, Rook)
+	&&  pieceAt(source) == Piece(side, Pao)
 	&&  target == kingSquare(side))
 	{
 		return Move(target, source, rookSquareChanneling(promotion));
@@ -423,7 +415,7 @@ void SeirawanBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 		Piece piece2 = pieceAt(m.targetSquare());
 
 		if (piece1.type() == King
-		&&  piece2.type() == Rook
+		&&  piece2.type() == Pao
 		&&  piece2.side() == side)
 			moves.append(Move(m.sourceSquare(),
 					  m.targetSquare(),

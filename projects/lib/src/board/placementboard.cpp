@@ -53,7 +53,7 @@ QList< Piece > PlacementBoard::reservePieceTypes() const
 	QList< Piece > types;
 	for (Side side: { Side::White, Side::Black} )
 	{
-		for (int type = Knight; type <= King; type++)
+		for (int type = Xiang; type <= King; type++)
 			types << Piece(side, type);
 	}
 	return types;
@@ -104,17 +104,17 @@ void PlacementBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 		int a = 1 + index / arwidth * arwidth;
 
 		// Bishops must not be placed on same coloured squares
-		if(pieceType == Bishop)
+		if(pieceType == Shi)
 		{
 			for (int s = a; s < a + width(); s++)
 			{
 				if (s % 2 != index % 2)
 					continue;
-				if (pieceAt(s).type() == Bishop)
+				if (pieceAt(s).type() == Shi)
 					ok = false;
 			}
 		}
-		else if (reserveCount(Piece(side, Bishop)) > 0)
+		else if (reserveCount(Piece(side, Shi)) > 0)
 		{
 			bool colorOk[2] {false, false};
 
@@ -123,7 +123,7 @@ void PlacementBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 				if (s == index)
 					continue;
 				tmp = pieceAt(s);
-				if (tmp.isEmpty() || tmp.type() == Bishop)
+				if (tmp.isEmpty() || tmp.type() == Shi)
 					colorOk[s % 2] = true;
 			}
 			ok = colorOk[0] && colorOk[1];
@@ -183,31 +183,18 @@ bool PlacementBoard::isLegalPosition()
 	return true;
 }
 
-void PlacementBoard::setCastlingRights()
-{
-	for (const QChar c: "AHah")
-		parseCastlingRights(c);
 
-	// only support orthodox castling
-	const Side sides[2]{Side::White, Side::Black};
-	for (const Side side: sides)
-	{
-		int ksq = kingSquare(side);
-		if (chessSquare(ksq).file() != width()/2)
-			removeCastlingRights(side);
-	}
-}
 
 Result PlacementBoard::result()
 {
-	if (m_previouslyInSetUp && !m_inSetUp)
-		setCastlingRights();
+	//if (m_previouslyInSetUp && !m_inSetUp)
+	//	setCastl ingRights();
 
-	if (m_inSetUp && !m_previouslyInSetUp)
-	{
-	      removeCastlingRights(Side::White);
-	      removeCastlingRights(Side::Black);
-	}
+	//if (m_inSetUp && !m_previouslyInSetUp)
+	//{
+	//      removeCastlingRights(Side::White);
+	//      removeCastlingRights(Side::Black);
+	//}
 	m_previouslyInSetUp = m_inSetUp;
 	return WesternBoard::result();
 }

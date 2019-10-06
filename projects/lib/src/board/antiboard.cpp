@@ -56,13 +56,7 @@ bool AntiBoard::kingsCountAssertion( int whiteKings,
 	return whiteKings + blackKings >= 0;
 }
 
-void AntiBoard::addPromotions(int sourceSquare,
-				int targetSquare,
-				QVarLengthArray<Move>& moves) const
-{
-	StandardBoard::addPromotions(sourceSquare, targetSquare, moves);
-	moves.append(Move(sourceSquare, targetSquare, King));
-}
+
 
 bool AntiBoard::vSetFenString(const QStringList& fen)
 {

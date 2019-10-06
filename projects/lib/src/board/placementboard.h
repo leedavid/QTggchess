@@ -61,7 +61,7 @@ class LIB_EXPORT PlacementBoard : public WesternBoard
 		virtual Result result();
 
 	protected:
-		virtual void setCastlingRights();
+		
 
 		// Inherited from WesternBoard
 		virtual QList< Piece > reservePieceTypes() const;

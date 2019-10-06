@@ -24,8 +24,8 @@ CourierBoard::CourierBoard()
 {
 	// Use Bishop's and Queen's names but set to old movements:
 	// War Elephant (Alfil) and Counselor (Ferz)
-	setPieceType(Bishop, tr("bishop"), "E", AlfilMovement);
-	setPieceType(Queen, tr("queen"), "F", FerzMovement);
+	setPieceType(Shi, tr("bishop"), "E", AlfilMovement);
+	setPieceType(Che, tr("queen"), "F", FerzMovement);
 	// Introduce Courier, the modern Bishop piece
 	setPieceType(Courier, tr("courier"), "B", BishopMovement);
 	// Mann moves like King but is no royal piece

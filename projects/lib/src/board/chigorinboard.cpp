@@ -43,22 +43,6 @@ QString ChigorinBoard::defaultFenString() const
 	return "rbbqkbbr/pppppppp/8/8/8/8/PPPPPPPP/RNNCKNNR w KQkq - 0 1";
 }
 
-void ChigorinBoard::addPromotions(int sourceSquare, int targetSquare, QVarLengthArray< Move >& moves) const
-{
-	Side side = sideToMove();
 
-	if (side == Side::White)
-	{
-		moves.append(Move(sourceSquare, targetSquare, Knight));
-		moves.append(Move(sourceSquare, targetSquare, Rook));
-		moves.append(Move(sourceSquare, targetSquare, Chancellor));
-	}
-	if (side == Side::Black)
-	{
-		moves.append(Move(sourceSquare, targetSquare, Bishop));
-		moves.append(Move(sourceSquare, targetSquare, Rook));
-		moves.append(Move(sourceSquare, targetSquare, Queen));
-	}
-}
 
 } // namespace Chess

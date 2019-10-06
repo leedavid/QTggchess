@@ -54,9 +54,6 @@ class LIB_EXPORT KnightMateBoard : public WesternBoard
 						   int pieceType,
 						   int square) const;
 		virtual bool inCheck(Side side, int square = 0) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
 		virtual Move moveFromSanString(const QString& str);
 };
 

@@ -78,15 +78,8 @@ bool SittuyinBoard::kingsCountAssertion(int whiteKings, int blackKings) const
 	return whiteKings + reserveCount(whiteKing) == 1 && blackKings + reserveCount(blackKing) == 1;
 }
 
-int SittuyinBoard::promotionRank(int file) const
-{
-	return std::max(file , height() - 1 - file);
-}
 
-void SittuyinBoard::addPromotions(int sourceSquare, int targetSquare, QVarLengthArray< Move >& moves) const
-{
-	moves.append(Move(sourceSquare, targetSquare, General));
-}
+
 
 void SittuyinBoard::generatePawnMoves(int square,
 				     QVarLengthArray<Move>& moves) const
@@ -110,20 +103,20 @@ void SittuyinBoard::generatePawnMoves(int square,
 	int rrank = (side == Side::White) ? rank : height() - 1 - rank;
 
 	// Must promote from promotion rank (except the last pawn)
-	if (rrank != promotionRank(file)
-	&&  pieceCount(sideToMove(), Pawn) != 1)
-		return;
+	//if (rrank != promot ionRank(file)
+	//&&  pieceCount(sideToMove(), Pawn) != 1)
+	//	return;
 
 	// Generate promotion to General when on promotion square
-	addPromotions(square, square, moves);
+	//addPro motions(square, square, moves);
 
 	// Generate General's moves, must not capture by promotion
 	QVarLengthArray< Move > moves2;
 	generateMovesForPiece(moves2, General, square);
 	for (const Move& move: moves2)
 	{
-		if (captureType(move) == Piece::NoPiece)
-			addPromotions(square, move.targetSquare(), moves);
+		//if (captureType(move) == Piece::NoPiece)
+		//	addPromoti ons(square, move.targetSquare(), moves);
 	}
 }
 
@@ -275,7 +268,7 @@ int SittuyinBoard::countingLimit() const
 		return 16;
 
 	int elephants = pieceCount(side, Elephant);
-	int generals = pieceCount(side,Queen);
+	int generals = pieceCount(side,Che);
 	if (elephants > 0 && generals > 0)
 		return 44;
 

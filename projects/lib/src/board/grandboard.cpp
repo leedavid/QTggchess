@@ -97,17 +97,17 @@ void GrandBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 	if (rank != rank7 && rank != rank8)
 		return;
 
-	for (const PawnStep& pStep: m_pawnSteps)
-	{
-		int targetSquare = square + pawnMoveOffset(pStep, sign);
-		Piece capture = pieceAt(targetSquare);
-		bool isCapture = capture.side() == opp
-				||  targetSquare == enpassantSquare();
+	//for (const PawnStep& pStep: m_pawnSteps)
+	//{
+	//	int targetSquare = square + pawnMoveOffset(pStep, sign);
+	//	Piece capture = pieceAt(targetSquare);
+	//	bool isCapture = capture.side() == opp
+	//			||  targetSquare == enpassantSquare();
 
-		if ((capture.isEmpty() && pStep.type == FreeStep)
-		||  (isCapture && pStep.type == CaptureStep))
-			addPromotions(square, targetSquare, moves);
-	}
+	//	if ((capture.isEmpty() && pStep.type == FreeStep)
+	//	||  (isCapture && pStep.type == CaptureStep))
+	//		addPromot ions(square, targetSquare, moves);
+	//}
 }
 
 bool GrandBoard::vIsLegalMove(const Move& move)
@@ -128,15 +128,15 @@ bool GrandBoard::vIsLegalMove(const Move& move)
 			count++;
 	}
 
-	if (promotion == Queen
+	if (promotion == Che
 	||  promotion == Chancellor
 	||  promotion == Archbishop)
 		return count <= 1
 		&&     Chess::CapablancaBoard::vIsLegalMove(move);
 
-	if (promotion == Rook
-	||  promotion == Bishop
-	||  promotion == Knight)
+	if (promotion == Pao
+	||  promotion == Shi
+	||  promotion == Xiang)
 		return count <= 2
 		&&     Chess::CapablancaBoard::vIsLegalMove(move);
 

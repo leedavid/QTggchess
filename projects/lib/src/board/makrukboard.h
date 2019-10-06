@@ -92,10 +92,10 @@ class LIB_EXPORT MakrukBoard : public ShatranjBoard
 		enum MakrukPieceType
 		{
 			Bia    = Pawn,	  //!< Shell, Chip
-			Ma     = Knight,  //!< Horse
-			Khon   = Bishop,  //!< Base, replaces Alfil
-			Rua    = Rook,	  //!< Boat
-			Met    = Queen,	  //!< Grain: Mantri, Ferz, Advisor
+			Ma     = Xiang,  //!< Horse
+			Khon   = Shi,  //!< Base, replaces Alfil
+			Rua    = Pao,	  //!< Boat
+			Met    = Che,	  //!< Grain: Mantri, Ferz, Advisor
 			Khun   = King	  //!< Leader, Chief
 		};
 
@@ -109,7 +109,7 @@ class LIB_EXPORT MakrukBoard : public ShatranjBoard
 		 *
 		 * \sa SittuyinBoard
 		 */
-		virtual int promotionRank(int file = 0) const;
+	
 		/*!
 		 * Returns the number of pieces of \a side and of \a pieceType.
 		 * NoPiece as \a pieceType counts all pieces of \a side.
@@ -171,7 +171,7 @@ class LIB_EXPORT MakrukBoard : public ShatranjBoard
 
 	private:
 		QVarLengthArray<int> m_silverGeneralOffsets[2];
-		int m_promotionRank;
+	
 		enum CountingRules m_rules;
 		bool m_useWesternCounting;
 		// Data for reversing/unmaking a move

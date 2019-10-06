@@ -58,10 +58,8 @@ class LIB_EXPORT GustavBoard : public WesternBoard
 			Adjutant = 7 //!< Adjutant-General (Queen + Knight)
 		};
 		// Inherited from WesternBoard
-		virtual int castlingFile(CastlingSide castlingSide) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray< Move >& moves) const;
+		//virtual int castlingFile(CastlingSide castlingSide) const;
+
 };
 
 } // namespace Chess

@@ -50,14 +50,7 @@ bool ExtinctionBoard::kingsCountAssertion(int, int) const
 	||     extinctPiece(Side::Black).isEmpty();
 }
 
-void ExtinctionBoard::addPromotions(int sourceSquare,
-				int targetSquare,
-				QVarLengthArray<Move>& moves) const
-{
-	if (m_allPromotions)
-		StandardBoard::addPromotions(sourceSquare, targetSquare, moves);
-	moves.append(Move(sourceSquare, targetSquare, King));
-}
+
 
 bool ExtinctionBoard::inCheck(Side, int) const
 {

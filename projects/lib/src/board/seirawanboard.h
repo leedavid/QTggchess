@@ -66,11 +66,9 @@ class LIB_EXPORT SeirawanBoard : public WesternBoard
 		virtual bool variantHasDrops() const;
 		virtual bool variantHasChanneling(Side side, int square) const;
 		virtual QList< Piece > reservePieceTypes() const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
+
 		virtual bool vSetFenString(const QStringList& fen);
-		virtual bool parseCastlingRights(QChar c);
+
 		virtual QString vFenString(FenNotation notation) const;
 		virtual QString lanMoveString(const Move& move);
 		virtual QString sanMoveString(const Move& move);

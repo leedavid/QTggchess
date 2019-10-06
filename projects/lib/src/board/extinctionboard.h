@@ -51,7 +51,7 @@ class LIB_EXPORT ExtinctionBoard : public StandardBoard
 		 * types of standard chess are allowed (king anyhow).
 		 */
 		ExtinctionBoard(const QSet<int>& set
-				= QSet<int>{King, Queen, Rook, Bishop, Knight, Pawn},
+				= QSet<int>{King, Che, Pao, Shi, Xiang, Pawn},
 				bool allPromotions = true);
 
 		// Inherited from StandardBoard
@@ -64,9 +64,7 @@ class LIB_EXPORT ExtinctionBoard : public StandardBoard
 		virtual bool kingsCountAssertion(int whiteKings,
 						 int blackKings) const;
 		virtual bool inCheck(Side side, int square = 0) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
+
 
 	private:
 		bool m_allPromotions;

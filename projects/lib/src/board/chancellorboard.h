@@ -60,11 +60,6 @@ class LIB_EXPORT ChancellorBoard : public WesternBoard
 		{
 			Chancellor = 8 //!< Chancellor (knight + rook)
 		};
-		// Inherited from WesternBoard
-		virtual int castlingFile(CastlingSide castlingSide) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray< Move >& moves) const;
 };
 
 } // namespace Chess

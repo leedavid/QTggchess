@@ -42,7 +42,7 @@ class LIB_EXPORT CoRegalBoard : public WesternBoard
 	public:
 		/*! Creates a new CoregalBoard object. */
 		CoRegalBoard(const QSet<int>& setOfRoyalTypes
-			     = QSet<int>{King, Queen});
+			     = QSet<int>{King, Che});
 
 		// Inherited from WesternBoard
 		virtual Board* copy() const;

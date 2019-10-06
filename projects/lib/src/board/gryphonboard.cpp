@@ -75,7 +75,7 @@ bool GryphonBoard::inCheck(Side side, int square) const
 
 int GryphonBoard::successorType(int type, bool reversed) const
 {
-	static const QList<int> types = {Pawn, Knight, Bishop, Rook, Queen, King};
+	static const QList<int> types = {Pawn, Xiang, Shi, Pao, Che, King};
 	static const int length = types.length();
 
 	int index = types.indexOf(type);
@@ -256,7 +256,7 @@ bool CircularGryphonBoard::inCheck(Side side, int square) const
 
 int CircularGryphonBoard::successorType(int type, bool reversed) const
 {
-	static const QList<int> types = {Pawn, Knight, Bishop, Rook, Queen};
+	static const QList<int> types = {Pawn, Xiang, Shi, Pao, Che};
 	static const int length = types.length();
 
 	if (type == King)

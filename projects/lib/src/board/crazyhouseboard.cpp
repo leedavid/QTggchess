@@ -42,7 +42,7 @@ QList<Piece> CrazyhouseBoard::reservePieceTypes() const
 
 	for (int i = 0; i < 2; i++)
 	{
-		for (int type = Pawn; type <= Queen; type++)
+		for (int type = Pawn; type <= Che; type++)
 			list << Piece(Side::Type(i), type);
 	}
 
@@ -76,13 +76,13 @@ int CrazyhouseBoard::normalPieceType(int type)
 	switch (type)
 	{
 	case PromotedKnight:
-		return Knight;
+		return Xiang;
 	case PromotedBishop:
-		return Bishop;
+		return Shi;
 	case PromotedRook:
-		return Rook;
+		return Pao;
 	case PromotedQueen:
-		return Queen;
+		return Che;
 	default:
 		return type;
 	}
@@ -92,13 +92,13 @@ int CrazyhouseBoard::promotedPieceType(int type) const
 {
 	switch (type)
 	{
-	case Knight:
+	case Xiang:
 		return PromotedKnight;
-	case Bishop:
+	case Shi:
 		return PromotedBishop;
-	case Rook:
+	case Pao:
 		return PromotedRook;
-	case Queen:
+	case Che:
 		return PromotedQueen;
 	default:
 		return type;

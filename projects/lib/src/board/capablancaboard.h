@@ -51,10 +51,7 @@ class LIB_EXPORT CapablancaBoard : public WesternBoard
 			Chancellor	//!< Chancellor (knight + rook)
 		};
 
-		// Inherited from WesternBoard
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
+
 };
 
 } // namespace Chess

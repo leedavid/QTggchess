@@ -1074,35 +1074,37 @@ QString StandardBoard::defaultFenString() const
 
 Result StandardBoard::tablebaseResult(unsigned int* dtz) const
 {
-	SyzygyTablebase::PieceList pieces;
+	//SyzygyTablebase::PieceList pieces;
 
-	for (int i = 0; i < arraySize(); i++)
-	{
-		Piece piece(pieceAt(i));
-		if (piece.isValid())
-		{
-			if (pieces.size() > 6)
-				return Result();
-			pieces.append(qMakePair(chessSquare(i), piece));
-		}
-	}
+	//for (int i = 0; i < arraySize(); i++)
+	//{
+	//	Piece piece(pieceAt(i));
+	//	if (piece.isValid())
+	//	{
+	//		if (pieces.size() > 6)
+	//			return Result();
+	//		pieces.append(qMakePair(chessSquare(i), piece));
+	//	}
+	//}
 
-	SyzygyTablebase::Castling castling = 0;
-	if (hasCastlingRight(Chess::Side::White, KingSide))
-		castling |= SyzygyTablebase::WhiteKingSide;
-	if (hasCastlingRight(Chess::Side::White, QueenSide))
-		castling |= SyzygyTablebase::WhiteQueenSide;
-	if (hasCastlingRight(Chess::Side::Black, KingSide))
-		castling |= SyzygyTablebase::BlackKingSide;
-	if (hasCastlingRight(Chess::Side::Black, QueenSide))
-		castling |= SyzygyTablebase::BlackQueenSide;
+	//SyzygyTablebase::Castling castling = 0;
+	//if (hasCastlingRight(Chess::Side::White, KingSide))
+	//	castling |= SyzygyTablebase::WhiteKingSide;
+	//if (hasCastlingRight(Chess::Side::White, QueenSide))
+	//	castling |= SyzygyTablebase::WhiteQueenSide;
+	//if (hasCastlingRight(Chess::Side::Black, KingSide))
+	//	castling |= SyzygyTablebase::BlackKingSide;
+	//if (hasCastlingRight(Chess::Side::Black, QueenSide))
+	//	castling |= SyzygyTablebase::BlackQueenSide;
 
-	return SyzygyTablebase::result(sideToMove(),
-					chessSquare(enpassantSquare()),
-					castling,
-					reversibleMoveCount(),
-					pieces,
-					dtz);
+	return Result();
+
+	//return SyzygyTablebase::result(sideToMove(),
+	//				chessSquare(enpassantSquare()),
+	//				castling,
+	//				reversibleMoveCount(),
+	//				pieces,
+	//				dtz);
 }
 
 } // namespace Chess

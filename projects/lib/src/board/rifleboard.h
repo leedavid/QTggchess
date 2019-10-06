@@ -53,9 +53,7 @@ class LIB_EXPORT RifleBoard : public WesternBoard
 				       BoardTransition* transition);
 		virtual void vUndoMove(const Move& move);
 		virtual bool inCheck(Side side, int square = 0) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray< Move >& moves) const;
+
 };
 
 

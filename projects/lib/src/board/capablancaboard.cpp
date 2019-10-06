@@ -48,14 +48,6 @@ QString CapablancaBoard::defaultFenString() const
 	return "rnabqkbcnr/pppppppppp/10/10/10/10/PPPPPPPPPP/RNABQKBCNR w KQkq - 0 1";
 }
 
-void CapablancaBoard::addPromotions(int sourceSquare,
-				int targetSquare,
-				QVarLengthArray<Move>& moves) const
-{
-	WesternBoard::addPromotions(sourceSquare, targetSquare, moves);
 
-	moves.append(Move(sourceSquare, targetSquare, Archbishop));
-	moves.append(Move(sourceSquare, targetSquare, Chancellor));
-}
 
 } // namespace Chess

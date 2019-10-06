@@ -72,10 +72,7 @@ class LIB_EXPORT AseanBoard : public MakrukBoard
 		// Inherited from MakrukBoard
 		virtual QString vFenString(FenNotation notation) const;
 		virtual bool vSetFenString(const QStringList& fen);
-		virtual int promotionRank(int file = 0) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray< Move >& moves) const;
+
 		virtual int countingLimit() const;
 		virtual CountingRules countingRules() const;
 		virtual Result result();

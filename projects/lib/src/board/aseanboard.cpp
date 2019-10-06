@@ -25,10 +25,10 @@ AseanBoard::AseanBoard()
 {
 	// all pieces have standard chess names but move like Makruk pieces
 	setPieceType(Pawn, tr("pawn"), "P");
-	setPieceType(Knight, tr("knight"), "N", KnightMovement);
-	setPieceType(Bishop, tr("bishop"), "B", SilverGeneralMovement); //! Khon
-	setPieceType(Rook, tr("rook"), "R", RookMovement);
-	setPieceType(Queen, tr("queen"), "Q", FerzMovement); //! Ferz
+	setPieceType(Xiang, tr("knight"), "N", KnightMovement);
+	setPieceType(Shi, tr("bishop"), "B", SilverGeneralMovement); //! Khon
+	setPieceType(Pao, tr("rook"), "R", RookMovement);
+	setPieceType(Che, tr("queen"), "Q", FerzMovement); //! Ferz
 	setPieceType(King, tr("king"), "K");
 }
 
@@ -62,15 +62,7 @@ bool AseanBoard::vSetFenString(const QStringList& fen)
 	return true;
 }
 
-int AseanBoard::promotionRank(int) const
-{
-	return 7; // eighth rank (base rank is 0)
-}
 
-void AseanBoard::addPromotions(int sourceSquare, int targetSquare, QVarLengthArray< Move >& moves) const
-{
-	WesternBoard::addPromotions(sourceSquare, targetSquare, moves);
-}
 
 MakrukBoard::CountingRules AseanBoard::countingRules() const
 {
@@ -81,16 +73,16 @@ int AseanBoard::countingLimit() const
 {
 	// ASEAN-Chess Article 5.2e
 	Side side = sideToMove();
-	int rooks = pieceCount(side, Rook);
+	int rooks = pieceCount(side, Pao);
 	if (rooks > 0)
 		return 16;
 
-	int bishops = pieceCount(side, Bishop);
-	int queens = pieceCount(side,Queen);
+	int bishops = pieceCount(side, Shi);
+	int queens = pieceCount(side,Che);
 	if (bishops > 0 && queens > 0)
 		return 44;
 
-	int knights = pieceCount(side, Knight);
+	int knights = pieceCount(side, Xiang);
 	if (knights > 0 && queens > 0)
 		return 64;
 
