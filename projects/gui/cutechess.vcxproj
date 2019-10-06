@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}</ProjectGuid>
+    <RootNamespace>cutechess</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <OutputDirectory>.\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>.obj\</IntermediateDirectory>
+    <PrimaryOutput>cutechess</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <OutputDirectory>.\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>.obj\</IntermediateDirectory>
+    <PrimaryOutput>cutechess</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
+    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cutechess</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cutechess</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\lib\src;3rdparty\qcustomplot;$(QTDIR)\include;.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtPrintSupport;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtConcurrent;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>.obj\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.0";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_PRINTSUPPORT_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>cutechess.lib;$(QTDIR)\lib\Qt5Svg.lib;$(QTDIR)\lib\Qt5PrintSupport.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Concurrent.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5PrintSupport.lib;Qt5Svg.lib;Qt5Test.lib;Qt5Widgets.lib;Qt5Concurrent.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\Users\Administrator\Source\Repos\cutechess\projects\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\cutechess.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION=\"1.1.0\";QT_NO_DEBUG;QT_SVG_LIB;QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <QTDIR>$(QTDIR)</QTDIR>
+      <OutputFile>.\.moc\moc_%(Filename).cpp</OutputFile>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.0";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_PRINTSUPPORT_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./.moc/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+      <DynamicSource>output</DynamicSource>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\lib\src;3rdparty\qcustomplot;$(QTDIR)\include;.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtPrintSupport;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtConcurrent;%(AdditionalIncludeDirectories)</IncludePath>
+    </QtMoc>
+    <QtRcc>
+      <Compression>default</Compression>
+      <OutputFile>.rcc\qrc_%(Filename).cpp</OutputFile>
+      <InputFile>%(FullPath)</InputFile>
+      <QTDIR>$(QTDIR)</QTDIR>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+    </QtRcc>
+    <QtUic>
+      <QTDIR>$(QTDIR)</QTDIR>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\lib\src;3rdparty\qcustomplot;3rdparty\modeltest;$(QTDIR)\include;.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtPrintSupport;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtConcurrent;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>.obj\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.0";QT_TESTCASE_BUILDDIR=".";QT_CORE_LIB;QT_GUI_LIB;QT_PRINTSUPPORT_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>cutechess.lib;$(QTDIR)\lib\Qt5Svgd.lib;$(QTDIR)\lib\Qt5PrintSupportd.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Concurrentd.lib;$(QTDIR)\lib\Qt5Testd.lib;$(QTDIR)\lib\Qt5Cored.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5PrintSupportd.lib;Qt5Svgd.lib;Qt5Testd.lib;Qt5Widgetsd.lib;Qt5Concurrentd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;D:\github\cutechess\projects\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\cutechess.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION=\"1.1.0\";QT_SVG_LIB;QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_TESTLIB_LIB;QT_CORE_LIB;QT_TESTCASE_BUILDDIR=".";_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <QTDIR>$(QTDIR)</QTDIR>
+      <OutputFile>.\.moc\moc_%(Filename).cpp</OutputFile>
+      <Define>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.0";QT_TESTCASE_BUILDDIR=".";QT_CORE_LIB;QT_GUI_LIB;QT_PRINTSUPPORT_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./.moc/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+      <DynamicSource>output</DynamicSource>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\lib\src;3rdparty\qcustomplot;3rdparty\modeltest;$(QTDIR)\include;.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtPrintSupport;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtConcurrent;%(AdditionalIncludeDirectories)</IncludePath>
+    </QtMoc>
+    <QtRcc>
+      <QTDIR>$(QTDIR)</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>.rcc\qrc_%(Filename).cpp</OutputFile>
+      <Compression>default</Compression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+    </QtRcc>
+    <QtUic>
+      <QTDIR>$(QTDIR)</QTDIR>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <InputFile>%(FullPath)</InputFile>
+    </QtUic>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\autoverticalscroller.cpp" />
+    <ClCompile Include="src\boardview\boardscene.cpp" />
+    <ClCompile Include="src\boardview\boardview.cpp" />
+    <ClCompile Include="src\chessclock.cpp" />
+    <ClCompile Include="src\cutechessapp.cpp" />
+    <ClCompile Include="src\engineconfigproxymodel.cpp" />
+    <ClCompile Include="src\engineconfigurationdlg.cpp" />
+    <ClCompile Include="src\engineconfigurationmodel.cpp" />
+    <ClCompile Include="src\enginemanagementwidget.cpp" />
+    <ClCompile Include="src\engineoptiondelegate.cpp" />
+    <ClCompile Include="src\engineoptionmodel.cpp" />
+    <ClCompile Include="src\engineselectiondlg.cpp" />
+    <ClCompile Include="src\evalhistory.cpp" />
+    <ClCompile Include="src\evalwidget.cpp" />
+    <ClCompile Include="src\gamedatabasemanager.cpp" />
+    <ClCompile Include="src\gamedatabasesearchdlg.cpp" />
+    <ClCompile Include="src\gamesettingswidget.cpp" />
+    <ClCompile Include="src\gametabbar.cpp" />
+    <ClCompile Include="src\gameviewer.cpp" />
+    <ClCompile Include="src\boardview\graphicsboard.cpp" />
+    <ClCompile Include="src\boardview\graphicspiece.cpp" />
+    <ClCompile Include="src\boardview\graphicspiecereserve.cpp" />
+    <ClCompile Include="src\importprogressdlg.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mainwindow.cpp" />
+    <ClCompile Include="3rdparty\modeltest\modeltest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\movecommenttoken.cpp" />
+    <ClCompile Include="src\movelist.cpp" />
+    <ClCompile Include="src\movenumbertoken.cpp" />
+    <ClCompile Include="src\movetoken.cpp" />
+    <ClCompile Include="src\newgamedlg.cpp" />
+    <ClCompile Include="src\newtournamentdialog.cpp" />
+    <ClCompile Include="src\pathlineedit.cpp" />
+    <ClCompile Include="src\pgndatabase.cpp" />
+    <ClCompile Include="src\pgndatabasemodel.cpp" />
+    <ClCompile Include="src\pgngameentrymodel.cpp" />
+    <ClCompile Include="src\pgnimporter.cpp" />
+    <ClCompile Include="src\pgntagsmodel.cpp" />
+    <ClCompile Include="src\pgntoken.cpp" />
+    <ClCompile Include="src\boardview\piecechooser.cpp" />
+    <ClCompile Include="src\plaintextlog.cpp" />
+    <ClCompile Include="3rdparty\qcustomplot\qcustomplot.cpp" />
+    <ClCompile Include="src\settingsdlg.cpp" />
+    <ClCompile Include="src\stringvalidator.cpp" />
+    <ClCompile Include="src\threadedtask.cpp" />
+    <ClCompile Include="src\tilelayout.cpp" />
+    <ClCompile Include="src\timecontroldlg.cpp" />
+    <ClCompile Include="src\tournamentresultsdlg.cpp" />
+    <ClCompile Include="src\tournamentsettingswidget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\autoverticalscroller.h">
+    </QtMoc>
+    <QtMoc Include="src\boardview\boardscene.h">
+    </QtMoc>
+    <QtMoc Include="src\boardview\boardview.h">
+    </QtMoc>
+    <QtMoc Include="src\chessclock.h">
+    </QtMoc>
+    <QtMoc Include="src\cutechessapp.h">
+    </QtMoc>
+    <QtMoc Include="src\engineconfigproxymodel.h">
+    </QtMoc>
+    <QtMoc Include="src\engineconfigurationdlg.h">
+    </QtMoc>
+    <QtMoc Include="src\engineconfigurationmodel.h">
+    </QtMoc>
+    <QtMoc Include="src\enginemanagementwidget.h">
+    </QtMoc>
+    <QtMoc Include="src\engineoptiondelegate.h">
+    </QtMoc>
+    <QtMoc Include="src\engineoptionmodel.h">
+    </QtMoc>
+    <QtMoc Include="src\engineselectiondlg.h">
+    </QtMoc>
+    <QtMoc Include="src\evalhistory.h">
+    </QtMoc>
+    <QtMoc Include="src\evalwidget.h">
+    </QtMoc>
+    <QtMoc Include="src\gamedatabasedlg.h">
+    </QtMoc>
+    <QtMoc Include="src\gamedatabasemanager.h">
+    </QtMoc>
+    <QtMoc Include="src\gamedatabasesearchdlg.h">
+    </QtMoc>
+    <QtMoc Include="src\gamesettingswidget.h">
+    </QtMoc>
+    <QtMoc Include="src\gametabbar.h">
+    </QtMoc>
+    <QtMoc Include="src\gameviewer.h">
+    </QtMoc>
+    <QtMoc Include="src\gamewall.h">
+    </QtMoc>
+    <ClInclude Include="src\boardview\graphicsboard.h" />
+    <QtMoc Include="src\boardview\graphicspiece.h">
+    </QtMoc>
+    <ClInclude Include="src\boardview\graphicspiecereserve.h" />
+    <QtMoc Include="src\importprogressdlg.h">
+    </QtMoc>
+    <QtMoc Include="src\mainwindow.h">
+    </QtMoc>
+    <QtMoc Include="3rdparty\modeltest\modeltest.h">
+    </QtMoc>
+    <ClInclude Include="src\movecommenttoken.h" />
+    <QtMoc Include="src\movelist.h">
+    </QtMoc>
+    <ClInclude Include="src\movenumbertoken.h" />
+    <ClInclude Include="src\movetoken.h" />
+    <QtMoc Include="src\newgamedlg.h">
+    </QtMoc>
+    <QtMoc Include="src\newtournamentdialog.h">
+    </QtMoc>
+    <QtMoc Include="src\pathlineedit.h">
+    </QtMoc>
+    <QtMoc Include="src\pgndatabase.h">
+    </QtMoc>
+    <QtMoc Include="src\pgndatabasemodel.h">
+    </QtMoc>
+    <QtMoc Include="src\pgngameentrymodel.h">
+    </QtMoc>
+    <QtMoc Include="src\pgnimporter.h">
+    </QtMoc>
+    <QtMoc Include="src\pgntagsmodel.h">
+    </QtMoc>
+    <ClInclude Include="src\pgntoken.h" />
+    <QtMoc Include="src\boardview\piecechooser.h">
+    </QtMoc>
+    <QtMoc Include="src\plaintextlog.h">
+    </QtMoc>
+    <QtMoc Include="3rdparty\qcustomplot\qcustomplot.h">
+    </QtMoc>
+    <QtMoc Include="src\settingsdlg.h">
+    </QtMoc>
+    <QtMoc Include="src\stringvalidator.h">
+    </QtMoc>
+    <QtMoc Include="src\threadedtask.h">
+    </QtMoc>
+    <QtMoc Include="src\tilelayout.h">
+    </QtMoc>
+    <QtMoc Include="src\timecontroldlg.h">
+    </QtMoc>
+    <QtMoc Include="src\tournamentresultsdlg.h">
+    </QtMoc>
+    <QtMoc Include="src\tournamentsettingswidget.h">
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\gamedatabasedlg.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\.moc\%(Filename).moc</OutputFile>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\.moc\%(Filename).moc</OutputFile>
+      <InputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">src\gamedatabasedlg.cpp</InputFile>
+      <InputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\gamedatabasedlg.cpp</InputFile>
+    </QtMoc>
+    <QtMoc Include="src\gamewall.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\.moc\%(Filename).moc</OutputFile>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\.moc\%(Filename).moc</OutputFile>
+      <InputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">src\gamewall.cpp</InputFile>
+      <InputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\gamewall.cpp</InputFile>
+    </QtMoc>
+    <CustomBuild Include=".moc\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -O2 -MD -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;.moc\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.moc\moc_predefs.h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;.moc\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.moc\moc_predefs.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="ui_engineconfigdlg.h" />
+    <ClInclude Include="ui_enginemanagementwidget.h" />
+    <ClInclude Include="ui_engineselectiondlg.h" />
+    <ClInclude Include="ui_gamedatabasedlg.h" />
+    <ClInclude Include="ui_gamedatabasesearchdlg.h" />
+    <ClInclude Include="ui_gamesettingswidget.h" />
+    <ClInclude Include="ui_importprogressdlg.h" />
+    <ClInclude Include="ui_newgamedlg.h" />
+    <ClInclude Include="ui_newtournamentdlg.h" />
+    <ClInclude Include="ui_settingsdlg.h" />
+    <ClInclude Include="ui_timecontroldlg.h" />
+    <ClInclude Include="ui_tournamentsettingswidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ui\engineconfigdlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_engineconfigdlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_engineconfigdlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\enginemanagementwidget.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_enginemanagementwidget.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_enginemanagementwidget.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\engineselectiondlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_engineselectiondlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_engineselectiondlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\gamedatabasedlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_gamedatabasedlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_gamedatabasedlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\gamedatabasesearchdlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_gamedatabasesearchdlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_gamedatabasesearchdlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\gamesettingswidget.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_gamesettingswidget.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_gamesettingswidget.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\importprogressdlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_importprogressdlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_importprogressdlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\newgamedlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_newgamedlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_newgamedlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\newtournamentdlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_newtournamentdlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_newtournamentdlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\settingsdlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_settingsdlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_settingsdlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\timecontroldlg.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_timecontroldlg.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_timecontroldlg.h</OutputFile>
+    </QtUic>
+    <QtUic Include="ui\tournamentsettingswidget.ui">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_tournamentsettingswidget.h</OutputFile>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_tournamentsettingswidget.h</OutputFile>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\icons\toolbutton\add_16x16.png" />
+    <None Include="res\chessboard\MaurizioMonge\celtic.svg" />
+    <QtRcc Include="res\chessboard\chessboard.qrc">
+      <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">chessboard</InitFuncName>
+      <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">chessboard</InitFuncName>
+    </QtRcc>
+    <None Include="res\icons\toolbutton\configure_16x16.png" />
+    <None Include="res\icons\cutechess_128x128.png" />
+    <None Include="res\icons\cutechess_16x16.png" />
+    <None Include="res\icons\cutechess_24x24.png" />
+    <None Include="res\icons\cutechess_256x256.png" />
+    <None Include="res\icons\cutechess_32x32.png" />
+    <None Include="res\icons\cutechess_512x512.png" />
+    <None Include="res\icons\cutechess_64x64.png" />
+    <None Include="res\chessboard\default.svg" />
+    <None Include="res\chessboard\MaurizioMonge\eyes.svg" />
+    <None Include="res\chessboard\MaurizioMonge\fantasy.svg" />
+    <None Include="res\chessboard\MaurizioMonge\fantasy_alt.svg" />
+    <None Include="res\icons\toolbutton\first_16x16.png" />
+    <None Include="res\chessboard\MaurizioMonge\freak.svg" />
+    <QtRcc Include="res\icons\icons.qrc">
+      <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">icons</InitFuncName>
+      <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">icons</InitFuncName>
+    </QtRcc>
+    <None Include="res\icons\toolbutton\last_16x16.png" />
+    <None Include="res\chessboard\makruk.svg" />
+    <None Include="res\chessboard\merida.svg" />
+    <None Include="res\icons\toolbutton\next_16x16.png" />
+    <None Include="res\icons\toolbutton\previous_16x16.png" />
+    <None Include="res\chessboard\MaurizioMonge\prmi.svg" />
+    <None Include="res\icons\toolbutton\remove_16x16.png" />
+    <None Include="res\chessboard\MaurizioMonge\skulls.svg" />
+    <None Include="res\chessboard\MaurizioMonge\spatial.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\icons\cutechess_win.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Qt5Version_x0020_x64="QT5131" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

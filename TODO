@@ -1,0 +1,69 @@
+- Add more stuff to the Chess namespace (Game, Player, etc.)
+  chess.h should probably be in lib/src, not lib/src/chessboard
+
+- Complete Xboard and UCI support (including the analysis feature)
+
+- More unit tests for the Chess library
+
+- Better error handling in OpeningBook
+
+- Better error handling in PgnGame
+
+- FICS support
+
+- Add a bunch of bugs to Sloppy, and test it with the gui
+
+- Create an engine-testing tool for the gui, which finds out and summarizes
+  the engine's features, and runs tests:
+  - illegal moves
+  - invalid FEN strings
+  - very long strings
+  - invalid time controls (eg. negative time left)
+  - negative minimum search depth
+  - test the ping time
+
+- EPD tests for engines
+
+- Design a file format for tournaments
+
+- Provide code examples in documentation
+
+- Verify Qt version requirement before release
+
+- Use PgnStream for HTTP downloading
+
+- Apply for the Qt Application Showroom after first public
+  release: https://showroom.qt.io/
+
+- Allow setting engine options again for each game instead of only once for the whole match
+
+- Support the Xboard "draw" command
+
+- WesternBoard should support file and rank strings of arbitrary length
+
+- Update documentation for engines.json. At the moment there's nothing about
+  "restart", "variants" or "options".
+
+
+# User Interface
+--------------
+
+- (Mac) dropping FEN on Cute Chess' icon in Dock
+
+- (Mac) provide Dock menu
+
+- (Mac) provide global menubar
+
+- Per window dialogs should use QDialog::open() instead of exec()
+
+- Moving a piece by selecting (clicking with a mouse) a source and a
+  destination squares
+
+- Highlight attacked pieces
+
+- Analyzing feature. Probably should be placed in its own dock window with a
+  selectable list of engines.
+
+- There should be no "whitepov" option for UCI engines (it should always be OFF)
+
+- Add a time control widget that can be embedded in New Game dialog

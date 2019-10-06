@@ -1,0 +1,513 @@
+.Dd April 29, 2019
+.Dt CUTECHESS-CLI 6
+.Os
+.Sh NAME
+.Nm cutechess-cli
+.Nd Automate chess engine tournaments
+.Sh SYNOPSIS
+.Nm
+.Fl engine Ar engine-options
+.Fl engine Ar engine-options
+.Op Fl engine Ar engine-options ...
+.Op options
+.Sh DESCRIPTION
+The
+.Nm
+utility automates chess engine tournaments.
+.Pp
+Its options are as follows:
+.Bl -tag -width Ds
+.It Fl engine Ar engine-options
+Add an engine defined by
+.Ar engine-options
+to the tournament.
+See
+.Sx Engine Options .
+.It Fl each Ar engine-options
+Apply
+.Ar engine-options
+to each engine in the tournament.
+See
+.Sx Engine Options .
+.It Fl variant Ar variant
+Set the chess variant, where
+.Ar variant
+is one of:
+.Pp
+.Bl -tag -width "XXXXXXXXXXXXX" -offset ident -compact
+.It 3check
+Three-check Chess
+.It 5check
+Five-check Chess
+.It aiwok
+Ai-Wok (Makruk variant)
+.It almost
+Almost Chess
+.It amazon
+Amazon Chess
+.It andernach
+Andernach Chess
+.It antiandernach
+Anti-Andernach Chess
+.It antichess
+Antichess / Losing Chess
+.It asean
+ASEAN-Chess
+.It atomic
+Atomic Chess
+.It berolina
+Berolina Chess
+.It cambodian
+Ouk Chatrang (Cambodian Chess)
+.It capablanca
+Capablanca Chess
+.It caparandom
+Capablanca Random Chess
+.It chancellor
+Chancellor Chess (9x9)
+.It changeover
+Change-Over Chess
+.It checkless
+Checkless Chess
+.It chessgi
+Chessgi / Drop Chess
+.It chigorin
+Chigorin Chess
+.It circulargryphon
+Circular Gryphon Chess
+.It codrus
+Game of Codrus (Losing Chess Variant)
+.It coregal
+Co-regal Chess
+.It courier
+Courier Chess (Medieval)
+.It crazyhouse
+Crazyhouse (Drop Chess Variant)
+.It displacedgrid
+Displaced Grid Chess
+.It embassy
+Embassy Chess
+.It extinction
+Extinction Chess
+.It fischerandom
+Fischer Random Chess / Chess 960
+.It giveaway
+Giveaway Chess (Losing Chess)
+.It gothic
+Gothic Chess
+.It grand
+Grand Chess
+.It grid
+Grid Chess
+.It gridolina
+Berolina Grid Chess
+.It gryphon
+Gryphon Chess
+.It gustav3
+Gustav III's Chess
+.It hoppelpoppel
+Hoppel-Poppel (has N/B hybrids)
+.It horde
+Horde Chess (v2)
+.It janus
+Janus Chess
+.It jesonmor
+Jeson Mör
+.It karouk
+Kar Ouk (One-check Ouk)
+.It kinglet
+Kinglet Chess
+.It kingofthehill
+King of the Hill Chess
+.It knightmate
+Knightmate
+.It loop
+Loop Chess (Drop Chess Variant)
+.It losalamos
+Los Alamos Chess
+.It losers
+Loser's Chess
+.It makruk
+Makruk (Thai Chess)
+.It modern
+Modern Chess (9x9)
+.It newzealand
+New Zealand Chess  (has N/R hybrids)
+.It placement
+Placement Chess
+.It pocketknight
+Pocket Knight Chess
+.It racingkings
+Racing Kings Chess
+.It rifle
+Rifle Chess
+.It seirawan
+S-Chess (Seirawan Chess)
+.It shatranj
+Shatranj
+.It shoot
+Shoot Chess
+.It simplifiedgryphon
+Simplified Gryphon Chess
+.It sittuyin
+Sittuyin (Myanmar Chess)
+.It slippedgrid
+Slipped Grid Chess
+.It suicide
+Suicide Chess (Losing Chess Variant)
+.It superandernach
+Super-Andernach Chess
+.It threekings
+Three Kings Chess
+.It twokings
+Two Kings Each Chess (Wild 9)
+.It twokingssymmetric
+Symmetrized Wild 9
+.It standard
+Standard Chess (default)
+.El
+.It Fl concurrency Ar n
+Set the maximum number of concurrent games to
+.Ar n .
+.It Fl draw Cm movenumber Ns = Ns Ar number Cm movecount Ns = Ns Ar count Cm score Ns = Ns Ar score
+Adjudicate the game as draw if the score of both engines is within
+.Ar score
+centipawns from zero for at least
+.Ar count
+consecutive moves, and at least
+.Ar number
+full moves have been played. Captures and pawn moves will reset the counters.
+.It Fl resign Cm movecount Ns = Ns Ar count Cm score Ns = Ns Ar score Bq Cm twosided Ns = Ns Ar value
+Adjudicate the game as a loss if an engine's score is at least
+.Ar score
+centipawns below zero for at least
+.Ar count
+consecutive moves.
+If
+.Ar value
+is true (default: false) then activate two-sided resign adjudication. The winning side's
+scores must be at least
+.Ar score
+centipawns above zero for at least
+.Ar count
+consecutive moves
+.It Fl maxmoves Ar n
+Adjudicate the game as a draw if at least
+.Ar n
+full moves have been played without result. Ignored if
+.Ar n
+equals zero (default).
+.It Fl tb Ar paths
+Adjudicate games using Syzygy tablebases.
+.Ar Paths
+should be semicolon-delimited list of paths to the compressed tablebase files.
+Only the WDL tablebase files are required.
+.It Fl tbpieces Ar N
+Only use tablebase adjudication for positions with
+.Ar N
+pieces or less.
+.It Fl tbignore50
+Disable the fifty move rule for tablebase adjudication.
+.It Fl tournament Ar type
+Set the tournament type, where
+.Ar type
+is one of:
+.Pp
+.Bl -tag -width "XXXXXXXXXXXXX" -offset ident -compact
+.It round-robin
+Round-robin tournament (default)
+.It gauntlet
+First engine plays against the rest
+.It knockout
+Single-elimination tournament
+.It pyramid
+Every engine plays against all of its predecessors
+.El
+.It Fl event Ar arg
+Set the event name to
+.Ar arg .
+.It Fl games Ar n
+Play
+.Ar n
+games per encounter.
+This value should be set to an even number in tournaments with more than two
+players to make sure that each player plays an equal number of games with white
+and black pieces.
+.It Fl rounds Ar n
+Multiply the number of rounds to play by
+.Ar n .
+For two-player tournaments this option should be used to set the total
+number of games to play.
+.It Fl sprt Cm elo0 Ns = Ns Ar E0 Cm elo1 Ns = Ns Ar E1 Cm alpha Ns = Ns Ar \(*a Cm beta Ns = Ns Ar \(*b
+Use a Sequential Probability Ratio Test as a termination criterion for the
+match.
+.Pp
+This option should only be used in matches between two players to test if
+engine P1 is stronger than engine P2.
+Hypothesis H1 is that P1 is stronger than P2 by at least
+.Ar E0
+ELO points, and
+H0 (the null hypothesis) is that P1 is not stronger than P2 by at least
+.Ar E1
+ELO points.
+The maximum probabilities for type I and type II errors outside the
+interval [
+.Ar E0 ,
+.Ar E1
+] are
+.Ar \(*a
+and
+.Ar \(*b .
+.Pp
+The match is stopped if either H0 or H1 is accepted or if the maximum number
+of games set by
+.Fl rounds
+and / or
+.Fl games
+is reached.
+.It Fl ratinginterval Ar n
+Set the interval for printing the ratings to
+.Ar n
+games.
+.It Fl debug
+Display all engine input and output.
+.It Fl openings Cm file Ns = Ns Ar file Cm format Ns = Ns [ Cm epd | Cm pgn Ns ] Cm order Ns = Ns [ Cm random | Cm sequential Ns ] Cm plies Ns = Ns Ar plies Cm start Ns = Ns Ar start Cm policy Ns = Ns [ Cm default | Cm encounter | Cm round ]
+Pick game openings from
+.Ar file .
+The file can be either in
+.Cm epd
+(Extended Position Description) or
+.Cm pgn
+(Portable Game Notation) format.
+The default format is
+.Cm pgn .
+Openings can be picked in
+.Cm random
+or
+.Cm sequential
+(default) order.
+The opening depth is limited to
+.Ar plies
+number of plies.
+If
+.Ar plies
+is not set the opening depth is unlimited.
+In sequential mode
+.Ar start
+is the number of the first opening that will be played.
+The minimum value for
+.Ar start
+is 1 (default).
+.Pp
+The value of
+.Ar policy
+rules when to shift to a new opening. If set to
+.Cm encounter
+a new opening is used for any new pair of players,
+.Cm round
+shifts when a new round begins. The
+.Cm default
+shifts for any new pair of players and also when the
+specified number of opening repetitions is reached.
+.It Fl bookmode Ar mode
+Set Polyglot book access mode, where
+.Ar mode
+is either
+.Cm ram
+(the whole book is loaded into RAM) or
+.Cm disk
+(the book is accessed directly on disk).
+The default mode is
+.Cm ram.
+.It Fl pgnout Ar file Bq Cm min Cm Bq fi
+Save the games to
+.Ar file
+in PGN format. Use the
+.Cm min
+argument to save in a minimal PGN format.
+Only finished games will be saved if argument
+.Cm fi
+is given.
+.It Fl epdout Ar file
+Save the games to
+.Ar file
+in FEN format.
+.It Fl recover
+Restart crashed engines instead of stopping the game.
+.It Fl repeat Bq Cm Ar n
+Play each opening twice (or
+.Ar n
+times). Unless the -noswap option is used, the players swap
+sides after each game. So they get to play the
+opening on both sides. Please note that a new encounter will use
+a new opening.
+.It Fl noswap
+Do not swap sides of paired engines
+.It Fl seeds Ar n
+Set the first
+.Ar n
+engines as seeds in the tournament. The default is 0.
+.It Fl site Ar arg
+Set the site / location to
+.Ar arg .
+.It Fl srand Ar seed
+Set the random seed for the book move selector.
+.It Fl wait Ar n
+Wait
+.Ar n
+milliseconds between games. The default is 0.
+.It Fl version
+Display the version information.
+.It Fl help
+Display help information.
+.It Fl engines
+Display a list of configured engines and exit.
+.El
+.Ss Engine Options
+.Bl -tag -width Ds
+.It Ic conf Ns = Ns Ar arg
+Use an engine with the name
+.Ar arg
+from engine configuration file.
+.It Ic name Ns = Ns Ar arg
+Set the name to
+.Ar arg .
+.It Ic cmd Ns = Ns Ar arg
+Set the command to
+.Ar arg .
+.It Ic dir Ns = Ns Ar arg
+Set the working directory to
+.Ar arg .
+.It Ic stderr Ns = Ns Ar arg
+Redirect standard error output to file
+.Ar arg .
+.It Ic proto Ns = Ns [ Cm uci | Cm xboard  Ns ]
+Set the chess protocol.
+.It Ic tc Ns = Ns [ Ns Ar tcformat | Cm inf Ns ]
+Set the time control.
+The format is moves/time+increment,
+where
+.Ar moves
+is the number of moves per tc,
+.Ar time
+is time per tc (either seconds or minutes:seconds),
+and
+.Ar increment
+is the time increment per move in seconds.
+.Pp
+Infinite time control can be set with
+.Cm inf .
+.It Ic option. Ns Ar name Ns = Ns Ar value
+Set custom engine option.
+.It Ic arg Ns = Ns Ar arg
+Pass
+.Ar arg
+to the engine as a command line argument.
+.It Ic initstr Ns = Ns Ar arg
+Send
+.Ar arg
+to the engine's standard input at startup.
+.It Ic restart Ns = Ns [ Cm auto | Cm on | Cm off Ns ]
+Set the engine restart mode.
+.Cm auto
+means the engine decides whether to restart (default),
+.Cm on
+means the engine is always restarted between games and
+.Cm off
+means the engine is never restarted between games.
+Setting this option does not prevent engines from being restarted between
+rounds in a tournament featuring more than two engines.
+.It Ic trust
+Trust result claims from the engine without validation.
+By default all claims are validated.
+.It Ic st Ns = Ns Ar n
+Set the time limit for each move to
+.Ar n
+seconds.
+This option cannot be used in combination with the
+.Ic tc
+option.
+.It Ic timemargin Ns = Ns Ar n
+Let engines go
+.Ar n
+milliseconds over the time limit.
+.It Ic book Ns = Ns Ar file
+Use
+.Ar file
+(Polyglot book file) as the opening book.
+.It Ic bookdepth Ns = Ns Ar n
+Set the maximum book depth (in fullmoves) to
+.Ar n .
+.It Ic whitepov
+Invert the engine's scores when it plays black.
+This option should be used with engines that always report scores from white's
+perspective.
+.It Ic ponder
+Enable pondering if the engine supports it.
+.It Ic depth Ns = Ns Ar plies
+Set the search depth limit.
+.It Ic nodes Ns = Ns Ar count
+Set the node count limit.
+.El
+.Sh EXAMPLES
+Play ten games between two Sloppy engines with a time control of 40
+moves in 60 seconds:
+.Pp
+.Dl $ cutechess-cli \-engine cmd=sloppy -engine cmd=sloppy -each proto=xboard tc=40/60 -rounds 10
+.Pp
+Play a single game between Atak and Glaurung engines with a time
+control of 40 moves in one minute and 30 seconds with one second
+increment:
+.Pp
+.Dl $ cutechess-cli \-engine name=Atak cmd=Atak32.exe dir=C:\eatak proto=xboard -engine cmd=glaurung proto=uci option.Threads=1 -both tc=40/1:30+1
+.Bl -bullet
+.It
+Use the name=Atak parameter because it's a Xboard protocol 1 engine
+and doesn't tell its name.
+.It
+Use the dir=C:\eatak parameter to point the location of the executable.
+.It
+Glaurung can tell its name and is in the PATH variable so only the
+command is needed.
+.It
+Set Glaurung to use 1 thread.
+.It
+Set the time control to 40 moves in one minute and 30 seconds with
+one second increment.
+.El
+.Pp
+Play a Round-Robin tournament between Fruit, Crafty, Stockfish and
+Sloppy:
+.Pp
+.Dl $ cutechess-cli \-engine conf=Fruit -engine conf=Crafty -engine conf=Stockfish -engine conf=Sloppy -each tc=4 book=book.bin -games 2 -rounds 10 -repeat
+.Bl -bullet
+.It
+Play two games per encounter,
+effectively multiplying the number of games by 2.
+.It
+Play 10 times the minimum amount of rounds (3). So the total number
+of rounds to play will be 30, and the total number of games 120.
+.It
+In each two-game encounter colors are switched between games and the
+same opening line is played in both games.
+.El
+.Sh SEE ALSO
+.Xr engines.json 5
+.Sh AUTHORS
+The
+.Nm
+utility was written by
+.An Ilari Pihlajisto ,
+.Mt ilari.pihlajisto@mbnet.fi ;
+and
+.An Arto Jonsson ,
+.Mt ajonsson@kapsi.fi .
+.Sh RESOURCES
+.Bl -bullet
+.It
+Project page:
+.Lk http://github.com/cutechess/cutechess
+.It
+Mailing list:
+.Lk https://list.kapsi.fi/listinfo/cutechess
+.El

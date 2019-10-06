@@ -1,0 +1,206 @@
+Usage:
+
+  cutechess-cli -engine [eng_options] -engine [eng_options]... [options]
+
+Options:
+
+  -help 		Display this information
+  -version		Display the version number
+  -engines		Display a list of configured engines and exit
+  -engine OPTIONS	Add an engine defined by OPTIONS to the tournament
+  -each OPTIONS		Apply OPTIONS to each engine in the tournament
+  -variant VARIANT	Set the chess variant to VARIANT, which can be one of:
+			'3check': Three-check Chess
+			'5check': Five-check Chess
+			'aiwok': Ai-Wok (Makruk variant)
+			'almost': Almost Chess
+			'amazon': Amazon Chess
+			'andernach': Andernach Chess
+			'antiandernach': Anti-Andernach Chess
+			'antichess': Antichess (Losing Chess)
+			'asean': ASEAN-Chess
+			'atomic': Atomic Chess
+			'berolina': Berolina Chess
+			'cambodian': Ouk Chatrang (Cambodian Chess)
+			'capablanca': Capablanca Chess
+			'caparandom': Capablanca Random Chess
+			'chancellor': Chancellor Chess (9x9)
+			'changeover': Change-Over Chess
+			'checkless': Checkless Chess
+			'chessgi': Chessgi (Drop Chess)
+			'chigorin': Chigorin Chess
+			'circulargryphon': Circular Gryphon Chess
+			'codrus': Game of Codrus (Losing Chess variant)
+			'coregal': Co-regal Chess
+			'courier': Courier Chess
+			'crazyhouse': Crazyhouse (Drop Chess)
+			'discplacedgrid': Displaced Grid Chess
+			'embassy': Embassy Chess
+			'extinction': Extinction Chess
+			'fischerandom': Fischer Random Chess/Chess 960
+			'giveaway': Giveaway Chess (Losing Chess)
+			'gothic': Gothic Chess
+			'grand': Grand Chess
+			'grid': Grid Chess
+			'gridolina': Berolina Grid Chess
+			'gryphon': Gryphon Chess
+			'gustav3': Gustav III's Chess
+			'hoppelpoppel': Hoppel-Poppel (has N/B hybrids)
+			'horde': Horde Chess (v2)
+			'janus': Janus Chess
+			'jesonmor': Jeson Mör
+			'karouk': Kar Ouk (One-check Ouk)
+			'kinglet': Kinglet Chess
+			'kingofthehill': King of the Hill Chess
+			'knightmate': Knightmate
+			'loop': Loop Chess (Drop Chess)
+			'losalamos': Los Alamos Chess
+			'losers': Loser's Chess
+			'makruk': Makruk (Thai Chess)
+			'modern': Modern Chess (9x9)
+			'newzealand': New Zealand Chess (has N/R hybrids)
+			'placement': Placement Chess
+			'pocketknight': Pocket Knight Chess
+			'racingkings': Racing Kings Chess
+			'rifle': Rifle Chess
+			'seirawan': S-Chess (Seirawan Chess)
+			'shatranj': Shatranj
+			'shoot': Shoot Chess
+			'slippedgrid': Slipped Grid Chess
+			'simplifiedgryphon': Simplified Gryphon Chess
+			'sittuyin': Sittuyin (Myanmar Chess)
+			'suicide': Suicide Chess (Losing Chess)
+			'superandernach': Super-Andernach Chess
+			'threekings': Three Kings Chess
+			'twokings': Two Kings Each Chess (Wild 9)
+			'twokingssymmetric': Symmetrical Two Kings Each Chess
+			'standard': Standard Chess (default).
+  -concurrency N	Set the maximum number of concurrent games to N
+  -draw movenumber=NUMBER movecount=COUNT score=SCORE
+			Adjudicate the game as a draw if the score of both
+			engines is within SCORE centipawns from zero for at
+			least COUNT consecutive moves, and at least NUMBER full
+			moves have been played. Captures and pawn moves will
+			reset the counters.
+  -resign movecount=COUNT score=SCORE [twosided=VALUE]
+			Adjudicate the game as a loss if an engine's score is
+			at least SCORE centipawns below zero for at least COUNT
+			consecutive moves.
+			If VALUE is true (default: false) then activate
+			two-sided resign adjudication: The scores of the winning
+			side must be at least SCORE centipawns above zero for at
+			least COUNT consecutive moves.
+  -maxmoves N		Adjudicate the game as a draw if the game is still
+			ongoing after N or more full moves have been played.
+			This limit is not in action if set to zero.
+  -tb PATHS		Adjudicate games using Syzygy tablebases. PATHS should
+			be semicolon-delimited list of paths to the compressed
+			tablebase files. Only the WDL tablebase files are
+			required.
+  -tbpieces N		Only use tablebase adjudication for positions with
+			N pieces or less.
+  -tbignore50		Disable the fifty move rule for tablebase adjudication.
+  -tournament TYPE	Set the tournament type to TYPE, which can be one of:
+			'round-robin': Round-robin tournament (default)
+			'gauntlet': First engine plays against the rest
+			'knockout': Single-elimination tournament.
+			'pyramid': Every engine plays against all predecessors
+  -event EVENT		Set the event/tournament name to EVENT
+  -games N		Play N games per encounter. This value should be set to
+			an even number in tournaments with more than two players
+			to make sure that each player plays an equal number of
+			games with white and black pieces.
+  -rounds N		Multiply the number of rounds to play by N.
+			For two-player tournaments this option should be used
+			to set the total number of games to play.
+  -sprt elo0=ELO0 elo1=ELO1 alpha=ALPHA beta=BETA
+			Use a Sequential Probability Ratio Test as a termination
+			criterion for the match. This option should only be used
+			in matches between two players to test if engine A is
+			stronger than engine B. Hypothesis H1 is that A is
+			stronger than B by at least ELO0 ELO points, and H0
+			(the null hypothesis) is that A is not stronger than B
+			by at least ELO1 ELO points. The maximum probabilities
+			for type I and type II errors outside the interval
+			[ELO0, ELO1] are ALPHA and BETA. The match is stopped if
+			either H0 or H1 is accepted or if the maximum number of
+			games set by '-rounds' and/or '-games' is reached.
+  -ratinginterval N	Set the interval for printing the ratings to N games
+  -debug		Display all engine input and output
+  -openings file=FILE format=FORMAT order=ORDER plies=PLIES start=START policy=POLICY
+			Pick game openings from FILE. The file's format is
+			FORMAT, which can be either 'epd' or 'pgn' (default).
+			Openings will be picked in the order specified by ORDER,
+			which can be either 'random' or 'sequential' (default).
+			The opening depth is limited to PLIES plies. If PLIES is
+			not set the opening depth is unlimited. In sequential
+			mode START is the number of the first opening that will
+			be played. The minimum value for START is 1 (default).
+			The POLICY rules when to shift to a new opening.
+			It can be one of 'encounter'- which uses a new
+			opening for any new pair of players, 'round'- which
+			shifts only for a new round, or 'default'- which shifts
+			for any new pair of players and also when the number of
+			opening repetitions is reached.
+  -bookmode MODE	Set Polyglot book mode to MODE, which can be one of:
+			'ram': The whole book is loaded into RAM (default)
+			'disk': The book is accessed directly on disk.
+  -pgnout FILE [min][fi]
+			Save the games to FILE in PGN format. Use the 'min'
+			argument to save in a minimal/compact PGN format. Only
+			finished games are saved for argument 'fi'.
+  -epdout FILE		Save the end position of the games to FILE in FEN format.
+  -recover		Restart crashed engines instead of stopping the match
+  -repeat [N]		Play each opening twice (or N times). Unless the -noswap
+			option is used, the players swap sides after each game.
+			So they get to play the opening on both sides. Please
+			note that a new encounter will use a new opening.
+  -noswap		Do not swap sides of paired engines
+  -seeds N		Set the first N engines as seeds in the tournament
+  -site SITE		Set the site/location to SITE
+  -srand N		Set the seed for the random number generator to N
+  -wait N		Wait N milliseconds between games. The default is 0.
+
+Engine options:
+
+  conf=NAME		Use an engine with the name NAME from Cute Chess'
+			engines.json configuration file.
+  name=NAME		Set the name to NAME
+  cmd=COMMAND		Set the command to COMMAND
+  dir=DIR		Set the working directory to DIR
+  arg=ARG		Pass ARG to the engine as a command line argument
+  initstr=TEXT		Send TEXT to the engine's standard input at startup.
+			TEXT may contain multiple lines seprated by '\n'.
+  stderr=FILE		Redirect standard error output to FILE
+  restart=MODE		Set the restart mode to MODE which can be:
+			'auto': the engine decides whether to restart (default)
+			'on': the engine is always restarted between games
+			'off': the engine is never restarted between games
+			Setting this option does not prevent engines from being
+			restarted between rounds in a tournament featuring more
+			than two engines.
+  trust			Trust result claims from the engine without validation.
+			By default all claims are validated.
+  proto=PROTOCOL	Set the chess protocol to PROTOCOL, which can be one of:
+			'xboard': The Xboard/Winboard/CECP protocol
+			'uci': The Universal Chess Interface
+  tc=TIMECONTROL	Set the time control to TIMECONTROL. The format is
+			moves/time+increment, where 'moves' is the number of
+			moves per tc, 'time' is time per tc (either seconds or
+			minutes:seconds), and 'increment' is time increment
+			per move in seconds.
+			Infinite time control can be set with 'tc=inf'.
+  st=N			Set the time limit for each move to N seconds.
+			This option can't be used in combination with "tc".
+  timemargin=N		Let engines go N milliseconds over the time limit.
+  book=FILE		Use FILE (Polyglot book file) as the opening book
+  bookdepth=N		Set the maximum book depth (in fullmoves) to N
+  whitepov		Invert the engine's scores when it plays black. This
+			option should be used with engines that always report
+			scores from white's perspective.
+  depth=N		Set the search depth limit to N plies
+  nodes=N		Set the node count limit to N nodes
+  ponder		Enable pondering if the engine supports it. By default
+			pondering is disabled.
+  option.OPTION=VALUE	Set custom option OPTION to value VALUE
+

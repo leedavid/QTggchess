@@ -1,0 +1,521 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\autoverticalscroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\boardscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\boardview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chessclock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cutechessapp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineconfigproxymodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineconfigurationdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineconfigurationmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginemanagementwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineoptiondelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineoptionmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineselectiondlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evalhistory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\evalwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamedatabasemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamedatabasesearchdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamesettingswidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gametabbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameviewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\graphicsboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\graphicspiece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\graphicspiecereserve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\importprogressdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\modeltest\modeltest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movecommenttoken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movelist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movenumbertoken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movetoken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\newgamedlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\newtournamentdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pathlineedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgndatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgndatabasemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgngameentrymodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgnimporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgntagsmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgntoken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\piecechooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plaintextlog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qcustomplot\qcustomplot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\settingsdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stringvalidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\threadedtask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tilelayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\timecontroldlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tournamentresultsdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tournamentsettingswidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\autoverticalscroller.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\boardview\boardscene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\boardview\boardview.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\chessclock.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\cutechessapp.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engineconfigproxymodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engineconfigurationdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engineconfigurationmodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\enginemanagementwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engineoptiondelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engineoptionmodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engineselectiondlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\evalhistory.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\evalwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gamedatabasedlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gamedatabasemanager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gamedatabasesearchdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gamesettingswidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gametabbar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gameviewer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gamewall.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\boardview\graphicsboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\boardview\graphicspiece.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\boardview\graphicspiecereserve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\importprogressdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="3rdparty\modeltest\modeltest.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\movecommenttoken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\movelist.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\movenumbertoken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\movetoken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\newgamedlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\newtournamentdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\pathlineedit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\pgndatabase.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\pgndatabasemodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\pgngameentrymodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\pgnimporter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\pgntagsmodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\pgntoken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\boardview\piecechooser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\plaintextlog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="3rdparty\qcustomplot\qcustomplot.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\settingsdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\stringvalidator.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\threadedtask.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\tilelayout.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\timecontroldlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\tournamentresultsdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\tournamentsettingswidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gamedatabasedlg.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gamewall.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include=".moc\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="ui_engineconfigdlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_enginemanagementwidget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_engineselectiondlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_gamedatabasedlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_gamedatabasesearchdlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_gamesettingswidget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_importprogressdlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_newgamedlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_newtournamentdlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_settingsdlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_timecontroldlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_tournamentsettingswidget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ui\engineconfigdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\enginemanagementwidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\engineselectiondlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\gamedatabasedlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\gamedatabasesearchdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\gamesettingswidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\importprogressdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\newgamedlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\newtournamentdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\settingsdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\timecontroldlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\tournamentsettingswidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\icons\toolbutton\add_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\MaurizioMonge\celtic.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="res\chessboard\chessboard.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="res\icons\toolbutton\configure_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\cutechess_128x128.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\cutechess_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\cutechess_24x24.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\cutechess_256x256.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\cutechess_32x32.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\cutechess_512x512.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\cutechess_64x64.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\default.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\MaurizioMonge\eyes.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\MaurizioMonge\fantasy.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\MaurizioMonge\fantasy_alt.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\toolbutton\first_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\MaurizioMonge\freak.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="res\icons\icons.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="res\icons\toolbutton\last_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\makruk.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\merida.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\toolbutton\next_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\toolbutton\previous_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\MaurizioMonge\prmi.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icons\toolbutton\remove_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\MaurizioMonge\skulls.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chessboard\MaurizioMonge\spatial.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\icons\cutechess_win.rc" />
+  </ItemGroup>
+</Project>
