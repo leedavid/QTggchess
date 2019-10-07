@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>400</height>
+    <height>392</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -18,7 +18,7 @@
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>Basic</string>
+       <string>基本设置</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
        <property name="fieldGrowthPolicy">
@@ -27,7 +27,7 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>&amp;Name:</string>
+          <string>&amp;引擎名称:</string>
          </property>
          <property name="buddy">
           <cstring>m_nameEdit</cstring>
@@ -40,7 +40,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Co&amp;mmand:</string>
+          <string>&amp;命令行参数:</string>
          </property>
          <property name="buddy">
           <cstring>m_commandEdit</cstring>
@@ -55,7 +55,7 @@
          <item>
           <widget class="QPushButton" name="m_browseCmdBtn">
            <property name="text">
-            <string>Browse...</string>
+            <string>浏览...</string>
            </property>
           </widget>
          </item>
@@ -64,7 +64,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Working &amp;Directory:</string>
+          <string>工作目录:</string>
          </property>
          <property name="buddy">
           <cstring>m_workingDirEdit</cstring>
@@ -82,7 +82,7 @@
             <string>Browse working directory.</string>
            </property>
            <property name="text">
-            <string>Browse...</string>
+            <string>浏览...</string>
            </property>
           </widget>
          </item>
@@ -91,7 +91,7 @@
        <item row="3" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>&amp;Protocol:</string>
+          <string>协议:</string>
          </property>
          <property name="buddy">
           <cstring>m_protocolCombo</cstring>
@@ -104,7 +104,7 @@
        <item row="4" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>&amp;Init Strings:</string>
+          <string>初始化命令:</string>
          </property>
          <property name="buddy">
           <cstring>m_initStringEdit</cstring>
@@ -127,7 +127,7 @@
           <string>This option should be checked for Xboard/Winboard engines that report their scores from white's perspective.</string>
          </property>
          <property name="text">
-          <string>Scores from &amp;white's perspective</string>
+          <string>红方视角评估分数</string>
          </property>
         </widget>
        </item>
@@ -135,7 +135,7 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Advanced</string>
+       <string>高级</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>

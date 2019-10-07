@@ -105,12 +105,14 @@ void UciEngine::startProtocol()
 
 QString UciEngine::positionString()
 {
-	QString str("position");
+	//QString str("position");
 
-	if (board()->isRandomVariant() || m_startFen != board()->defaultFenString())
-		str += QString(" fen ") + m_startFen;
-	else
-		str += " startpos";
+	QString str("");
+
+	//if (board()->isRandomVariant() || m_startFen != board()->defaultFenString())
+		str += QString("fen ") + m_startFen;
+	//else
+	//	str += " startpos";
 
 	if (!m_moveStrings.isEmpty())
 		str += QString(" moves") + m_moveStrings;
@@ -369,9 +371,9 @@ void UciEngine::parseInfo(const QVarLengthArray<QStringRef>& tokens,
 		InfoSelDepth,
 		InfoTime,
 		InfoNodes,
-		InfoPv,
-		InfoMultiPv,
 		InfoScore,
+		InfoPv,
+		InfoMultiPv,		
 		InfoCurrMove,
 		InfoCurrMoveNumber,
 		InfoHashFull,
@@ -409,23 +411,27 @@ void UciEngine::parseInfo(const QVarLengthArray<QStringRef>& tokens,
 	case InfoScore:
 		{
 			int score = 0;
-			for (int i = 1; i < tokens.size(); i++)
+			//for (int i = 1; i < tokens.size(); i++)
+			//{
+			int i = 1;
+			if (tokens[i - 1] == "cp")
+				score = tokens[i].toString().toInt();
+			else if (tokens[i - 1] == "mate")
 			{
-				if (tokens[i - 1] == "cp")
-					score = tokens[i].toString().toInt();
-				else if (tokens[i - 1] == "mate")
-				{
-					score = tokens[i].toString().toInt();
-					if (score > 0)
-						score = eval->MATE_SCORE + 1 - score * 2;
-					else if (score < 0)
-						score = -eval->MATE_SCORE - score * 2;
-				}
-				else if (tokens[i - 1] == "lowerbound"
-				     ||  tokens[i - 1] == "upperbound")
-					return;
-				i++;
+				score = tokens[i].toString().toInt();
+				if (score > 0)
+					score = eval->MATE_SCORE + 1 - score * 2;
+				else if (score < 0)
+					score = -eval->MATE_SCORE - score * 2;
 			}
+			else if (tokens[i - 1] == "lowerbound"
+				|| tokens[i - 1] == "upperbound")
+				return;
+			else {
+				score = tokens[i-1].toString().toInt();
+			}
+			//i++;
+			//}
 			if (whiteEvalPov() && side() == Chess::Side::Black)
 				score = -score;
 			eval->setScore(score);
@@ -449,13 +455,13 @@ void UciEngine::parseInfo(const QStringRef& line)
 {
 	static const QString types[] =
 	{
-		"depth",
+		"depth",			//
 		"seldepth",
 		"time",
 		"nodes",
-		"pv",
-		"multipv",
 		"score",
+		"pv",
+		"multipv",		
 		"currmove",
 		"currmovenumber",
 		"hashfull",
@@ -466,7 +472,7 @@ void UciEngine::parseInfo(const QStringRef& line)
 		"refutation",
 		"currline"
 	};
-
+	
 	int type = -1;
 	QStringRef token(nextToken(line));
 	QVarLengthArray<QStringRef> tokens;

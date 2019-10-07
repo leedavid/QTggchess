@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Default location:</string>
+        <string>缺省位置:</string>
        </property>
       </widget>
      </item>
@@ -29,7 +29,7 @@
      <item>
       <widget class="QPushButton" name="m_browseDefaultLocationBtn">
        <property name="text">
-        <string>Browse...</string>
+        <string>浏览...</string>
        </property>
       </widget>
      </item>
@@ -40,7 +40,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Configured chess engines:</string>
+        <string>设置象棋引擎:</string>
        </property>
       </widget>
      </item>

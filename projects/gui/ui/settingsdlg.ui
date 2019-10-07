@@ -23,11 +23,11 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="m_generalTab">
       <attribute name="title">
-       <string>General</string>
+       <string>通用</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
@@ -35,7 +35,7 @@
          <item row="6" column="0">
           <widget class="QCheckBox" name="m_humanCanPlayAfterTimeoutCheck">
            <property name="text">
-            <string>Human player can play after timeout</string>
+            <string>超时后，人类玩家还能下棋</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -45,14 +45,14 @@
          <item row="4" column="0">
           <widget class="QCheckBox" name="m_playersSidesOnClocksCheck">
            <property name="text">
-            <string>Display players' sides on clocks </string>
+            <string>在时钟显示玩家方 </string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
           <widget class="QCheckBox" name="m_closeUnusedInitialTabCheck">
            <property name="text">
-            <string>Close initial game tab if unused</string>
+            <string>如使用则关闭初始对局表头</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -62,7 +62,7 @@
          <item row="0" column="0">
           <widget class="QCheckBox" name="m_highlightLegalMovesCheck">
            <property name="text">
-            <string>Highlight legal moves</string>
+            <string>高亮合法棋步</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -72,7 +72,7 @@
          <item row="3" column="0">
           <widget class="QCheckBox" name="m_useFullUserNameCheck">
            <property name="text">
-            <string>Use full name of human player</string>
+            <string>使用人类玩家全称</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -104,7 +104,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="m_siteLabel">
            <property name="text">
-            <string>PGN Site:</string>
+            <string>PGN 地点:</string>
            </property>
            <property name="buddy">
             <cstring>m_siteEdit</cstring>
@@ -114,7 +114,7 @@
          <item row="2" column="0">
           <widget class="QLabel" name="m_defaultPgnOutFileLabel">
            <property name="text">
-            <string>PGN output for single games:</string>
+            <string>PGN 每一局输出:</string>
            </property>
           </widget>
          </item>
@@ -130,7 +130,7 @@
            <item>
             <widget class="QPushButton" name="m_defaultPgnOutFileBtn">
              <property name="text">
-              <string>Browse...</string>
+              <string>浏览...</string>
              </property>
              <property name="shortcut">
               <string/>
@@ -142,7 +142,7 @@
          <item row="3" column="0">
           <widget class="QLabel" name="m_tbPathLabel">
            <property name="text">
-            <string>Syzygy tablebases path:</string>
+            <string>残局库路径:</string>
            </property>
            <property name="buddy">
             <cstring>m_tbPathEdit</cstring>
@@ -157,7 +157,7 @@
            <item>
             <widget class="QPushButton" name="m_browseTbPathBtn">
              <property name="text">
-              <string>Browse...</string>
+              <string>浏览...</string>
              </property>
             </widget>
            </item>
@@ -182,7 +182,7 @@
      </widget>
      <widget class="QWidget" name="m_enginesTab">
       <attribute name="title">
-       <string>Engines</string>
+       <string>引擎</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="leftMargin">
@@ -204,7 +204,7 @@
      </widget>
      <widget class="QWidget" name="m_gamesTab">
       <attribute name="title">
-       <string>Games</string>
+       <string>对局</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="spacing">
@@ -229,7 +229,7 @@
      </widget>
      <widget class="QWidget" name="m_tournamentsTab">
       <attribute name="title">
-       <string>Tournaments</string>
+       <string>比赛</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
@@ -247,7 +247,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>Games</string>
+          <string>对局</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
@@ -258,7 +258,7 @@
             <item row="1" column="0">
              <widget class="QLabel" name="m_concurrencyLabel">
               <property name="text">
-               <string>Concurrent games:</string>
+               <string>当前对局:</string>
               </property>
               <property name="buddy">
                <cstring>m_concurrencySpin</cstring>
@@ -284,7 +284,7 @@
             <item row="2" column="0">
              <widget class="QLabel" name="m_tournamentDefaultPgnOutFileLabel">
               <property name="text">
-               <string>PGN output:</string>
+               <string>PGN 输出:</string>
               </property>
              </widget>
             </item>
@@ -293,14 +293,14 @@
               <item>
                <widget class="QLineEdit" name="m_tournamentDefaultPgnOutFileEdit">
                 <property name="text">
-                 <string>tournaments.pgn</string>
+                 <string>比赛对局.pgn</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="m_tournamentDefaultPgnOutFileBtn">
                 <property name="text">
-                 <string>Browse...</string>
+                 <string>浏览...</string>
                 </property>
                </widget>
               </item>
@@ -309,7 +309,7 @@
             <item row="3" column="0">
              <widget class="QLabel" name="m_tournamentDefaultEpdOutFileLabel">
               <property name="text">
-               <string>EPD output:</string>
+               <string>EPD 输出:</string>
               </property>
              </widget>
             </item>
@@ -318,14 +318,14 @@
               <item>
                <widget class="QLineEdit" name="m_tournamentDefaultEpdOutFileEdit">
                 <property name="text">
-                 <string>tournaments.epd</string>
+                 <string>比赛对局.epd</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="m_tournamentDefaultEpdOutFileBtn">
                 <property name="text">
-                 <string>Browse...</string>
+                 <string>浏览...</string>
                 </property>
                </widget>
               </item>

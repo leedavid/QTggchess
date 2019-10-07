@@ -293,7 +293,7 @@ QString Board::squareString(const Square& square) const
 	if (coordinateSystem() == NormalCoordinates)
 	{
 		str += QChar('a' + square.file());
-		str += QString::number(square.rank() + 1);
+		str += QString::number(square.rank()); // +1);
 	}
 	else
 	{
@@ -316,13 +316,13 @@ Square Board::chessSquare(const QString& str) const
 	if (coordinateSystem() == NormalCoordinates)
 	{
 		file = str.at(0).toLatin1() - 'a';
-		rank = str.midRef(1).toInt(&ok) - 1;
+		rank = str.midRef(1).toInt(&ok); //  -1;
 	}
 	else
 	{
 		int tmp = str.length() - 1;
 		file = m_width - str.leftRef(tmp).toInt(&ok);
-		rank = m_height - (str.at(tmp).toLatin1() - 'a') - 1;
+		rank = m_height - (str.at(tmp).toLatin1() - 'a') -1;
 	}
 
 	if (!ok)
@@ -371,20 +371,20 @@ Move Board::moveFromLanString(const QString& istr)
 	if (len < 4)
 		return Move();
 
-	Piece promotion;
-	int drop = str.indexOf('@');
-	if (drop > 0)
-	{
-		promotion = pieceFromSymbol(str.left(drop));
-		if (!promotion.isValid())
-			return Move();
-		
-		Square trg(chessSquare(str.mid(drop + 1)));
-		if (!isValidSquare(trg))
-			return Move();
-		
-		return Move(0, squareIndex(trg)); //, promotion.type());
-	}
+	//Piece promotion;
+	//int drop = str.indexOf('@');
+	//if (drop > 0)
+	//{
+	//	promotion = pieceFromSymbol(str.left(drop));
+	//	if (!promotion.isValid())
+	//		return Move();
+	//	
+	//	Square trg(chessSquare(str.mid(drop + 1)));
+	//	if (!isValidSquare(trg))
+	//		return Move();
+	//	
+	//	return Move(0, squareIndex(trg)); //, promotion.type());
+	//}
 
 	//if (len > 4)
 	//	promotion = pieceFromSymbol(str.mid(len - 1));
@@ -493,23 +493,23 @@ QString Board::fenString(FenNotation notation) const
 	}
 
 	// Hand pieces
-	if (variantHasDrops())
-	{
-		QString str;
-		for (i = Side::White; i <= Side::Black; i++)
-		{
-			Side side = Side::Type(i);
-			for (int j = m_reserve[i].size() - 1; j >= 1; j--)
-			{
-				int count = m_reserve[i].at(j);
-				for (int k = 0; k < count; k++)
-					str += pieceSymbol(Piece(side, j));
-			}
-		}
-		if (str.isEmpty())
-			str = "-";
-		fen += QString("[%1]").arg(str);
-	}
+	//if (variantHasDrops())
+	//{
+	//	QString str;
+	//	for (i = Side::White; i <= Side::Black; i++)
+	//	{
+	//		Side side = Side::Type(i);
+	//		for (int j = m_reserve[i].size() - 1; j >= 1; j--)
+	//		{
+	//			int count = m_reserve[i].at(j);
+	//			for (int k = 0; k < count; k++)
+	//				str += pieceSymbol(Piece(side, j));
+	//		}
+	//	}
+	//	if (str.isEmpty())
+	//		str = "-";
+	//	fen += QString("[%1]").arg(str);
+	//}
 
 	// Side to move
 	fen += QString(" %1 ").arg(m_side.symbol());

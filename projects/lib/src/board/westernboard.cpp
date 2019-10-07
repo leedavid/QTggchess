@@ -66,25 +66,6 @@ bool WesternBoard::kingCanCapture() const
 	return true;
 }
 
-//bool WesternBoard::hasCastling() const
-//{
-//	return true;
-//}
-//
-//bool WesternBoard::pawnHasDoubleStep() const
-//{
-//	return true;
-//}
-//
-//bool WesternBoard::hasEnPassantCaptures() const
-//{
-//	return pawnHasDoubleStep();
-//}
-
-//bool WesternBoard::variantHasChanneling(Side, int) const
-//{
-//	return false;
-//}
 
 void WesternBoard::vInitialize()
 {
@@ -163,15 +144,66 @@ void WesternBoard::vInitialize()
 	m_ShiOffsets[2] = m_arwidth - 1;
 	m_ShiOffsets[3] = m_arwidth + 1;
 
+	strnumCn.resize(10);
+	strnumCn[0] = "错";
+	strnumCn[1] = "一";
+	strnumCn[2] = "二";
+	strnumCn[3] = "三";
+	strnumCn[4] = "四";
+	strnumCn[5] = "五";
+	strnumCn[6] = "六";
+	strnumCn[7] = "七";
+	strnumCn[8] = "八";
+	strnumCn[9] = "九";
+
+	strnumEn.resize(10);
+	strnumEn[0] = "错";
+	strnumEn[1] = "１";
+	strnumEn[2] = "２";
+	strnumEn[3] = "３";
+	strnumEn[4] = "４";
+	strnumEn[5] = "５";
+	strnumEn[6] = "６";
+	strnumEn[7] = "７";
+	strnumEn[8] = "８";
+	strnumEn[9] = "９";
+
+	strnumName.resize(16);
+	strnumName[0] = "错";
+	strnumName[1] = "兵";
+	strnumName[2] = "相";
+	strnumName[3] = "仕";
+	strnumName[4] = "炮";
+	strnumName[5] = "马";
+	strnumName[6] = "车";
+	strnumName[7] = "帅";
+	strnumName[8]  = "卒";
+	strnumName[9]  = "象";
+	strnumName[10] = "士";
+	strnumName[11] = "炮";
+	strnumName[12] = "马";
+	strnumName[13] = "车";
+	strnumName[14] = "将";
+	strnumName[15] = "错";
+
+
+	enum WesternPieceType
+	{
+		Pawn = 1,	//!< Pawn
+		Xiang,		//!< Knight
+		Shi,		//!< Bishop
+		Pao,		//!< Rook
+		Ma,		    //!< Ma
+		Che,		//!< Queen
+		King		//!< King
+	};
+
 
 	m_multiDigitNotation =  (height() > 9 && coordinateSystem() == NormalCoordinates)
 			     || (width() > 9 && coordinateSystem() == InvertedCoordinates);
 }
 
-//inline int WesternBoard::pawnPushOffset(const PawnStep& ps, int sign) const
-//{
-//	return sign * ps.file - sign * m_arwidth * 1;
-//}
+
 
 int WesternBoard::captureType(const Move& move) const
 {
@@ -182,29 +214,15 @@ int WesternBoard::captureType(const Move& move) const
 	return Board::captureType(move);
 }
 
-//WesternBoard::CastlingSide WesternBoard::castlingSide(const Move& move) const
-//{
-//	int target = move.targetSquare();
-//	const int* rookSq = m_castlingRights.rookSquare[sideToMove()];
-//	if (target == rookSq[QueenSide])
-//		return QueenSide;
-//	if (target == rookSq[KingSide])
-//		return KingSide;
-//	return NoCastlingSide;
-//}
+
 
 QString WesternBoard::lanMoveString(const Move& move)
 {
-	//CastlingSide cside = castlingSide(move);
-	//if (cside != NoCastlingSide && !isRandomVariant())
-	//{
-	//	Move tmp(move.sourceSquare(),
-	//		 m_castleTarget[sideToMove()][cside]);
-	//	return Board::lanMoveString(tmp);
-	//}
-
 	return Board::lanMoveString(move);
 }
+
+
+//#define GET_SQU(f,r)   (((f)+1) + ((11-(r))*10))
 
 QString WesternBoard::sanMoveString(const Move& move)
 {
@@ -213,96 +231,172 @@ QString WesternBoard::sanMoveString(const Move& move)
 	int target = move.targetSquare();
 	Piece piece = pieceAt(source);
 	Piece capture = pieceAt(target);
-	Square square = chessSquare(source);
+	Square FromSquare = chessSquare(source);
+	Square ToSqure = chessSquare(target);
 
-	if (source == target)
-		capture = Piece::NoPiece;
-
-	char checkOrMate = 0;
-	makeMove(move);
-	if (inCheck(sideToMove()))
-	{
-		if (canMove())
-			checkOrMate = '+';
-		else
-			checkOrMate = '#';
-	}
-	undoMove();
-
-	// drop move
-	//if (source == 0 && move.promotion() != Piece::NoPiece)
-	//{
-	//	str = lanMoveString(move);
-	//	if (checkOrMate != 0)
-	//		str += checkOrMate;
-	//	return str;
-	//}
-
-	bool needRank = false;
-	bool needFile = false;
 	Side side = sideToMove();
 
-	if (piece.type() == Pawn)
-	{
+	int fx = FromSquare.file();
+	int tx = ToSqure.file();
+	int fy = FromSquare.rank();
+	int ty = ToSqure.rank();
 
-		//if (target == m_enpass antSquare)
-		//	capture = Piece(side.opposite(), Pawn);
-		//if (capture.isValid())
-		//	needFile = true;
+	int chessType = piece.type();
+	bool isQH = false;             // 如果没有前后了
+	QString stQH = "";
+
+	if (chessType == Xiang || chessType == Shi || chessType == King) {
 	}
-	else if (piece.type() == King)
-	{
-		//CastlingSide cside = castlingSide(move);
-		//if (cside != NoCastlingSide)
-		//{
-		//	if (cside == QueenSide)
-		//		str = "O-O-O";
-		//	else
-		//		str = "O-O";
-		//	if (checkOrMate != 0)
-		//		str += checkOrMate;
-		//	return str;
-		//}
-	}
-	if (piece.type() != Pawn)	// not pawn
-	{
-		str += pieceSymbol(piece).toUpper();
-		QVarLengthArray<Move> moves;
-		generateMoves(moves, piece.type());
-
-		for (int i = 0; i < moves.size(); i++)
-		{
-			const Move& move2 = moves[i];
-			if (move2.sourceSquare() == 0
-			||  move2.sourceSquare() == source
-			||  move2.targetSquare() != target)
-				continue;
-
-			if (!vIsLegalMove(move2))
-				continue;
-
-			Square square2(chessSquare(move2.sourceSquare()));
-			if (square2.file() != square.file())
-				needFile = true;
-			else if (square2.rank() != square.rank())
-				needRank = true;
+	else {
+		// 向上看没有棋子
+		int targetSquare = source;
+		while(true){
+			targetSquare -= 11;
+			if (!isValidSquare(chessSquare(targetSquare)))
+				break;
+			Piece mpiece = pieceAt(targetSquare);
+			if (mpiece.side() == side) {
+				if (mpiece.type() == chessType) {
+					if (side == Side::White) {
+						stQH = "后";
+					}
+					else {
+						stQH = "前";
+					}
+					isQH = true;
+					goto QH_BRANCH;
+				}
+			}
+		}
+		// 向下看没有棋子
+		targetSquare = source;
+		while (true) {
+			targetSquare += 11;
+			if (!isValidSquare(chessSquare(targetSquare)))
+				break;
+			Piece mpiece = pieceAt(targetSquare);	
+			if (mpiece.side() == side) {
+				if (mpiece.type() == chessType) {
+					if (side == Side::White) {
+						stQH = "前";
+					}
+					else {
+						stQH = "后";
+					}
+					isQH = true;
+					goto QH_BRANCH;
+				}
+			}
 		}
 	}
-	if (needFile)
-		str += 'a' + square.file();
-	if (needRank)
-		str += QString::number(1 + square.rank());
 
-	if (capture.isValid())
+
+QH_BRANCH:
+	if (isQH == true) {
+		str = stQH;
+		if (side == Side::White) {
+			str += strnumName[chessType]; // 红棋子名称	
+			if (ty == fy) {
+				str += "平";
+				str += strnumCn[10 - (tx + 1)];
+			}
+			else {
+				if (target < source) {
+					str += "进";
+				}
+				else {
+					str += "退";
+				}
+				if (chessType == Xiang || chessType == Shi || chessType == Ma) {
+					str += strnumCn[10 - (tx + 1)];
+				}
+				else {
+					str += strnumCn[abs(fy - ty)];
+				}
+			}
+		}
+		else {
+			str += strnumName[chessType + 7];   // 黑棋子名称
+			if (ty == fy) {
+				str += "平";
+				str += strnumEn[(tx + 1)];
+			}
+			else {
+				if (target < source) {
+					str += "退";
+				}
+				else {
+					str += "进";
+				}
+				if (chessType == Xiang || chessType == Shi || chessType == Ma) {
+					str += strnumEn[(tx + 1)];
+				}
+				else {
+					str += strnumEn[abs(fy - ty)];
+				}
+			}
+		}
+	}
+	else {  // 棋步不分前后
+		if (side == Side::White) {
+			if (ty == fy) {
+				str = strnumName[chessType]; // 红棋子名称			
+				str += strnumCn[10 - (fx + 1)];  //得到走步的FROM数名
+				str += "平";
+				str += strnumCn[10 - (tx + 1)];
+			}
+			else {  //y坐标不相同 
+				str = strnumName[chessType]; // 红棋子名称	
+				str += strnumCn[10 - (fx + 1)];  //得到走步的FROM数名
+				if (target < source) {
+					str += "进";
+				}
+				else {
+					str += "退";
+				}
+				if (chessType == Xiang || chessType == Shi || chessType == Ma) {
+					str += strnumCn[10 - (tx + 1)];
+				}
+				else {
+					str += strnumCn[abs(fy-ty)];
+				}
+			}
+		}
+		else {
+			if (ty == fy) {
+				str = strnumName[chessType + 7];   // 黑棋子名称
+				str += strnumEn[(fx + 1)];    // 得到走步的FROM数名
+				str += "平";
+				str += strnumEn[(tx + 1)];
+			}
+			else {  //y坐标不相同 
+				str = strnumName[chessType + 7];  // 黑棋子名称	
+				str += strnumEn[(fx + 1)];   // 得到走步的FROM数名
+				if (target < source) {
+					str += "退";
+				}
+				else {
+					str += "进";
+				}
+				if (chessType == Xiang || chessType == Shi || chessType == Ma) {
+					str += strnumEn[(tx + 1)];
+				}
+				else {
+					str += strnumEn[abs(fy - ty)];
+				}
+			}
+		}
+	}
+
+	
+	if (capture.isValid())   // 吃子步
 		str += 'x';
-
-	str += squareString(target);
 
 	//if (move.promotion() != Piece::NoPiece)
 	//	str += "=" + pieceSymbol(move.promotion()).toUpper();
 
-	if (checkOrMate != 0)
-		str += checkOrMate;
+	//if (checkOrMate != 0)
+	//	str += checkOrMate;
 
 	return str;
 }
@@ -623,7 +717,7 @@ QString WesternBoard::vFenString(FenNotation notation) const
 	QString fen  =vFenIncludeString(notation);
 
 	// Reversible halfmove count
-	fen += ' ';
+	fen += "- - ";
 	fen += QString::number(m_reversibleMoveCount);
 
 	// Full move number

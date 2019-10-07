@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>284</width>
-    <height>367</height>
+    <width>286</width>
+    <height>381</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Time Controls</string>
+   <string>时间设定</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="sizeConstraint">
@@ -23,7 +23,7 @@
       <bool>false</bool>
      </property>
      <property name="title">
-      <string>Mode</string>
+      <string>方案</string>
      </property>
      <property name="flat">
       <bool>false</bool>
@@ -38,7 +38,7 @@
          <string>Tournament time control</string>
         </property>
         <property name="text">
-         <string>Tournament</string>
+         <string>比赛</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -51,7 +51,7 @@
          <string>Fixed time limit for each move</string>
         </property>
         <property name="text">
-         <string>Time per move</string>
+         <string>步时</string>
         </property>
        </widget>
       </item>
@@ -61,7 +61,7 @@
          <string>Infinite thinking time</string>
         </property>
         <property name="text">
-         <string>Infinite</string>
+         <string>无限时</string>
         </property>
        </widget>
       </item>
@@ -76,7 +76,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Moves:</string>
+        <string>棋步:</string>
        </property>
        <property name="buddy">
         <cstring>m_movesSpin</cstring>
@@ -89,7 +89,7 @@
         <string>The number of moves in a time control</string>
        </property>
        <property name="specialValueText">
-        <string>Whole game</string>
+        <string>全局</string>
        </property>
        <property name="maximum">
         <number>9999</number>
@@ -102,7 +102,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Time:</string>
+        <string>时间:</string>
        </property>
        <property name="buddy">
         <cstring>m_timeSpin</cstring>
@@ -133,7 +133,10 @@
        <item>
         <widget class="QComboBox" name="m_timeUnitCombo">
          <property name="toolTip">
-          <string>Time unit for the time limit</string>
+          <string>时间单位</string>
+         </property>
+         <property name="currentText">
+          <string>Seconds</string>
          </property>
          <property name="currentIndex">
           <number>0</number>
@@ -160,7 +163,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Increment:</string>
+        <string>加时:</string>
        </property>
        <property name="buddy">
         <cstring>m_incrementSpin</cstring>
@@ -173,7 +176,7 @@
         <string>Time increment per move in seconds</string>
        </property>
        <property name="suffix">
-        <string> sec</string>
+        <string>秒</string>
        </property>
       </widget>
      </item>
@@ -190,7 +193,7 @@
      <item row="4" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Plies:</string>
+        <string>层数:</string>
        </property>
        <property name="buddy">
         <cstring>m_pliesSpin</cstring>
@@ -210,7 +213,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Nodes:</string>
+        <string>局面数量:</string>
        </property>
        <property name="buddy">
         <cstring>m_nodesSpin</cstring>
@@ -233,7 +236,7 @@
      <item row="5" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Margin:</string>
+        <string>间隔:</string>
        </property>
        <property name="buddy">
         <cstring>m_marginSpin</cstring>

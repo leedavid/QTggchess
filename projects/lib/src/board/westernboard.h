@@ -275,7 +275,9 @@ class LIB_EXPORT WesternBoard : public Board
 
 		QVarLengthArray<int> m_ShiOffsets;
 
-
+		QVarLengthArray<QString> strnumCn;
+		QVarLengthArray<QString> strnumEn;
+		QVarLengthArray<QString> strnumName;
 
 };
 

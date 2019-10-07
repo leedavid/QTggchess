@@ -34,7 +34,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="m_variantLabel">
        <property name="text">
-        <string>Variant:</string>
+        <string>游戏变种:</string>
        </property>
        <property name="buddy">
         <cstring>m_variantCombo</cstring>
@@ -51,7 +51,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="m_timeControlLabel">
        <property name="text">
-        <string>Time Control:</string>
+        <string>时间设置:</string>
        </property>
        <property name="buddy">
         <cstring>m_timeControlBtn</cstring>
@@ -66,7 +66,7 @@
       <bool>true</bool>
      </property>
      <property name="title">
-      <string>Opening suite</string>
+      <string>开局设定</string>
      </property>
      <layout class="QFormLayout" name="formLayout_4">
       <property name="fieldGrowthPolicy">
@@ -75,7 +75,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="m_pgnEpdLabel">
         <property name="text">
-         <string>PGN/EPD file:</string>
+         <string>PGN/EPD 文件:</string>
         </property>
         <property name="buddy">
          <cstring>m_openingSuiteEdit</cstring>
@@ -90,7 +90,7 @@
         <item>
          <widget class="QPushButton" name="m_browseOpeningSuiteBtn">
           <property name="text">
-           <string>Browse...</string>
+           <string>浏览...</string>
           </property>
          </widget>
         </item>
@@ -99,7 +99,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="m_openingOrderLabel">
         <property name="text">
-         <string>Opening order:</string>
+         <string>开局顺序:</string>
         </property>
         <property name="buddy">
          <cstring>m_seqOrderRadio</cstring>
@@ -114,7 +114,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Sequential</string>
+           <string>顺序</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -127,7 +127,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Random</string>
+           <string>随机</string>
           </property>
          </widget>
         </item>
@@ -149,7 +149,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="m_openingSuiteDepth">
         <property name="text">
-         <string>Depth:</string>
+         <string>深度:</string>
         </property>
        </widget>
       </item>
@@ -172,7 +172,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="m_fenLabel">
         <property name="text">
-         <string>FEN string:</string>
+         <string>FEN 串:</string>
         </property>
         <property name="buddy">
          <cstring>m_fenEdit</cstring>
@@ -195,7 +195,7 @@
       <bool>false</bool>
      </property>
      <property name="title">
-      <string>Opening book</string>
+      <string>开局库</string>
      </property>
      <layout class="QFormLayout" name="formLayout_5">
       <property name="fieldGrowthPolicy">
@@ -204,7 +204,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="m_polyglotFileLabel">
         <property name="text">
-         <string>Polyglot file:</string>
+         <string>库文件:</string>
         </property>
         <property name="buddy">
          <cstring>m_polyglotFileEdit</cstring>
@@ -228,7 +228,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="m_polyglotDepthLabel">
         <property name="text">
-         <string>Depth:</string>
+         <string>深度:</string>
         </property>
         <property name="buddy">
          <cstring>m_polyglotDepthSpin</cstring>
@@ -251,7 +251,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="m_polyglotAccessMode">
         <property name="text">
-         <string>Access mode:</string>
+         <string>读取方式:</string>
         </property>
         <property name="buddy">
          <cstring>m_ramAccessRadio</cstring>
@@ -269,7 +269,7 @@
            <string>The whole book is loaded in memory. This makes book access a bit faster but uses more memory.</string>
           </property>
           <property name="text">
-           <string>Ram</string>
+           <string>内存</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -285,7 +285,7 @@
            <string>The book is accessed directly from disk. This is a good choice for very large books.</string>
           </property>
           <property name="text">
-           <string>Disk</string>
+           <string>磁盘</string>
           </property>
          </widget>
         </item>
@@ -318,7 +318,7 @@
         <bool>false</bool>
        </property>
        <property name="title">
-        <string>Draw adjudication</string>
+        <string>和棋判定</string>
        </property>
        <layout class="QFormLayout" name="formLayout">
         <property name="fieldGrowthPolicy">
@@ -327,7 +327,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="m_drawMoveNumberLabel">
           <property name="text">
-           <string>Move number:</string>
+           <string>棋步计数:</string>
           </property>
           <property name="buddy">
            <cstring>m_drawMoveNumberSpin</cstring>
@@ -356,7 +356,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="m_drawMoveCountLabel">
           <property name="text">
-           <string>Move count:</string>
+           <string>数量:</string>
           </property>
           <property name="buddy">
            <cstring>m_drawMoveCountSpin</cstring>
@@ -379,7 +379,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="m_drawScoreLabel">
           <property name="text">
-           <string>Score:</string>
+           <string>评分:</string>
           </property>
           <property name="buddy">
            <cstring>m_drawScoreSpin</cstring>
@@ -411,7 +411,7 @@
         <bool>false</bool>
        </property>
        <property name="title">
-        <string>Resign adjudication</string>
+        <string>认输判定</string>
        </property>
        <layout class="QFormLayout" name="formLayout_3">
         <property name="fieldGrowthPolicy">
@@ -420,7 +420,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="m_resignMoveCountLabel">
           <property name="text">
-           <string>Move count:</string>
+           <string>棋步计数:</string>
           </property>
           <property name="buddy">
            <cstring>m_resignMoveCountSpin</cstring>
@@ -443,7 +443,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="m_resignScoreLabel">
           <property name="text">
-           <string>Score:</string>
+           <string>评分:</string>
           </property>
           <property name="buddy">
            <cstring>m_resignScoreSpin</cstring>
@@ -507,13 +507,13 @@
         <bool>false</bool>
        </property>
        <property name="title">
-        <string>Game Length</string>
+        <string>对局棋步总数</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="m_maxGameLengthLabel">
           <property name="text">
-           <string>Limit:</string>
+           <string>限制:</string>
           </property>
          </widget>
         </item>
@@ -556,7 +556,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Tablebase adjudication</string>
+      <string>残局库判定</string>
      </property>
     </widget>
    </item>
@@ -566,7 +566,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Thinking on opponent's time</string>
+      <string>后台思考</string>
      </property>
     </widget>
    </item>

@@ -22,6 +22,7 @@ class QStringList;
 
 namespace Chess {
 
+
 class BoardTransition;
 
 /*!
