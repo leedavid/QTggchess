@@ -69,13 +69,20 @@ class LIB_EXPORT WesternBoard : public Board
 		//	KingSide,	//!< King side (O-O)
 		//	NoCastlingSide	//!< No castling side
 		//};
-
-		/*! Movement mask for Knight moves. */
-		static const unsigned MaMovement = 2;
-		/*! Movement mask for Bishop moves. */
-		static const unsigned BishopMovement = 4;
-		/*! Movement mask for Rook moves. */
-		static const unsigned RookMovement = 8;
+		/*! Movement mask for Pawn moves. */
+		//static const unsigned PawnMovement = 1;
+		///*! Movement mask for Knight moves. */
+		//static const unsigned MaMovement = 2;
+		///*! Movement mask for Xiang moves. */
+		//static const unsigned XiangMovement = 4;
+		///*! Movement mask for Rook moves. */
+		//static const unsigned CheMovement = 8;
+		///*! Movement mask for Shi moves. */
+		//static const unsigned ShiMovement = 16;
+		///*! Movement mask for Pao moves. */
+		//static const unsigned PaoMovement = 32;
+		///*! Movement mask for King moves. */
+		//static const unsigned KingMovement = 64;
 
 		/*! Types of Pawn moves. */
 		enum StepType
@@ -86,7 +93,7 @@ class LIB_EXPORT WesternBoard : public Board
 			 /* FreeOrCaptureStep = FreeStep|CaptureStep //!< like King or Sergeant*/
 		};
 		/*! Stores a move \a type and a move direction \a file for a Pawn move */
-		struct PawnStep { StepType type; int file; };
+		//struct PawnStep { StepType type; int file; };
 		/*!
 		 * Movement mask for Pawn moves.
 		 * Lists pawn move types and relative files
@@ -96,7 +103,7 @@ class LIB_EXPORT WesternBoard : public Board
 		 * capture diagonally forward. So initialise this
 		 * as { {CaptureStep, -1}, {FreeStep, 0}, {CaptureStep, 1} }
 		 */
-		QVarLengthArray<PawnStep, 8> m_pawnSteps;
+		//QVarLengthArray<PawnStep, 8> m_pawnSteps;
 		/*!
 		 * Helper function for Pawn moves. Returns the count of moves
 		 * of the given \a type that are specified in pawnSteps.
@@ -190,7 +197,7 @@ class LIB_EXPORT WesternBoard : public Board
 		 * Returns true if \a side is under attack at \a square.
 		 * If \a square is 0, then the king square is used.
 		 */
-		virtual bool inCheck(Side side, int square = 0) const;
+		virtual bool inCheck(Side side /*, int square = 0*/) const;
 
 		/*!
 		 * Returns FEN extensions. The default is an empty string.
@@ -241,8 +248,8 @@ class LIB_EXPORT WesternBoard : public Board
 		};
 
 		//void generateCastlingMoves(QVarLengthArray<Move>& moves) const;
-		void generatePawnMoves(int sourceSquare,
-				       QVarLengthArray<Move>& moves) const;
+		//void generatePawnMoves(int sourceSquare,
+		//		       QVarLengthArray<Move>& moves) const;
 
 		int m_arwidth;
 		int m_sign;
@@ -256,9 +263,20 @@ class LIB_EXPORT WesternBoard : public Board
 
 		const WesternZobrist* m_zobrist;
 
-		QVarLengthArray<int> m_knightOffsets;
-		QVarLengthArray<int> m_bishopOffsets;
-		QVarLengthArray<int> m_rookOffsets;
+		QVarLengthArray<int> m_BPawnOffsets;
+		QVarLengthArray<int> m_RPawnOffsets;
+		QVarLengthArray<int> m_MaOffsets;
+		QVarLengthArray<int> m_MaLegOffsets;       // ¬ÌÕ»
+
+		QVarLengthArray<int> m_XiangOffsets;       // œ‡
+		QVarLengthArray<int> m_XiangEyeOffsets;    // œÛ—€
+	
+		QVarLengthArray<int> m_CheOffsets;
+
+		QVarLengthArray<int> m_ShiOffsets;
+
+
+
 };
 
 

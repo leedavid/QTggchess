@@ -25,7 +25,7 @@ namespace Chess {
 ChigorinBoard::ChigorinBoard()
 	: WesternBoard(new WesternZobrist())
 {
-	setPieceType(Chancellor, tr("chancellor"), "C", MaMovement | RookMovement);
+	setPieceType(Chancellor, tr("chancellor"), "C", MaMovement | CheMovement);
 }
 
 Board* ChigorinBoard::copy() const

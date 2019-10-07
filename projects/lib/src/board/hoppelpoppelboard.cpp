@@ -25,7 +25,7 @@ HoppelPoppelBoard::HoppelPoppelBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	// cross-over definitions used for checks and capturing moves
-	setPieceType(Xiang, "Knibis", "N", BishopMovement);
+	setPieceType(Xiang, "Knibis", "N", XiangMovement);
 	setPieceType(Shi, "Biskni", "B", MaMovement);
 }
 
@@ -77,7 +77,7 @@ NewZealandBoard::NewZealandBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	// cross-over definitions used for checks and capturing moves
-	setPieceType(Xiang, "Kniroo", "N", RookMovement);
+	setPieceType(Xiang, "Kniroo", "N", CheMovement);
 	setPieceType(Pao, "Rookni", "R", MaMovement);
 }
 

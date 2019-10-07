@@ -67,33 +67,33 @@ bool CaparandomBoard::isRandomVariant() const
 
 bool CaparandomBoard::pawnsAreSafe(const QVector<int>& pieces) const
 {
-	int size = pieces.size();
+	//int size = pieces.size();
 
-	for (int i = 0; i < size; i++)
-	{
-		bool safe = false;
+	//for (int i = 0; i < size; i++)
+	//{
+	//	bool safe = false;
 
-		for (int j = i - 2; j <= i + 2; j += 4)
-		{
-			if (j < 0 || j >= size)
-				continue;
-			if (pieceHasMovement(pieces.at(j), MaMovement))
-				safe = true;
-		}
-		for (int j = i - 1; j <= i + 1; j += 2)
-		{
-			if (j < 0 || j >= size)
-				continue;
-			if (pieceHasMovement(pieces.at(j), BishopMovement)
-			||  pieces.at(j) == King)
-				safe = true;
-		}
-		if (pieceHasMovement(pieces.at(i), RookMovement) || pieces.at(i) == King)
-			safe = true;
+	//	for (int j = i - 2; j <= i + 2; j += 4)
+	//	{
+	//		if (j < 0 || j >= size)
+	//			continue;
+	//		if (pieceHasMovement(pieces.at(j), MaMovement))
+	//			safe = true;
+	//	}
+	//	for (int j = i - 1; j <= i + 1; j += 2)
+	//	{
+	//		if (j < 0 || j >= size)
+	//			continue;
+	//		if (pieceHasMovement(pieces.at(j), XiangMovement)
+	//		||  pieces.at(j) == King)
+	//			safe = true;
+	//	}
+	//	if (pieceHasMovement(pieces.at(i), CheMovement) || pieces.at(i) == King)
+	//		safe = true;
 
-		if (!safe)
-			return false;
-	}
+	//	if (!safe)
+	//		return false;
+	//}
 
 	return true;
 }

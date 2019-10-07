@@ -25,7 +25,7 @@ namespace Chess {
 AlmostBoard::AlmostBoard()
 	: WesternBoard(new WesternZobrist())
 {
-	setPieceType(Chancellor, tr("chancellor"), "C", MaMovement | RookMovement);
+	setPieceType(Chancellor, tr("chancellor"), "C", MaMovement | CheMovement);
 }
 
 Board* AlmostBoard::copy() const

@@ -188,30 +188,13 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\board\aiwokboard.cpp" />
-    <ClCompile Include="src\board\almostboard.cpp" />
-    <ClCompile Include="src\board\amazonboard.cpp" />
-    <ClCompile Include="src\board\andernachboard.cpp" />
-    <ClCompile Include="src\board\antiboard.cpp" />
-    <ClCompile Include="src\board\aseanboard.cpp" />
-    <ClCompile Include="src\board\atomicboard.cpp" />
-    <ClCompile Include="src\board\berolinaboard.cpp" />
     <ClCompile Include="src\board\board.cpp" />
     <ClCompile Include="src\board\boardfactory.cpp" />
     <ClCompile Include="src\board\boardtransition.cpp" />
-    <ClCompile Include="src\board\capablancaboard.cpp" />
-    <ClCompile Include="src\board\caparandomboard.cpp" />
-    <ClCompile Include="src\board\chancellorboard.cpp" />
-    <ClCompile Include="src\board\checklessboard.cpp" />
     <ClCompile Include="src\chessengine.cpp" />
     <ClCompile Include="src\chessgame.cpp" />
     <ClCompile Include="src\board\chessgiboard.cpp" />
     <ClCompile Include="src\chessplayer.cpp" />
-    <ClCompile Include="src\board\chigorinboard.cpp" />
-    <ClCompile Include="src\board\codrusboard.cpp" />
-    <ClCompile Include="src\board\coregalboard.cpp" />
-    <ClCompile Include="src\board\courierboard.cpp" />
-    <ClCompile Include="src\board\crazyhouseboard.cpp" />
     <ClCompile Include="src\econode.cpp" />
     <ClCompile Include="src\elo.cpp" />
     <ClCompile Include="src\board\embassyboard.cpp" />
@@ -228,71 +211,42 @@
     <ClCompile Include="src\enginespinoption.cpp" />
     <ClCompile Include="src\enginetextoption.cpp" />
     <ClCompile Include="src\epdrecord.cpp" />
-    <ClCompile Include="src\board\extinctionboard.cpp" />
-    <ClCompile Include="src\board\frcboard.cpp" />
     <ClCompile Include="src\gameadjudicator.cpp" />
     <ClCompile Include="src\gauntlettournament.cpp" />
     <ClCompile Include="src\board\genericmove.cpp" />
-    <ClCompile Include="src\board\giveawayboard.cpp" />
-    <ClCompile Include="src\board\gothicboard.cpp" />
-    <ClCompile Include="src\board\grandboard.cpp" />
-    <ClCompile Include="src\board\gridboard.cpp" />
-    <ClCompile Include="src\board\gryphonboard.cpp" />
-    <ClCompile Include="src\board\gustavboard.cpp" />
-    <ClCompile Include="src\board\hoppelpoppelboard.cpp" />
-    <ClCompile Include="src\board\hordeboard.cpp" />
     <ClCompile Include="src\humanbuilder.cpp" />
     <ClCompile Include="src\humanplayer.cpp" />
-    <ClCompile Include="src\board\janusboard.cpp" />
-    <ClCompile Include="src\board\jesonmorboard.cpp" />
     <ClCompile Include="components\json\src\jsonparser.cpp" />
     <ClCompile Include="components\json\src\jsonserializer.cpp" />
-    <ClCompile Include="src\board\kingofthehillboard.cpp" />
-    <ClCompile Include="src\board\knightmateboard.cpp" />
     <ClCompile Include="src\knockouttournament.cpp" />
     <ClCompile Include="src\board\loopboard.cpp" />
     <ClCompile Include="src\board\losalamosboard.cpp" />
     <ClCompile Include="src\board\losersboard.cpp" />
-    <ClCompile Include="src\board\makrukboard.cpp" />
     <ClCompile Include="src\mersenne.cpp" />
-    <ClCompile Include="src\board\modernboard.cpp" />
     <ClCompile Include="src\moveevaluation.cpp" />
-    <ClCompile Include="src\board\ncheckboard.cpp" />
     <ClCompile Include="src\openingbook.cpp" />
     <ClCompile Include="src\openingsuite.cpp" />
-    <ClCompile Include="src\board\oukboard.cpp" />
     <ClCompile Include="src\pgngame.cpp" />
     <ClCompile Include="src\pgngameentry.cpp" />
     <ClCompile Include="src\pgngamefilter.cpp" />
     <ClCompile Include="src\pgnstream.cpp" />
     <ClCompile Include="src\pipereader_win.cpp" />
-    <ClCompile Include="src\board\placementboard.cpp" />
     <ClCompile Include="src\playerbuilder.cpp" />
-    <ClCompile Include="src\board\pocketknightboard.cpp" />
     <ClCompile Include="src\polyglotbook.cpp" />
     <ClCompile Include="src\pyramidtournament.cpp" />
-    <ClCompile Include="src\board\racingkingsboard.cpp" />
-    <ClCompile Include="src\board\restrictedmoveboard.cpp" />
     <ClCompile Include="src\board\result.cpp" />
-    <ClCompile Include="src\board\rifleboard.cpp" />
     <ClCompile Include="src\roundrobintournament.cpp" />
-    <ClCompile Include="src\board\seirawanboard.cpp" />
-    <ClCompile Include="src\board\shatranjboard.cpp" />
     <ClCompile Include="src\board\side.cpp" />
-    <ClCompile Include="src\board\sittuyinboard.cpp" />
     <ClCompile Include="src\sprt.cpp" />
     <ClCompile Include="src\board\square.cpp" />
     <ClCompile Include="src\board\standardboard.cpp" />
-    <ClCompile Include="src\board\suicideboard.cpp" />
     <ClCompile Include="src\board\syzygytablebase.cpp" />
     <ClCompile Include="3rdparty\fathom\src\tbprobe.c" />
-    <ClCompile Include="src\board\threekingsboard.cpp" />
     <ClCompile Include="src\timecontrol.cpp" />
     <ClCompile Include="src\tournament.cpp" />
     <ClCompile Include="src\tournamentfactory.cpp" />
     <ClCompile Include="src\tournamentpair.cpp" />
     <ClCompile Include="src\tournamentplayer.cpp" />
-    <ClCompile Include="src\board\twokingseachboard.cpp" />
     <ClCompile Include="src\uciengine.cpp" />
     <ClCompile Include="src\board\westernboard.cpp" />
     <ClCompile Include="src\board\westernzobrist.cpp" />
@@ -301,21 +255,9 @@
     <ClCompile Include="src\board\zobrist.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\board\aiwokboard.h" />
-    <ClInclude Include="src\board\almostboard.h" />
-    <ClInclude Include="src\board\amazonboard.h" />
-    <ClInclude Include="src\board\andernachboard.h" />
-    <ClInclude Include="src\board\antiboard.h" />
-    <ClInclude Include="src\board\aseanboard.h" />
-    <ClInclude Include="src\board\atomicboard.h" />
-    <ClInclude Include="src\board\berolinaboard.h" />
     <ClInclude Include="src\board\board.h" />
     <ClInclude Include="src\board\boardfactory.h" />
     <ClInclude Include="src\board\boardtransition.h" />
-    <ClInclude Include="src\board\capablancaboard.h" />
-    <ClInclude Include="src\board\caparandomboard.h" />
-    <ClInclude Include="src\board\chancellorboard.h" />
-    <ClInclude Include="src\board\checklessboard.h" />
     <QtMoc Include="src\chessengine.h">
     </QtMoc>
     <QtMoc Include="src\chessgame.h">
@@ -325,10 +267,6 @@
     </QtMoc>
     <ClInclude Include="src\board\chigorinboard.h" />
     <ClInclude Include="src\classregistry.h" />
-    <ClInclude Include="src\board\codrusboard.h" />
-    <ClInclude Include="src\board\coregalboard.h" />
-    <ClInclude Include="src\board\courierboard.h" />
-    <ClInclude Include="src\board\crazyhouseboard.h" />
     <ClInclude Include="src\econode.h" />
     <ClInclude Include="src\elo.h" />
     <ClInclude Include="src\board\embassyboard.h" />
@@ -347,7 +285,6 @@
     <ClInclude Include="src\enginespinoption.h" />
     <ClInclude Include="src\enginetextoption.h" />
     <ClInclude Include="src\epdrecord.h" />
-    <ClInclude Include="src\board\extinctionboard.h" />
     <ClInclude Include="src\board\frcboard.h" />
     <ClInclude Include="src\gameadjudicator.h" />
     <QtMoc Include="src\gamemanager.h">
@@ -355,34 +292,19 @@
     <QtMoc Include="src\gauntlettournament.h">
     </QtMoc>
     <ClInclude Include="src\board\genericmove.h" />
-    <ClInclude Include="src\board\giveawayboard.h" />
-    <ClInclude Include="src\board\gothicboard.h" />
-    <ClInclude Include="src\board\grandboard.h" />
-    <ClInclude Include="src\board\gridboard.h" />
-    <ClInclude Include="src\board\gryphonboard.h" />
-    <ClInclude Include="src\board\gustavboard.h" />
-    <ClInclude Include="src\board\hoppelpoppelboard.h" />
-    <ClInclude Include="src\board\hordeboard.h" />
     <ClInclude Include="src\humanbuilder.h" />
     <QtMoc Include="src\humanplayer.h">
     </QtMoc>
     <ClInclude Include="src\board\janusboard.h" />
-    <ClInclude Include="src\board\jesonmorboard.h" />
     <ClInclude Include="components\json\src\jsonparser.h" />
     <ClInclude Include="components\json\src\jsonserializer.h" />
     <ClInclude Include="src\board\kingofthehillboard.h" />
-    <ClInclude Include="src\board\knightmateboard.h" />
     <QtMoc Include="src\knockouttournament.h">
     </QtMoc>
-    <ClInclude Include="src\board\loopboard.h" />
-    <ClInclude Include="src\board\losalamosboard.h" />
-    <ClInclude Include="src\board\losersboard.h" />
-    <ClInclude Include="src\board\makrukboard.h" />
     <ClInclude Include="src\mersenne.h" />
     <ClInclude Include="src\board\modernboard.h" />
     <ClInclude Include="src\board\move.h" />
     <ClInclude Include="src\moveevaluation.h" />
-    <ClInclude Include="src\board\ncheckboard.h" />
     <ClInclude Include="src\openingbook.h" />
     <ClInclude Include="src\openingsuite.h" />
     <ClInclude Include="src\board\oukboard.h" />
@@ -393,31 +315,23 @@
     <ClInclude Include="src\board\piece.h" />
     <QtMoc Include="src\pipereader_win.h">
     </QtMoc>
-    <ClInclude Include="src\board\placementboard.h" />
     <ClInclude Include="src\playerbuilder.h" />
-    <ClInclude Include="src\board\pocketknightboard.h" />
     <ClInclude Include="src\polyglotbook.h" />
     <QtMoc Include="src\pyramidtournament.h">
     </QtMoc>
     <ClInclude Include="src\board\racingkingsboard.h" />
     <ClInclude Include="src\board\restrictedmoveboard.h" />
     <ClInclude Include="src\board\result.h" />
-    <ClInclude Include="src\board\rifleboard.h" />
     <QtMoc Include="src\roundrobintournament.h">
     </QtMoc>
-    <ClInclude Include="src\board\seirawanboard.h" />
-    <ClInclude Include="src\board\shatranjboard.h" />
     <ClInclude Include="src\board\side.h" />
-    <ClInclude Include="src\board\sittuyinboard.h" />
     <ClInclude Include="src\sprt.h" />
     <ClInclude Include="src\board\square.h" />
     <ClInclude Include="src\board\standardboard.h" />
-    <ClInclude Include="src\board\suicideboard.h" />
     <ClInclude Include="src\board\syzygytablebase.h" />
     <ClInclude Include="3rdparty\fathom\src\tbconfig.h" />
     <ClInclude Include="3rdparty\fathom\src\tbcore.h" />
     <ClInclude Include="3rdparty\fathom\src\tbprobe.h" />
-    <ClInclude Include="src\board\threekingsboard.h" />
     <ClInclude Include="src\timecontrol.h" />
     <QtMoc Include="src\tournament.h">
     </QtMoc>

@@ -24,8 +24,8 @@ namespace Chess {
 CapablancaBoard::CapablancaBoard()
 	: WesternBoard(new WesternZobrist())
 {
-	setPieceType(Archbishop, tr("archbishop"), "A", MaMovement | BishopMovement);
-	setPieceType(Chancellor, tr("chancellor"), "C", MaMovement | RookMovement);
+	//setPieceType(Archbishop, tr("archbishop"), "A", MaMovement | XiangMovement);
+	//setPieceType(Chancellor, tr("chancellor"), "C", MaMovement | CheMovement);
 }
 
 Board* CapablancaBoard::copy() const

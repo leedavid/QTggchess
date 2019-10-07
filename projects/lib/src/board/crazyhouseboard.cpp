@@ -26,9 +26,9 @@ CrazyhouseBoard::CrazyhouseBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	setPieceType(PromotedKnight, tr("promoted knight"), "N~", MaMovement);
-	setPieceType(PromotedBishop, tr("promoted bishop"), "B~", BishopMovement);
-	setPieceType(PromotedRook, tr("promoted rook"), "R~", RookMovement);
-	setPieceType(PromotedQueen, tr("promoted queen"), "Q~", BishopMovement | RookMovement);
+	setPieceType(PromotedBishop, tr("promoted bishop"), "B~", XiangMovement);
+	setPieceType(PromotedRook, tr("promoted rook"), "R~", CheMovement);
+	setPieceType(PromotedQueen, tr("promoted queen"), "Q~", XiangMovement | CheMovement);
 }
 
 Board* CrazyhouseBoard::copy() const

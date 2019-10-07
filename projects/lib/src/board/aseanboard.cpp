@@ -24,12 +24,12 @@ AseanBoard::AseanBoard()
 	: MakrukBoard()
 {
 	// all pieces have standard chess names but move like Makruk pieces
-	setPieceType(Pawn, tr("pawn"), "P");
-	setPieceType(Xiang, tr("knight"), "N", MaMovement);
-	setPieceType(Shi, tr("bishop"), "B", SilverGeneralMovement); //! Khon
-	setPieceType(Pao, tr("rook"), "R", RookMovement);
-	setPieceType(Che, tr("queen"), "Q", FerzMovement); //! Ferz
-	setPieceType(King, tr("king"), "K");
+	//setPieceType(Pawn, tr("pawn"), "P");
+	//setPieceType(Xiang, tr("knight"), "N", MaMovement);
+	//setPieceType(Shi, tr("bishop"), "B", SilverGeneralMovement); //! Khon
+	//setPieceType(Pao, tr("rook"), "R", CheMovement);
+	//setPieceType(Che, tr("queen"), "Q", FerzMovement); //! Ferz
+	//setPieceType(King, tr("king"), "K");
 }
 
 Board* AseanBoard::copy() const

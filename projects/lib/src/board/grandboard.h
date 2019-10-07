@@ -69,8 +69,8 @@ class LIB_EXPORT GrandBoard : public CapablancaBoard
 	private:
 		/*! Helper method for Pawn moves. Returns square offset for
 		 *  the given \a step with orientation \a sign. */
-		inline int pawnMoveOffset(const PawnStep& ps,
-					  int sign) const;
+		//inline int pawnMoveOffset(const PawnStep& ps,
+		//			  int sign) const;
 
 };
 

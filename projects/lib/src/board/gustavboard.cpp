@@ -25,8 +25,8 @@ namespace Chess {
 GustavBoard::GustavBoard()
 	: WesternBoard(new WesternZobrist())
 {
-	setPieceType(Adjutant, tr("adjutant-general"), "A",
-		     MaMovement | BishopMovement | RookMovement, "Q~");
+	//setPieceType(Adjutant, tr("adjutant-general"), "A",
+	//	     MaMovement | XiangMovement | CheMovement, "Q~");
 }
 
 Board* GustavBoard::copy() const

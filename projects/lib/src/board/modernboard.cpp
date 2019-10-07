@@ -25,8 +25,8 @@ ModernBoard::ModernBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	// Use Minister "M" symbol for notation and Archbishop graphics
-	setPieceType(Minister, tr("minister"), "M",
-		     MaMovement | BishopMovement, "A");
+	//setPieceType(Minister, tr("minister"), "M",
+	//	     MaMovement | XiangMovement, "A");
 }
 
 Board* ModernBoard::copy() const

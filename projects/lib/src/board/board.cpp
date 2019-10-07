@@ -137,7 +137,7 @@ int Board::maxPieceSymbolLength() const
 void Board::setPieceType(int type,
 			 const QString& name,
 			 const QString& symbol,
-			 unsigned movement,
+			 //unsigned movement,
 			 const QString& gsymbol)
 {
 	if (type >= m_pieceData.size())
@@ -146,7 +146,7 @@ void Board::setPieceType(int type,
 	const QString& graphicalSymbol = gsymbol.isEmpty() ? symbol : gsymbol;
 
 	PieceData data =
-		{ name, symbol.toUpper(), movement, graphicalSymbol.toUpper() };
+		{ name, symbol.toUpper(), /*movement,*/ graphicalSymbol.toUpper() };
 	m_pieceData[type] = data;
 }
 
@@ -264,6 +264,18 @@ bool Board::isValidSquare(const Chess::Square& square) const
 	||  square.file() >= m_width || square.rank() >= m_height)
 		return false;
 	return true;
+}
+
+bool Board::isInPlace(const Square& square) const
+{
+	int f = square.file();
+	int r = square.rank();
+
+	if (f < 3) return false;
+	if (f > 5) return false;
+	if (r > 6) return true;
+	if (r < 3) return true;
+	return false;
 }
 
 QString Board::squareString(int index) const
@@ -771,7 +783,7 @@ void Board::generateHoppingMoves(int sourceSquare,
 	}
 }
 
-void Board::generateSlidingMoves(int sourceSquare,
+void Board::generateCheMoves(int sourceSquare,
 				 const QVarLengthArray<int>& offsets,
 				 QVarLengthArray<Move>& moves) const
 {

@@ -1076,6 +1076,7 @@ QString StandardBoard::defaultFenString() const
 
 Result StandardBoard::tablebaseResult(unsigned int* dtz) const
 {
+	Q_UNUSED(dtz);
 	//SyzygyTablebase::PieceList pieces;
 
 	//for (int i = 0; i < arraySize(); i++)

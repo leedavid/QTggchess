@@ -33,17 +33,17 @@ WesternBoard::WesternBoard(WesternZobrist* zobrist)
 	  m_multiDigitNotation(false),
 	  m_zobrist(zobrist)
 {
-	setPieceType(Pawn, tr("pawn"), "P");                    // 兵
-	setPieceType(Ma, tr("knight"), "N", MaMovement);     // 马
-	setPieceType(Xiang, tr("bishop"), "B", BishopMovement);   // 相
-	setPieceType(Shi, tr("shi"), "A", BishopMovement);      // 仕
-	setPieceType(Che, tr("rook"), "R", RookMovement);       // 车
-	setPieceType(Pao, tr("pao"), "C", BishopMovement | RookMovement);   // 炮
-	setPieceType(King, tr("king"), "K"); // 将
+	setPieceType(Pawn, tr("pawn"), "P"); // , PawnMovement);                    // 兵
+	setPieceType(Ma, tr("knight"), "N"); // , MaMovement);                      // 马
+	setPieceType(Xiang, tr("bishop"), "B"); // , XiangMovement);                // 相
+	setPieceType(Shi, tr("shi"), "A"); // , XiangMovement);                     // 仕
+	setPieceType(Che, tr("rook"), "R"); // , CheMovement);                      // 车
+	setPieceType(Pao, tr("pao"), "C"); // , PaoMovement);                       // 炮
+	setPieceType(King, tr("king"), "K"); // , KingMovement);                    // 将
 
-	m_pawnSteps += {CaptureStep, -1};
-	m_pawnSteps += {FreeStep, 0};
-	m_pawnSteps += {CaptureStep, 1};
+	//m_pawnSteps += {CaptureStep, -1};
+	//m_pawnSteps += {FreeStep, 0};
+	//m_pawnSteps += {CaptureStep, 1};
 }
 
 int WesternBoard::width() const
@@ -108,27 +108,60 @@ void WesternBoard::vInitialize()
 	//m_castleTarget[Side::Black][QueenSide] = 2 * m_arwidth + 1 + castlingFile(QueenSide);
 	//m_castleTarget[Side::Black][KingSide] = 2 * m_arwidth + 1 + castlingFile(KingSide);
 
-	m_knightOffsets.resize(8);
-	m_knightOffsets[0] = -2 * m_arwidth - 1;
-	m_knightOffsets[1] = -2 * m_arwidth + 1;
-	m_knightOffsets[2] = -m_arwidth - 2;
-	m_knightOffsets[3] = -m_arwidth + 2;
-	m_knightOffsets[4] = m_arwidth - 2;
-	m_knightOffsets[5] = m_arwidth + 2;
-	m_knightOffsets[6] = 2 * m_arwidth - 1;
-	m_knightOffsets[7] = 2 * m_arwidth + 1;
+	m_MaOffsets.resize(8);
+	m_MaOffsets[0] = -2 * m_arwidth - 1;
+	m_MaOffsets[1] = -2 * m_arwidth + 1;
+	m_MaOffsets[2] = -m_arwidth - 2;
+	m_MaOffsets[3] = -m_arwidth + 2;
+	m_MaOffsets[4] = m_arwidth - 2;
+	m_MaOffsets[5] = m_arwidth + 2;
+	m_MaOffsets[6] = 2 * m_arwidth - 1;
+	m_MaOffsets[7] = 2 * m_arwidth + 1;
 
-	m_bishopOffsets.resize(4);
-	m_bishopOffsets[0] = -m_arwidth - 1;
-	m_bishopOffsets[1] = -m_arwidth + 1;
-	m_bishopOffsets[2] = m_arwidth - 1;
-	m_bishopOffsets[3] = m_arwidth + 1;
+	m_BPawnOffsets.resize(3);
+	m_BPawnOffsets[0] = m_arwidth;
+	m_BPawnOffsets[1] = -1;
+	m_BPawnOffsets[2] = 1;
 
-	m_rookOffsets.resize(4);
-	m_rookOffsets[0] = -m_arwidth;
-	m_rookOffsets[1] = -1;
-	m_rookOffsets[2] = 1;
-	m_rookOffsets[3] = m_arwidth;
+	m_RPawnOffsets.resize(3);
+	m_RPawnOffsets[0] = -m_arwidth;
+	m_RPawnOffsets[1] = -1;
+	m_RPawnOffsets[2] = 1;
+
+	m_MaLegOffsets.resize(8);   // 马腿
+	m_MaLegOffsets[0] = -m_arwidth;
+	m_MaLegOffsets[1] = -m_arwidth;
+	m_MaLegOffsets[2] = -1;
+	m_MaLegOffsets[3] = +1;
+	m_MaLegOffsets[4] = -1;
+	m_MaLegOffsets[5] = +1;
+	m_MaLegOffsets[6] = +m_arwidth;
+	m_MaLegOffsets[7] = +m_arwidth;
+
+	
+	m_XiangOffsets.resize(4);
+	m_XiangOffsets[0] = -2 * m_arwidth - 2;
+	m_XiangOffsets[1] = -2 * m_arwidth + 2;
+	m_XiangOffsets[2] = 2 * m_arwidth - 2;
+	m_XiangOffsets[3] = 2 * m_arwidth + 2;
+
+	m_XiangEyeOffsets.resize(4);
+	m_XiangEyeOffsets[0] = -m_arwidth - 1;
+	m_XiangEyeOffsets[1] = -m_arwidth + 1;
+	m_XiangEyeOffsets[2] = m_arwidth - 1;
+	m_XiangEyeOffsets[3] = m_arwidth + 1;
+
+	m_CheOffsets.resize(4);
+	m_CheOffsets[0] = -m_arwidth;
+	m_CheOffsets[1] = -1;
+	m_CheOffsets[2] = 1;
+	m_CheOffsets[3] = m_arwidth;
+
+	m_ShiOffsets.resize(4);
+	m_ShiOffsets[0] = -m_arwidth - 1;
+	m_ShiOffsets[1] = -m_arwidth + 1;
+	m_ShiOffsets[2] = m_arwidth - 1;
+	m_ShiOffsets[3] = m_arwidth + 1;
 
 
 	m_multiDigitNotation =  (height() > 9 && coordinateSystem() == NormalCoordinates)
@@ -806,49 +839,6 @@ bool WesternBoard::vSetFenString(const QStringList& fen)
 }
 
 
-
-//void WesternBoard::setCastlingSquare(Side side,
-//				     CastlingSide cside,
-//				     int square)
-//{
-//	int& rs = m_castlingRights.rookSquare[side][cside];
-//	if (rs == square)
-//		return;
-//
-//	if (rs != 0)
-//		xorKey(m_zobrist->castling(side, rs));
-//	if (square != 0)
-//		xorKey(m_zobrist->castling(side, square));
-//	rs = square;
-//}
-
-//void WesternBoard::removeCastlingRights(int square)
-//{
-//	Piece piece = pieceAt(square);
-//	if (piece.type() != Pao)
-//		return;
-//
-//	Side side(piece.side());
-//	const int* cr = m_castlingRights.rookSquare[side];
-//
-//	if (square == cr[QueenSide])
-//		setCastlingSquare(side, QueenSide, 0);
-//	else if (square == cr[KingSide])
-//		setCastlingSquare(side, KingSide, 0);
-//}
-
-//void WesternBoard::removeCastlingRights(Side side)
-//{
-//	setCastlingSquare(side, QueenSide, 0);
-//	setCastlingSquare(side, KingSide, 0);
-//}
-
-//int WesternBoard::castlingFile(CastlingSide castlingSide) const
-//{
-//	Q_ASSERT(castlingSide != NoCastlingSide);
-//	return castlingSide == QueenSide ? 2 : width() - 2; // usually C and G
-//}
-
 void WesternBoard::vMakeMove(const Move& move, BoardTransition* transition)
 {
 	Side side = sideToMove();
@@ -1046,103 +1036,334 @@ void WesternBoard::vUndoMove(const Move& move)
 
 void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 					 int pieceType,
-					 int square) const
-{
-	if (pieceType == Pawn)
-		return generatePawnMoves(square, moves); // clazy:exclude=returning-void-expression
-	if (pieceType == King)
+					 int sourceSquare) const
+{		
+	switch (pieceType)
 	{
-		generateHoppingMoves(square, m_bishopOffsets, moves);
-		generateHoppingMoves(square, m_rookOffsets, moves);
-		//generateCastlingMoves(moves);
-		return;
-	}
+	case Pawn:     // 兵的走步
+	{
+		//int p = sourceSquare;
+		Piece piece = pieceAt(sourceSquare);
+		if (piece.side() == Side::White) {
+			// 红兵
+			Side opSide = sideToMove().opposite();
+			for (int i = 0; i < m_RPawnOffsets.size(); i++)
+			{
+				int targetSquare = sourceSquare + m_RPawnOffsets[i];
+				if (!isValidSquare(chessSquare(targetSquare)))
+					continue;
+	
+				if (sourceSquare > 75) { // 兵没有过河
+					if (i != 0)  continue;
+				}
 
-	if (pieceHasMovement(pieceType, MaMovement))
-		generateHoppingMoves(square, m_knightOffsets, moves);
-	if (pieceHasMovement(pieceType, BishopMovement))
-		generateSlidingMoves(square, m_bishopOffsets, moves);
-	if (pieceHasMovement(pieceType, RookMovement))
-		generateSlidingMoves(square, m_rookOffsets, moves);
+				Piece capture = pieceAt(targetSquare);
+				if (capture.isEmpty() || capture.side() == opSide)
+					moves.append(Move(sourceSquare, targetSquare));
+			}
+		}
+		else {
+			// 黑兵
+			Side opSide = sideToMove().opposite();
+			for (int i = 0; i < m_BPawnOffsets.size(); i++)
+			{
+				int targetSquare = sourceSquare + m_BPawnOffsets[i];
+				if (!isValidSquare(chessSquare(targetSquare)))
+					continue;
+
+				if (sourceSquare < 78) { // 兵没有过河
+					if (i != 0)  continue;
+				}
+
+				Piece capture = pieceAt(targetSquare);
+				if (capture.isEmpty() || capture.side() == opSide)
+					moves.append(Move(sourceSquare, targetSquare));
+			}
+		}
+	}
+	break;
+	case King:
+	{
+		Side opSide = sideToMove().opposite();
+		for (int i = 0; i < m_CheOffsets.size(); i++)
+		{
+			int targetSquare = sourceSquare + m_CheOffsets[i];
+			if (!isValidSquare(chessSquare(targetSquare)))
+				continue;
+
+			if (!isInPlace(chessSquare(targetSquare))) {
+				continue;
+			}
+
+			Piece capture = pieceAt(targetSquare);
+			if (capture.isEmpty() || capture.side() == opSide)
+				moves.append(Move(sourceSquare, targetSquare));
+		}
+	}
+		break;
+	case Shi:
+	{
+		Side opSide = sideToMove().opposite();
+		for (int i = 0; i < m_ShiOffsets.size(); i++)
+		{
+			int targetSquare = sourceSquare + m_ShiOffsets[i];
+			if (!isValidSquare(chessSquare(targetSquare)))
+				continue;
+
+			if (!isInPlace(chessSquare(targetSquare))) {
+				continue;
+			}
+
+			Piece capture = pieceAt(targetSquare);
+			if (capture.isEmpty() || capture.side() == opSide)
+				moves.append(Move(sourceSquare, targetSquare));
+		}
+	}
+	break;
+	case Che:     // 车
+	{
+		//break;
+		Side side = sideToMove();
+		for (int i = 0; i < m_CheOffsets.size(); i++)
+		{
+			int offset = m_CheOffsets[i];
+			int targetSquare = sourceSquare + offset;
+			Piece capture;
+			while (!(capture = pieceAt(targetSquare)).isWall()
+				&& capture.side() != side)
+			{
+				moves.append(Move(sourceSquare, targetSquare));
+				if (!capture.isEmpty())
+					break;
+				targetSquare += offset;
+			}
+		}
+	}
+	break;
+	case Pao:     // 炮
+	{		
+		Side side = sideToMove();
+
+		for (int i = 0; i < m_CheOffsets.size(); i++)
+		{
+			int offset = m_CheOffsets[i];
+			int targetSquare = sourceSquare + offset;
+			Piece capture;
+			// 不吃子步
+			while (!(capture = pieceAt(targetSquare)).isWall() && capture.isEmpty())
+			{
+				moves.append(Move(sourceSquare, targetSquare));
+				if (!capture.isEmpty())
+					break;
+				targetSquare += offset;
+			}
+			// 吃子步
+			if (!capture.isEmpty()) {				
+				while (true) // && capture.isEmpty())
+				{
+					targetSquare += offset;
+					capture = pieceAt(targetSquare);
+					if (capture.isEmpty()) {						
+						continue;
+					}
+					if (capture.isWall()) {
+						break;
+					}
+					if (capture.side() != side) {
+						moves.append(Move(sourceSquare, targetSquare));
+						break;
+					}					
+				}
+			}
+		}
+		break;
+	}
+	case Ma:      // 马的走步		
+	{
+		//break;
+		Side opSide = sideToMove().opposite();
+		for (int i = 0; i < m_MaOffsets.size(); i++)
+		{
+			int targetSquare = sourceSquare + m_MaOffsets[i];
+			if (!isValidSquare(chessSquare(targetSquare)))
+				continue;
+			int leg = sourceSquare + m_MaLegOffsets[i];
+			if (!pieceAt(leg).isEmpty())
+				continue;     // 别马腿
+			Piece capture = pieceAt(targetSquare);
+			if (capture.isEmpty() || capture.side() == opSide)
+				moves.append(Move(sourceSquare, targetSquare));
+		}
+	}
+	break;
+	case Xiang:
+	{
+		//QVarLengthArray<int> m_XiangOffsets;       // 相
+		//QVarLengthArray<int> m_XiangEyeOffsets;    // 象眼
+		Side opSide = sideToMove().opposite();
+		for (int i = 0; i < m_XiangOffsets.size(); i++)
+		{
+			int targetSquare = sourceSquare + m_XiangOffsets[i];
+			if (!isValidSquare(chessSquare(targetSquare)))
+				continue;
+			int leg = sourceSquare + m_XiangEyeOffsets[i];
+			if (!pieceAt(leg).isEmpty())
+				continue;     // 塞象眼
+
+			Piece capture = pieceAt(targetSquare);
+			if (capture.isEmpty() || capture.side() == opSide) {
+
+				// 象不能过河	
+				if (sourceSquare > 78 && targetSquare < 78) {
+					continue;
+				}
+				if (sourceSquare < 78 && targetSquare > 78) {
+					continue;
+				}
+				moves.append(Move(sourceSquare, targetSquare));
+			}
+		}
+	}
+	break;
+//defalut: 
+//	return;
+//	
+	}
+	
+	
+	//if (pieceType == Pawn)
+	//	return generatePawnMoves(square, moves); // clazy:exclude=returning-void-expression
+	//if (pieceType == King)
+	//{
+	//	generateHoppingMoves(square, m_XiangOffsets, moves);
+	//	generateHoppingMoves(square, m_CheOffsets, moves);
+	//	//generateCastlingMoves(moves);
+	//	return;
+	//}
+
+	//if (pieceHasMovement(pieceType, MaMovement))
+	//	generateHoppingMoves(square, m_MaOffsets, moves);
+	//if (pieceHasMovement(pieceType, XiangMovement))
+	//	generateSlidingMoves(square, m_XiangOffsets, moves);
+	//if (pieceHasMovement(pieceType, CheMovement))
+	//	generateSlidingMoves(square, m_CheOffsets, moves);
 }
 
-bool WesternBoard::inCheck(Side side, int square) const
+bool WesternBoard::inCheck(Side side /*, int square*/) const
 {
 	Side opSide = side.opposite();
-	if (square == 0)
-	{
-		square = m_kingSquare[side];
-		// In the "horde" variant the horde side has no king
-		if (square == 0)
-			return false;
-	}
+	//Piece opKing(opSide, King);
+	Piece piece;
 
-	// Pawn attacks
-	int sign = (side == Side::White) ? 1 : -1;
+	int ksquare = m_kingSquare[side];
 
-	for (const PawnStep& pStep: m_pawnSteps)
+	//if (ksquare != 27 && ksquare != 126) {
+	//	int a = 0;
+	//}
+
+	// 是否给车，炮，兵, 对方的将 将军
+	for (int i = 0; i < m_CheOffsets.size(); i++)
 	{
-		if (pStep.type == CaptureStep)
+		int offset = m_CheOffsets[i];
+		int targetSquare = ksquare + offset;
+
+		int count = 0;    // 一个方向只能有一个炮军
+		while (true)		
 		{
-			//int fromSquare = square - pawnPushOffset(pStep, -sign);
-			//if (pieceAt(fromSquare) == Piece(opSide, Pawn))
-			//	return true;
+			if (!isValidSquare(chessSquare(targetSquare)))
+				break;
+			
+			piece = pieceAt(targetSquare);
+			if (!piece.isEmpty())
+			{
+				count++;
+				if (count == 1) {        // 是不是有车，兵，对方的将在将军
+					if (piece.side() == opSide) {  // 是对方的棋子
+						if (piece.type() == Che || piece.type() == King) {
+							return true;
+						}
+						else if (piece.type() == Pawn) {
+							if (abs(targetSquare - ksquare) == 1) {
+								return true;
+							}
+							if (side == Side::White) {
+								if (targetSquare == ksquare - 11) {
+									return true;
+								}
+							}
+							else {
+								if (targetSquare == ksquare + 11) {
+									return true;
+								}
+							}
+						}
+					}
+				}
+				else if (count == 2) {   // 是不是有炮在将
+					if (piece.side() == opSide) {  // 是对方的棋子
+						if (piece.type() == Pao) {
+							return true;
+						}
+					}
+					break;
+				}								
+			}
+			targetSquare += offset;
 		}
 	}
 
-	Piece opKing(opSide, King);
-	Piece piece;
+	// 是否给马 将军
 	
 	// Knight, archbishop, chancellor attacks
-	for (int i = 0; i < m_knightOffsets.size(); i++)
-	{
-		piece = pieceAt(square + m_knightOffsets[i]);
-		if (piece.side() == opSide
-		&&  pieceHasMovement(piece.type(), MaMovement))
-			return true;
-	}
+	//for (int i = 0; i < m_MaOffsets.size(); i++)
+	//{
+	//	//piece = pieceAt(square + m_MaOffsets[i]);
+	//	//if (piece.side() == opSide
+	//	//&&  pieceHasMovement(piece.type(), MaMovement))
+	//	//	return true;
+	//}
 	
 	// Bishop, queen, archbishop, king attacks
-	for (int i = 0; i < m_bishopOffsets.size(); i++)
-	{
-		int offset = m_bishopOffsets[i];
-		int targetSquare = square + offset;
-		if (m_kingCanCapture
-		&&  pieceAt(targetSquare) == opKing)
-			return true;
-		while ((piece = pieceAt(targetSquare)).isEmpty()
-		||     piece.side() == opSide)
-		{
-			if (!piece.isEmpty())
-			{
-				if (pieceHasMovement(piece.type(), BishopMovement))
-					return true;
-				break;
-			}
-			targetSquare += offset;
-		}
-	}
+	//for (int i = 0; i < m_XiangOffsets.size(); i++)
+	//{
+	//	int offset = m_XiangOffsets[i];
+	//	int targetSquare = square + offset;
+	//	if (m_kingCanCapture
+	//	&&  pieceAt(targetSquare) == opKing)
+	//		return true;
+	//	while ((piece = pieceAt(targetSquare)).isEmpty()
+	//	||     piece.side() == opSide)
+	//	{
+	//		if (!piece.isEmpty())
+	//		{
+	//			//if (pieceHasMovement(piece.type(), XiangMovement))
+	//			//	return true;
+	//			break;
+	//		}
+	//		targetSquare += offset;
+	//	}
+	//}
 	
 	// Rook, queen, chancellor, king attacks
-	for (int i = 0; i < m_rookOffsets.size(); i++)
-	{
-		int offset = m_rookOffsets[i];
-		int targetSquare = square + offset;
-		if (m_kingCanCapture
-		&&  pieceAt(targetSquare) == opKing)
-			return true;
-		while ((piece = pieceAt(targetSquare)).isEmpty()
-		||     piece.side() == opSide)
-		{
-			if (!piece.isEmpty())
-			{
-				if (pieceHasMovement(piece.type(), RookMovement))
-					return true;
-				break;
-			}
-			targetSquare += offset;
-		}
-	}
+	//for (int i = 0; i < m_CheOffsets.size(); i++)
+	//{
+	//	int offset = m_CheOffsets[i];
+	//	int targetSquare = square + offset;
+	//	if (m_kingCanCapture
+	//	&&  pieceAt(targetSquare) == opKing)
+	//		return true;
+	//	while ((piece = pieceAt(targetSquare)).isEmpty()
+	//	||     piece.side() == opSide)
+	//	{
+	//		if (!piece.isEmpty())
+	//		{
+	//			//if (pieceHasMovement(piece.type(), CheMovement))
+	//			//	return true;
+	//			break;
+	//		}
+	//		targetSquare += offset;
+	//	}
+	//}
 	
 	return false;
 }
@@ -1156,7 +1377,7 @@ bool WesternBoard::isLegalPosition()
 	if (m_history.isEmpty())
 		return true;
 
-	const Move& move = lastMove();
+	//const Move& move = lastMove();
 
 	// Make sure that no square between the king's initial and final
 	// squares (including the initial and final squares) are under
@@ -1209,46 +1430,46 @@ bool WesternBoard::vIsLegalMove(const Move& move)
 
 
 
-void WesternBoard::generatePawnMoves(int sourceSquare,
-				     QVarLengthArray<Move>& moves) const
-{
-	//int targetSquare;
-	//Piece capture;
-	//int step = m_sign * m_arwidth;
-	//bool isPromotion = pieceAt(sourceSquare - step * 2).isWall();
-
-	//// Normal moves, Captures, including en-passant moves
-	//Side opSide(sideToMove().opposite());
-
-	//for (const PawnStep& pStep: m_pawnSteps)
-	//{
-	//	targetSquare = sourceSquare + pawnPushOffset(pStep, m_sign);
-	//	capture = pieceAt(targetSquare);
-	//	bool isCapture = capture.side() == opSide
-	//			||  targetSquare == enpassantSquare();
-	//	bool isNormalStep = capture.isEmpty();
-
-	//	if ((isNormalStep && pStep.type == FreeStep)
-	//	||  (isCapture && pStep.type == CaptureStep))
-	//	{
-	//		if (isPromotion)
-	//			addProm otions(sourceSquare, targetSquare, moves);
-	//		else
-	//			moves.append(Move(sourceSquare, targetSquare));
-
-	//		// Double step
-	//		if (isNormalStep
-	//		&&  m_pawnHasDoubleStep
-	//		&&  pieceAt(sourceSquare + step * 2).isWall())
-	//		{
-	//			targetSquare += pawnPushOffset(pStep, m_sign);
-	//			capture = pieceAt(targetSquare);
-	//			if (capture.isEmpty())
-	//				moves.append(Move(sourceSquare, targetSquare));
-	//		}
-	//	}
-	//}
-}
+//void WesternBoard::generatePawnMoves(int sourceSquare,
+//				     QVarLengthArray<Move>& moves) const
+//{
+//	//int targetSquare;
+//	//Piece capture;
+//	//int step = m_sign * m_arwidth;
+//	//bool isPromotion = pieceAt(sourceSquare - step * 2).isWall();
+//
+//	//// Normal moves, Captures, including en-passant moves
+//	//Side opSide(sideToMove().opposite());
+//
+//	//for (const PawnStep& pStep: m_pawnSteps)
+//	//{
+//	//	targetSquare = sourceSquare + pawnPushOffset(pStep, m_sign);
+//	//	capture = pieceAt(targetSquare);
+//	//	bool isCapture = capture.side() == opSide
+//	//			||  targetSquare == enpassantSquare();
+//	//	bool isNormalStep = capture.isEmpty();
+//
+//	//	if ((isNormalStep && pStep.type == FreeStep)
+//	//	||  (isCapture && pStep.type == CaptureStep))
+//	//	{
+//	//		if (isPromotion)
+//	//			addProm otions(sourceSquare, targetSquare, moves);
+//	//		else
+//	//			moves.append(Move(sourceSquare, targetSquare));
+//
+//	//		// Double step
+//	//		if (isNormalStep
+//	//		&&  m_pawnHasDoubleStep
+//	//		&&  pieceAt(sourceSquare + step * 2).isWall())
+//	//		{
+//	//			targetSquare += pawnPushOffset(pStep, m_sign);
+//	//			capture = pieceAt(targetSquare);
+//	//			if (capture.isEmpty())
+//	//				moves.append(Move(sourceSquare, targetSquare));
+//	//		}
+//	//	}
+//	//}
+//}
 
 //bool WesternBoard::canCastle(CastlingSide castlingSide) const
 //{
@@ -1339,18 +1560,18 @@ Result WesternBoard::result()
 	// Checkmate/Stalemate
 	if (!canMove())
 	{
-		if (inCheck(sideToMove()))
-		{
+		//if (inCheck(sideToMove()))
+		//{
 			Side winner = sideToMove().opposite();
-			str = tr("%1 mates").arg(winner.toString());
+			str = tr("%1 取得胜利！").arg(winner.toString());
 
 			return Result(Result::Win, winner, str);
-		}
-		else
-		{
-			str = tr("Draw by stalemate");
-			return Result(Result::Draw, Side::NoSide, str);
-		}
+		//}
+		//else
+		//{
+		//	str = tr("Draw by stalemate");
+		//	return Result(Result::Draw, Side::NoSide, str);
+		//}
 	}
 
 	// Insufficient mating material
@@ -1368,12 +1589,12 @@ Result WesternBoard::result()
 			break;
 		case Shi:
 		{
-			auto color = chessSquare(i).color();
-			if (color != Square::NoColor && !bishops[color])
-			{
-				material++;
-				bishops[color] = true;
-			}
+			//auto color = chessSquare(i).color();
+			//if (color != Square::NoColor && !bishops[color])
+			//{
+			//	material++;
+			//	bishops[color] = true;
+			//}
 			break;
 		}
 		case Xiang:
@@ -1384,23 +1605,23 @@ Result WesternBoard::result()
 			break;
 		}
 	}
-	if (material <= 1)
+	if (material <= 0)
 	{
-		str = tr("Draw by insufficient mating material");
+		str = tr("双方无进攻子力，判和");
 		return Result(Result::Draw, Side::NoSide, str);
 	}
 
 	// 50 move rule
-	if (m_reversibleMoveCount >= 100)
+	if (m_reversibleMoveCount >= 120)
 	{
-		str = tr("Draw by fifty moves rule");
+		str = tr("60 步未吃子，判和！");
 		return Result(Result::Draw, Side::NoSide, str);
 	}
 
 	// 3-fold repetition
 	if (repeatCount() >= 2)
 	{
-		str = tr("Draw by 3-fold repetition");
+		str = tr("循环三步，判和！");
 		return Result(Result::Draw, Side::NoSide, str);
 	}
 

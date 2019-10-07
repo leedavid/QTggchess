@@ -28,7 +28,7 @@ SittuyinBoard::SittuyinBoard()
 	setPieceType(Pawn, tr("pawn"), "P");                      //!< Ne: Feudal Lord P
 	setPieceType(Knight, tr("knight"), "N", MaMovement);  //!< Myin: Horse N
 	setPieceType(Elephant, tr("elephant"), "S", SilverGeneralMovement, "E"); //! Sin: Elephant E
-	setPieceType(Rook, tr("rook"), "R", RookMovement);        //! Yahhta: Chariot R
+	setPieceType(Rook, tr("rook"), "R", CheMovement);        //! Yahhta: Chariot R
 	setPieceType(General, tr("general"), "F", FerzMovement);  //! Sit-ke: General G
 	setPieceType(King, tr("king"), "K");                      //! Min-gyi: King K
 }

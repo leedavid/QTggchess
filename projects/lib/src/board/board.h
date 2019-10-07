@@ -146,6 +146,12 @@ class LIB_EXPORT Board
 		/*! Returns true if \a square is on the board. */
 		bool isValidSquare(const Square& square) const;
 
+		// 棋格是否在宫殿里
+		bool isInPlace(const Square& square) const;
+
+		// 棋子是否过河
+		bool isOverRiver(const Square& square) const;
+
 		/*!
 		 * Returns list of the pieces of \a side in current position.
 		 */
@@ -309,10 +315,10 @@ class LIB_EXPORT Board
 		void setPieceType(int type,
 				  const QString& name,
 				  const QString& symbol,
-				  unsigned movement = 0,
+				  //unsigned movement = 0,
 				  const QString & gsymbol = QString());
 		/*! Returns true if \a pieceType can move like \a movement. */
-		bool pieceHasMovement(int pieceType, unsigned movement) const;
+		//bool pieceHasMovement(int pieceType, unsigned movement) const;
 
 		/*!
 		 * Makes \a move on the board.
@@ -431,7 +437,7 @@ class LIB_EXPORT Board
 		 * \param offsets An array of offsets for the target square
 		 * \note The generated \a moves include captures
 		 */
-		void generateSlidingMoves(int sourceSquare,
+		void generateCheMoves(int sourceSquare,
 					  const QVarLengthArray<int>& offsets,
 					  QVarLengthArray<Move>& moves) const;
 		/*!
@@ -502,7 +508,7 @@ class LIB_EXPORT Board
 		{
 			QString name;
 			QString symbol;
-			unsigned movement;
+			//unsigned movement;
 			QString representation;
 		};
 		struct MoveData
@@ -587,13 +593,13 @@ inline const Move& Board::lastMove() const
 	return m_moveHistory.last().move;
 }
 
-inline bool Board::pieceHasMovement(int pieceType, unsigned movement) const
-{
-	Q_ASSERT(pieceType != Piece::NoPiece);
-	Q_ASSERT(pieceType < m_pieceData.size());
-
-	return (m_pieceData[pieceType].movement & movement);
-}
+//inline bool Board::pieceHasMovement(int pieceType, unsigned movement) const
+//{
+//	Q_ASSERT(pieceType != Piece::NoPiece);
+//	Q_ASSERT(pieceType < m_pieceData.size());
+//
+//	return (m_pieceData[pieceType].movement & movement);
+//}
 
 } // namespace Chess
 #endif // BOARD_H

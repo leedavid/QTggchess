@@ -28,13 +28,13 @@ MakrukBoard::MakrukBoard()
 	  m_history()
 {
 	// King, Ferz, Rook, Knight and Pawn as in chaturanga and shatranj
-	setPieceType(Bia, tr("bia"), "P");                    //! Cowry Shell, Chip
-	setPieceType(Ma, tr("ma"), "N", MaMovement);      //! Horse
-	//! Khon (Base) replaces Alfil (Bishop): moves as Shogi's Silver General
-	setPieceType(Khon, tr("khon"), "S", SilverGeneralMovement, "E");
-	setPieceType(Rua, tr("rua"), "R", RookMovement);      //! Boat
-	setPieceType(Met, tr("met"), "M", FerzMovement, "F"); //! Grain: Advisor
-	setPieceType(Khun, tr("khun"), "K");                  //! Leader, Lord
+	//setPieceType(Bia, tr("bia"), "P");                    //! Cowry Shell, Chip
+	//setPieceType(Ma, tr("ma"), "N", MaMovement);      //! Horse
+	////! Khon (Base) replaces Alfil (Bishop): moves as Shogi's Silver General
+	//setPieceType(Khon, tr("khon"), "S", SilverGeneralMovement, "E");
+	//setPieceType(Rua, tr("rua"), "R", CheMovement);      //! Boat
+	//setPieceType(Met, tr("met"), "M", FerzMovement, "F"); //! Grain: Advisor
+	//setPieceType(Khun, tr("khun"), "K");                  //! Leader, Lord
 }
 
 Board* MakrukBoard::copy() const
@@ -98,11 +98,11 @@ void MakrukBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 					  int pieceType,
 					  int square) const
 {
-	if (pieceHasMovement(pieceType, SilverGeneralMovement))
-		generateHoppingMoves(square, m_silverGeneralOffsets[sideToMove()], moves);
+	//if (pieceHasMovement(pieceType, SilverGeneralMovement))
+	//	generateHoppingMoves(square, m_silverGeneralOffsets[sideToMove()], moves);
 
-	if (pieceType != Bia)
-		return ShatranjBoard::generateMovesForPiece(moves, pieceType, square); // clazy:exclude=returning-void-expression
+	//if (pieceType != Bia)
+	//	return ShatranjBoard::generateMovesForPiece(moves, pieceType, square); // clazy:exclude=returning-void-expression
 
 	generatePawnMoves(square, moves);
 }
@@ -135,19 +135,19 @@ void MakrukBoard::generatePawnMoves(int square,
 
 bool MakrukBoard::inCheck(Side side, int square) const
 {
-	Piece piece;
-	Side opSide = side.opposite();
-	if (square == 0)
-		square = kingSquare(side);
+	//Piece piece;
+	//Side opSide = side.opposite();
+	//if (square == 0)
+	//	square = kingSquare(side);
 
-	// Silver General Attacks attacks (by Khon)
-	for (int i = 0; i < m_silverGeneralOffsets[side].size(); i++)
-	{
-		piece = pieceAt(square + m_silverGeneralOffsets[side][i]);
-		if (piece.side() == opSide
-		&&  pieceHasMovement(piece.type(), SilverGeneralMovement))
-			return true;
-	}
+	//// Silver General Attacks attacks (by Khon)
+	//for (int i = 0; i < m_silverGeneralOffsets[side].size(); i++)
+	//{
+	//	piece = pieceAt(square + m_silverGeneralOffsets[side][i]);
+	//	if (piece.side() == opSide
+	//	&&  pieceHasMovement(piece.type(), SilverGeneralMovement))
+	//		return true;
+	//}
 	return ShatranjBoard::inCheck(side, square);
 }
 
