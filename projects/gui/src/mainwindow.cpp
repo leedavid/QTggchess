@@ -114,7 +114,7 @@ MainWindow::MainWindow(ChessGame* game)
 	createDockWindows();
 
 	// 状态栏
-	statusBar()->showMessage("状态栏: 界面初始化成功了");
+	statusBar()->showMessage("GGzero官方网址: www.ggzero.cn, 论坛: bbs.ggzero.cn, QQ群: 779375937 欢迎您的加入与支持");
 
 	connect(m_moveList, SIGNAL(moveClicked(int,bool)),
 	        m_gameViewer, SLOT(viewMove(int,bool)));
@@ -1081,15 +1081,19 @@ void MainWindow::pasteFen()
 void MainWindow::showAboutDialog()
 {
 	QString html;
-	html += "<h3>" + QString("佳佳象棋界面 %1")
+	html += "<h3>" + QString("佳佳界面 %1")
 		.arg(CuteChessApplication::applicationVersion()) + "</h3>";
 	html += "<p>" + tr("Using Qt version %1").arg(qVersion()) + "</p>";
 	html += "<p>" + tr("版本所有 2008-2019 "
 			   "作者 Lee David") + "</p>";
-	html += "<p>" + tr("感谢您使用佳佳象棋！") + "</p>";
-	html += "<a href=\"http://www.ggzero.cn\">www.ggzero.cn</a><br>";
+	html += "<p>" + tr("感谢您使用佳佳象棋界面！") + "</p>";
+	html += "<a href=\"http://www.ggzero.cn\">官方网站</a><br>";
+	html += "<a href=\"http://bbs.ggzero.cn\">官方论坛</a><br>";
+	html += "<a href=\"https://jq.qq.com/?_wv=1027&k=5FxO79E\">加入QQ群</a><br>";
+	QMessageBox::about(this, tr("关于佳佳界面"), html);
 
-	QMessageBox::about(this, tr("关于佳佳象棋界面"), html);
+
+	// https://jq.qq.com/?_wv=1027&k=5FxO79E
 }
 
 void MainWindow::lockCurrentGame()

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Advanced Search</string>
+   <string>高级搜索</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -22,7 +22,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Event:</string>
+        <string>赛事:</string>
        </property>
        <property name="buddy">
         <cstring>m_eventEdit</cstring>
@@ -39,7 +39,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Site:</string>
+        <string>地点:</string>
        </property>
        <property name="buddy">
         <cstring>m_siteEdit</cstring>
@@ -56,7 +56,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Date:</string>
+        <string>日期:</string>
        </property>
        <property name="buddy">
         <cstring>m_minDateCheck</cstring>
@@ -89,18 +89,18 @@
          <property name="toolTip">
           <string>Minimum starting date of the games</string>
          </property>
+         <property name="displayFormat">
+          <string>M/d/yyyy</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
          <property name="date">
           <date>
            <year>1900</year>
            <month>1</month>
            <day>1</day>
           </date>
-         </property>
-         <property name="displayFormat">
-          <string>M/d/yyyy</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -151,7 +151,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Round:</string>
+        <string>轮次:</string>
        </property>
        <property name="buddy">
         <cstring>m_minRoundSpin</cstring>
@@ -204,7 +204,7 @@
      <item row="4" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Player:</string>
+        <string>参赛者:</string>
        </property>
        <property name="buddy">
         <cstring>m_playerSideCombo</cstring>
@@ -247,7 +247,7 @@
      <item row="5" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Opponent:</string>
+        <string>对手方:</string>
        </property>
        <property name="buddy">
         <cstring>m_opponentEdit</cstring>
@@ -264,7 +264,7 @@
      <item row="6" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>Result:</string>
+        <string>比赛结果:</string>
        </property>
        <property name="buddy">
         <cstring>m_resultCombo</cstring>

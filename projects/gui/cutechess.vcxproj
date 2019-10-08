@@ -67,7 +67,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\lib\src;3rdparty\qcustomplot;$(QTDIR)\include;.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtPrintSupport;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtConcurrent;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\lib\src;3rdparty\qcustomplot;3rdparty\modeltest;$(QTDIR)\include;.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtPrintSupport;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtConcurrent;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>.obj\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -76,7 +76,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.0";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_PRINTSUPPORT_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.1";QT_TESTCASE_BUILDDIR=".";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_PRINTSUPPORT_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -86,8 +86,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>cutechess.lib;$(QTDIR)\lib\Qt5Svg.lib;$(QTDIR)\lib\Qt5PrintSupport.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Concurrent.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5PrintSupport.lib;Qt5Svg.lib;Qt5Test.lib;Qt5Widgets.lib;Qt5Concurrent.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\Users\Administrator\Source\Repos\cutechess\projects\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cutechess.lib;$(QTDIR)\lib\Qt5Svg.lib;$(QTDIR)\lib\Qt5PrintSupport.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Concurrent.lib;$(QTDIR)\lib\Qt5Test.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5PrintSupport.lib;Qt5Svg.lib;Qt5Test.lib;Qt5Widgets.lib;Qt5Concurrent.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;D:\github\cutechess\projects\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -104,18 +104,18 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION=\"1.1.0\";QT_NO_DEBUG;QT_SVG_LIB;QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION=\"1.1.0\";QT_NO_DEBUG;QT_SVG_LIB;QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_TESTLIB_LIB;QT_CORE_LIB;QT_TESTCASE_BUILDDIR=".";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <QtMoc>
       <QTDIR>$(QTDIR)</QTDIR>
       <OutputFile>.\.moc\moc_%(Filename).cpp</OutputFile>
-      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.0";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_PRINTSUPPORT_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</Define>
+      <Define>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.1";QT_TESTCASE_BUILDDIR=".";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_PRINTSUPPORT_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>./.moc/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <InputFile>%(FullPath)</InputFile>
       <DynamicSource>output</DynamicSource>
-      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\lib\src;3rdparty\qcustomplot;$(QTDIR)\include;.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtPrintSupport;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtConcurrent;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\lib\src;3rdparty\qcustomplot;3rdparty\modeltest;$(QTDIR)\include;.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtPrintSupport;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtConcurrent;%(AdditionalIncludeDirectories)</IncludePath>
     </QtMoc>
     <QtRcc>
       <Compression>default</Compression>
@@ -195,6 +195,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3rdparty\modeltest\modeltest.cpp" />
     <ClCompile Include="src\autoverticalscroller.cpp" />
     <ClCompile Include="src\boardview\boardscene.cpp" />
     <ClCompile Include="src\boardview\boardview.cpp" />
@@ -220,9 +221,6 @@
     <ClCompile Include="src\importprogressdlg.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mainwindow.cpp" />
-    <ClCompile Include="3rdparty\modeltest\modeltest.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="src\movecommenttoken.cpp" />
     <ClCompile Include="src\movelist.cpp" />
     <ClCompile Include="src\movenumbertoken.cpp" />

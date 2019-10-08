@@ -122,9 +122,6 @@
     <ClCompile Include="src\mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="3rdparty\modeltest\modeltest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\movecommenttoken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -192,6 +189,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tournamentsettingswidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\modeltest\modeltest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -24,7 +24,7 @@
     <OutputDirectory>.\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <IntermediateDirectory>.obj\</IntermediateDirectory>
     <PrimaryOutput>cutechess</PrimaryOutput>
   </PropertyGroup>

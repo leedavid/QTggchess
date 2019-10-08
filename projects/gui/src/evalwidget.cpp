@@ -40,12 +40,13 @@ EvalWidget::EvalWidget(QWidget *parent)
 	m_statsTable->setMaximumHeight(maxHeight);
 
 	QStringList statsHeaders;
-	statsHeaders << tr("NPS") << tr("Hash")
-		     << tr("后台棋步") << tr("后台命中") << tr("残局库");
+	statsHeaders << tr("速度") << tr("哈希使用")
+		     << tr("后台") << tr("概率") << tr("残局库");
 	m_statsTable->setHorizontalHeaderLabels(statsHeaders);
 	hHeader->setSectionResizeMode(QHeaderView::Stretch);
 	auto protoItem = new QTableWidgetItem;
-	protoItem->setTextAlignment(Qt::AlignVCenter | Qt::AlignRight);
+	//protoItem->setTextAlignment(Qt::AlignVCenter | Qt::AlignRight);
+	protoItem->setTextAlignment(Qt::AlignVCenter | Qt::AlignCenter);
 	m_statsTable->setItemPrototype(protoItem);
 	m_statsTable->setWordWrap(false);
 
@@ -53,10 +54,10 @@ EvalWidget::EvalWidget(QWidget *parent)
 	m_pvTable->verticalHeader()->hide();
 
 	QStringList pvHeaders;
-	pvHeaders << tr("层") << tr("时间") << tr("节点数")
-		  << tr("得分") << tr("关键路线");
+	pvHeaders << tr("深度") << tr("用时") << tr("节点")
+		  << tr("估分") << tr("关键路线");
 	m_pvTable->setHorizontalHeaderLabels(pvHeaders);
-	m_pvTable->setColumnWidth(0, 60);
+	m_pvTable->setColumnWidth(0, 50);
 	m_pvTable->setColumnWidth(1, 60);
 	m_pvTable->setColumnWidth(2, 100);
 	m_pvTable->setColumnWidth(3, 60);

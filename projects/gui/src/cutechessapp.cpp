@@ -72,14 +72,16 @@ CuteChessApplication::CuteChessApplication(int& argc, char* argv[])
 
 	setQuitOnLastWindowClosed(false);
 
-	QCoreApplication::setOrganizationName("cutechess");
-	QCoreApplication::setOrganizationDomain("cutechess.com");
-	QCoreApplication::setApplicationName("cutechess");
+	QCoreApplication::setOrganizationName("ggchessGUI");
+	QCoreApplication::setOrganizationDomain("ggzero.cn");
+	QCoreApplication::setApplicationName("GGchessGUI");
 	QCoreApplication::setApplicationVersion(CUTECHESS_VERSION);
 
 	// Use Ini format on all platforms
 	QSettings::setDefaultFormat(QSettings::IniFormat);
 
+
+	//QString path = configPath();
 	// Load the engines
 	engineManager()->loadEngines(configPath() + QLatin1String("/engines.json"));
 
@@ -106,8 +108,8 @@ CuteChessApplication* CuteChessApplication::instance()
 QString CuteChessApplication::userName()
 {
 	#ifdef Q_OS_WIN32
-	//return qgetenv("USERNAME");
-	return "象棋大师";
+	return qgetenv("USERNAME");
+	//return "玩家";
 	#else
 	if (QSettings().value("ui/use_full_user_name", true).toBool())
 	{
@@ -246,7 +248,7 @@ void CuteChessApplication::showGameWall()
 		auto flags = m_gameWall->windowFlags();
 		m_gameWall->setWindowFlags(flags | Qt::Window);
 		m_gameWall->setAttribute(Qt::WA_DeleteOnClose, true);
-		m_gameWall->setWindowTitle(tr("Active Games"));
+		m_gameWall->setWindowTitle(tr("当前对局"));
 	}
 
 	showDialog(m_gameWall);

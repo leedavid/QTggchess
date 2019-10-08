@@ -40,7 +40,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>设置象棋引擎:</string>
+        <string>引擎管理:</string>
        </property>
       </widget>
      </item>

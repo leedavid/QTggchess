@@ -19,6 +19,8 @@
 #ifndef SIDE_H
 #define SIDE_H
 
+#pragma execution_character_set("utf-8")
+
 #include <QString>
 #include <QMetaType>
 #include <QCoreApplication>

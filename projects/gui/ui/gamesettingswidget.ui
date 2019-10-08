@@ -99,7 +99,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="m_openingOrderLabel">
         <property name="text">
-         <string>开局顺序:</string>
+         <string>开局方式:</string>
         </property>
         <property name="buddy">
          <cstring>m_seqOrderRadio</cstring>
@@ -411,7 +411,7 @@
         <bool>false</bool>
        </property>
        <property name="title">
-        <string>认输判定</string>
+        <string>认输设置</string>
        </property>
        <layout class="QFormLayout" name="formLayout_3">
         <property name="fieldGrowthPolicy">
