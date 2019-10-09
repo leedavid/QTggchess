@@ -35,6 +35,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source Files\UCI">
+      <UniqueIdentifier>{56518f2b-113a-4c05-a160-b8fe0de84f0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\board\board.cpp">
@@ -214,9 +217,6 @@
     <ClCompile Include="src\tournamentplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\uciengine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\board\westernboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -231,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="src\board\zobrist.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\uciengine.cpp">
+      <Filter>Source Files\UCI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

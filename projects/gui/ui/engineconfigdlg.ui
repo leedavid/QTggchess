@@ -14,7 +14,7 @@
    <item>
     <widget class="QTabWidget" name="m_tabs">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -40,7 +40,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>&amp;命令行参数:</string>
+          <string>&amp;引擎命令:</string>
          </property>
          <property name="buddy">
           <cstring>m_commandEdit</cstring>
@@ -54,8 +54,11 @@
          </item>
          <item>
           <widget class="QPushButton" name="m_browseCmdBtn">
+           <property name="toolTip">
+            <string>加载引擎 exe 文件</string>
+           </property>
            <property name="text">
-            <string>浏览...</string>
+            <string>加载...</string>
            </property>
           </widget>
          </item>
@@ -74,10 +77,17 @@
        <item row="2" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLineEdit" name="m_workingDirEdit"/>
+          <widget class="QLineEdit" name="m_workingDirEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="m_browseWorkingDirBtn">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="toolTip">
             <string>Browse working directory.</string>
            </property>
@@ -99,7 +109,11 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QComboBox" name="m_protocolCombo"/>
+        <widget class="QComboBox" name="m_protocolCombo">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_5">
@@ -135,7 +149,7 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>高级</string>
+       <string>高级设置</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -172,7 +186,7 @@
             <string>Restore the default value for each option</string>
            </property>
            <property name="text">
-            <string>Restore defaults</string>
+            <string>恢复默认参数</string>
            </property>
           </widget>
          </item>
@@ -182,7 +196,7 @@
             <string>Detect the engine's options and supported features</string>
            </property>
            <property name="text">
-            <string>Detect</string>
+            <string>检测</string>
            </property>
           </widget>
          </item>

@@ -72,9 +72,9 @@ CuteChessApplication::CuteChessApplication(int& argc, char* argv[])
 
 	setQuitOnLastWindowClosed(false);
 
-	QCoreApplication::setOrganizationName("ggchessGUI");
-	QCoreApplication::setOrganizationDomain("ggzero.cn");
-	QCoreApplication::setApplicationName("GGchessGUI");
+	QCoreApplication::setOrganizationName(QLatin1String("GGZero_Team"));
+	QCoreApplication::setOrganizationDomain(QLatin1String("ggzero.cn"));
+	QCoreApplication::setApplicationName(QLatin1String("GGchessGUI"));
 	QCoreApplication::setApplicationVersion(CUTECHESS_VERSION);
 
 	// Use Ini format on all platforms

@@ -62,6 +62,7 @@ GraphicsBoard::GraphicsBoard(int files,
 	  m_lightColor(QColor(0xff, 0xce, 0x9e)),
 	  m_darkColor(QColor(0x20, 0x20, 0x20)), // m_darkColor(QColor(0xd1, 0x8b, 0x47)),
 	  //m_darkColor(QColor(0xff, 0xff, 0xff)), // m_darkColor(QColor(0xd1, 0x8b, 0x47)),
+	  //m_darkColor(QColor(0xaa, 0xaa, 0xaa)), // m_darkColor(QColor(0xd1, 0x8b, 0x47)),
 	  m_squares(files * ranks),
 	  m_highlightAnim(nullptr),
 	  m_flipped(false)

@@ -24,10 +24,17 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="m_defaultLocationEdit"/>
+      <widget class="QLineEdit" name="m_defaultLocationEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="m_browseDefaultLocationBtn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>浏览...</string>
        </property>
@@ -80,7 +87,7 @@
      <item>
       <widget class="QToolButton" name="m_addBtn">
        <property name="toolTip">
-        <string>Add a new engine</string>
+        <string>加载一个新引擎</string>
        </property>
        <property name="text">
         <string>Add</string>
@@ -97,7 +104,7 @@
         <bool>false</bool>
        </property>
        <property name="toolTip">
-        <string>Remove selected engine(s)</string>
+        <string>删除所选择的引擎</string>
        </property>
        <property name="text">
         <string>Remove</string>
@@ -114,7 +121,7 @@
         <bool>false</bool>
        </property>
        <property name="toolTip">
-        <string>Configure selected engine(s)</string>
+        <string>设置所选择的引擎参数</string>
        </property>
        <property name="text">
         <string>Configure</string>

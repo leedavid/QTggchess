@@ -148,7 +148,7 @@ ChessGame* NewGameDialog::createGame() const
 
 PlayerBuilder* NewGameDialog::createPlayerBuilder(Chess::Side side) const
 {
-	if (playerType(side) == CPU)
+	if (playerType(side) == CPU)	// 
 	{
 		auto config = m_engineConfig[side];
 		ui->m_gameSettings->applyEngineConfiguration(&config);

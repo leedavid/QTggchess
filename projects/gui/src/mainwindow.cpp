@@ -137,7 +137,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::createActions()
 {
-	m_newGameAct = new QAction(tr("&新建..."), this);
+	m_newGameAct = new QAction(tr("&新建对局..."), this);
 	m_newGameAct->setShortcut(QKeySequence::New);
 
 	m_closeGameAct = new QAction(tr("&关闭"), this);
@@ -147,10 +147,10 @@ void MainWindow::createActions()
 	m_closeGameAct->setShortcut(QKeySequence::Close);
 	#endif
 
-	m_saveGameAct = new QAction(tr("&保存"), this);
+	m_saveGameAct = new QAction(tr("&保存对局"), this);
 	m_saveGameAct->setShortcut(QKeySequence::Save);
 
-	m_saveGameAsAct = new QAction(tr("&另存为..."), this);
+	m_saveGameAsAct = new QAction(tr("&对局另存为..."), this);
 	m_saveGameAsAct->setShortcut(QKeySequence::SaveAs);
 
 	m_copyFenAct = new QAction(tr("&复制 FEN"), this);
@@ -180,16 +180,16 @@ void MainWindow::createActions()
 	m_quitGameAct->setShortcut(QKeySequence::Quit);
 	#endif
 
-	m_newTournamentAct = new QAction(tr("&新建..."), this);
-	m_stopTournamentAct = new QAction(tr("&停止"), this);
-	m_showTournamentResultsAct = new QAction(tr("&结局..."), this);
+	m_newTournamentAct = new QAction(tr("&新建联赛..."), this);
+	m_stopTournamentAct = new QAction(tr("&停止联赛"), this);
+	m_showTournamentResultsAct = new QAction(tr("&联赛结果..."), this);
 
-	m_showSettingsAct = new QAction(tr("&设置"), this);
+	m_showSettingsAct = new QAction(tr("&通用设置"), this);
 	m_showSettingsAct->setMenuRole(QAction::PreferencesRole);
 
-	m_showGameDatabaseWindowAct = new QAction(tr("&棋局数据库"), this);
+	m_showGameDatabaseWindowAct = new QAction(tr("&对局数据库"), this);
 
-	m_showGameWallAct = new QAction(tr("&激活棋局"), this);
+	m_showGameWallAct = new QAction(tr("&当前对局"), this);
 
 	m_minimizeAct = new QAction(tr("&最小化"), this);
 	m_minimizeAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
@@ -208,7 +208,7 @@ void MainWindow::createActions()
 	m_showNextTabAct->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_Tab));
 	#endif
 
-	m_aboutAct = new QAction(tr("&关于佳佳象棋..."), this);
+	m_aboutAct = new QAction(tr("&关于佳佳界面..."), this);
 	m_aboutAct->setMenuRole(QAction::AboutRole);
 
 	connect(m_newGameAct, SIGNAL(triggered()), this, SLOT(newGame()));
@@ -405,7 +405,7 @@ void MainWindow::createToolBars()
 
 	this->mainToolbar = new QToolBar(this);
 	this->mainToolbar->setObjectName(QStringLiteral("mainToolBar"));
-	this->mainToolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); //  ToolButtonTextUnderIcon); ToolButtonIconOnly
+	this->mainToolbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //  ToolButtonTextUnderIcon); ToolButtonIconOnly
 	this->addToolBar(Qt::TopToolBarArea, this->mainToolbar);
 
 	this->mainToolbar->addAction(this->actLinkChessBoard);

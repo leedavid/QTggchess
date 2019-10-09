@@ -115,7 +115,7 @@ QString UciEngine::positionString()
 	//	str += " startpos";
 
 	if (!m_moveStrings.isEmpty())
-		str += QString(" moves") + m_moveStrings;
+		str += QString(" moves") + m_moveStrings;	// 棋步输出
 
 	return str;
 }
@@ -125,7 +125,7 @@ void UciEngine::sendPosition()
 	write(positionString());
 }
 
-void UciEngine::startGame()
+void UciEngine::startGame()   // 引擎开始局面
 {
 	Q_ASSERT(supportsVariant(board()->variant()));
 	const QList<QString> directPvList = {"giveaway", "suicide", "antichess"};
@@ -459,7 +459,7 @@ void UciEngine::parseInfo(const QStringRef& line)
 		"seldepth",
 		"time",
 		"nodes",
-		"score",
+		"score",				// by LGL
 		"pv",
 		"multipv",		
 		"currmove",
