@@ -142,19 +142,19 @@ void GraphicsBoard::paint(QPainter* painter,
 	painter->drawLine(m_squareSize * 8 + x+off, y-off, m_squareSize * 8 + x+off, m_squareSize * 9 + y+off);
 	painter->drawLine(x-off, m_squareSize * 9 + y+off, m_squareSize * 8 + x+off, m_squareSize * 9 + y+off);
 
-	// 2.画棋盘的18条垂直线
+	// 2.画棋盘的16条垂直线
 	qreal xWidth = m_squareSize / 30;	// 
 	pen.setWidth(xWidth);
 	painter->setPen(pen);
 
-	for (int i = 0; i < 9; i++) {
+	for (int i = 1; i < 8; i++) {
 		painter->drawLine(x+m_squareSize * i, y, x+m_squareSize * i, y+m_squareSize * 4);
 		painter->drawLine(x+m_squareSize * i, y+m_squareSize * 5,x+m_squareSize * i, y+m_squareSize * 9);
 	}
 
 	// 3.楚河 汉界 二条竖短线
-	painter->drawLine(x, y+m_squareSize * 4, x, y+m_squareSize * 5);
-	painter->drawLine(x+m_squareSize * 8, y+m_squareSize * 4, x+m_squareSize * 8, y+m_squareSize * 5);
+	painter->drawLine(x, y, x, y+m_squareSize * 9);
+	painter->drawLine(x+m_squareSize * 8, y, x+m_squareSize * 8, y+m_squareSize * 9);
 
 
 	// 4.画棋盘的10条水平线
@@ -167,10 +167,18 @@ void GraphicsBoard::paint(QPainter* painter,
 	painter->drawLine(x + m_squareSize * 3, y + m_squareSize * 7, x + m_squareSize * 5, y + m_squareSize * 9);
 	painter->drawLine(x + m_squareSize * 5, y + m_squareSize * 7, x + m_squareSize * 3, y + m_squareSize * 9);
 
-	QPointF point(x+m_squareSize * 1.2, y+m_squareSize * 4.7);
-	painter->setFont(QFont("Arial", m_squareSize/2));
-	//painter->drawText(point, "aefaf         fef");
-	painter->drawText(point, "楚 河              汉 界");
+	QPointF point1(x+m_squareSize * 1.2, y+m_squareSize * 4.7);
+
+	//QFont f = QFont("Microsoft YaHei");  // KaiTi
+	QFont f = QFont("KaiTi");  // KaiTi
+	f.setPointSizeF(m_squareSize / 2);
+	painter->setPen(Qt::gray);
+	painter->setFont(f);
+	//painter->setFont(QFont("KaiTi", m_squareSize/2));	
+
+	painter->drawText(point1, "楚 河");
+	QPointF point2(x + m_squareSize * 5.2, y + m_squareSize * 4.7);
+	painter->drawText(point2, "汉 界");
 
 
 	// 7. 直角折线
