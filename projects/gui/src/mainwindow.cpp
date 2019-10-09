@@ -15,6 +15,8 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "mainwindow.h"
 
 #include <QAction>
@@ -1084,9 +1086,9 @@ void MainWindow::showAboutDialog()
 	html += "<h3>" + QString("佳佳界面 %1")
 		.arg(CuteChessApplication::applicationVersion()) + "</h3>";
 	html += "<p>" + tr("Using Qt version %1").arg(qVersion()) + "</p>";
-	html += "<p>" + tr("版本所有 2008-2019 "
-			   "作者 Lee David") + "</p>";
-	html += "<p>" + tr("感谢您使用佳佳象棋界面！") + "</p>";
+	html += "<p>" + tr("版本所有 2008-2019 ") + "</p>";
+	html += "<p>" + tr("作者 Lee David") + "</p>";
+	html += "<p>" + tr("感谢您使用佳佳象棋界面") + "</p>";
 	html += "<a href=\"http://www.ggzero.cn\">官方网站</a><br>";
 	html += "<a href=\"http://bbs.ggzero.cn\">官方论坛</a><br>";
 	html += "<a href=\"https://jq.qq.com/?_wv=1027&k=5FxO79E\">加入QQ群</a><br>";

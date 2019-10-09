@@ -16,6 +16,8 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "cutechessapp.h"
 
 #include <QCoreApplication>
@@ -23,6 +25,7 @@
 #include <QTime>
 #include <QFileInfo>
 #include <QSettings>
+#include <QTextCodec>
 
 #include <mersenne.h>
 #include <enginemanager.h>
@@ -40,6 +43,9 @@
 #include "importprogressdlg.h"
 #include "pgnimporter.h"
 #include "gamewall.h"
+
+
+
 #ifndef Q_OS_WIN32
 #	include <sys/types.h>
 #	include <pwd.h>
@@ -107,8 +113,28 @@ CuteChessApplication* CuteChessApplication::instance()
 
 QString CuteChessApplication::userName()
 {
-	#ifdef Q_OS_WIN32
-	return qgetenv("USERNAME");
+	//QTextCodec* codec = QTextCodec::codecForName("UTF-8");
+
+	//QTextCodec::setCodecForTr(codec);
+
+	//QTextCodec::setCodecForLocale(QTextCodec::codecForLocale());
+	//QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
+
+#ifdef Q_OS_WIN32
+	//return qgetenv("USERNAME");
+
+	//QTextCodec* codec = QTextCodec::codecForName("GBK");
+	//QTextCodec::setCodecForLocale(codec);
+	//QTextCodec::setCodecForTr(codec);
+
+	//return qgetenv("USERNAME");
+
+	const QByteArray nn = qgetenv("USERNAME");
+
+	QString name = QString::fromLocal8Bit(nn);
+
+	return name;
+
 	//return "Íæ¼Ò";
 	#else
 	if (QSettings().value("ui/use_full_user_name", true).toBool())
