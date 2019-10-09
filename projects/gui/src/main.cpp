@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
 
 	CuteChessApplication app(argc, argv);
 
+	// ”Ô—‘…Ë÷√
 	QTranslator translator;
 	translator.load(QLocale(), "GGzeroGui", "_", "translations", ".qm");
 	app.installTranslator(&translator);

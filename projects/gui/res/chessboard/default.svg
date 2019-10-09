@@ -15,7 +15,7 @@
    id="svg4693"
    version="1.1"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="default-white.svg">
+   sodipodi:docname="default.svg">
   <title
      id="title3406">Wiki CBurnett Chess Pieces</title>
   <defs
@@ -95,18 +95,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.0998238"
-     inkscape:cx="236.49226"
-     inkscape:cy="368.2088"
+     inkscape:zoom="4.3838129"
+     inkscape:cx="211.30838"
+     inkscape:cy="359.79762"
      inkscape:current-layer="layer5"
      id="namedview4697"
      showgrid="false"
-     inkscape:window-width="1746"
-     inkscape:window-height="1216"
-     inkscape:window-x="52"
-     inkscape:window-y="52"
-     inkscape:window-maximized="0"
-     showguides="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="false"
      inkscape:guide-bbox="true">
     <sodipodi:guide
        position="115.65275,380.83287"
@@ -177,28 +177,28 @@
      inkscape:label="Layer 3">
     <g
        id="R"
-       inkscape:label="#g941">
+       inkscape:label="#g969">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
          cx="87"
          id="path506" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
          cx="87"
          id="path495" />
       <text
-         transform="scale(0.90168251,1.1090378)"
+         transform="scale(0.90168252,1.1090378)"
          id="text4218"
          y="386.61307"
          x="85.206482"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="386.61307"
            x="85.206482"
            id="tspan4216"
@@ -206,17 +206,17 @@
     </g>
     <g
        id="r"
-       inkscape:label="#g947">
+       inkscape:label="#g975">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
          cx="87.823097"
          id="path506-6" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
          cx="87.823097"
          id="path495-8" />
@@ -225,371 +225,360 @@
          id="text4218-0"
          y="421.70407"
          x="86.119324"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.56333596;"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.56333596;"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="421.70407"
            x="86.119324"
            id="tspan4216-2"
            sodipodi:role="line">車</tspan></text>
     </g>
     <g
-       transform="translate(32.783652)"
        id="N"
-       inkscape:label="#g941">
+       inkscape:label="#g981">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="119.78365"
          id="path506-64" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="119.78365"
          id="path495-0" />
       <text
-         transform="scale(0.90168251,1.1090378)"
+         transform="scale(0.90168252,1.1090378)"
          id="text4218-6"
          y="386.61307"
-         x="85.206482"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="121.56479"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="386.61307"
-           x="85.206482"
+           x="121.56479"
            id="tspan4216-5"
            sodipodi:role="line">马 </tspan></text>
     </g>
     <g
-       transform="translate(32.213363)"
        id="n"
-       inkscape:label="#g947">
+       inkscape:label="#g987">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="120.03646"
          id="path506-6-2" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="120.03646"
          id="path495-8-9" />
       <text
          transform="scale(0.90168252,1.1090378)"
          id="text4218-0-0"
          y="421.70407"
-         x="86.119324"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="121.84516"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="421.70407"
-           x="86.119324"
+           x="121.84516"
            id="tspan4216-2-4"
            sodipodi:role="line">马</tspan></text>
     </g>
     <g
-       transform="translate(65.567292)"
        id="C"
-       inkscape:label="#g941">
+       inkscape:label="#g993">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="152.56729"
          id="path506-64-5" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="152.56729"
          id="path495-0-9" />
       <text
-         transform="scale(0.90168251,1.1090378)"
+         transform="scale(0.90168252,1.1090378)"
          id="text4218-6-0"
          y="386.61307"
-         x="85.206482"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="157.92308"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="386.61307"
-           x="85.206482"
+           x="157.92308"
            id="tspan4216-5-1"
            sodipodi:role="line">炮 </tspan></text>
     </g>
     <g
-       transform="translate(64.426712)"
        id="c"
-       inkscape:label="#g947">
+       inkscape:label="#g999">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="152.2498"
          id="path506-6-2-4" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="152.2498"
          id="path495-8-9-7" />
       <text
          transform="scale(0.90168252,1.1090378)"
          id="text4218-0-0-2"
          y="421.70407"
-         x="86.119324"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="157.57098"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="421.70407"
-           x="86.119324"
+           x="157.57098"
            id="tspan4216-2-4-3"
            sodipodi:role="line">炮</tspan></text>
     </g>
     <g
-       transform="translate(98.350932)"
        id="P"
-       inkscape:label="#g941">
+       inkscape:label="#g1005">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="185.35094"
          id="path506-64-5-9" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="185.35094"
          id="path495-0-9-1" />
       <text
-         transform="scale(0.90168251,1.1090378)"
+         transform="scale(0.90168252,1.1090378)"
          id="text4218-6-0-7"
          y="386.61307"
-         x="85.206482"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="194.28139"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="386.61307"
-           x="85.206482"
+           x="194.28139"
            id="tspan4216-5-1-7"
            sodipodi:role="line">兵 </tspan></text>
     </g>
     <g
-       transform="translate(96.640101)"
        id="p"
-       inkscape:label="#g947">
+       inkscape:label="#g1047">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="184.4632"
          id="path506-6-2-4-1" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="184.4632"
          id="path495-8-9-7-3" />
       <text
          transform="scale(0.90168252,1.1090378)"
          id="text4218-0-0-2-7"
          y="421.70407"
-         x="86.119324"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="193.29684"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="421.70407"
-           x="86.119324"
+           x="193.29684"
            id="tspan4216-2-4-3-0"
            sodipodi:role="line">卒</tspan></text>
     </g>
     <g
-       transform="translate(131.13458)"
        id="A"
-       inkscape:label="#g941">
+       inkscape:label="#g1011">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="218.13458"
          id="path506-64-5-9-1" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="218.13458"
          id="path495-0-9-1-2" />
       <text
-         transform="scale(0.90168251,1.1090378)"
+         transform="scale(0.90168252,1.1090378)"
          id="text4218-6-0-7-0"
          y="386.61307"
-         x="85.206482"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="230.63969"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="386.61307"
-           x="85.206482"
+           x="230.63969"
            id="tspan4216-5-1-7-0"
            sodipodi:role="line">仕 </tspan></text>
     </g>
     <g
-       transform="translate(128.85345)"
        id="a"
-       inkscape:label="#g947">
+       inkscape:label="#g1041">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="216.67654"
          id="path506-6-2-4-1-5" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="216.67654"
          id="path495-8-9-7-3-2" />
       <text
          transform="scale(0.90168252,1.1090378)"
          id="text4218-0-0-2-7-3"
          y="421.70407"
-         x="86.119324"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="229.02267"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="421.70407"
-           x="86.119324"
+           x="229.02267"
            id="tspan4216-2-4-3-0-6"
            sodipodi:role="line">士</tspan></text>
     </g>
     <g
-       transform="translate(163.91822)"
        id="B"
-       inkscape:label="#g941">
+       inkscape:label="#g1017">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="250.91821"
          id="path506-64-5-9-1-9" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="250.91821"
          id="path495-0-9-1-2-5" />
       <text
-         transform="scale(0.90168251,1.1090378)"
+         transform="scale(0.90168252,1.1090378)"
          id="text4218-6-0-7-0-7"
          y="386.61307"
-         x="85.206482"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="266.99799"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="386.61307"
-           x="85.206482"
+           x="266.99799"
            id="tspan4216-5-1-7-0-7"
            sodipodi:role="line">相 </tspan></text>
     </g>
     <g
-       transform="translate(161.06683)"
        id="b"
-       inkscape:label="#g947">
+       inkscape:label="#g1035"
+       transform="translate(0.45622385)">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="248.88992"
          id="path506-6-2-4-1-5-1" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.20000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="248.88992"
          id="path495-8-9-7-3-2-4" />
       <text
          transform="scale(0.90168252,1.1090378)"
          id="text4218-0-0-2-7-3-0"
          y="421.70407"
-         x="86.119324"
+         x="264.74854"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
          xml:space="preserve"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.56333596"
            y="421.70407"
-           x="86.119324"
+           x="264.74854"
            id="tspan4216-2-4-3-0-6-2"
            sodipodi:role="line">象</tspan></text>
     </g>
     <g
-       transform="translate(196.70186)"
        id="K"
-       inkscape:label="#g941">
+       inkscape:label="#g1023">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="283.70187"
          id="path506-64-5-9-1-1" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#f70000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="421"
-         cx="87"
+         cx="283.70187"
          id="path495-0-9-1-2-3" />
       <text
-         transform="scale(0.90168251,1.1090378)"
+         transform="scale(0.90168252,1.1090378)"
          id="text4218-6-0-7-0-4"
          y="386.61307"
-         x="85.206482"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="303.35629"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#ff0000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="386.61307"
-           x="85.206482"
+           x="303.35629"
            id="tspan4216-5-1-7-0-4"
            sodipodi:role="line">帅 </tspan></text>
     </g>
     <g
-       transform="translate(193.28018)"
        id="k"
-       inkscape:label="#g947">
+       inkscape:label="#g1029">
       <ellipse
          ry="14.899658"
          rx="14.89966"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.20067887;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="281.10327"
          id="path506-6-2-4-1-5-6" />
       <circle
          r="12.42885"
-         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.14230049;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cy="459.9173"
-         cx="87.823097"
+         cx="281.10327"
          id="path495-8-9-7-3-2-41" />
       <text
          transform="scale(0.90168252,1.1090378)"
          id="text4218-0-0-2-7-3-2"
          y="421.70407"
-         x="86.119324"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.56333596"
+         x="300.47433"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.53343582px;line-height:1.25;font-family:STKaiti;-inkscape-font-specification:STKaiti;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.56333596"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:LiSu;-inkscape-font-specification:LiSu;fill:#000000;fill-opacity:1;stroke-width:0.40000001;stroke-miterlimit:4;stroke-dasharray:none"
            y="421.70407"
-           x="86.119324"
+           x="300.47433"
            id="tspan4216-2-4-3-0-6-9"
            sodipodi:role="line">将</tspan></text>
     </g>

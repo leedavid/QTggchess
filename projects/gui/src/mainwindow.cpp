@@ -96,8 +96,8 @@ MainWindow::MainWindow(ChessGame* game)
 	new ModelTest(m_tagsModel, this);
 	#endif
 
-	m_evalHistory = new EvalHistory(this);
-	m_evalWidgets[0] = new EvalWidget(this);
+	m_evalHistory = new EvalHistory(this);					// 历史曲线窗口
+	m_evalWidgets[0] = new EvalWidget(this);				// PV 路径窗口
 	m_evalWidgets[1] = new EvalWidget(this);
 
 	QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -116,9 +116,9 @@ MainWindow::MainWindow(ChessGame* game)
 	createDockWindows();
 
 	// 状态栏
-	statusBar()->showMessage("GGzero官方网址: www.ggzero.cn, 论坛: bbs.ggzero.cn, QQ群: 779375937 欢迎您的加入与支持");
+	statusBar()->showMessage("GGzero官方网址: www.ggzero.cn 论坛: bbs.ggzero.cn QQ群: 779375937 欢迎您的加入与支持");
 
-	connect(m_moveList, SIGNAL(moveClicked(int,bool)),
+	connect(m_moveList, SIGNAL(moveClicked(int,bool)),			// 点击棋谱走步
 	        m_gameViewer, SLOT(viewMove(int,bool)));
 	connect(m_moveList, SIGNAL(commentClicked(int, QString)),
 		this, SLOT(editMoveComment(int, QString)));

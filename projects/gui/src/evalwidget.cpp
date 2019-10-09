@@ -42,8 +42,8 @@ EvalWidget::EvalWidget(QWidget *parent)
 	m_statsTable->setMaximumHeight(maxHeight);
 
 	QStringList statsHeaders;
-	statsHeaders << tr("速度") << tr("哈希使用")
-		     << tr("后台") << tr("概率") << tr("残局库");
+	statsHeaders << tr("速度") << tr("哈希")
+		     << tr("后台") << tr("概率") << tr("EGB");
 	m_statsTable->setHorizontalHeaderLabels(statsHeaders);
 	hHeader->setSectionResizeMode(QHeaderView::Stretch);
 	auto protoItem = new QTableWidgetItem;

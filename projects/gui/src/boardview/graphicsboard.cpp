@@ -105,8 +105,8 @@ void GraphicsBoard::paint(QPainter* painter,
 	Q_UNUSED(widget);
 
 	// »­±³¾°Í¼
-	QString picPath = QCoreApplication::applicationDirPath() + "/image/backgroud.jpg";	
-	painter->drawPixmap(m_rect.left()-100,m_rect.top()-100, QPixmap(picPath));
+	//QString picPath = QCoreApplication::applicationDirPath() + "/image/backgroud.jpg";	
+	//painter->drawPixmap(m_rect.left()-100,m_rect.top()-100, QPixmap(picPath));
 
 	QRectF rect(m_rect.topLeft(), QSizeF(m_squareSize, m_squareSize));
 	const qreal rLeft = rect.left();
