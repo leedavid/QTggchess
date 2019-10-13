@@ -148,7 +148,7 @@ class LIB_EXPORT Board
 		bool isValidSquare(const Square& square) const;
 
 		// 棋格是否在宫殿里
-		bool isInPlace(const Square& square) const;
+		bool isInPalace(const Square& square) const;
 
 		// 棋子是否过河
 		bool isOverRiver(const Square& square) const;

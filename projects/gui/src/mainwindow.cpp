@@ -782,7 +782,7 @@ void MainWindow::newGame()
 {
 	EngineManager* engineManager = CuteChessApplication::instance()->engineManager();
 	NewGameDialog dlg(engineManager, this);
-	if (dlg.exec() != QDialog::Accepted)
+	if (dlg.exec() != QDialog::Accepted)             // 如果是取消
 		return;
 
 	auto game = dlg.createGame();

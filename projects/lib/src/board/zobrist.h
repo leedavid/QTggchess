@@ -117,7 +117,8 @@ inline int Zobrist::pieceTypeCount() const
 
 inline const quint64* Zobrist::keys() const
 {
-	return m_keys;
+	//return m_keys;
+	return nullptr;
 }
 
 } //namespace Chess

@@ -266,7 +266,7 @@ bool Board::isValidSquare(const Chess::Square& square) const
 	return true;
 }
 
-bool Board::isInPlace(const Square& square) const
+bool Board::isInPalace(const Square& square) const
 {
 	int f = square.file();
 	int r = square.rank();

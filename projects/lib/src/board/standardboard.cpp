@@ -24,7 +24,8 @@ namespace {
 
 // Zobrist keys for Polyglot opening book compatibility
 // Specs: http://alpha.uhasselt.be/Research/Algebra/Toga/book_format.html
-const quint64 s_keys[] = {
+	/*
+	const quint64 s_keys[] = {
 	Q_UINT64_C(0xF8D626AAAF278509), Q_UINT64_C(0x2218DBC13AB50C2A),
 	Q_UINT64_C(0xEB7284FF06058ED8), Q_UINT64_C(0x588B4C4C77A4044D),
 	Q_UINT64_C(0xC2366DF16A5D128C), Q_UINT64_C(0x6AF41C8BC3CD3747),
@@ -1047,13 +1048,16 @@ const quint64 s_keys[] = {
 	Q_UINT64_C(0x74C5309606137D59), Q_UINT64_C(0x5AE494C4BDF36285),
 	Q_UINT64_C(0x7C7FA74105624E40)
 };
+    */
+
+
 
 } // anonymous namespace
 
 namespace Chess {
 
 StandardBoard::StandardBoard()
-	: WesternBoard(new WesternZobrist(s_keys))
+	: WesternBoard(new WesternZobrist(nullptr))
 {
 }
 

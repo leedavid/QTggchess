@@ -1185,7 +1185,7 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 			if (!isValidSquare(chessSquare(targetSquare)))
 				continue;
 
-			if (!isInPlace(chessSquare(targetSquare))) {
+			if (!isInPalace(chessSquare(targetSquare))) {
 				continue;
 			}
 
@@ -1204,7 +1204,7 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 			if (!isValidSquare(chessSquare(targetSquare)))
 				continue;
 
-			if (!isInPlace(chessSquare(targetSquare))) {
+			if (!isInPalace(chessSquare(targetSquare))) {
 				continue;
 			}
 

@@ -26,6 +26,9 @@
 #include "mersenne.h"
 
 
+
+
+
 QDataStream& operator>>(QDataStream& in, OpeningBook* book)
 {
 	while (in.status() == QDataStream::Ok)
@@ -58,6 +61,27 @@ OpeningBook::~OpeningBook()
 
 bool OpeningBook::read(const QString& filename)
 {
+   
+	DB = QSqlDatabase::addDatabase("QSQLITE");  
+	DB.setDatabaseName(filename);
+
+	if (!DB.open()) {
+		qWarning("打不开开局库文件 %s",
+			qUtf8Printable(filename));
+		return false;
+	}
+
+
+	//int result = sqlite3_open(filename.toStdString().c_str(), &this->db);
+	//if (result != SQLITE_OK) {
+	//	qWarning("打不开开局库文件 %s",
+	//		qUtf8Printable(filename));
+	//	return false;
+	//}
+
+	return true;
+	
+	/*
 	m_filename = filename;
 	QFile file(filename);
 	if (!file.open(QIODevice::ReadOnly))
@@ -78,6 +102,8 @@ bool OpeningBook::read(const QString& filename)
 	in >> this;
 
 	return !m_map.isEmpty();
+
+	*/
 }
 
 bool OpeningBook::write(const QString& filename) const

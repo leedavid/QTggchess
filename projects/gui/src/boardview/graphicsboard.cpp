@@ -171,7 +171,8 @@ void GraphicsBoard::paint(QPainter* painter,
 
 	//QFont f = QFont("Microsoft YaHei");  // KaiTi
 	QFont f = QFont("KaiTi");  // KaiTi
-	f.setPointSizeF(m_squareSize / 2);
+	//f.setPointSizeF(m_squareSize / 2);
+	f.setPixelSize(m_squareSize / 1.5);
 	painter->setPen(Qt::gray);
 	painter->setFont(f);
 	//painter->setFont(QFont("KaiTi", m_squareSize/2));	

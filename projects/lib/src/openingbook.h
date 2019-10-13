@@ -21,7 +21,11 @@
 
 #include <QtGlobal>
 #include <QMultiMap>
+#include <QtSql>
 #include "board/genericmove.h"
+
+//#include "sqlite3.h"
+//#pragma comment(lib,"SQLite3.lib")
 
 class QString;
 class QDataStream;
@@ -48,6 +52,7 @@ class LIB_EXPORT OpeningBook
 		{
 			Ram,	//!< Load the entire book to RAM
 			Disk	//!< Read moves directly from disk
+			//BHbook, // ±øºÓ¿ª¾Ö¿â
 		};
 
 		/*!
@@ -67,6 +72,14 @@ class LIB_EXPORT OpeningBook
 			 * likely the move will be played.
 			 */
 			quint16 weight;
+
+			quint16 bmove;
+			qint32 score;
+			quint32 win_count;
+			quint32 draw_count;
+			quint32 lost_connt;
+			quint16 valid;
+			QChar comments[64];
 		};
 
 		/*! Creates a new OpeningBook with access mode \a mode. */
@@ -155,6 +168,11 @@ class LIB_EXPORT OpeningBook
 		AccessMode m_mode;
 		QString m_filename;
 		Map m_map;
+		bool useBerKeyDB;		// 
+		bool useSqlliteDB;
+		QSqlDatabase DB;        // 
+
+	
 };
 
 /*!

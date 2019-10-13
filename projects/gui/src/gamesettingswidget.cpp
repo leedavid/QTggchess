@@ -60,8 +60,8 @@ GameSettingsWidget::GameSettingsWidget(QWidget *parent)
 
 	connect(ui->m_browsePolyglotFile, &QPushButton::clicked, this, [=]()
 	{
-		auto dlg = new QFileDialog(this, tr("Select opening book"), QString(),
-			tr("Polyglot files (*.bin)"));
+		auto dlg = new QFileDialog(this, tr("选择开局库文件"), QString(),
+			tr("兵河开局库 (*.obk)"));
 		connect(dlg, &QFileDialog::fileSelected,
 			ui->m_polyglotFileEdit, &QLineEdit::setText);
 		dlg->setAttribute(Qt::WA_DeleteOnClose);

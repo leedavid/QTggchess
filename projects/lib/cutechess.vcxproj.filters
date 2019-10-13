@@ -366,9 +366,6 @@
     <ClInclude Include="src\openingsuite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\board\oukboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\pgngame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
