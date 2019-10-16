@@ -25,7 +25,8 @@
 #include "pgnstream.h"
 #include "mersenne.h"
 
-
+//#include "ConnectionPool.h"
+//#include "databasemanager.h"
 
 
 
@@ -59,51 +60,42 @@ OpeningBook::~OpeningBook()
 {
 }
 
+QString getRandomString(int length)
+{
+	qsrand(QDateTime::currentMSecsSinceEpoch());//为随机值设定一个seed
+
+	const char chrs[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	int chrs_size = sizeof(chrs);
+
+	char* ch = new char[length + 1];
+	memset(ch, 0, length + 1);
+	int randomx = 0;
+	for (int i = 0; i < length; ++i)
+	{
+		randomx = rand() % (chrs_size - 1);
+		ch[i] = chrs[randomx];
+	}
+
+	QString ret(ch);
+	delete[] ch;
+	return ret;
+}
+
 bool OpeningBook::read(const QString& filename)
 {
    
-	DB = QSqlDatabase::addDatabase("QSQLITE");  
-	DB.setDatabaseName(filename);
+	this->m_filename = filename;
 
-	if (!DB.open()) {
-		qWarning("打不开开局库文件 %s",
-			qUtf8Printable(filename));
-		return false;
-	}
-
-
-	//int result = sqlite3_open(filename.toStdString().c_str(), &this->db);
-	//if (result != SQLITE_OK) {
-	//	qWarning("打不开开局库文件 %s",
-	//		qUtf8Printable(filename));
-	//	return false;
-	//}
-
-	return true;
+	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", getRandomString(10));
+	db.setDatabaseName(this->m_filename);
 	
-	/*
-	m_filename = filename;
-	QFile file(filename);
-	if (!file.open(QIODevice::ReadOnly))
-		return false;
-
-	if ((file.size() % entrySize()) != 0)
-	{
-		qWarning("Invalid size for opening book %s",
-			 qUtf8Printable(filename));
+	if (!db.open()) {
+		qWarning("打不开开局库文件 %s",
+			qUtf8Printable(this->m_filename));
 		return false;
 	}
-
-	if (m_mode == Disk)
-		return true;
-
-	m_map.clear();
-	QDataStream in(&file);
-	in >> this;
-
-	return !m_map.isEmpty();
-
-	*/
+	db.close();
+	return true;
 }
 
 bool OpeningBook::write(const QString& filename) const
@@ -118,6 +110,8 @@ bool OpeningBook::write(const QString& filename) const
 	return true;
 }
 
+
+
 void OpeningBook::addEntry(const Entry& entry, quint64 key)
 {
 	Map::iterator it = m_map.find(key);
@@ -126,7 +120,7 @@ void OpeningBook::addEntry(const Entry& entry, quint64 key)
 		Entry& tmp = it.value();
 		if (tmp.move == entry.move)
 		{
-			tmp.weight += entry.weight;
+			//tmp.weight += entry.weight;
 			return;
 		}
 		++it;
@@ -190,6 +184,80 @@ int OpeningBook::import(PgnStream& in, int maxMoves)
 QList<OpeningBook::Entry> OpeningBook::entriesFromDisk(quint64 key) const
 {
 	QList<Entry> entries;
+
+	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", getRandomString(10));
+	db.setDatabaseName(this->m_filename);
+	if (!db.open()) {
+		qWarning("打不开开局库文件 %s",
+			qUtf8Printable(this->m_filename));
+		return entries;
+	}
+	   
+
+	//
+	QSqlQuery query(db);
+
+	//key = 0x628d04d7c9c144ae;
+	//qint64 ikey = 0xa1ead1f6470e07ee;
+	//quint64 ukey = 0xa1ead1f6470e07ee;
+
+	QString sql = "select * from bhobk where vkey = ?";
+	query.prepare(sql);
+	qint64 ikey = key;
+	if (ikey > 0) {		
+		query.bindValue(0, key);
+	}
+	else {
+		double dkey;
+		memcpy(&dkey, &key, sizeof(qint64));
+		query.bindValue(0, dkey);
+	}
+
+
+	if (query.exec()) {
+
+		Entry entry;
+
+		query.first();
+		while (query.isValid()) {
+
+			quint32 mbh = query.value("vmove").toInt();
+
+			// 这儿要转换一下
+			int from = mbh >> 8;
+			int to = mbh & 0xff;
+
+			int fx = from % 16-3;
+			int fy = 12 - from / 16;
+			Chess::Square sqfrom = Chess::Square(fx, fy);
+
+			int tx = to % 16 - 3;
+			int ty = 12 - to / 16;
+			Chess::Square sqto = Chess::Square(tx, ty);
+			entry.move = Chess::GenericMove(sqfrom, sqto);
+
+			//Chess::Move move = m_board->moveFromGenericMove(bookMove);				// 
+
+			entry.vscore = query.value("vscore").toInt();
+			entry.win_count = query.value("vwin").toInt();
+			entry.draw_count = query.value("vdraw").toInt();
+			entry.lost_connt = query.value("vlost").toInt();
+			entry.valid = query.value("vvalid").toInt();
+			entry.comments = query.value("vmemo").toString();
+			entry.vindex = query.value("vindex").toInt();
+
+			if(entry.vscore >= 0){
+				entries << entry;
+			}
+
+			if (!query.next()) {   // 移动到下一条，并判断是不是到未尾了
+				break;
+			}
+		}		
+	}
+
+
+	/*
 	QFile file(m_filename);
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -240,16 +308,51 @@ QList<OpeningBook::Entry> OpeningBook::entriesFromDisk(quint64 key) const
 			last = middle - 1;
 		middle = (first + last) / 2;
 	}
+	*/
+
+
+
+	//DB.close();
+
+	db.close();
+
+	//ConnectionPool::closeConnection(db);
+
+	//ConnectionPool::release();
+
+	//DatabaseManager::clear();
 
 	return entries;
 }
 
 QList<OpeningBook::Entry> OpeningBook::entries(quint64 key) const
 {
-	if (m_mode == Ram)
-		return m_map.values(key);
+	//if (m_mode == Ram)
+	//	return m_map.values(key);
 	return entriesFromDisk(key);
 }
+
+//QList<OpeningBook::Entry> OpeningBook::getEntriesFromKeys(QVector<quint64>& keys) const
+//{
+//	QList<Entry> entries;
+//
+//	// 查找每一个keys的book.obk信息
+//	for (auto key : keys) {
+//		OpeningBook::Entry en;
+//		if (GetBookOneEntry(key, en)) {
+//			entries.append(en);
+//		}
+//	}
+//
+//	return entries;
+//}
+
+//bool OpeningBook::GetBookOneEntry(quint64 key, Entry& entry) const
+//{
+//	//
+//	
+//	return false;
+//}
 
 Chess::GenericMove OpeningBook::move(quint64 key) const
 {
@@ -262,10 +365,16 @@ Chess::GenericMove OpeningBook::move(quint64 key) const
 		return move;
 	
 	// Calculate the total weight of all available moves
+	//int totalWeight = 0;
+	//for (const Entry& entry : entries)
+	//	totalWeight += entry.weight;
+	//if (totalWeight <= 0)
+	//	return move;
+
 	int totalWeight = 0;
 	for (const Entry& entry : entries)
-		totalWeight += entry.weight;
-	if (totalWeight <= 0)
+		totalWeight += entry.vscore;
+	if (totalWeight < 0)
 		return move;
 
 	// Pick a move randomly, with the highest-weighted move having
@@ -274,10 +383,31 @@ Chess::GenericMove OpeningBook::move(quint64 key) const
 	int currentWeight = 0;
 	for (const Entry& entry : entries)
 	{
-		currentWeight += entry.weight;
+		currentWeight += entry.vscore;
 		if (currentWeight > pick)
 			return entry.move;
 	}
 	
 	return move;
 }
+
+//Chess::GenericMove OpeningBook::moveFromKeys(QVector<quint64>& keys) const
+//{
+//	Chess::GenericMove move;
+//
+//	if (keys.isEmpty()) {
+//		return move;
+//	}
+//
+//	const auto entries = getEntriesFromKeys(keys);
+//
+//	// Calculate the total weight of all available moves
+//	//int totalWeight = 0;
+//	//for (const Entry& entry : entries)
+//	//	totalWeight += entry.weight;
+//	//if (totalWeight <= 0)
+//	//	return move;
+//
+//	
+//	return Chess::GenericMove();
+//}

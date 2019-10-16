@@ -38,6 +38,9 @@
     <Filter Include="Source Files\UCI">
       <UniqueIdentifier>{56518f2b-113a-4c05-a160-b8fe0de84f0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Sqlite">
+      <UniqueIdentifier>{77c99011-3cfe-499e-8b35-cce41dc623d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\board\board.cpp">
@@ -234,6 +237,12 @@
     </ClCompile>
     <ClCompile Include="src\uciengine.cpp">
       <Filter>Source Files\UCI</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectionPool.cpp">
+      <Filter>Source Files\Sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="databasemanager.cpp">
+      <Filter>Source Files\Sqlite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -464,6 +473,12 @@
     </QtMoc>
     <ClInclude Include="src\board\zobrist.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectionPool.h">
+      <Filter>Source Files\Sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="databasemanager.h">
+      <Filter>Source Files\Sqlite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

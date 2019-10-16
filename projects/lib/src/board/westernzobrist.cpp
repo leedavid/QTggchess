@@ -39,9 +39,9 @@ namespace Chess {
 	};
 
 	//兵河、旋风采用初始数组
-	const unsigned __int64 ZobristPlayer = 0xA0CE2AF90C452F58;
+	const quint64 ZobristPlayer = 0xA0CE2AF90C452F58;
 
-	const unsigned __int64 ZobristTable[14][256] =
+	const quint64 ZobristTable[14][256] =
 	{
 	0x7130B4BD8F138026,  0x451A5F875056AE15,  0x9023211DB6E216DD,  0x8176B9AB5178BE31,  0x9CA65525FE49D1F0,
 	0x64BFA2303868852B,  0xB91360D20127098E,  0x36150C526E1DD2F5,  0xD8BBFB8FCD6F735D,  0xA3B35E61D7DA5068,
@@ -1493,12 +1493,15 @@ namespace Chess {
 	//棋子类型 = > chess = FPiece14[piece];
 	//const int FPiece14[48] =
 	//{
+    //
+    //                                                  将 车 车 包 包 马 马 象 象 士 士 卒 卒 卒 卒 卒 帅 车 车 炮 炮 马 马 相 相 仕 仕 兵 兵 兵 兵 兵
 	//   0	1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 	
 	//	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6, 6, 7, 8, 8, 9, 9,10,10,11,11,12,12,13,13,13,13,13
 	//};
 	//FPiece与FPiece14一一对应 再查棋子名称即可确定棋子类型 由此查出棋子位置计算hashkey!!
 
-	// 将  车  炮  马  象  士  卒  帅  车  炮  马  相  士  兵
+
+	// 帅  车  炮  马  相  士  兵  将  车  炮  马  象  士  卒  
 	//  7   8   9  10  11  12  13   0   1   2   3   4   5   6
 
 			//{
@@ -1535,6 +1538,7 @@ void WesternZobrist::initialize(int squareCount,
 quint64 WesternZobrist::side() const
 {
 	//return keys()[0];
+	//return 0;
 	return ZobristPlayer;
 }
 
@@ -1574,12 +1578,54 @@ quint64 WesternZobrist::piece(const Piece& piece, int square) const
 	int P14 = pType + (side*7);
 	Q_ASSERT(P14 < 15);
 
+
+	// 帅  车  炮  马  相  士  兵  将  车  炮  马  象  士  卒  
+	//  7   8   9  10  11  12  13   0   1   2   3   4   5   6
+
+		//棋子类型 = > chess = FPiece14[piece];
+	//const int FPiece14[48] =
+	//{
+	//
+	//                                                  将 车 车 包 包 马 马 象 象 士 士 卒 卒 卒 卒 卒 帅 车 车 炮 炮 马 马 相 相 仕 仕 兵 兵 兵 兵 兵
+	//   0	1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 	
+	//	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6, 6, 7, 8, 8, 9, 9,10,10,11,11,12,12,13,13,13,13,13
+	//};
+
+		    //{
+			//  Pawn  = 1,	    //!< Pawn
+			//	Xiang = 2,		//!< Knight
+			//	Shi   = 3,		//!< Bishop
+			//	Pao   = 4,		//!< Rook
+			//	Ma    = 5,		//!< Ma
+			//	Che   = 6,		//!< Queen
+			//	King  = 7		//!< King
+			//};
+
 	static const int BHchessToGGchess[15] = {
+		//                                                // GGzero
 		// 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14  
-			0, 6, 4, 5, 2, 3, 1, 0,13,11,12, 9,10, 8, 7
+		    0, 6, 2, 1, 5, 3, 4, 0,13, 9, 8,12,10,11, 7
+        //    兵 相 仕 炮 马 车 帅 卒 象 士 包 马 车 将
+
 	};
 
-	return ZobristTable[BHchessToGGchess[P14]][s256];
+	int BH14 = BHchessToGGchess[P14];
+
+	//quint64 initFace = 0x628d04d7c9c144ae;
+	//quint64 initNoche = 0x748e53cb15508c70;  // 60008906b7bc16dc
+
+	//quint64 xChe = initFace ^ initNoche;
+
+	//for (int che = 0; che < 14; che++) {
+	//	for (int s = 0; s < 256; s++) {
+	//		quint64 z = ZobristTable[che][s];
+	//		if (z == xChe) {
+	//			z = 0;
+	//		}
+	//	}
+	//}
+
+	return ZobristTable[BH14][s256];
 
 	// 将  车  炮  马  象  士  卒  帅  车  炮  马  相  士  兵
 	//  7   8   9  10  11  12  13   0   1   2   3   4   5   6

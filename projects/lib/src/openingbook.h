@@ -71,15 +71,17 @@ class LIB_EXPORT OpeningBook
 			 * of the move. The higher the weight, the more
 			 * likely the move will be played.
 			 */
-			quint16 weight;
+			//quint16 weight;
 
-			quint16 bmove;
-			qint32 score;
+			//quint32 vmove;
+			qint32 vscore;
 			quint32 win_count;
 			quint32 draw_count;
 			quint32 lost_connt;
-			quint16 valid;
-			QChar comments[64];
+			quint32 valid;
+			quint32 vindex;
+			QString  comments;
+			//QChar comments[64];
 		};
 
 		/*! Creates a new OpeningBook with access mode \a mode. */
@@ -121,8 +123,14 @@ class LIB_EXPORT OpeningBook
 		 */
 		Chess::GenericMove move(quint64 key) const;
 
+		//Chess::GenericMove moveFromKeys(QVector<quint64>& keys) const;
+
 		/*! Returns all entries matching \a key. */
 		QList<Entry> entries(quint64 key) const;
+
+		//QList<OpeningBook::Entry> getEntriesFromKeys(QVector<quint64>& keys) const;
+
+		//bool GetBookOneEntry(quint64 key, Entry& entry) const;
 
 		/*!
 		 * Reads a book from \a filename.
@@ -135,6 +143,8 @@ class LIB_EXPORT OpeningBook
 		 * Returns true if successful; otherwise returns false.
 		 */
 		bool write(const QString& filename) const;
+
+		//QString getRandomString(int length);
 
 
 	protected:
@@ -168,9 +178,11 @@ class LIB_EXPORT OpeningBook
 		AccessMode m_mode;
 		QString m_filename;
 		Map m_map;
-		bool useBerKeyDB;		// 
+		bool useBerKeyDB;	    	// 
 		bool useSqlliteDB;
-		QSqlDatabase DB;        // 
+		//QSqlDatabase DB[2];         // 红黑二个连接 
+
+		//QList<QSqlDatabase> SQLDB;
 
 	
 };

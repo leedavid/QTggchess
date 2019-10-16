@@ -84,8 +84,8 @@ void PolyglotBook::writeEntry(const Map::const_iterator& it,
 	quint32 learn = 0;
 	quint64 key = it.key();
 	quint16 pgMove = moveToBits(it.value().move);
-	quint16 weight = it.value().weight;
+	//quint16 weight = it.value().weight;
 	
 	// Store the data. Again, big-endian is used by default.
-	out << key << pgMove << weight << learn;
+	//out << key << pgMove << weight << learn;
 }

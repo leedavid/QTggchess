@@ -374,6 +374,38 @@ void ChessGame::onResultClaim(const Chess::Result& result)
 	stop();
 }
 
+//void ChessGame::bookGetNextPosKeys(QVector<quint64>& keys)
+//{
+//
+//	m_board->GetNextPosKeys(keys);
+//	//QVarLengthArray<Chess::Move> moves;
+//	////QVector<Move> legalMoves;
+//
+//	//m_board->generateMoves(moves);
+//	//legalMoves.reserve(moves.size());
+//
+//	//for (int i = moves.size() - 1; i >= 0; i--)
+//	//{
+//	//	if (vIsLegalMove(moves[i]))
+//	//		legalMoves << moves[i];
+//	//}
+//
+//	//return legalMoves;
+//	//
+//	//
+//	//
+//	//const auto moves = m_board->legalMoves();
+//	//quint64 preKey = m_board->key;
+//
+//	//for (const auto& move : moves){
+//
+//	//	makeMove(move);
+//	//	bool isLegal = isLegalPosition();
+//	//	undoMove();
+//
+//	//}
+//}
+
 Chess::Move ChessGame::bookMove(Chess::Side side)
 {
 	Q_ASSERT(!side.isNull());
@@ -382,8 +414,14 @@ Chess::Move ChessGame::bookMove(Chess::Side side)
 	||  m_moves.size() >= m_bookDepth[side] * 2)
 		return Chess::Move();
 
+
+	//
+	//QVector<quint64> keys;
+	//bookGetNextPosKeys(keys);
+
+
 	Chess::GenericMove bookMove = m_book[side]->move(m_board->key());
-	Chess::Move move = m_board->moveFromGenericMove(bookMove);
+	Chess::Move move = m_board->moveFromGenericMove(bookMove);				// 
 	if (move.isNull())
 		return Chess::Move();
 

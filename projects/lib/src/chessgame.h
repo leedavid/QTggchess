@@ -116,6 +116,9 @@ class LIB_EXPORT ChessGame : public QObject
 		void pauseThread();
 
 	private:
+
+		//void bookGetNextPosKeys(QVector<quint64>& keys);   // get next move position key list
+
 		Chess::Move bookMove(Chess::Side side);
 		bool resetBoard();
 		void initializePgn();

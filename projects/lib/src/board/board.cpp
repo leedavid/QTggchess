@@ -748,6 +748,23 @@ void Board::generateMoves(QVarLengthArray<Move>& moves, int pieceType) const
 	generateDropMoves(moves, pieceType);
 }
 
+//void Board::GetNextPosKeys(QVector<quint64>& keys)
+//{
+//	QVarLengthArray<Move> moves;
+//	generateMoves(moves);
+//
+//	for (int i = 0; i < moves.size(); i++)
+//	{
+//		
+//		Move m = moves[i];
+//		makeMove(m);
+//		if (isLegalPosition()) {
+//			keys.append(m_key);
+//		}
+//		undoMove();
+//	}
+//}
+
 void Board::generateDropMoves(QVarLengthArray<Move>& moves, int pieceType) const
 {
 	const QVector<int>& pieces(m_reserve[m_side]);

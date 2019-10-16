@@ -278,6 +278,7 @@ class LIB_EXPORT Board
 		 * Returns the result of the game, or Result::NoResult if
 		 * the game is in progress.
 		 */
+		//void GetNextPosKeys(QVector<quint64>& keys);
 		virtual Result result() = 0;
 		/*!
 		 * Returns the expected game result according to endgame tablebases.
@@ -403,6 +404,9 @@ class LIB_EXPORT Board
 		 */
 		void generateMoves(QVarLengthArray<Move>& moves,
 				   int pieceType = Piece::NoPiece) const;
+
+
+		
 		/*!
 		 * Generates piece drops for pieces of type \a pieceType.
 		 *
