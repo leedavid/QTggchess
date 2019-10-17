@@ -138,10 +138,10 @@
           <bool>false</bool>
          </property>
          <property name="toolTip">
-          <string>This option should be checked for Xboard/Winboard engines that report their scores from white's perspective.</string>
+          <string>应该为以白方视角报告分数的 Xboard/Winboard 引擎勾选此项。</string>
          </property>
          <property name="text">
-          <string>红方视角评估分数</string>
+          <string>以红方视角显示分数</string>
          </property>
         </widget>
        </item>
@@ -183,20 +183,20 @@
             <bool>false</bool>
            </property>
            <property name="toolTip">
-            <string>Restore the default value for each option</string>
+            <string>为每个选项恢复默认值</string>
            </property>
            <property name="text">
-            <string>恢复默认参数</string>
+            <string>恢复默认</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="m_detectBtn">
            <property name="toolTip">
-            <string>Detect the engine's options and supported features</string>
+            <string>重新检测引擎的选项与支持特性</string>
            </property>
            <property name="text">
-            <string>检测</string>
+            <string>重新检测</string>
            </property>
           </widget>
          </item>
@@ -224,6 +224,9 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="m_buttonBox">
+     <property name="toolTip">
+      <string>重新检测引擎的选项与支持特性</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

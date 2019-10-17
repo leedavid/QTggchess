@@ -256,71 +256,7 @@ QList<OpeningBook::Entry> OpeningBook::entriesFromDisk(quint64 key) const
 		}		
 	}
 
-
-	/*
-	QFile file(m_filename);
-	if (!file.open(QIODevice::ReadOnly))
-	{
-		qWarning("Could not open book file %s",
-			 qUtf8Printable(m_filename));
-		return entries;
-	}
-	QDataStream in(&file);
-
-	quint64 entryKey = 0;
-	qint64 step = entrySize();
-	qint64 n = file.size() / step;
-	qint64 first = 0;
-	qint64 last = n - 1;
-	qint64 middle = (first + last) / 2;
-
-	// Binary search
-	while (first <= last)
-	{
-		qint64 pos = middle * step;
-		file.seek(pos);
-		Entry entry = readEntry(in, &entryKey);
-		if (entryKey < key)
-			first = middle + 1;
-		else if (entryKey == key)
-		{
-			entries << entry;
-			for (qint64 i = pos - step; i >= 0; i -= step)
-			{
-				file.seek(i);
-				entry = readEntry(in, &entryKey);
-				if (entryKey != key)
-					break;
-				entries << entry;
-			}
-			qint64 maxPos = (n - 1) * step;
-			for (qint64 i = pos + step; i <= maxPos; i += step)
-			{
-				file.seek(i);
-				entry = readEntry(in, &entryKey);
-				if (entryKey != key)
-					break;
-				entries << entry;
-			}
-			return entries;
-		}
-		else
-			last = middle - 1;
-		middle = (first + last) / 2;
-	}
-	*/
-
-
-
-	//DB.close();
-
 	db.close();
-
-	//ConnectionPool::closeConnection(db);
-
-	//ConnectionPool::release();
-
-	//DatabaseManager::clear();
 
 	return entries;
 }

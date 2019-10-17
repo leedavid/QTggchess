@@ -29,7 +29,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>比赛类型</string>
+      <string>锦标赛类型</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -50,10 +50,10 @@
         <item>
          <widget class="QRadioButton" name="m_gauntletRadio">
           <property name="toolTip">
-           <string>First engine plays against the rest</string>
+           <string>第一个引擎与其它的引擎一一对战</string>
           </property>
           <property name="text">
-           <string>挑战赛</string>
+           <string>车轮赛</string>
           </property>
          </widget>
         </item>
@@ -70,7 +70,7 @@
         <item>
          <widget class="QRadioButton" name="m_pyramidRadio">
           <property name="toolTip">
-           <string>Every engine plays against all of its predecessors</string>
+           <string>每个引擎与它所有的前任进行比赛。</string>
           </property>
           <property name="text">
            <string>金字塔</string>
@@ -110,7 +110,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>种子选手:</string>
+           <string>种子数:</string>
           </property>
           <property name="buddy">
            <cstring>m_seedsSpin</cstring>
@@ -125,7 +125,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>回合</string>
+      <string>场次</string>
      </property>
      <layout class="QFormLayout" name="formLayout">
       <property name="fieldGrowthPolicy">
@@ -134,7 +134,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>双方对局数:</string>
+         <string>对手间每次相遇的对局数:</string>
         </property>
         <property name="buddy">
          <cstring>m_gamesPerEncounterSpin</cstring>
@@ -154,7 +154,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>回合:</string>
+         <string>循环轮数:</string>
         </property>
         <property name="buddy">
          <cstring>m_roundsSpin</cstring>
@@ -174,7 +174,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>比赛间隔时间:</string>
+         <string>对局之间等待时间:</string>
         </property>
         <property name="buddy">
          <cstring>m_waitSpin</cstring>
@@ -184,21 +184,21 @@
       <item row="2" column="1">
        <widget class="QDoubleSpinBox" name="m_waitSpin">
         <property name="suffix">
-         <string> s</string>
+         <string> 秒</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
        <widget class="QCheckBox" name="m_repeatCheck">
         <property name="text">
-         <string>每个开局比赛二次</string>
+         <string>每种开局比赛二次</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
        <widget class="QCheckBox" name="m_recoverCheck">
         <property name="toolTip">
-         <string>If enabled, crashed engines are restarted and the tournament is not stopped.</string>
+         <string>如果启用，崩溃的引擎将被重启，锦标赛不会停止。</string>
         </property>
         <property name="text">
          <string>恢复崩溃的引擎</string>

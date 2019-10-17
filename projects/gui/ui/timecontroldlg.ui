@@ -38,7 +38,7 @@
          <string>Tournament time control</string>
         </property>
         <property name="text">
-         <string>比赛</string>
+         <string>锦标赛</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -48,7 +48,7 @@
       <item>
        <widget class="QRadioButton" name="m_timePerMoveRadio">
         <property name="toolTip">
-         <string>Fixed time limit for each move</string>
+         <string>每一步固定时间</string>
         </property>
         <property name="text">
          <string>步时</string>
@@ -61,7 +61,7 @@
          <string>Infinite thinking time</string>
         </property>
         <property name="text">
-         <string>不限时</string>
+         <string>不限时间</string>
         </property>
        </widget>
       </item>
@@ -89,7 +89,7 @@
         <string>The number of moves in a time control</string>
        </property>
        <property name="specialValueText">
-        <string>全局</string>
+        <string>整场对局</string>
        </property>
        <property name="maximum">
         <number>9999</number>
@@ -173,17 +173,17 @@
      <item row="2" column="1">
       <widget class="QDoubleSpinBox" name="m_incrementSpin">
        <property name="toolTip">
-        <string>Time increment per move in seconds</string>
+        <string>每走一步增加的时间</string>
        </property>
        <property name="suffix">
-        <string>秒</string>
+        <string> 秒</string>
        </property>
       </widget>
      </item>
      <item row="4" column="1">
       <widget class="QSpinBox" name="m_pliesSpin">
        <property name="toolTip">
-        <string>Maximum search depth in plies (engines only)</string>
+        <string> 引擎的最大搜索层数</string>
        </property>
        <property name="maximum">
         <number>999</number>
@@ -203,7 +203,7 @@
      <item row="3" column="1">
       <widget class="QSpinBox" name="m_nodesSpin">
        <property name="toolTip">
-        <string>Maximum number of nodes to search (engines only)</string>
+        <string>引擎的最大搜索节点数</string>
        </property>
        <property name="maximum">
         <number>2147483647</number>
@@ -223,7 +223,7 @@
      <item row="5" column="1">
       <widget class="QSpinBox" name="m_marginSpin">
        <property name="toolTip">
-        <string>The time limit can be exceeded by this many milliseconds</string>
+        <string>可以超过时限这么多毫秒</string>
        </property>
        <property name="suffix">
         <string> ms</string>
@@ -236,7 +236,7 @@
      <item row="5" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>间隔:</string>
+        <string>宽限:</string>
        </property>
        <property name="buddy">
         <cstring>m_marginSpin</cstring>

@@ -221,9 +221,6 @@
     <ClCompile Include="components\json\src\jsonparser.cpp" />
     <ClCompile Include="components\json\src\jsonserializer.cpp" />
     <ClCompile Include="src\knockouttournament.cpp" />
-    <ClCompile Include="src\board\loopboard.cpp" />
-    <ClCompile Include="src\board\losalamosboard.cpp" />
-    <ClCompile Include="src\board\losersboard.cpp" />
     <ClCompile Include="src\mersenne.cpp" />
     <ClCompile Include="src\moveevaluation.cpp" />
     <ClCompile Include="src\openingbook.cpp" />

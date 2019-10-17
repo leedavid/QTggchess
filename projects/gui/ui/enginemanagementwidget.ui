@@ -87,7 +87,7 @@
      <item>
       <widget class="QToolButton" name="m_addBtn">
        <property name="toolTip">
-        <string>加载一个新引擎</string>
+        <string>增加一个新引擎</string>
        </property>
        <property name="text">
         <string>Add</string>
@@ -121,7 +121,7 @@
         <bool>false</bool>
        </property>
        <property name="toolTip">
-        <string>设置所选择的引擎参数</string>
+        <string>配置选定的引擎</string>
        </property>
        <property name="text">
         <string>Configure</string>

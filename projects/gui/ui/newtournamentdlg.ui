@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>新建比赛</string>
+   <string>新建锦标赛</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="sizeConstraint">
@@ -24,7 +24,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox_3">
          <property name="title">
-          <string>通用信息</string>
+          <string>基本信息</string>
          </property>
          <layout class="QFormLayout" name="formLayout_2">
           <item row="0" column="0">
@@ -40,7 +40,7 @@
           <item row="0" column="1">
            <widget class="QLineEdit" name="m_nameEdit">
             <property name="text">
-             <string>我的比赛</string>
+             <string>我的锦标赛</string>
             </property>
             <property name="maxLength">
              <number>127</number>
@@ -169,7 +169,7 @@
           <bool>false</bool>
          </property>
          <property name="title">
-          <string>玩家</string>
+          <string>选手</string>
          </property>
          <property name="flat">
           <bool>false</bool>

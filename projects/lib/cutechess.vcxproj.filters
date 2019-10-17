@@ -41,20 +41,14 @@
     <Filter Include="Source Files\Sqlite">
       <UniqueIdentifier>{77c99011-3cfe-499e-8b35-cce41dc623d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\board">
+      <UniqueIdentifier>{dd64041d-a7cd-4d53-af70-beb8dc25e77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine">
+      <UniqueIdentifier>{95c18e73-2172-4e1d-8a15-0db39a9d253f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\board\board.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\boardfactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\boardtransition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chessengine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\chessgame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,42 +65,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\board\embassyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginebuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginebuttonoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginecheckoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginecombooption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineconfiguration.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginefactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginemanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineoptionfactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineprocess_win.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginespinoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginetextoption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\epdrecord.cpp">
@@ -134,15 +92,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\knockouttournament.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\loopboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\losalamosboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\losersboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mersenne.cpp">
@@ -187,9 +136,6 @@
     <ClCompile Include="src\roundrobintournament.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\side.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\sprt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -220,19 +166,7 @@
     <ClCompile Include="src\tournamentplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\westernboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\westernzobrist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\worker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\xboardengine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\zobrist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\uciengine.cpp">
@@ -243,6 +177,69 @@
     </ClCompile>
     <ClCompile Include="databasemanager.cpp">
       <Filter>Source Files\Sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chessengine.cpp">
+      <Filter>Source Files\UCI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\westernboard.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\westernzobrist.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\xboardengine.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\zobrist.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\board.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\boardfactory.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\boardtransition.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginebuilder.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginebuttonoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginecheckoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginecombooption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineconfiguration.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginefactory.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginemanager.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineoptionfactory.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineprocess_win.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginespinoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginetextoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\side.cpp">
+      <Filter>Source Files\board</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
