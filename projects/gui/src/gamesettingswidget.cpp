@@ -189,9 +189,9 @@ OpeningBook* GameSettingsWidget::openingBook() const
 	if (file.isEmpty())
 		return nullptr;
 
-	auto mode = OpeningBook::Ram;
+	auto mode = OpeningBook::BookRandom;
 	if (ui->m_diskAccessRadio->isChecked())
-		mode = OpeningBook::Disk;
+		mode = OpeningBook::BookBest;
 	auto book = new PolyglotBook(mode);
 	if (!book->read(file))
 	{

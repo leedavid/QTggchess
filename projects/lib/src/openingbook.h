@@ -48,11 +48,10 @@ class LIB_EXPORT OpeningBook
 {
 	public:
 		/*! AccessMode defines how a book is accessed during play. */
-		enum AccessMode
+		enum BookMoveMode
 		{
-			Ram,	//!< Load the entire book to RAM
-			Disk	//!< Read moves directly from disk
-			//BHbook, // 兵河开局库
+			BookRandom,	// 棋步选择大于0分的随机步
+			BookBest	// 选择最佳的开局步
 		};
 
 		/*!
@@ -72,8 +71,6 @@ class LIB_EXPORT OpeningBook
 			 * likely the move will be played.
 			 */
 			//quint16 weight;
-
-			//quint32 vmove;
 			qint32 vscore;
 			quint32 win_count;
 			quint32 draw_count;
@@ -81,11 +78,10 @@ class LIB_EXPORT OpeningBook
 			quint32 valid;
 			quint32 vindex;
 			QString  comments;
-			//QChar comments[64];
 		};
 
 		/*! Creates a new OpeningBook with access mode \a mode. */
-		OpeningBook(AccessMode mode = Ram);
+		OpeningBook(BookMoveMode mode = BookRandom);
 		/*! Destroys the opening book. */
 		virtual ~OpeningBook();
 		
@@ -175,7 +171,7 @@ class LIB_EXPORT OpeningBook
 	private:
 		QList<Entry> entriesFromDisk(quint64 key) const;
 
-		AccessMode m_mode;
+		BookMoveMode m_mode;
 		QString m_filename;
 		Map m_map;
 		bool useBerKeyDB;	    	// 

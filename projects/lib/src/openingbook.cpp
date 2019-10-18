@@ -51,7 +51,7 @@ QDataStream& operator<<(QDataStream& out, const OpeningBook* book)
 	return out;
 }
 
-OpeningBook::OpeningBook(AccessMode mode)
+OpeningBook::OpeningBook(BookMoveMode mode)
 	: m_mode(mode)
 {
 }
@@ -192,12 +192,10 @@ QList<OpeningBook::Entry> OpeningBook::entriesFromDisk(quint64 key) const
 			qUtf8Printable(this->m_filename));
 		return entries;
 	}
-	   
 
-	//
 	QSqlQuery query(db);
 
-	//key = 0x628d04d7c9c144ae;
+	//key = 0x628d04d7c9c144ae;						// 开局初始hash
 	//qint64 ikey = 0xa1ead1f6470e07ee;
 	//quint64 ukey = 0xa1ead1f6470e07ee;
 
@@ -209,7 +207,7 @@ QList<OpeningBook::Entry> OpeningBook::entriesFromDisk(quint64 key) const
 	}
 	else {
 		double dkey;
-		memcpy(&dkey, &key, sizeof(qint64));
+		memcpy(&dkey, &key, sizeof(qint64));	// SQlite3 不认负的 uint64 key
 		query.bindValue(0, dkey);
 	}
 
@@ -239,14 +237,18 @@ QList<OpeningBook::Entry> OpeningBook::entriesFromDisk(quint64 key) const
 			//Chess::Move move = m_board->moveFromGenericMove(bookMove);				// 
 
 			entry.vscore = query.value("vscore").toInt();
-			entry.win_count = query.value("vwin").toInt();
-			entry.draw_count = query.value("vdraw").toInt();
-			entry.lost_connt = query.value("vlost").toInt();
+			//entry.win_count = query.value("vwin").toInt();
+			//entry.draw_count = query.value("vdraw").toInt();
+			//entry.lost_connt = query.value("vlost").toInt();
 			entry.valid = query.value("vvalid").toInt();
-			entry.comments = query.value("vmemo").toString();
-			entry.vindex = query.value("vindex").toInt();
+			//entry.comments = query.value("vmemo").toString();
+			//entry.vindex = query.value("vindex").toInt();
 
-			if(entry.vscore >= 0){
+			//if (entry.vscore == 0) {
+			//	entry.vscore = 1;            // 最小给一个1分，防止除0出错
+			//}
+
+			if(entry.vscore > 0 && entry.valid == 1){  // 只选择大于0分，且是有效的棋步走棋
 				entries << entry;
 			}
 
@@ -263,32 +265,9 @@ QList<OpeningBook::Entry> OpeningBook::entriesFromDisk(quint64 key) const
 
 QList<OpeningBook::Entry> OpeningBook::entries(quint64 key) const
 {
-	//if (m_mode == Ram)
-	//	return m_map.values(key);
 	return entriesFromDisk(key);
 }
 
-//QList<OpeningBook::Entry> OpeningBook::getEntriesFromKeys(QVector<quint64>& keys) const
-//{
-//	QList<Entry> entries;
-//
-//	// 查找每一个keys的book.obk信息
-//	for (auto key : keys) {
-//		OpeningBook::Entry en;
-//		if (GetBookOneEntry(key, en)) {
-//			entries.append(en);
-//		}
-//	}
-//
-//	return entries;
-//}
-
-//bool OpeningBook::GetBookOneEntry(quint64 key, Entry& entry) const
-//{
-//	//
-//	
-//	return false;
-//}
 
 Chess::GenericMove OpeningBook::move(quint64 key) const
 {
@@ -314,36 +293,48 @@ Chess::GenericMove OpeningBook::move(quint64 key) const
 		return move;
 
 	// Pick a move randomly, with the highest-weighted move having
-	// the highest probability of getting picked.
-	int pick = Mersenne::random() % totalWeight;
-	int currentWeight = 0;
-	for (const Entry& entry : entries)
-	{
-		currentWeight += entry.vscore;
-		if (currentWeight > pick)
-			return entry.move;
+	// the highest probability of getting picked.	
+	if (m_mode == BookRandom) {
+		int pick = Mersenne::random() % totalWeight;	
+		int currentWeight = 0;
+		for (const Entry& entry : entries)
+		{
+			currentWeight += entry.vscore;
+			if (currentWeight > pick)
+				return entry.move;
+		}
 	}
+	else {
+		int bestScore = 0;	
+		// 1. 求得最高分
+		for (const Entry& entry : entries) {
+			if (entry.vscore >= bestScore) {
+				bestScore = entry.vscore;				
+			}
+		}
+		// 2. 将全部的最高分集中起来
+		QList<Entry> BestEntries;
+		for (const Entry& entry : entries) {
+			if (entry.vscore == bestScore) {
+				BestEntries << entry;
+			}
+		}
+		// 3. 再在几个最佳步中随机选择
+		int totalWeight = 0;
+		for (const Entry& entry : BestEntries)
+			totalWeight += entry.vscore;
+		if (totalWeight < 0)
+			return move;
+
+		int pick = Mersenne::random() % totalWeight;
+		int currentWeight = 0;
+		for (const Entry& entry : BestEntries)
+		{
+			currentWeight += entry.vscore;
+			if (currentWeight > pick)
+				return entry.move;
+		}
+	}	
 	
 	return move;
 }
-
-//Chess::GenericMove OpeningBook::moveFromKeys(QVector<quint64>& keys) const
-//{
-//	Chess::GenericMove move;
-//
-//	if (keys.isEmpty()) {
-//		return move;
-//	}
-//
-//	const auto entries = getEntriesFromKeys(keys);
-//
-//	// Calculate the total weight of all available moves
-//	//int totalWeight = 0;
-//	//for (const Entry& entry : entries)
-//	//	totalWeight += entry.weight;
-//	//if (totalWeight <= 0)
-//	//	return move;
-//
-//	
-//	return Chess::GenericMove();
-//}

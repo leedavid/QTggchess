@@ -501,9 +501,9 @@ EngineMatch* parseMatch(const QStringList& args, QObject* parent)
 		{
 			QString val = value.toString();
 			if (val == "ram")
-				match->setBookMode(OpeningBook::Ram);
+				match->setBookMode(OpeningBook::BookRandom);
 			else if (val == "disk")
-				match->setBookMode(OpeningBook::Disk);
+				match->setBookMode(OpeningBook::BookBest);
 			else
 				ok = false;
 		}

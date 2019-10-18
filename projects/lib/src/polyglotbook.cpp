@@ -55,7 +55,7 @@ quint16 moveToBits(const Chess::GenericMove& move)
 
 } // anonymous namespace
 
-PolyglotBook::PolyglotBook(AccessMode mode)
+PolyglotBook::PolyglotBook(BookMoveMode mode)
 	: OpeningBook(mode)
 {
 }

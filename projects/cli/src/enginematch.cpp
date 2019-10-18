@@ -31,7 +31,7 @@ EngineMatch::EngineMatch(Tournament* tournament, QObject* parent)
 	  m_tournament(tournament),
 	  m_debug(false),
 	  m_ratingInterval(0),
-	  m_bookMode(OpeningBook::Ram)
+	  m_bookMode(OpeningBook::BookRandom)
 {
 	Q_ASSERT(tournament != nullptr);
 
@@ -95,7 +95,7 @@ void EngineMatch::setRatingInterval(int interval)
 	m_ratingInterval = interval;
 }
 
-void EngineMatch::setBookMode(OpeningBook::AccessMode mode)
+void EngineMatch::setBookMode(OpeningBook::BookMoveMode mode)
 {
 	m_bookMode = mode;
 }
