@@ -57,24 +57,10 @@ bool WesternBoard::kingCanCapture() const
 void WesternBoard::vInitialize()
 {
 	m_kingCanCapture = kingCanCapture();
-	//m_hasCastling = hasCastling();
-	//m_pawnHasDoubleStep = pawnHasDoubleStep();
-	//m_hasEnPassantCaptures = hasEnPassantCaptures();
-
 	m_arwidth = width() + 2;
-
-	//m_castlingRights.rookSquare[Side::White][QueenSide] = 0;
-	//m_castlingRights.rookSquare[Side::White][KingSide] = 0;
-	//m_castlingRights.rookSquare[Side::Black][QueenSide] = 0;
-	//m_castlingRights.rookSquare[Side::Black][KingSide] = 0;
 
 	m_kingSquare[Side::White] = 0;
 	m_kingSquare[Side::Black] = 0;
-
-	//m_castleTarget[Side::White][QueenSide] = (height() + 1) * m_arwidth + 1 + castlingFile(QueenSide);
-	//m_castleTarget[Side::White][KingSide] = (height() + 1) * m_arwidth + 1 + castlingFile(KingSide);
-	//m_castleTarget[Side::Black][QueenSide] = 2 * m_arwidth + 1 + castlingFile(QueenSide);
-	//m_castleTarget[Side::Black][KingSide] = 2 * m_arwidth + 1 + castlingFile(KingSide);
 
 	m_MaOffsets.resize(8);
 	m_MaOffsets[0] = -2 * m_arwidth - 1;
@@ -173,21 +159,6 @@ void WesternBoard::vInitialize()
 	strnumName[14] = "将";
 	strnumName[15] = "错";
 
-
-	//enum WesternPieceType
-	//{
-	//	Pawn = 1,	//!< Pawn
-	//	Xiang,		//!< Knight
-	//	Shi,		//!< Bishop
-	//	Pao,		//!< Rook
-	//	Ma,		    //!< Ma
-	//	Che,		//!< Queen
-	//	King		//!< King
-	//};
-
-
-	//m_multiDigitNotation =  (height() > 9 && coordinateSystem() == NormalCoordinates)
-	//		     || (width() > 9 && coordinateSystem() == InvertedCoordinates);
 }
 
 
@@ -205,39 +176,18 @@ int WesternBoard::captureType(const Move& move) const
 
 Move WesternBoard::moveFromStringCN(const QString& str)
 {
-	//static const int _chtype[] = {
-	//0, Pawn, Xiang, Shi, Pao, Ma, Che, King, Pawn, Xiang, Shi, Pao, Ma, Che, King, 0
-	//};
-	//
-	//// 1. 到得当前所有的合法步子
-
-	//// 1. 得到走的棋子
-	//int num = 0;
-	//QString mchess = str[0];
-	//int chessType = 0;
-
-	//if(mchess )
-
-	//for (auto ns : strnumName) {
-	//	if (mchess == ns) {
-	//		break;
-	//	}
-	//	num++;
-	//}
-	//if (num > 15) {
-	//	return Move();
-	//}
-
-	//int chessType = _chtype[num];
 
 	QVarLengthArray<Move> moves;
 	generateMoves(moves);
+
+	//QString s4 = str.split("x")[0];   // 去了x
 
 	for (int i = 0; i < moves.size(); i++)
 	{
 		const auto m = moves[i];
 		// 得到这个走步的名称：
 		QString cn = ChineseMoveString(m);
+
 		if (str == cn) {
 			if (vIsLegalMove(m)) {
 				return m;
@@ -257,7 +207,6 @@ QString WesternBoard::lanMoveString(const Move& move)
 }
 
 
-//#define GET_SQU(f,r)   (((f)+1) + ((11-(r))*10))
 
 QString WesternBoard::ChineseMoveString(const Move& move)
 {
@@ -424,8 +373,8 @@ QH_BRANCH:
 	}
 
 	
-	if (capture.isValid())   // 吃子步
-		str += 'x';
+	//if (capture.isValid())   // 吃子步
+	//	str += 'x';
 
 	//if (move.promotion() != Piece::NoPiece)
 	//	str += "=" + pieceSymbol(move.promotion()).toUpper();

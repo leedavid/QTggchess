@@ -1113,11 +1113,17 @@ void MainWindow::pasteFen()
 	if (cb->text().isEmpty())
 		return;
 
+	QString fen = cb->text().trimmed();
+	QStringList stFList = fen.split("fen");		// by LGL
+	if (stFList.length() > 1) {
+		fen = stFList[1].trimmed();		
+	}
+
 	QString variant = m_game.isNull() || m_game->board() == nullptr ?
 				"standard" : m_game->board()->variant();
 
 	auto board = Chess::BoardFactory::create(variant);
-	if (!board->setFenString(cb->text()))
+	if (!board->setFenString(fen))
 	{
 		QMessageBox msgBox(QMessageBox::Critical,
 				   tr("FEN error"),
@@ -1132,7 +1138,7 @@ void MainWindow::pasteFen()
 	}
 	auto game = new ChessGame(board, new PgnGame());
 	game->setTimeControl(TimeControl("inf"));
-	game->setStartingFen(cb->text());
+	game->setStartingFen(fen);
 	game->pause();
 
 	connect(game, &ChessGame::initialized, this, &MainWindow::addGame);
