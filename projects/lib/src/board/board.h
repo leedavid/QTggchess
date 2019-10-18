@@ -73,7 +73,7 @@ class LIB_EXPORT Board
 		/*! Notation for move strings. */
 		enum MoveNotation
 		{
-			StandardAlgebraic,	//!< Standard Algebraic notation (SAN).
+			StandardChinese,	//!< Standard Algebraic notation (SAN).
 			LongAlgebraic		//!< Long Algebraic/Coordinate notation.
 		};
 		/*! Notation for FEN strings. */
@@ -250,6 +250,9 @@ class LIB_EXPORT Board
 		 * \sa moveString()
 		 */
 		Move moveFromString(const QString& str);
+
+		// 从中文棋步名称得到棋步
+		virtual Move moveFromStringCN(const QString& str) = 0;
 		/*!
 		 * Converts a GenericMove into a Move.
 		 *
@@ -370,7 +373,7 @@ class LIB_EXPORT Board
 		 *
 		 * \note Specs: http://en.wikipedia.org/wiki/Algebraic_chess_notation
 		 */
-		virtual QString sanMoveString(const Move& move) = 0;
+		virtual QString ChineseMoveString(const Move& move) = 0;
 		/*! Converts a string in LAN format into a Move object. */
 		virtual Move moveFromLanString(const QString& str);
 		/*! Converts a string in SAN format into a Move object. */
@@ -414,7 +417,7 @@ class LIB_EXPORT Board
 		 * for every piece type.
 		 * \sa generateMoves()
 		 */
-		void generateDropMoves(QVarLengthArray<Move>& moves, int pieceType) const;
+		//void generateDropMoves(QVarLengthArray<Move>& moves, int pieceType) const;
 		/*!
 		 * Generates pseudo-legal moves for a piece of \a pieceType
 		 * at square \a square.

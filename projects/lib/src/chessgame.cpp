@@ -226,7 +226,7 @@ void ChessGame::addPgnMove(const Chess::Move& move, const QString& comment)
 	PgnGame::MoveData md;
 	md.key = m_board->key();
 	md.move = m_board->genericMove(move);
-	md.moveString = m_board->moveString(move, Chess::Board::StandardAlgebraic);
+	md.moveString = m_board->moveString(move, Chess::Board::StandardChinese);
 	md.comment = comment;
 
 	m_pgn->addMove(md);
@@ -698,7 +698,8 @@ void ChessGame::resume()
 		return;
 	m_paused = false;
 
-	QMetaObject::invokeMethod(this, "startTurn", Qt::QueuedConnection);
+	QMetaObject::invokeMethod(this, "startTurn", Qt::QueuedConnection);  
+	// 如果type是Qt :: QueuedConnection 则会发送一个QEvent，并在应用程序进入主事件循环后立即调用该成员。
 }
 
 void ChessGame::initializePgn()
@@ -745,7 +746,7 @@ void ChessGame::startGame()
 			emitStartFailed();
 			return;
 		}
-		if (!player->supportsVariant(m_board->variant()))
+		if (!player->supportsVariant(m_board->variant()))		// 游戏变种处理
 		{
 			qWarning("%s doesn't support variant %s",
 				 qUtf8Printable(player->name()),

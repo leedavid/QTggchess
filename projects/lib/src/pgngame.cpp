@@ -193,8 +193,12 @@ bool PgnGame::parseMove(PgnStream& in, bool addEco)
 		m_startingSide = board->startingSide();
 	}
 
-	const QString str(in.tokenString());
-	Chess::Move move(board->moveFromString(str));
+	//QString name = QString::fromLocal8Bit(nn);
+	//const QString str(in.tokenString());
+
+	const QString str = QString::fromLocal8Bit(in.tokenString());
+
+	Chess::Move move(board->moveFromStringCN(str));   // by LGL
 	if (move.isNull())
 	{
 		qWarning("Illegal move: %s", qUtf8Printable(str));

@@ -199,7 +199,6 @@
     <ClCompile Include="src\chessplayer.cpp" />
     <ClCompile Include="src\econode.cpp" />
     <ClCompile Include="src\elo.cpp" />
-    <ClCompile Include="src\board\embassyboard.cpp" />
     <ClCompile Include="src\enginebuilder.cpp" />
     <ClCompile Include="src\enginebuttonoption.cpp" />
     <ClCompile Include="src\enginecheckoption.cpp" />
@@ -266,7 +265,6 @@
     <ClInclude Include="src\board\chessgiboard.h" />
     <QtMoc Include="src\chessplayer.h">
     </QtMoc>
-    <ClInclude Include="src\board\chigorinboard.h" />
     <ClInclude Include="src\classregistry.h" />
     <ClInclude Include="src\econode.h" />
     <ClInclude Include="src\elo.h" />

@@ -358,8 +358,8 @@ QString Board::lanMoveString(const Move& move)   // 长棋步表达
 
 QString Board::moveString(const Move& move, MoveNotation notation)
 {
-	if (notation == StandardAlgebraic)
-		return sanMoveString(move);
+	if (notation == StandardChinese)
+		return ChineseMoveString(move);
 	return lanMoveString(move);
 }
 
@@ -418,6 +418,27 @@ Move Board::moveFromString(const QString& str)
 	}
 	return move;
 }
+
+//Move Board::moveFromStringCN(const QString& str)
+//{
+//	// 1. 到得当前所有的合法步子
+//
+//	QVarLengthArray<Move> moves;
+//	generateMoves(moves);
+//
+//	for (int i = 0; i < moves.size(); i++)
+//	{
+//		if (vIsLegalMove(moves[i])) {
+//
+//			// 得到这个走步的名称：
+//			//ChineseMoveString()
+//		}
+//			
+//	}
+//	
+//	
+//	return Move();
+//}
 
 Move Board::moveFromGenericMove(const GenericMove& move) const
 {
@@ -745,7 +766,7 @@ void Board::generateMoves(QVarLengthArray<Move>& moves, int pieceType) const
 			generateMovesForPiece(moves, tmp.type(), sq);
 	}
 
-	generateDropMoves(moves, pieceType);
+	//generateDropMoves(moves, pieceType);
 }
 
 //void Board::GetNextPosKeys(QVector<quint64>& keys)
@@ -765,24 +786,24 @@ void Board::generateMoves(QVarLengthArray<Move>& moves, int pieceType) const
 //	}
 //}
 
-void Board::generateDropMoves(QVarLengthArray<Move>& moves, int pieceType) const
-{
-	const QVector<int>& pieces(m_reserve[m_side]);
-	if (pieces.isEmpty())
-		return;
-
-	if (pieceType == Piece::NoPiece)
-	{
-		for (int i = 1; i < pieces.size(); i++)
-		{
-			Q_ASSERT(pieces.at(i) >= 0);
-			if (pieces.at(i) > 0)
-				generateMovesForPiece(moves, i, 0);
-		}
-	}
-	else if (pieceType < pieces.size() && pieces.at(pieceType) > 0)
-		generateMovesForPiece(moves, pieceType, 0);
-}
+//void Board::generateDropMoves(QVarLengthArray<Move>& moves, int pieceType) const
+//{
+//	const QVector<int>& pieces(m_reserve[m_side]);
+//	if (pieces.isEmpty())
+//		return;
+//
+//	if (pieceType == Piece::NoPiece)
+//	{
+//		for (int i = 1; i < pieces.size(); i++)
+//		{
+//			Q_ASSERT(pieces.at(i) >= 0);
+//			if (pieces.at(i) > 0)
+//				generateMovesForPiece(moves, i, 0);
+//		}
+//	}
+//	else if (pieceType < pieces.size() && pieces.at(pieceType) > 0)
+//		generateMovesForPiece(moves, pieceType, 0);
+//}
 
 void Board::generateHoppingMoves(int sourceSquare,
 				 const QVarLengthArray<int>& offsets,

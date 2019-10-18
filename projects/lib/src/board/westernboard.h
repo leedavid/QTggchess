@@ -213,7 +213,7 @@ class LIB_EXPORT WesternBoard : public Board
 		virtual QString vFenString(FenNotation notation) const;
 		virtual bool vSetFenString(const QStringList& fen);
 		virtual QString lanMoveString(const Move& move);
-		virtual QString sanMoveString(const Move& move);
+		virtual QString ChineseMoveString(const Move& move);
 		virtual Move moveFromLanString(const QString& str);
 		virtual Move moveFromSanString(const QString& str);
 		virtual void vMakeMove(const Move& move,
@@ -225,6 +225,8 @@ class LIB_EXPORT WesternBoard : public Board
 		virtual bool vIsLegalMove(const Move& move);
 		virtual bool isLegalPosition();
 		virtual int captureType(const Move& move) const;
+
+		virtual Move moveFromStringCN(const QString& str);
 
 	private:
 		//struct CastlingRights

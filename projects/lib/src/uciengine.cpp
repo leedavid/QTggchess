@@ -800,7 +800,7 @@ void UciEngine::setPonderMove(const QString& moveString)
 		board->undoMove();
 
 		if (!m_ponderMove.isNull())
-			m_ponderMoveSan = board->moveString(m_ponderMove, Chess::Board::StandardAlgebraic);
+			m_ponderMoveSan = board->moveString(m_ponderMove, Chess::Board::StandardChinese);
 	}
 }
 
@@ -844,7 +844,7 @@ QString UciEngine::sanPv(const QVarLengthArray<QStringRef>& tokens)
 		}
 		if (!pv.isEmpty())
 			pv += " ";
-		pv += board->moveString(move, Chess::Board::StandardAlgebraic);
+		pv += board->moveString(move, Chess::Board::StandardChinese);
 		board->makeMove(move);
 		movesMade++;
 	}

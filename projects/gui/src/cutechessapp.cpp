@@ -121,18 +121,9 @@ QString CuteChessApplication::userName()
 	//QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
 
 #ifdef Q_OS_WIN32
-	//return qgetenv("USERNAME");
-
-	//QTextCodec* codec = QTextCodec::codecForName("GBK");
-	//QTextCodec::setCodecForLocale(codec);
-	//QTextCodec::setCodecForTr(codec);
-
-	//return qgetenv("USERNAME");
 
 	const QByteArray nn = qgetenv("USERNAME");
-
 	QString name = QString::fromLocal8Bit(nn);
-
 	return name;
 
 	//return "Íæ¼Ò";

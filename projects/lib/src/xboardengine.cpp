@@ -278,7 +278,7 @@ QString XboardEngine::moveString(const Chess::Move& move)
 	// Xboard always uses SAN for castling moves in random variants
 	if (m_notation == Chess::Board::LongAlgebraic && board()->isRandomVariant())
 	{
-		QString str(board()->moveString(move, Chess::Board::StandardAlgebraic));
+		QString str(board()->moveString(move, Chess::Board::StandardChinese));
 		if (str.startsWith("O-O"))
 			return str;
 	}
@@ -490,7 +490,7 @@ void XboardEngine::setFeature(const QString& name, const QString& val)
 	else if (name == "san")
 	{
 		if (val == "1")
-			m_notation = Chess::Board::StandardAlgebraic;
+			m_notation = Chess::Board::StandardChinese;
 		else
 			m_notation = Chess::Board::LongAlgebraic;
 	}
