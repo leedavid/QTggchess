@@ -20,6 +20,8 @@
 #include <pgnstream.h>
 #include <QFileInfo>
 
+#pragma execution_character_set("utf-8")
+
 PgnDatabase::PgnDatabase(const QString& fileName, QObject* parent)
 	: QObject(parent),
 	  m_fileName(fileName),

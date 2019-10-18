@@ -25,6 +25,8 @@
 #include <pgngameentry.h>
 #include "pgndatabase.h"
 
+#pragma execution_character_set("utf-8")
+
 PgnImporter::PgnImporter(const QString& fileName)
 	: Worker(QString("PGN import: %1").arg(fileName)),
 	  m_fileName(fileName)

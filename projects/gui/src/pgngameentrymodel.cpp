@@ -20,6 +20,7 @@
 #include <QtConcurrentFilter>
 #include <pgngameentry.h>
 
+#pragma execution_character_set("utf-8")
 
 struct EntryContains
 {

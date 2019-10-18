@@ -18,6 +18,8 @@
 
 #include "pgntoken.h"
 
+#pragma execution_character_set("utf-8")
+
 
 PgnToken::PgnToken()
 	: m_begin(-1),

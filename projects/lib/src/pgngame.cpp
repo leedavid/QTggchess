@@ -26,6 +26,8 @@
 #include "pgnstream.h"
 #include "moveevaluation.h"
 
+#pragma execution_character_set("utf-8")
+
 namespace {
 
 void writeTag(QTextStream& out, const QString& tag, const QString& value)
