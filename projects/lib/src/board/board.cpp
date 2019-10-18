@@ -419,26 +419,6 @@ Move Board::moveFromString(const QString& str)
 	return move;
 }
 
-//Move Board::moveFromStringCN(const QString& str)
-//{
-//	// 1. 到得当前所有的合法步子
-//
-//	QVarLengthArray<Move> moves;
-//	generateMoves(moves);
-//
-//	for (int i = 0; i < moves.size(); i++)
-//	{
-//		if (vIsLegalMove(moves[i])) {
-//
-//			// 得到这个走步的名称：
-//			//ChineseMoveString()
-//		}
-//			
-//	}
-//	
-//	
-//	return Move();
-//}
 
 Move Board::moveFromGenericMove(const GenericMove& move) const
 {
