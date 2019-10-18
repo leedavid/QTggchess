@@ -42,6 +42,7 @@ class Tournament;
 class GameTabBar;
 class EvalHistory;
 class EvalWidget;
+class PgnStream;
 
 /**
  * MainWindow
@@ -64,6 +65,7 @@ class MainWindow : public QMainWindow
 
 	private slots:
 		void newGame();
+		void OpenPgnGame();
 		void newTournament();
 		void onWindowMenuAboutToShow();
 		void showGameWindow();
@@ -147,6 +149,7 @@ class MainWindow : public QMainWindow
 
 		QAction* m_quitGameAct;
 		QAction* m_newGameAct;
+		QAction* m_openPgnAct;             
 		QAction* m_adjudicateBlackWinAct;
 		QAction* m_adjudicateWhiteWinAct;
 		QAction* m_adjudicateDrawAct;

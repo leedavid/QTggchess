@@ -53,11 +53,11 @@ class LIB_EXPORT BoardTransition
 		 * In some chess variants it's possible to bring
 		 * captured pieces back to the game from a piece reserve.
 		 */
-		struct Drop
-		{
-			Piece piece;	//!< Type of the dropped piece
-			Square target;	//!< Target square of the drop
-		};
+		//struct Drop
+		//{
+		//	Piece piece;	//!< Type of the dropped piece
+		//	Square target;	//!< Target square of the drop
+		//};
 
 		/*! Creates a new empty BoardTransition object. */
 		BoardTransition();
@@ -75,16 +75,16 @@ class LIB_EXPORT BoardTransition
 		 */
 		QList<Move> moves() const;
 		/*! Returns a list of piece drops. */
-		QList<Drop> drops() const;
+		//QList<Drop> drops() const;
 		/*! Returns a list of changed squares. */
 		QList<Square> squares() const;
 		/*! Returns a list of changed piece reserves. */
-		QList<Piece> reserve() const;
+		//QList<Piece> reserve() const;
 
 		/*! Adds a new "move" from \a source to \a target. */
 		void addMove(const Square& source, const Square& target);
 		/*! Adds a new piece drop of \a piece to \a target. */
-		void addDrop(const Piece& piece, const Square& target);
+		//void addDrop(const Piece& piece, const Square& target);
 		/*!
 		 * Adds a new changed square.
 		 *
@@ -98,13 +98,13 @@ class LIB_EXPORT BoardTransition
 		 * If \a piece already exists in the transition, this
 		 * function does nothing.
 		 */
-		void addReservePiece(const Piece& piece);
+		//void addReservePiece(const Piece& piece);
 
 	private:
 		QList<Move> m_moves;
-		QList<Drop> m_drops;
+		//QList<Drop> m_drops;
 		QList<Square> m_squares;
-		QList<Piece> m_reserve;
+		//QList<Piece> m_reserve;
 };
 
 } // namespace Chess

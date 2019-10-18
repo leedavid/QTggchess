@@ -1,25 +1,12 @@
-/*
-    This file is part of Cute Chess.
 
-    Cute Chess is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    Cute Chess is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 #include "westernboard.h"
 #include <QStringList>
 #include "westernzobrist.h"
 #include "boardtransition.h"
 
+
+#pragma execution_character_set("utf-8")
 
 namespace Chess {
 
@@ -30,7 +17,7 @@ WesternBoard::WesternBoard(WesternZobrist* zobrist)
 	  m_plyOffset(0),
 	  m_reversibleMoveCount(0),
 	  m_kingCanCapture(true),
-	  m_multiDigitNotation(false),
+	  //m_multiDigitNotation(false),
 	  m_zobrist(zobrist)
 {
 	setPieceType(Pawn, tr("pawn"), "P"); // , PawnMovement);                    // ±ø
@@ -199,8 +186,8 @@ void WesternBoard::vInitialize()
 	//};
 
 
-	m_multiDigitNotation =  (height() > 9 && coordinateSystem() == NormalCoordinates)
-			     || (width() > 9 && coordinateSystem() == InvertedCoordinates);
+	//m_multiDigitNotation =  (height() > 9 && coordinateSystem() == NormalCoordinates)
+	//		     || (width() > 9 && coordinateSystem() == InvertedCoordinates);
 }
 
 
@@ -451,7 +438,7 @@ QH_BRANCH:
 
 Move WesternBoard::moveFromLanString(const QString& str)
 {
-	Move move(Board::moveFromLanString(str));
+	Move move(Board::moveFromEnglishString(str));
 
 	//Side side = sideToMove();
 	//int source = move.sourceSquare();
@@ -473,219 +460,219 @@ Move WesternBoard::moveFromLanString(const QString& str)
 	return move;
 }
 
-Move WesternBoard::moveFromSanString(const QString& str)
-{
-	if (str.length() < 2)
-		return Move();
-
-	QString mstr = str;
-	Side side = sideToMove();
-
-	// Ignore check/mate/strong move/blunder notation
-	while (mstr.endsWith('+') || mstr.endsWith('#')
-	||     mstr.endsWith('!') || mstr.endsWith('?'))
-	{
-		mstr.chop(1);
-	}
-
-	if (mstr.length() < 2)
-		return Move();
-
-	// Castling
-	//if (mstr.startsWith("O-O"))
-	//{
-	//	CastlingSide cside;
-	//	if (mstr == "O-O")
-	//		cside = KingSide;
-	//	else if (mstr == "O-O-O")
-	//		cside = QueenSide;
-	//	else
-	//		return Move();
-
-	//	int source = m_kingSquare[side];
-	//	int target = m_castlingRights.rookSquare[side][cside];
-
-	//	Move move(source, target);
-	//	if (isLegalMove(move))
-	//		return move;
-	//	else
-	//		return Move();
-	//}
-
-	// number of digits in notation of squares
-	int digits = 1;
-
-	// only for tall boards: find maximum number of sequential digits
-	if (m_multiDigitNotation)
-	{
-		int count = 0;
-		for (const QChar& ch : qAsConst(mstr))
-		{
-			if (ch.isDigit())
-			{
-				count++;
-				if (count > digits)
-					digits = count;
-			}
-			else
-				count = 0;
-		}
-	}
-
-	Square sourceSq;
-	Square targetSq;
-	QString::const_iterator it = mstr.cbegin();
-
-	// A SAN move can't start with the capture mark, and
-	if (*it == 'x')
-		return Move();
-	// a pawn move should not specify the piece type
-	if (pieceFromSymbol(*it) == Pawn)
-		it++; // ignore character
-	// Piece type
-	Piece piece = pieceFromSymbol(*it);
-	if (piece.side() != Side::White)
-		piece = Piece::NoPiece;
-	else
-		piece.setSide(side);
-	if (piece.isEmpty())
-	{
-		piece = Piece(side, Pawn);
-		targetSq = chessSquare(mstr.mid(0, 1 + digits));
-		if (isValidSquare(targetSq))
-			it += 1 + digits;
-	}
-	else
-	{
-		++it;
-
-		// Drop moves
-		//if (*it == '@')
-		//{
-		//	targetSq = chessSquare(mstr.right(1 + digits));
-		//	if (!isValidSquare(targetSq))
-		//		return Move();
-
-		//	Move move(0, squareIndex(targetSq), piece.type());
-		//	if (isLegalMove(move))
-		//		return move;
-		//	return Move();
-		//}
-	}
-
-	bool stringIsCapture = false;
-
-	if (!isValidSquare(targetSq))
-	{
-		// Source square's file
-		sourceSq.setFile(it->toLatin1() - 'a');
-		if (sourceSq.file() < 0 || sourceSq.file() >= width())
-			sourceSq.setFile(-1);
-		else if (++it == mstr.cend())
-			return Move();
-
-		// Source square's rank
-		if (it->isDigit())
-		{
-			const QString tmp(mstr.mid(it - mstr.constBegin(),
-						   digits));
-			sourceSq.setRank(-1 + tmp.toInt());
-			if (sourceSq.rank() < 0 || sourceSq.rank() >= height())
-				return Move();
-			it += digits;
-		}
-		if (it == mstr.cend())
-		{
-			// What we thought was the source square, was
-			// actually the target square.
-			if (isValidSquare(sourceSq))
-			{
-				targetSq = sourceSq;
-				sourceSq.setRank(-1);
-				sourceSq.setFile(-1);
-			}
-			else
-				return Move();
-		}
-		// Capture
-		else if (*it == 'x')
-		{
-			if(++it == mstr.cend())
-				return Move();
-			stringIsCapture = true;
-		}
-
-		// Target square
-		if (!isValidSquare(targetSq))
-		{
-			if (it + 1 >= mstr.cend())
-				return Move();
-			QString tmp(mstr.mid(it - mstr.cbegin(), 1 + digits));
-			targetSq = chessSquare(tmp);
-			it += tmp.size();
-		}
-	}
-	if (!isValidSquare(targetSq))
-		return Move();
-	int target = squareIndex(targetSq);
-
-	// Make sure that the move string is right about whether
-	// or not the move is a capture.
-	bool isCapture = false;
-	if (pieceAt(target).side() == side.opposite())
-		isCapture = true;
-	if (isCapture != stringIsCapture)
-		return Move();
-
-	// Promotion
-	int promotion = Piece::NoPiece;
-	if (it != mstr.cend())
-	{
-		if ((*it == '=' || *it == '(') && ++it == mstr.cend())
-			return Move();
-
-		promotion = pieceFromSymbol(*it).type();
-		if (promotion == Piece::NoPiece)
-			return Move();
-	}
-
-	QVarLengthArray<Move> moves;
-	generateMoves(moves, piece.type());
-	const Move* match = nullptr;
-
-	// Loop through all legal moves to find a move that matches
-	// the data we got from the move string.
-	for (int i = 0; i < moves.size(); i++)
-	{
-		const Move& move = moves[i];
-		if (move.sourceSquare() == 0 || move.targetSquare() != target)
-			continue;
-		Square sourceSq2 = chessSquare(move.sourceSquare());
-		if (sourceSq.rank() != -1 && sourceSq2.rank() != sourceSq.rank())
-			continue;
-		if (sourceSq.file() != -1 && sourceSq2.file() != sourceSq.file())
-			continue;
-		// Castling moves were handled earlier
-		if (pieceAt(target) == Piece(side, Pao))
-			continue;
-		//if (move.promotion() != promotion)
-		//	continue;
-
-		if (!vIsLegalMove(move))
-			continue;
-
-		// Return an empty move if there are multiple moves that
-		// match the move string.
-		if (match != nullptr)
-			return Move();
-		match = &move;
-	}
-
-	if (match != nullptr)
-		return *match;
-
-	return Move();
-}
+//Move WesternBoard::moveFromSanString(const QString& str)
+//{
+//	if (str.length() < 2)
+//		return Move();
+//
+//	QString mstr = str;
+//	Side side = sideToMove();
+//
+//	// Ignore check/mate/strong move/blunder notation
+//	while (mstr.endsWith('+') || mstr.endsWith('#')
+//	||     mstr.endsWith('!') || mstr.endsWith('?'))
+//	{
+//		mstr.chop(1);
+//	}
+//
+//	if (mstr.length() < 2)
+//		return Move();
+//
+//	// Castling
+//	//if (mstr.startsWith("O-O"))
+//	//{
+//	//	CastlingSide cside;
+//	//	if (mstr == "O-O")
+//	//		cside = KingSide;
+//	//	else if (mstr == "O-O-O")
+//	//		cside = QueenSide;
+//	//	else
+//	//		return Move();
+//
+//	//	int source = m_kingSquare[side];
+//	//	int target = m_castlingRights.rookSquare[side][cside];
+//
+//	//	Move move(source, target);
+//	//	if (isLegalMove(move))
+//	//		return move;
+//	//	else
+//	//		return Move();
+//	//}
+//
+//	// number of digits in notation of squares
+//	int digits = 1;
+//
+//	// only for tall boards: find maximum number of sequential digits
+//	if (m_multiDigitNotation)
+//	{
+//		int count = 0;
+//		for (const QChar& ch : qAsConst(mstr))
+//		{
+//			if (ch.isDigit())
+//			{
+//				count++;
+//				if (count > digits)
+//					digits = count;
+//			}
+//			else
+//				count = 0;
+//		}
+//	}
+//
+//	Square sourceSq;
+//	Square targetSq;
+//	QString::const_iterator it = mstr.cbegin();
+//
+//	// A SAN move can't start with the capture mark, and
+//	if (*it == 'x')
+//		return Move();
+//	// a pawn move should not specify the piece type
+//	if (pieceFromSymbol(*it) == Pawn)
+//		it++; // ignore character
+//	// Piece type
+//	Piece piece = pieceFromSymbol(*it);
+//	if (piece.side() != Side::White)
+//		piece = Piece::NoPiece;
+//	else
+//		piece.setSide(side);
+//	if (piece.isEmpty())
+//	{
+//		piece = Piece(side, Pawn);
+//		targetSq = chessSquare(mstr.mid(0, 1 + digits));
+//		if (isValidSquare(targetSq))
+//			it += 1 + digits;
+//	}
+//	else
+//	{
+//		++it;
+//
+//		// Drop moves
+//		//if (*it == '@')
+//		//{
+//		//	targetSq = chessSquare(mstr.right(1 + digits));
+//		//	if (!isValidSquare(targetSq))
+//		//		return Move();
+//
+//		//	Move move(0, squareIndex(targetSq), piece.type());
+//		//	if (isLegalMove(move))
+//		//		return move;
+//		//	return Move();
+//		//}
+//	}
+//
+//	bool stringIsCapture = false;
+//
+//	if (!isValidSquare(targetSq))
+//	{
+//		// Source square's file
+//		sourceSq.setFile(it->toLatin1() - 'a');
+//		if (sourceSq.file() < 0 || sourceSq.file() >= width())
+//			sourceSq.setFile(-1);
+//		else if (++it == mstr.cend())
+//			return Move();
+//
+//		// Source square's rank
+//		if (it->isDigit())
+//		{
+//			const QString tmp(mstr.mid(it - mstr.constBegin(),
+//						   digits));
+//			sourceSq.setRank(-1 + tmp.toInt());
+//			if (sourceSq.rank() < 0 || sourceSq.rank() >= height())
+//				return Move();
+//			it += digits;
+//		}
+//		if (it == mstr.cend())
+//		{
+//			// What we thought was the source square, was
+//			// actually the target square.
+//			if (isValidSquare(sourceSq))
+//			{
+//				targetSq = sourceSq;
+//				sourceSq.setRank(-1);
+//				sourceSq.setFile(-1);
+//			}
+//			else
+//				return Move();
+//		}
+//		// Capture
+//		else if (*it == 'x')
+//		{
+//			if(++it == mstr.cend())
+//				return Move();
+//			stringIsCapture = true;
+//		}
+//
+//		// Target square
+//		if (!isValidSquare(targetSq))
+//		{
+//			if (it + 1 >= mstr.cend())
+//				return Move();
+//			QString tmp(mstr.mid(it - mstr.cbegin(), 1 + digits));
+//			targetSq = chessSquare(tmp);
+//			it += tmp.size();
+//		}
+//	}
+//	if (!isValidSquare(targetSq))
+//		return Move();
+//	int target = squareIndex(targetSq);
+//
+//	// Make sure that the move string is right about whether
+//	// or not the move is a capture.
+//	bool isCapture = false;
+//	if (pieceAt(target).side() == side.opposite())
+//		isCapture = true;
+//	if (isCapture != stringIsCapture)
+//		return Move();
+//
+//	// Promotion
+//	int promotion = Piece::NoPiece;
+//	if (it != mstr.cend())
+//	{
+//		if ((*it == '=' || *it == '(') && ++it == mstr.cend())
+//			return Move();
+//
+//		promotion = pieceFromSymbol(*it).type();
+//		if (promotion == Piece::NoPiece)
+//			return Move();
+//	}
+//
+//	QVarLengthArray<Move> moves;
+//	generateMoves(moves, piece.type());
+//	const Move* match = nullptr;
+//
+//	// Loop through all legal moves to find a move that matches
+//	// the data we got from the move string.
+//	for (int i = 0; i < moves.size(); i++)
+//	{
+//		const Move& move = moves[i];
+//		if (move.sourceSquare() == 0 || move.targetSquare() != target)
+//			continue;
+//		Square sourceSq2 = chessSquare(move.sourceSquare());
+//		if (sourceSq.rank() != -1 && sourceSq2.rank() != sourceSq.rank())
+//			continue;
+//		if (sourceSq.file() != -1 && sourceSq2.file() != sourceSq.file())
+//			continue;
+//		// Castling moves were handled earlier
+//		if (pieceAt(target) == Piece(side, Pao))
+//			continue;
+//		//if (move.promotion() != promotion)
+//		//	continue;
+//
+//		if (!vIsLegalMove(move))
+//			continue;
+//
+//		// Return an empty move if there are multiple moves that
+//		// match the move string.
+//		if (match != nullptr)
+//			return Move();
+//		match = &move;
+//	}
+//
+//	if (match != nullptr)
+//		return *match;
+//
+//	return Move();
+//}
 
 //QString WesternBoard::castlingRightsString(FenNotation notation) const
 //{
@@ -1105,9 +1092,9 @@ void WesternBoard::vMakeMove(const Move& move, BoardTransition* transition)
 		if (source != 0)
 			transition->addMove(chessSquare(source),
 					    chessSquare(target));
-		else
-			transition->addDrop(Piece(side, pieceType),
-					    chessSquare(target));
+		//else
+		//	transition->addDrop(Piece(side, pieceType),
+		//			    chessSquare(target));
 	}
 
 	setSquare(target, Piece(side, pieceType));

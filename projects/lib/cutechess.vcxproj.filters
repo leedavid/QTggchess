@@ -47,6 +47,9 @@
     <Filter Include="Source Files\engine">
       <UniqueIdentifier>{95c18e73-2172-4e1d-8a15-0db39a9d253f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\PGN">
+      <UniqueIdentifier>{928c39c7-ccf9-4107-9db9-0f590c88869d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\chessgame.cpp">
@@ -101,18 +104,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\openingsuite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgngame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgngameentry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgngamefilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgnstream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\pipereader_win.cpp">
@@ -238,6 +229,18 @@
     <ClCompile Include="src\board\side.cpp">
       <Filter>Source Files\board</Filter>
     </ClCompile>
+    <ClCompile Include="src\pgngame.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgngameentry.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgngamefilter.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgnstream.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\board\board.h">
@@ -333,9 +336,6 @@
     <QtMoc Include="src\humanplayer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="src\board\janusboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="components\json\src\jsonparser.h">
       <Filter>Header Files</Filter>
     </ClInclude>

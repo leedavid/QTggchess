@@ -294,7 +294,6 @@
     <ClInclude Include="src\humanbuilder.h" />
     <QtMoc Include="src\humanplayer.h">
     </QtMoc>
-    <ClInclude Include="src\board\janusboard.h" />
     <ClInclude Include="components\json\src\jsonparser.h" />
     <ClInclude Include="components\json\src\jsonserializer.h" />
     <ClInclude Include="src\board\kingofthehillboard.h" />

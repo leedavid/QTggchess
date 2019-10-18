@@ -1114,9 +1114,6 @@ Result StandardBoard::tablebaseResult(unsigned int* dtz) const
 	//				dtz);
 }
 
-//Move StandardBoard::moveFromStringCN(const QString& str)
-//{
-//	return Move();
-//}
+
 
 } // namespace Chess

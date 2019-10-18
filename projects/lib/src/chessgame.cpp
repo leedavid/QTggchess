@@ -454,7 +454,35 @@ void ChessGame::setPlayer(Chess::Side side, ChessPlayer* player)
 void ChessGame::setStartingFen(const QString& fen)
 {
 	Q_ASSERT(!m_gameInProgress);
-	m_startingFen = fen;
+	//m_startingFen = fen;
+
+	QStringList stFList = fen.split("moves");		// by LGL
+	m_startingFen = stFList[0];
+
+	if (stFList.length() == 2) {
+		// Èç¹ûÓÐmove
+		//m_board->setFenString(m_startingFen);
+
+		QStringList strList = stFList[1].split(' ');
+		QStringList::iterator token = strList.begin();
+		++token;
+
+		while (token != strList.end()) {
+			QString str = *token;
+
+			Chess::Move m = m_board->moveFromString(str);
+			if (!m.isNull()) {	
+				addPgnMove(m, "");            //
+				m_board->makeMove(m);
+			}
+			else {
+				qWarning("Fen Error! %s", qUtf8Printable(fen));
+				//return true;
+			}
+			++token;
+		}
+	}
+	return;
 }
 
 void ChessGame::setTimeControl(const TimeControl& timeControl, Chess::Side side)

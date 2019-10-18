@@ -212,7 +212,7 @@ class LIB_EXPORT Board
 		 * On variants that don't have piece drops this function
 		 * always returns 0.
 		 */
-		int reserveCount(Piece piece) const;
+		//int reserveCount(Piece piece) const;
 		/*! Converts \a piece into a piece symbol. */
 		QString pieceSymbol(Piece piece) const;
 		/*! Converts \a pieceSymbol into a Piece object. */
@@ -375,9 +375,9 @@ class LIB_EXPORT Board
 		 */
 		virtual QString ChineseMoveString(const Move& move) = 0;
 		/*! Converts a string in LAN format into a Move object. */
-		virtual Move moveFromLanString(const QString& str);
+		virtual Move moveFromEnglishString(const QString& str);
 		/*! Converts a string in SAN format into a Move object. */
-		virtual Move moveFromSanString(const QString& str) = 0;
+		//virtual Move moveFromSanString(const QString& str) = 0;
 		/*! Returns the maximal length of a piece symbol */
 		virtual int maxPieceSymbolLength() const;
 
@@ -539,7 +539,7 @@ class LIB_EXPORT Board
 		QVarLengthArray<PieceData> m_pieceData;
 		QVarLengthArray<Piece> m_squares;
 		QVector<MoveData> m_moveHistory;
-		QVector<int> m_reserve[2];
+		//QVector<int> m_reserve[2];
 };
 
 

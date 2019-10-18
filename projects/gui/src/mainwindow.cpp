@@ -60,6 +60,9 @@
 #include "boardview/boardscene.h"
 #include "tournamentresultsdlg.h"
 
+#include <pgnstream.h>
+#include <pgngameentry.h>
+
 #ifdef QT_DEBUG
 #include <modeltest.h>
 #endif
@@ -142,6 +145,9 @@ void MainWindow::createActions()
 	m_newGameAct = new QAction(tr("&新建对局..."), this);
 	m_newGameAct->setShortcut(QKeySequence::New);
 
+	m_openPgnAct = new QAction(tr("打开 PGN 对局"), this);
+	m_openPgnAct->setShortcut(QKeySequence::Open);        //
+
 	m_closeGameAct = new QAction(tr("&关闭"), this);
 	#ifdef Q_OS_WIN32
 	m_closeGameAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
@@ -214,6 +220,9 @@ void MainWindow::createActions()
 	m_aboutAct->setMenuRole(QAction::AboutRole);
 
 	connect(m_newGameAct, SIGNAL(triggered()), this, SLOT(newGame()));
+	
+	connect(m_openPgnAct, SIGNAL(triggered()), this, SLOT(OpenPgnGame()));
+
 	connect(m_copyFenAct, SIGNAL(triggered()), this, SLOT(copyFen()));
 	connect(m_pasteFenAct, SIGNAL(triggered()), this, SLOT(pasteFen()));
 	connect(copyFenSequence, SIGNAL(triggered()), this, SLOT(copyFen()));
@@ -280,6 +289,7 @@ void MainWindow::createMenus()
 {
 	m_gameMenu = menuBar()->addMenu(tr("&游戏"));
 	m_gameMenu->addAction(m_newGameAct);
+	m_gameMenu->addAction(m_openPgnAct);
 	m_gameMenu->addSeparator();
 	m_gameMenu->addAction(m_closeGameAct);
 	m_gameMenu->addAction(m_saveGameAct);
@@ -444,7 +454,7 @@ void MainWindow::createDockWindows()
 	addDockWidget(Qt::RightDockWidgetArea, blackEvalDock);
 
 	// Move list
-	QDockWidget* moveListDock = new QDockWidget(tr("棋步"), this);
+	QDockWidget* moveListDock = new QDockWidget(tr("棋谱"), this);
 	moveListDock->setObjectName("MoveListDock");
 	moveListDock->setWidget(m_moveList);
 	addDockWidget(Qt::RightDockWidgetArea, moveListDock);
@@ -849,6 +859,59 @@ void MainWindow::onGameFinished(ChessGame* game)
 			game->pgn()->write(fileName);
 			//TODO: reaction on error
 	}
+}
+
+
+//class PgnStream;
+
+void MainWindow::OpenPgnGame()
+{
+	
+	QString filePGN = QFileDialog::getOpenFileName(this,
+		"打开 PGN 格式的棋局",
+		QString(),
+		tr("PGN 格式 (*.pgn);;All Files (*.*)"));
+	
+
+	QFile file(filePGN);
+	QFileInfo fileInfo(filePGN);
+	if (!fileInfo.exists())
+	{
+		QMessageBox::information(this, "出错了", "PGN 文件不存在！");
+		return;
+	}
+
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		QMessageBox::information(this, "出错了", "PGN 不能正常打开！");
+		return;
+	}
+
+	PgnGame* pgnGame = new PgnGame();
+	{
+		PgnStream in(&file);		
+		if (!pgnGame->read(in)) {
+			return;
+		}
+	}
+
+	QString variant = m_game.isNull() || m_game->board() == nullptr ?
+		"standard" : m_game->board()->variant();
+
+	auto board = Chess::BoardFactory::create(variant);
+	board->setFenString(board->defaultFenString());
+
+	//auto game = new ChessGame(board, new PgnGame());
+	auto game = new ChessGame(board, pgnGame);
+	game->setTimeControl(TimeControl("inf"));
+	game->pause();
+
+	connect(game, &ChessGame::initialized, this, &MainWindow::addGame);
+	connect(game, &ChessGame::startFailed, this, &MainWindow::onGameStartFailed);
+
+	CuteChessApplication::instance()->gameManager()->newGame(game,
+		new HumanBuilder(CuteChessApplication::userName()),
+		new HumanBuilder(CuteChessApplication::userName()));
 }
 
 void MainWindow::newTournament()

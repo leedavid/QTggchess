@@ -209,13 +209,13 @@ int Board::reserveType(int pieceType) const
 	return pieceType;
 }
 
-int Board::reserveCount(Piece piece) const
-{
-	if (!piece.isValid()
-	||  piece.type() >= m_reserve[piece.side()].size())
-		return 0;
-	return m_reserve[piece.side()].at(piece.type());
-}
+//int Board::reserveCount(Piece piece) const
+//{
+//	if (!piece.isValid()
+//	||  piece.type() >= m_reserve[piece.side()].size())
+//		return 0;
+//	return m_reserve[piece.side()].at(piece.type());
+//}
 
 //void Board::addToReserve(const Piece& piece, int count)
 //{
@@ -363,7 +363,7 @@ QString Board::moveString(const Move& move, MoveNotation notation)
 	return lanMoveString(move);
 }
 
-Move Board::moveFromLanString(const QString& istr)
+Move Board::moveFromEnglishString(const QString& istr)
 {
 	QString str(istr);
 	str.remove(QRegExp("[x=+#!?]"));
@@ -409,13 +409,14 @@ Move Board::moveFromLanString(const QString& istr)
 
 Move Board::moveFromString(const QString& str)
 {
-	Move move = moveFromSanString(str);
-	if (move.isNull())
-	{
-		move = moveFromLanString(str);
-		if (!isLegalMove(move))
-			return Move();
-	}
+	//Move move = moveFromSanString(str);
+	//if (move.isNull())
+	//{
+	Move move;
+	move = moveFromEnglishString(str);
+	if (!isLegalMove(move))
+		return Move();
+	//}
 	return move;
 }
 
@@ -640,8 +641,8 @@ bool Board::setFenString(const QString& fen)
 		return false;
 
 	// Hand pieces
-	m_reserve[Side::White].clear();
-	m_reserve[Side::Black].clear();
+	//m_reserve[Side::White].clear();
+	//m_reserve[Side::Black].clear();
 	//if (handPieceIndex != -1)
 	//{
 	//	for (int i = handPieceIndex; i < token->length(); i++)
@@ -679,7 +680,10 @@ bool Board::setFenString(const QString& fen)
 		return false;
 
 	m_moveHistory.clear();
-	m_startingFen = fen;
+
+	//m_startingFen = fen;				// by LGL
+	QStringList stFList = fen.split("moves");
+	m_startingFen = stFList[0];
 
 	// Let subclasses handle the rest of the FEN string
 	if (token != strList.end())
@@ -693,6 +697,37 @@ bool Board::setFenString(const QString& fen)
 
 	if (!isLegalPosition())
 		return false;
+
+	
+	/*
+	// moves 
+	while (token != strList.end()) {
+
+		QString str = *token;
+		if (str == "moves") {
+			++token;
+			while (token != strList.end()) {
+				str = *token;
+
+				Move m = moveFromString(str);
+				if (!m.isNull()) {
+					this->makeMove(m);
+				}
+				else {
+					qWarning("Fen Error! %s", qUtf8Printable(fen));
+					return true;
+				}
+
+				++token;
+			}
+			return true;
+		}
+		++token;
+	}
+	*/
+
+	
+
 
 	return true;
 }

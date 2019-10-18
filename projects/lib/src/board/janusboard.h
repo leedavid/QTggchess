@@ -62,7 +62,7 @@ class LIB_EXPORT JanusBoard : public WesternBoard
 
 		// Inherited from WesternBoard		
 		virtual QString sanMoveString(const Move& move);
-		virtual Move moveFromSanString(const QString& str);
+		//virtual Move moveFromSanString(const QString& str);
 };
 
 } // namespace Chess

@@ -150,7 +150,7 @@ class BoardScene : public QGraphicsScene
 		QList<Chess::BoardTransition> m_history;
 		QPointF m_sourcePos;
 		GraphicsBoard* m_squares;
-		GraphicsPieceReserve* m_reserve;
+		//GraphicsPieceReserve* m_reserve;
 		QPointer<PieceChooser> m_chooser;
 		QPointer<QAbstractAnimation> m_anim;
 		QSvgRenderer* m_renderer;

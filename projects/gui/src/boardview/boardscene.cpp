@@ -45,7 +45,7 @@ BoardScene::BoardScene(QObject* parent)
 	  m_board(nullptr),
 	  m_direction(Forward),
 	  m_squares(nullptr),
-	  m_reserve(nullptr),
+	  //m_reserve(nullptr),
 	  m_chooser(nullptr),
 	  m_anim(nullptr),
 	  //m_renderer(new QSvgRenderer(QString(":/default.svg"), this)),
@@ -78,7 +78,7 @@ void BoardScene::setBoard(Chess::Board* board)
 	m_history.clear();
 	m_transition.clear();
 	m_squares = nullptr;
-	m_reserve = nullptr;
+	//m_reserve = nullptr;
 	m_chooser = nullptr;
 	m_highlightPiece = nullptr;
 	m_moveArrows = nullptr;
@@ -110,7 +110,7 @@ void BoardScene::populate()
 	m_history.clear();
 	m_transition.clear();
 	m_squares = nullptr;
-	m_reserve = nullptr;
+	//m_reserve = nullptr;
 	m_chooser = nullptr;
 	m_highlightPiece = nullptr;
 	m_moveArrows = nullptr;
@@ -120,21 +120,21 @@ void BoardScene::populate()
 				      s_squareSize);
 	addItem(m_squares);
 
-	if (m_board->variantHasDrops())
-	{
-		m_reserve = new GraphicsPieceReserve(s_squareSize);
-		addItem(m_reserve);
-		m_reserve->setX(m_squares->boundingRect().right() +
-				m_reserve->boundingRect().right() + 7);
+	//if (m_board->variantHasDrops())
+	//{
+	//	m_reserve = new GraphicsPieceReserve(s_squareSize);
+	//	addItem(m_reserve);
+	//	m_reserve->setX(m_squares->boundingRect().right() +
+	//			m_reserve->boundingRect().right() + 7);
 
-		const auto types = m_board->reservePieceTypes();
-		for (const auto& piece : types)
-		{
-			int count = m_board->reserveCount(piece);
-			for (int i = 0; i < count; i++)
-				m_reserve->addPiece(createPiece(piece));
-		}
-	}
+	//	const auto types = m_board->reservePieceTypes();
+	//	for (const auto& piece : types)
+	//	{
+	//		int count = m_board->reserveCount(piece);
+	//		for (int i = 0; i < count; i++)
+	//			m_reserve->addPiece(createPiece(piece));
+	//	}
+	//}
 
 	setSceneRect(itemsBoundingRect());
 	
@@ -304,12 +304,12 @@ void BoardScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void BoardScene::onTransitionFinished()
 {
-	const auto drops = m_transition.drops();
-	if (m_direction == Backward)
-	{
-		for (const auto& drop : drops)
-			m_reserve->addPiece(m_squares->takePieceAt(drop.target));
-	}
+	//const auto drops = m_transition.drops();
+	//if (m_direction == Backward)
+	//{
+	//	//for (const auto& drop : drops)
+	//		//m_reserve->addPiece(m_squares->takePieceAt(drop.target));
+	//}
 
 	const auto moves = m_transition.moves();
 	for (const auto& move : moves)
@@ -322,9 +322,9 @@ void BoardScene::onTransitionFinished()
 
 	if (m_direction == Forward)
 	{
-		for (const auto& drop : drops)
-			m_squares->setSquare(drop.target,
-					     m_reserve->takePiece(drop.piece));
+		//for (const auto& drop : drops)
+		//	m_squares->setSquare(drop.target,
+		//			     m_reserve->takePiece(drop.piece));
 	}
 
 	const auto squares = m_transition.squares();
@@ -335,23 +335,23 @@ void BoardScene::onTransitionFinished()
 			m_squares->setSquare(square, createPiece(type));
 	}
 
-	const auto reserve = m_transition.reserve();
-	for (const auto& piece : reserve)
-	{
-		int count = m_reserve->pieceCount(piece);
-		int newCount = m_board->reserveCount(piece);
+	//const auto reserve = m_transition.reserve();
+	//for (const auto& piece : reserve)
+	//{
+	//	int count = m_reserve->pieceCount(piece);
+	//	int newCount = m_board->reserveCount(piece);
 
-		while (newCount > count)
-		{
-			m_reserve->addPiece(createPiece(piece));
-			count++;
-		}
-		while (newCount < count)
-		{
-			delete m_reserve->takePiece(piece);
-			count--;
-		}
-	}
+	//	while (newCount > count)
+	//	{
+	//		m_reserve->addPiece(createPiece(piece));
+	//		count++;
+	//	}
+	//	while (newCount < count)
+	//	{
+	//		delete m_reserve->takePiece(piece);
+	//		count--;
+	//	}
+	//}
 
 	m_transition.clear();
 	updateMoves();
@@ -516,12 +516,12 @@ void BoardScene::tryMove(GraphicsPiece* piece, const QPointF& targetPos)
 		}
 	}
 	// Piece drop
-	else if (piece->container() == m_reserve)
-	{
-		Chess::GenericMove move(Chess::Square(), target);
-					//piece->pieceType().type());
-		emit humanMove(move, m_board->sideToMove());
-	}
+	//else if (piece->container() == m_reserve)
+	//{
+	//	Chess::GenericMove move(Chess::Square(), target);
+	//				//piece->pieceType().type());
+	//	emit humanMove(move, m_board->sideToMove());
+	//}
 
 	m_highlightPiece = nullptr;
 	m_squares->clearHighlights();
@@ -573,15 +573,15 @@ void BoardScene::applyTransition(const Chess::BoardTransition& transition,
 	connect(group, SIGNAL(finished()), this, SLOT(onTransitionFinished()));
 	m_anim = group;
 
-	const auto drops = transition.drops();
-	if (direction == Backward)
-	{
-		for (const auto& drop : drops)
-		{
-			GraphicsPiece* piece = m_squares->pieceAt(drop.target);
-			group->addAnimation(pieceAnimation(piece, m_reserve->scenePos()));
-		}
-	}
+	//const auto drops = transition.drops();
+	//if (direction == Backward)
+	//{
+	//	//for (const auto& drop : drops)
+	//	//{
+	//	//	GraphicsPiece* piece = m_squares->pieceAt(drop.target);
+	//	//	group->addAnimation(pieceAnimation(piece, m_reserve->scenePos()));
+	//	//}
+	//}
 
 	const auto moves = transition.moves();
 	for (const auto& move : moves)
@@ -606,14 +606,14 @@ void BoardScene::applyTransition(const Chess::BoardTransition& transition,
 
 	if (direction == Forward)
 	{
-		for (const auto& drop : drops)
-		{
-			addMoveArrow(m_squares->mapFromItem(m_reserve, QPointF()),
-					 m_squares->squarePos(drop.target));
+		//for (const auto& drop : drops)
+		//{
+		//	addMoveArrow(m_squares->mapFromItem(m_reserve, QPointF()),
+		//			 m_squares->squarePos(drop.target));
 
-			GraphicsPiece* piece = m_reserve->piece(drop.piece);
-			group->addAnimation(pieceAnimation(piece, squarePos(drop.target)));
-		}
+		//	GraphicsPiece* piece = m_reserve->piece(drop.piece);
+		//	group->addAnimation(pieceAnimation(piece, squarePos(drop.target)));
+		//}
 	}
 
 	group->start(QAbstractAnimation::DeleteWhenStopped);
@@ -639,7 +639,7 @@ void BoardScene::updateMoves()
 		{
 			Chess::Piece pieceType(m_board->sideToMove());
 					      // gmove.promotion());
-			piece = m_reserve->piece(pieceType);
+			//piece = m_reserve->piece(pieceType);
 		}
 		Q_ASSERT(piece != nullptr);
 

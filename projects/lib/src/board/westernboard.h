@@ -215,7 +215,7 @@ class LIB_EXPORT WesternBoard : public Board
 		virtual QString lanMoveString(const Move& move);
 		virtual QString ChineseMoveString(const Move& move);
 		virtual Move moveFromLanString(const QString& str);
-		virtual Move moveFromSanString(const QString& str);
+		//virtual Move moveFromSanString(const QString& str);
 		virtual void vMakeMove(const Move& move,
 				       BoardTransition* transition);
 		virtual void vUndoMove(const Move& move);
@@ -229,12 +229,6 @@ class LIB_EXPORT WesternBoard : public Board
 		virtual Move moveFromStringCN(const QString& str);
 
 	private:
-		//struct CastlingRights
-		//{
-		//	// Usage: 'rookSquare[Side][CastlingSide]'
-		//	// A value of zero (square 0) means no castling rights
-		//	int rookSquare[2][2];
-		//};
 
 		// Data for reversing/unmaking a move
 		struct MoveData
@@ -248,11 +242,7 @@ class LIB_EXPORT WesternBoard : public Board
 			//CastlingSide castlingSide;
 			int reversibleMoveCount;
 		};
-
-		//void generateCastlingMoves(QVarLengthArray<Move>& moves) const;
-		//void generatePawnMoves(int sourceSquare,
-		//		       QVarLengthArray<Move>& moves) const;
-
+		
 		int m_arwidth;
 		int m_sign;
 		int m_kingSquare[2];
@@ -260,22 +250,21 @@ class LIB_EXPORT WesternBoard : public Board
 		int m_reversibleMoveCount;
 		bool m_kingCanCapture;
 	
-		bool m_multiDigitNotation;
+		//bool m_multiDigitNotation;
 		QVector<MoveData> m_history;
 
 		const WesternZobrist* m_zobrist;
 
-		QVarLengthArray<int> m_BPawnOffsets;
-		QVarLengthArray<int> m_RPawnOffsets;
+		QVarLengthArray<int> m_BPawnOffsets;	    // 黑卒
+		QVarLengthArray<int> m_RPawnOffsets;	    // 红兵
 		QVarLengthArray<int> m_MaOffsets;
-		QVarLengthArray<int> m_MaLegOffsets;       // 马腿
+		QVarLengthArray<int> m_MaLegOffsets;        // 马腿
 
-		QVarLengthArray<int> m_XiangOffsets;       // 相
-		QVarLengthArray<int> m_XiangEyeOffsets;    // 象眼
+		QVarLengthArray<int> m_XiangOffsets;        // 相
+		QVarLengthArray<int> m_XiangEyeOffsets;     // 象眼
 	
-		QVarLengthArray<int> m_CheOffsets;
-
-		QVarLengthArray<int> m_ShiOffsets;
+		QVarLengthArray<int> m_CheOffsets;			// 车
+		QVarLengthArray<int> m_ShiOffsets;			// 仕
 
 		QVarLengthArray<QString> strnumCn;
 		QVarLengthArray<QString> strnumEn;
