@@ -23,6 +23,8 @@
 #include <QPointer>
 #include <board/side.h>
 
+#include "capture.h"
+
 namespace Chess {
 	class Board;
 	class Move;
@@ -43,6 +45,7 @@ class GameTabBar;
 class EvalHistory;
 class EvalWidget;
 class PgnStream;
+class Capture;
 
 /**
  * MainWindow
@@ -92,6 +95,9 @@ class MainWindow : public QMainWindow
 		void adjudicateBlackWin();
 		void resignGame();
 
+		// 連线棋盘
+		void onLXchessboard();
+
 	private:
 		struct TabData
 		{
@@ -103,6 +109,7 @@ class MainWindow : public QMainWindow
 			PgnGame* m_pgn;
 			Tournament* m_tournament;
 			bool m_finished;
+			Capture* m_cap; 
 		};
 
 		void createActions();
@@ -139,9 +146,7 @@ class MainWindow : public QMainWindow
 		QAction* actEngineSetting;    // 引擎设置参数
 
 
-		GameTabBar* m_tabBar;
-
-		    
+		GameTabBar* m_tabBar;		    
 
 		GameViewer* m_gameViewer;
 		MoveList* m_moveList;

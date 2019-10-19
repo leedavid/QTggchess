@@ -72,7 +72,8 @@ MainWindow::TabData::TabData(ChessGame* game, Tournament* tournament)
 	  m_game(game),
 	  m_pgn(game->pgn()),
 	  m_tournament(tournament),
-	  m_finished(false)
+	  m_finished(false),
+	m_cap(new Capture())
 {
 }
 
@@ -119,7 +120,7 @@ MainWindow::MainWindow(ChessGame* game)
 	createDockWindows();
 
 	// 状态栏
-	statusBar()->showMessage("GGzero官方网址: www.ggzero.cn 论坛: bbs.ggzero.cn QQ群: 779375937 欢迎您的加入与支持");
+	statusBar()->showMessage("http://www.ggzero.cn");
 
 	connect(m_moveList, SIGNAL(moveClicked(int,bool)),			// 点击棋谱走步
 	        m_gameViewer, SLOT(viewMove(int,bool)));
@@ -418,6 +419,11 @@ void MainWindow::createToolBars()
 	this->mainToolbar = new QToolBar(this);
 	this->mainToolbar->setObjectName(QStringLiteral("mainToolBar"));
 	this->mainToolbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //  ToolButtonTextUnderIcon); ToolButtonIconOnly
+
+
+	//this->mainToolbar->setMovable(false);
+	this->mainToolbar->setAllowedAreas(Qt::LeftToolBarArea);
+
 	this->addToolBar(Qt::TopToolBarArea, this->mainToolbar);
 
 	this->mainToolbar->addAction(this->actLinkChessBoard);
@@ -425,6 +431,13 @@ void MainWindow::createToolBars()
 	this->mainToolbar->addAction(this->actEngineAnalyze);
 	this->mainToolbar->addAction(this->actEngineStop);   
 	this->mainToolbar->addAction(this->actEngineSetting);   
+
+
+	connect(this->actLinkChessBoard, &QAction::triggered, this, &MainWindow::onLXchessboard);
+
+
+	//connect(m_tabBar, SIGNAL(currentChanged(int)),
+	//	this, SLOT(onTabChanged(int)));
 }
 
 void MainWindow::createDockWindows()
@@ -486,6 +499,8 @@ void MainWindow::createDockWindows()
 
 void MainWindow::readSettings()
 {
+	// https://blog.csdn.net/liang19890820/article/details/50513695
+
 	QSettings s;
 	s.beginGroup("ui");
 	s.beginGroup("mainwindow");
@@ -861,9 +876,6 @@ void MainWindow::onGameFinished(ChessGame* game)
 	}
 }
 
-
-//class PgnStream;
-
 void MainWindow::OpenPgnGame()
 {
 	
@@ -1154,8 +1166,8 @@ void MainWindow::showAboutDialog()
 	QString html;
 	html += "<h3>" + QString("佳佳界面 %1")
 		.arg(CuteChessApplication::applicationVersion()) + "</h3>";
-	html += "<p>" + tr("Using Qt version %1").arg(qVersion()) + "</p>";
-	html += "<p>" + tr("版本所有 2008-2019 ") + "</p>";
+	html += "<p>" + tr("Qt 版本 %1").arg(qVersion()) + "</p>";
+	html += "<p>" + tr("版本所有 2019-2020 ") + "</p>";
 	html += "<p>" + tr("作者 Lee David") + "</p>";
 	html += "<p>" + tr("感谢您使用佳佳象棋界面") + "</p>";
 	html += "<a href=\"http://www.ggzero.cn\">官方网站</a><br>";
@@ -1167,6 +1179,7 @@ void MainWindow::showAboutDialog()
 	// https://jq.qq.com/?_wv=1027&k=5FxO79E
 }
 
+// 
 void MainWindow::lockCurrentGame()
 {
 	if (m_game != nullptr)
@@ -1275,7 +1288,7 @@ bool MainWindow::askToSave()
 	{
 		QMessageBox::StandardButton result;
 		result = QMessageBox::warning(this, QApplication::applicationName(),
-			tr("The game was modified.\nDo you want to save your changes?"),
+			tr("对局已有变动.\n你要保存吗?"),
 				QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 
 		if (result == QMessageBox::Save)
@@ -1308,7 +1321,7 @@ void MainWindow::adjudicateGame(Chess::Side winner)
 
 	auto result = Chess::Result(Chess::Result::Adjudication,
 				    winner,
-				    tr("user decision"));
+				    tr("用户裁决"));
 	QMetaObject::invokeMethod(m_game, "onAdjudication",
 				  Qt::QueuedConnection,
 				  Q_ARG(Chess::Result, result));
@@ -1332,6 +1345,23 @@ void MainWindow::resignGame()
 	QMetaObject::invokeMethod(m_game, "onResignation",
 				  Qt::QueuedConnection,
 				  Q_ARG(Chess::Result, result));
+}
+
+void MainWindow::onLXchessboard()
+{
+	//Capture cap;
+	//if (cap.getChessboardHwnd(true) == true) {
+	//	int a = 0;
+	//}
+
+	Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
+
+	pcap->GetLxBoardChess();
+
+	//if (pcap->getChessboardHwnd()) {
+	//	int a = 0;
+	//}
+
 }
 
 void MainWindow::addDefaultWindowMenu()

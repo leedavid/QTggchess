@@ -58,7 +58,7 @@ Board::Board(Zobrist* zobrist)
 	  m_height(0),
 	  m_side(Side::White),
 	  m_startingSide(Side::White),
-	  m_maxPieceSymbolLength(1),
+	  //m_maxPieceSymbolLength(1),
 	  m_key(0),
 	  m_zobrist(zobrist),
 	  m_sharedZobrist(zobrist)
@@ -121,18 +121,18 @@ void Board::initialize()
 		m_squares.append(Piece::WallPiece);
 	vInitialize();   // ÏÔÊ¾³õÊ¼»¯
 
-	m_maxPieceSymbolLength = 1;
-	for (const PieceData& pd: m_pieceData)
-		if (pd.symbol.length() > m_maxPieceSymbolLength)
-			m_maxPieceSymbolLength = pd.symbol.length();
+	//m_maxPieceSymbolLength = 1;
+	//for (const PieceData& pd: m_pieceData)
+	//	if (pd.symbol.length() > m_maxPieceSymbolLength)
+	//		m_maxPieceSymbolLength = pd.symbol.length();
 
 	m_zobrist->initialize((m_width + 2) * (m_height + 4), m_pieceData.size());
 }
 
-int Board::maxPieceSymbolLength() const
-{
-	return m_maxPieceSymbolLength;
-}
+//int Board::maxPieceSymbolLength() const
+//{
+//	return m_maxPieceSymbolLength;
+//}
 
 void Board::setPieceType(int type,
 			 const QString& name,
@@ -542,7 +542,7 @@ bool Board::setFenString(const QString& fen)
 
 	// Get the board contents (squares)
 	//int handPieceIndex = -1;
-	int maxsymlen = maxPieceSymbolLength();
+	int maxsymlen = 1; // maxPieceSymbolLength();
 	QString pieceStr;
 	for (int i = 0; i < token->length(); i++)
 	{

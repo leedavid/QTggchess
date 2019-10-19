@@ -210,7 +210,7 @@
       <Filter>Source Files\PGN</Filter>
     </ClCompile>
     <ClCompile Include="src\capture.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>Source Files\Capture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
