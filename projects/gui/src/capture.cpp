@@ -48,7 +48,7 @@ namespace Chess {
 	{
 		m_precision = 0.96f;
 		m_UseAdb = false;
-		m_sleepTimeMs = 350;
+		m_sleepTimeMs = 450;
 		m_scaleX = 1.0f;
 		m_scaleY = 1.0f;
 
@@ -197,17 +197,34 @@ namespace Chess {
 	}
 
 
-	void Capture::SendMessageToMain(QString title, QString msg)
+	void Capture::SendMessageToMain(const QString title, const QString msg)
 	{
+		m_msg.mType = stCaptureMsg::eText;
+		m_msg.text = title;
+		m_msg.title = msg;
+		emit CapSendSignal(m_msg);
 	}
 
-	void Capture::SendMoveToMain(Chess::Move m)
+	void Capture::SendMoveToMain(const Chess::Move m)
 	{
+		m_msg.mType = stCaptureMsg::eMove;
+		m_msg.m = m;
+		emit CapSendSignal(m_msg);
 	}
 
-	void Capture::SendFenToMain(QString fen)
+	void Capture::SendFenToMain(const QString fen)
 	{
+		m_msg.mType = stCaptureMsg::eSetFen;
+		m_msg.text = fen;
+		emit CapSendSignal(m_msg);
 	}
+
+	//QString Capture::GetFenLxBoard(bool isOrg)
+	//{
+	//	if (isOrg) {
+	//		return this->m_LxBoard[0].pl
+	//	}
+	//}
 
 	QChar Capture::Qpiece_to_char(int chess)
 	{
@@ -313,15 +330,20 @@ namespace Chess {
 		//}
 
 		//this->GetMoveFromBoard();
-		if (!isSolutionReady()) {			
-			m_msg.mType = stCaptureMsg::eText;
-			m_msg.text = "连线方案还没有准备好！";
-			m_msg.title = "出错啦";
-			emit CapSendSignal(m_msg);
+		if (!isSolutionReady()) {	
+
+			SendMessageToMain("出错啦", "连线方案还没有准备好！");
+
 			return;
 		}
 
-		//
+		while (true) {
+			if (GetLxBoardChess()) {
+
+				QString fen = this->m_LxBoard[0].fen;
+				SendFenToMain(fen);
+			}
+		}
 	}
 
 	Chess::Move Capture::GetMoveFromBoard()

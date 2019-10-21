@@ -76,9 +76,6 @@
     <ClCompile Include="src\gauntlettournament.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\genericmove.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\humanbuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -240,6 +237,9 @@
     </ClCompile>
     <ClCompile Include="src\pgnstream.cpp">
       <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\genericmove.cpp">
+      <Filter>Source Files\board</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

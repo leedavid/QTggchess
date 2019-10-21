@@ -1173,6 +1173,51 @@ void MainWindow::pasteFen()
 		new HumanBuilder(CuteChessApplication::userName()));
 }
 
+//void MainWindow::msgFen(QString fen)
+//{
+//	//auto cb = CuteChessApplication::clipboard();
+//	//if (cb->text().isEmpty())
+//	//	return;
+//
+//	//QString fen = cb->text().trimmed();
+//	QStringList stFList = fen.split("fen");		// by LGL
+//	if (stFList.length() > 1) {
+//		fen = stFList[1].trimmed();
+//	}
+//
+//	QString variant = m_game.isNull() || m_game->board() == nullptr ?
+//		"standard" : m_game->board()->variant();
+//
+//	auto board = Chess::BoardFactory::create(variant);
+//	if (!board->setFenString(fen))
+//	{
+//		QMessageBox msgBox(QMessageBox::Critical,
+//			tr("FEN error"),
+//			tr("Invalid FEN string for the \"%1\" variant:")
+//			.arg(variant),
+//			QMessageBox::Ok, this);
+//		msgBox.setInformativeText(fen);
+//		msgBox.exec();
+//
+//		delete board;
+//		return;
+//	}
+//
+//	//board->legalMoves();
+//
+//	auto game = new ChessGame(board, new PgnGame());
+//	game->setTimeControl(TimeControl("inf"));
+//	game->setStartingFen(fen);
+//	game->pause();
+//
+//	connect(game, &ChessGame::initialized, this, &MainWindow::addGame);
+//	connect(game, &ChessGame::startFailed, this, &MainWindow::onGameStartFailed);
+//
+//	CuteChessApplication::instance()->gameManager()->newGame(game,
+//		new HumanBuilder(CuteChessApplication::userName()),
+//		new HumanBuilder(CuteChessApplication::userName()));
+//}
+
 void MainWindow::showAboutDialog()
 {
 	QString html;
@@ -1368,8 +1413,14 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 		QMessageBox::warning(this, msg.title, msg.text);
 		break;
 	case stCaptureMsg::eMove:
-	{
 		msg.pGame->PlayerMakeBookMove(msg.m);
+		break;
+	case stCaptureMsg::eSetFen: 
+	{
+		//msg.pGame->stop(false);
+		msg.pGame->board()->setFenString(msg.text);                  // 一共二个board ChessGame, GameViewer
+		this->m_gameViewer->viewPreviousMove2(msg.pGame->board());
+	
 	}
 		break;
 	default:

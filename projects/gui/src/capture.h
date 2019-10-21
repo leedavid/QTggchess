@@ -114,9 +114,11 @@ namespace Chess {
 	private:
 
 		stCaptureMsg m_msg;
-		void SendMessageToMain(QString title, QString msg);
-		void SendMoveToMain(Chess::Move m);
-		void SendFenToMain(QString fen);
+		void SendMessageToMain(const QString title, const QString msg);
+		void SendMoveToMain(const Chess::Move m);
+		void SendFenToMain(const QString fen);
+
+		//QString GetFenLxBoard(bool isOrg = true);
 
 		QChar Qpiece_to_char(int chess);
 		bool isSolutionReady(); // 方案是不是OK了

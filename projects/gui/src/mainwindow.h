@@ -90,6 +90,7 @@ class MainWindow : public QMainWindow
 		void editMoveComment(int ply, const QString& comment);
 		void copyFen();
 		void pasteFen();
+		//void msgFen(QString fen);              // 这个是临时的
 		void copyPgn();
 		void showAboutDialog();
 		void closeAllGames();

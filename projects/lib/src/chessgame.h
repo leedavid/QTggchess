@@ -78,6 +78,9 @@ class LIB_EXPORT ChessGame : public QObject
 
 		void lockThread();
 		void unlockThread();
+		void emitLastMovePub() {
+			this->emitLastMove();
+		};
 
 	public slots:
 		void start();

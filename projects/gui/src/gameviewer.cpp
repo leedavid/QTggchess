@@ -27,6 +27,7 @@
 #include <pgngame.h>
 #include <chessgame.h>
 #include <chessplayer.h>
+#include <board/board.h>
 #include "boardview/boardscene.h"
 #include "boardview/boardview.h"
 #include "chessclock.h"
@@ -140,6 +141,24 @@ ChessClock* GameViewer::chessClock(Chess::Side side)
 {
 	return m_chessClock[side];
 }
+
+void GameViewer::viewPreviousMove2(Chess::Board* orgBoard)
+{
+	//orgBoard->initialize();
+	m_boardScene->setBoard(orgBoard->copy());
+	m_boardScene->populate();
+}
+
+//void GameViewer::copyBoard(Chess::Board* orgBoard)
+//{
+//	int s = sizeof(orgBoard);
+//	memcpy(this->m_boardScene->board(), orgBoard, s);
+//}
+
+//void GameViewer::viewPreviousMove2()
+//{
+//	m_boardScene->populate();
+//}
 
 void GameViewer::setGame(ChessGame* game)
 {
