@@ -640,37 +640,6 @@ bool Board::setFenString(const QString& fen)
 	if (square != boardSize || square - rankEndSquare != m_width)
 		return false;
 
-	// Hand pieces
-	//m_reserve[Side::White].clear();
-	//m_reserve[Side::Black].clear();
-	//if (handPieceIndex != -1)
-	//{
-	//	for (int i = handPieceIndex; i < token->length(); i++)
-	//	{
-	//		QChar c = token->at(i);
-	//		if (c == ']')
-	//			break;
-	//		if (c == '-' && i == handPieceIndex)
-	//			continue;
-
-	//		int count = 1;
-	//		if (c.isDigit())
-	//		{
-	//			count = c.digitValue();
-	//			if (count <= 0)
-	//				return false;
-	//			++i;
-	//			if (i >= token->length() - 1)
-	//				return false;
-	//			c = token->at(i);
-	//		}
-	//		Piece tmp = pieceFromSymbol(c);
-	//		if (!tmp.isValid())
-	//			return false;
-	//		addToReserve(tmp, count);
-	//	}
-	//}
-
 	// Side to move
 	if (++token == strList.end())
 		return false;
@@ -963,8 +932,15 @@ QVector<Move> Board::legalMoves()
 
 	for (int i = moves.size() - 1; i >= 0; i--)
 	{
-		if (vIsLegalMove(moves[i]))
-			legalMoves << moves[i];
+		Move m = moves[i];
+
+		//QString mstr = moveString(m, Chess::Board::LongAlgebraic);
+		//if (mstr == "d0e0") {
+		//	int a = 0;
+		//}
+
+		if (vIsLegalMove(m))
+			legalMoves << m;
 	}
 
 	return legalMoves;

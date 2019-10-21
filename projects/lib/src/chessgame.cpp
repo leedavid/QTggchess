@@ -113,6 +113,8 @@ void ChessGame::setBoardShouldBeFlipped(bool flip)
 	m_boardShouldBeFlipped = flip;
 }
 
+
+
 PgnGame* ChessGame::pgn() const
 {
 	return m_pgn;
@@ -308,6 +310,29 @@ void ChessGame::startTurn()
 	{
 		m_player[side]->go();
 		m_player[side.opposite()]->startPondering();
+	}
+	else
+	{
+		m_player[side.opposite()]->clearPonderState();
+		m_player[side]->makeBookMove(move);
+	}
+}
+
+void ChessGame::PlayerMakeBookMove(Chess::Move move)
+{
+	//if (m_paused)
+	//	return;
+
+	Chess::Side side(m_board->sideToMove());
+	Q_ASSERT(!side.isNull());
+
+	emit humanEnabled(m_player[side]->isHuman());
+
+	//Chess::Move move(bookMove(side));
+	if (move.isNull())
+	{
+		//m_player[side]->go();
+		//m_player[side.opposite()]->startPondering();
 	}
 	else
 	{

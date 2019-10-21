@@ -320,12 +320,12 @@ void BoardScene::onTransitionFinished()
 			m_squares->movePiece(move.target, move.source);
 	}
 
-	if (m_direction == Forward)
-	{
-		//for (const auto& drop : drops)
-		//	m_squares->setSquare(drop.target,
-		//			     m_reserve->takePiece(drop.piece));
-	}
+	//if (m_direction == Forward)
+	//{
+	//	//for (const auto& drop : drops)
+	//	//	m_squares->setSquare(drop.target,
+	//	//			     m_reserve->takePiece(drop.piece));
+	//}
 
 	const auto squares = m_transition.squares();
 	for (const auto& square : squares)

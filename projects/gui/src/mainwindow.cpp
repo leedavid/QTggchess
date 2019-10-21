@@ -67,14 +67,17 @@
 #include <modeltest.h>
 #endif
 
-MainWindow::TabData::TabData(ChessGame* game, Tournament* tournament)
+MainWindow::TabData::TabData(ChessGame* game, Chess::Capture* cap, Tournament* tournament)
 	: m_id(game),
 	  m_game(game),
 	  m_pgn(game->pgn()),
 	  m_tournament(tournament),
 	  m_finished(false),
-	m_cap(new Capture())
+	m_cap(cap)
 {
+	//m_cap = new Chess::Capture(this);
+
+	
 }
 
 MainWindow::MainWindow(ChessGame* game)
@@ -531,7 +534,10 @@ void MainWindow::writeSettings()
 void MainWindow::addGame(ChessGame* game)
 {
 	Tournament* tournament = qobject_cast<Tournament*>(QObject::sender());
-	TabData tab(game, tournament);
+	Chess::Capture* pcap = new Chess::Capture(game, this);
+
+	TabData tab(game,  pcap, tournament);
+
 
 	if (tournament)
 	{
@@ -595,6 +601,9 @@ void MainWindow::destroyGame(ChessGame* game)
 	if (tab.m_tournament == nullptr)
 		game->deleteLater();
 	delete tab.m_pgn;
+
+	// 
+	delete tab.m_cap;
 
 	if (m_tabs.isEmpty())
 		close();
@@ -764,8 +773,8 @@ void MainWindow::onTabCloseRequested(int index)
 
 	if (tab.m_tournament && tab.m_game)
 	{
-		auto btn = QMessageBox::question(this, tr("End tournament game"),
-			   tr("Do you really want to end the active tournament game?"));
+		auto btn = QMessageBox::question(this, tr("结束锦标赛"),
+			   tr("您真的要停止当前锦标赛吗?"));
 		if (btn != QMessageBox::Yes)
 			return;
 	}
@@ -1148,6 +1157,9 @@ void MainWindow::pasteFen()
 		delete board;
 		return;
 	}
+
+	//board->legalMoves();
+
 	auto game = new ChessGame(board, new PgnGame());
 	game->setTimeControl(TimeControl("inf"));
 	game->setStartingFen(fen);
@@ -1347,6 +1359,24 @@ void MainWindow::resignGame()
 				  Q_ARG(Chess::Result, result));
 }
 
+void MainWindow::processCapMsg(stCaptureMsg msg)
+{
+	// 得到当前的游戏？不是，应该得到当前的chessgame
+	
+	switch (msg.mType) {
+	case stCaptureMsg::eText:
+		QMessageBox::warning(this, msg.title, msg.text);
+		break;
+	case stCaptureMsg::eMove:
+	{
+		msg.pGame->PlayerMakeBookMove(msg.m);
+	}
+		break;
+	default:
+		break;
+	}
+}
+
 void MainWindow::onLXchessboard()
 {
 	//Capture cap;
@@ -1354,9 +1384,9 @@ void MainWindow::onLXchessboard()
 	//	int a = 0;
 	//}
 
-	Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
+	Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
 
-	pcap->GetLxBoardChess();
+	pcap->on_start();
 
 	//if (pcap->getChessboardHwnd()) {
 	//	int a = 0;

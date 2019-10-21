@@ -123,7 +123,7 @@ class LIB_EXPORT WesternBoard : public Board
 		 * The default value is true.
 		 * \sa AtomicBoard
 		 */
-		virtual bool kingCanCapture() const;
+		//virtual bool kingCanCapture() const;
 		/*!
 		* Returns true if castling is allowed.
 		* The default value is true.
@@ -248,7 +248,7 @@ class LIB_EXPORT WesternBoard : public Board
 		int m_kingSquare[2];
 		int m_plyOffset;
 		int m_reversibleMoveCount;
-		bool m_kingCanCapture;
+		//bool m_kingCanCapture;
 	
 		//bool m_multiDigitNotation;
 		QVector<MoveData> m_history;
@@ -258,7 +258,8 @@ class LIB_EXPORT WesternBoard : public Board
 		QVarLengthArray<int> m_BPawnOffsets;	    // 黑卒
 		QVarLengthArray<int> m_RPawnOffsets;	    // 红兵
 		QVarLengthArray<int> m_MaOffsets;
-		QVarLengthArray<int> m_MaLegOffsets;        // 马腿
+		QVarLengthArray<int> m_MaLegOffsets;             // 马腿
+		QVarLengthArray<int> m_MaCheckLegOffsets;        // 别人的马将军的马腿
 
 		QVarLengthArray<int> m_XiangOffsets;        // 相
 		QVarLengthArray<int> m_XiangEyeOffsets;     // 象眼

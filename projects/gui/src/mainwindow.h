@@ -24,6 +24,7 @@
 #include <board/side.h>
 
 #include "capture.h"
+//#include "TestThread.h"
 
 namespace Chess {
 	class Board;
@@ -58,6 +59,8 @@ class MainWindow : public QMainWindow
 		explicit MainWindow(ChessGame* game);
 		virtual ~MainWindow();
 		QString windowListTitle() const;
+
+		//TestThread* t;
 
 	public slots:
 		void addGame(ChessGame* game);
@@ -95,6 +98,8 @@ class MainWindow : public QMainWindow
 		void adjudicateBlackWin();
 		void resignGame();
 
+		void processCapMsg(stCaptureMsg msg);
+
 		// ﬂBœﬂ∆Â≈Ã
 		void onLXchessboard();
 
@@ -102,14 +107,14 @@ class MainWindow : public QMainWindow
 		struct TabData
 		{
 			explicit TabData(ChessGame* m_game,
-					 Tournament* m_tournament = nullptr);
+				Chess::Capture* cap, Tournament* m_tournament = nullptr);
 
 			ChessGame* m_id;
 			QPointer<ChessGame> m_game;
 			PgnGame* m_pgn;
 			Tournament* m_tournament;
 			bool m_finished;
-			Capture* m_cap; 
+			Chess::Capture* m_cap; 
 		};
 
 		void createActions();

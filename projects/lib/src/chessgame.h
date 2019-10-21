@@ -51,6 +51,8 @@ class LIB_EXPORT ChessGame : public QObject
 		bool boardShouldBeFlipped() const;
 		void setBoardShouldBeFlipped(bool flip);
 
+		void PlayerMakeBookMove(Chess::Move m);
+
 		PgnGame* pgn() const;
 		Chess::Board* board() const;
 		QString startingFen() const;

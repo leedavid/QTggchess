@@ -32,6 +32,8 @@
 #include <board/result.h>
 #include <moveevaluation.h>
 
+#include "capture.h"
+
 int main(int argc, char* argv[])
 {
 	// Register types for signal / slot connections
@@ -40,6 +42,8 @@ int main(int argc, char* argv[])
 	qRegisterMetaType<Chess::Side>("Chess::Side");
 	qRegisterMetaType<Chess::Result>("Chess::Result");
 	qRegisterMetaType<MoveEvaluation>("MoveEvaluation");
+
+	qRegisterMetaType<stCaptureMsg>("stCaptureMsg");
 
 	QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 

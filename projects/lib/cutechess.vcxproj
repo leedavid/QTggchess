@@ -300,7 +300,6 @@
     <QtMoc Include="src\knockouttournament.h">
     </QtMoc>
     <ClInclude Include="src\mersenne.h" />
-    <ClInclude Include="src\board\modernboard.h" />
     <ClInclude Include="src\board\move.h" />
     <ClInclude Include="src\moveevaluation.h" />
     <ClInclude Include="src\openingbook.h" />
