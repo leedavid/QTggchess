@@ -106,8 +106,9 @@ NewGameDialog::~NewGameDialog()
 ChessGame* NewGameDialog::createGame() const
 {
 	bool ok = true;
-	const QString variant = ui->m_gameSettings->chessVariant();
-	auto board = Chess::BoardFactory::create(variant);
+	//const QString variant = ui->m_gameSettings->chessVariant();
+	//auto board = Chess::BoardFactory::create(variant);	
+	auto board = Chess::BoardFactory::create("standard");
 	auto pgn = new PgnGame();
 	pgn->setSite(QSettings().value("pgn/site").toString());
 	auto game = new ChessGame(board, pgn);
