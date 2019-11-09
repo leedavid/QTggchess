@@ -195,7 +195,6 @@
     <ClCompile Include="src\board\boardtransition.cpp" />
     <ClCompile Include="src\chessengine.cpp" />
     <ClCompile Include="src\chessgame.cpp" />
-    <ClCompile Include="src\board\chessgiboard.cpp" />
     <ClCompile Include="src\chessplayer.cpp" />
     <ClCompile Include="src\econode.cpp" />
     <ClCompile Include="src\elo.cpp" />
@@ -341,6 +340,9 @@
     <QtMoc Include="src\worker.h">
     </QtMoc>
     <QtMoc Include="src\xboardengine.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\src;.\components\json\src;.\3rdparty\fathom\src;$(QTDIR)\include;.\.moc;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\src;.\components\json\src;.\3rdparty\fathom\src;$(QTDIR)\include;.\.moc;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;Z_PREFIX;NDEBUG;QT_NO_DEBUG;QT_CORE_LIB;QT_TESTLIB_LIB;QT_SQL_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <ClInclude Include="src\board\zobrist.h" />
   </ItemGroup>

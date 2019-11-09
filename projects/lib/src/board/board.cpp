@@ -77,10 +77,10 @@ bool Board::isRandomVariant() const
 	return false;
 }
 
-bool Board::variantHasDrops() const
-{
-	return false;
-}
+//bool Board::variantHasDrops() const
+//{
+//	return false;
+//}
 
 bool Board::variantHasWallSquares() const
 {
@@ -92,10 +92,10 @@ QList<Piece> Board::reservePieceTypes() const
 	return QList<Piece>();
 }
 
-Board::CoordinateSystem Board::coordinateSystem() const
-{
-	return NormalCoordinates;
-}
+//Board::CoordinateSystem Board::coordinateSystem() const
+//{
+//	return NormalCoordinates;
+//}
 
 Side Board::upperCaseSide() const
 {
@@ -290,16 +290,16 @@ QString Board::squareString(const Square& square) const
 
 	QString str;
 
-	if (coordinateSystem() == NormalCoordinates)
-	{
+	//if (coordinateSystem() == NormalCoordinates)
+	//{
 		str += QChar('a' + square.file());
 		str += QString::number(square.rank()); // +1);
-	}
-	else
-	{
-		str += QString::number(m_width - square.file());
-		str += QChar('a' + (m_height - square.rank()) - 1);
-	}
+	//}
+	//else
+	//{
+	//	str += QString::number(m_width - square.file());
+	//	str += QChar('a' + (m_height - square.rank()) - 1);
+	//}
 
 	return str;
 }
@@ -313,17 +313,17 @@ Square Board::chessSquare(const QString& str) const
 	int file = 0;
 	int rank = 0;
 
-	if (coordinateSystem() == NormalCoordinates)
-	{
+	//if (coordinateSystem() == NormalCoordinates)
+	//{
 		file = str.at(0).toLatin1() - 'a';
 		rank = str.midRef(1).toInt(&ok); //  -1;
-	}
-	else
-	{
-		int tmp = str.length() - 1;
-		file = m_width - str.leftRef(tmp).toInt(&ok);
-		rank = m_height - (str.at(tmp).toLatin1() - 'a') -1;
-	}
+	//}
+	//else
+	//{
+	//	int tmp = str.length() - 1;
+	//	file = m_width - str.leftRef(tmp).toInt(&ok);
+	//	rank = m_height - (str.at(tmp).toLatin1() - 'a') -1;
+	//}
 
 	if (!ok)
 		return Square();
@@ -861,14 +861,78 @@ int Board::captureType(const Move& move) const
 	return Piece::NoPiece;
 }
 
+// 这个是输入的不需要unmake的board  常将常捉判断
+bool Board::vIsBan(const Move& move) {
+	
+	bool isBan = false;
+
+	int n = 0;
+	int moCheck[2] = { 1,1 };
+	int moCap[2] = { 0, 0 };
+
+	quint64 last_key = m_key;
+
+	for (int i = plyCount() - 1; i >= 0; i--)
+	{
+
+		Side side = sideToMove();
+		if (!inCheck(side)) {
+			moCheck[1 & n] = 0;
+		}
+
+		// 
+		undoMove();		
+
+		if (m_key == last_key) {
+			break;
+		}
+
+		if ((moCheck[0] + moCheck[1] + moCap[0] + moCap[1]) == 0) {
+			return false;
+		}
+		n++;
+	}
+
+	n--;
+	if ((moCheck[1] + moCheck[0]) == 2) {
+		return false;  // 双方常将
+	}
+	if (moCheck[1 & n]) {
+		return true;   // 我方常将
+	}	
+	return isBan;
+}
+
 bool Board::vIsLegalMove(const Move& move)
 {
 	Q_ASSERT(!move.isNull());
 
+	int repcount = 0;
+
+	bool isBan = false;
+
+
 	makeMove(move);
 	bool isLegal = isLegalPosition();
+
+
+	if (isLegal == true) {
+
+		repcount = this->repeatCount();
+
+		if (repcount >= 2) {  // 二次重复，要判断是不是犯规了
+			Board* newB = this->copy();
+			isBan = newB->vIsBan(move);
+			delete newB;
+		}
+	}
+
 	undoMove();
 
+	if (isBan) {
+		return false;
+	}	
+	
 	return isLegal;
 }
 
@@ -933,11 +997,6 @@ QVector<Move> Board::legalMoves()
 	for (int i = moves.size() - 1; i >= 0; i--)
 	{
 		Move m = moves[i];
-
-		//QString mstr = moveString(m, Chess::Board::LongAlgebraic);
-		//if (mstr == "d0e0") {
-		//	int a = 0;
-		//}
 
 		if (vIsLegalMove(m))
 			legalMoves << m;

@@ -47,33 +47,33 @@ class LIB_EXPORT Board
 
 	public:
 		/*! Coordinate system for the notation of the squares. */
-		enum CoordinateSystem
-		{
-			/*!
-			 * Normal/traditional coordinates used by most chess
-			 * variants.
-			 *
-			 * The file is denoted by a letter, starting with file
-			 * 'A' on the left.
-			 * The rank is denoted by a number, starting with rank
-			 * '1' at the bottom.
-			 */
-			NormalCoordinates,
-			/*!
-			 * Inverted coordinates used by some eastern variants like
-			 * Shogi.
-			 *
-			 * The file is denoted by a number, starting with file
-			 * '1' on the right.
-			 * The rank is denoted by a letter, starting with rank
-			 * 'A' at the top.
-			 */
-			InvertedCoordinates
-		};
+		//enum CoordinateSystem
+		//{
+		//	/*!
+		//	 * Normal/traditional coordinates used by most chess
+		//	 * variants.
+		//	 *
+		//	 * The file is denoted by a letter, starting with file
+		//	 * 'A' on the left.
+		//	 * The rank is denoted by a number, starting with rank
+		//	 * '1' at the bottom.
+		//	 */
+		//	NormalCoordinates,
+		//	/*!
+		//	 * Inverted coordinates used by some eastern variants like
+		//	 * Shogi.
+		//	 *
+		//	 * The file is denoted by a number, starting with file
+		//	 * '1' on the right.
+		//	 * The rank is denoted by a letter, starting with rank
+		//	 * 'A' at the top.
+		//	 */
+		//	InvertedCoordinates
+		//};
 		/*! Notation for move strings. */
 		enum MoveNotation
 		{
-			StandardChinese,	//!< Standard Algebraic notation (SAN).
+			StandardChinese,	// 中文棋步
 			LongAlgebraic		//!< Long Algebraic/Coordinate notation.
 		};
 		/*! Notation for FEN strings. */
@@ -114,7 +114,7 @@ class LIB_EXPORT Board
 		 *
 		 * \sa CrazyhouseBoard
 		 */
-		virtual bool variantHasDrops() const;
+		//virtual bool variantHasDrops() const;
 		/*!
 		 * Returns true if the board accepts wall squares, else false.
 		 * The default value is false.
@@ -128,7 +128,7 @@ class LIB_EXPORT Board
 		 */
 		virtual QList<Piece> reservePieceTypes() const;
 		/*! Returns the coordinate system used in the variant. */
-		virtual CoordinateSystem coordinateSystem() const;
+		//virtual CoordinateSystem coordinateSystem() const;
 		/*! Returns the width of the board in squares. */
 		virtual int width() const = 0;
 		/*! Returns the height of the board in squares. */
@@ -466,6 +466,13 @@ class LIB_EXPORT Board
 		 * after \a move is legal.
 		 */
 		virtual bool vIsLegalMove(const Move& move);
+
+		virtual bool inCheck(Side side /*, int square = 0*/) const = 0;
+
+		virtual bool vIsBan(const Move& move);
+
+		//virtual bool vIsIncheck(const Side side) = 0;      // side 方是不是被将军了
+
 		/*!
 		 * Returns the type of piece captured by \a move.
 		 * Returns Piece::NoPiece if \a move is not a capture.

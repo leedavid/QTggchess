@@ -425,7 +425,7 @@ void MainWindow::createToolBars()
 
 
 	//this->mainToolbar->setMovable(false);
-	this->mainToolbar->setAllowedAreas(Qt::LeftToolBarArea);
+	//this->mainToolbar->setAllowedAreas(Qt::TopToolBarArea);
 
 	this->addToolBar(Qt::TopToolBarArea, this->mainToolbar);
 
@@ -1435,9 +1435,36 @@ void MainWindow::onLXchessboard()
 	//	int a = 0;
 	//}
 
+	//this->actLinkChessBoard = new QAction(this);
+	//this->actLinkChessBoard->setObjectName(QStringLiteral("LinkChessBoard"));
+	//QIcon iconLinkChessBoard;
+	//iconLinkChessBoard.addFile(QStringLiteral(":/icon/Links.ico"),
+	//	QSize(), QIcon::Normal, QIcon::Off);
+	//this->actLinkChessBoard->setIcon(iconLinkChessBoard);
+	//this->actLinkChessBoard->setText("连线");
+	//this->actLinkChessBoard->setToolTip("连接其它棋盘");
+
+	// 让引擎思考
+	//this->actEngineThink = new QAction(this);
+	//this->actEngineThink->setObjectName(QStringLiteral("EngineThink"));
+	QIcon iconEngineThink;
+	iconEngineThink.addFile(QStringLiteral(":/icon/thought-balloon.ico"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->actLinkChessBoard->setIcon(iconEngineThink);
+
+	//this->actEngineThink->setIcon(iconEngineThink);
+	//this->actEngineThink->setText("思考");
+	//this->actEngineThink->setToolTip("让引擎思考当前棋局，并自动走棋");
+
+
+
+
 	Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
 
 	pcap->on_start();
+
+	// 换一个图标
+
 
 	//if (pcap->getChessboardHwnd()) {
 	//	int a = 0;

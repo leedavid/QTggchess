@@ -329,6 +329,8 @@ namespace Chess {
 		//	return;
 		//}
 
+		return;
+
 		//this->GetMoveFromBoard();
 		if (!isSolutionReady()) {	
 

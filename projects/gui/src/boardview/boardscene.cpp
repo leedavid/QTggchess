@@ -94,7 +94,7 @@ void BoardScene::setBoard(Chess::Board* board)
 
 	//QString pic = QCoreApplication::applicationDirPath() + "/image/backgroud.jpg";
 
-	QString pic = QCoreApplication::applicationDirPath() + "/image/bg.png";
+	QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
 	//QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
 	//QString pic = QCoreApplication::applicationDirPath() + "/image/gif.jpg";
 	this->setBackgroundBrush(QPixmap(pic));

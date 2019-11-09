@@ -55,9 +55,6 @@
     <ClCompile Include="src\chessgame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\chessgiboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\chessplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -456,9 +453,6 @@
     <QtMoc Include="src\worker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\xboardengine.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <ClInclude Include="src\board\zobrist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -485,6 +479,9 @@
   <ItemGroup>
     <QtMoc Include="src\gamemanager.cpp">
       <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\xboardengine.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

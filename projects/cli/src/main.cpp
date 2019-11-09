@@ -309,9 +309,9 @@ EngineMatch* parseMatch(const QStringList& args, QObject* parent)
 		// Chess variant (default: standard chess)
 		else if (name == "-variant")
 		{
-			ok = Chess::BoardFactory::variants().contains(value.toString());
-			if (ok)
-				tournament->setVariant(value.toString());
+			//ok = Chess::BoardFactory::variants().contains(value.toString());
+			//if (ok)
+			//	tournament->setVariant(value.toString());
 		}
 		else if (name == "-concurrency")
 		{

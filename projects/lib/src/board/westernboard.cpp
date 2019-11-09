@@ -1265,6 +1265,8 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 	//	generateSlidingMoves(square, m_CheOffsets, moves);
 }
 
+
+
 bool WesternBoard::inCheck(Side side /*, int square*/) const
 {
 	Side opSide = side.opposite();
@@ -1379,6 +1381,8 @@ bool WesternBoard::isLegalPosition()
 
 	return true;
 }
+
+
 
 bool WesternBoard::vIsLegalMove(const Move& move)
 {
