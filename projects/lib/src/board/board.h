@@ -107,7 +107,7 @@ class LIB_EXPORT Board
 		 * Returns true if the variant uses randomized starting positions.
 		 * The default value is false.
 		 */
-		virtual bool isRandomVariant() const;
+		//virtual bool isRandomVariant() const;
 		/*!
 		 * Returns true if the variant allows piece drops.
 		 * The default value is false.

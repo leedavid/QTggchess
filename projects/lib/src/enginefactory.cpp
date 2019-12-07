@@ -21,7 +21,7 @@
 #include "uciengine.h"
 
 
-REGISTER_ENGINE_CLASS(XboardEngine, "xboard")
+//REGISTER_ENGINE_CLASS(XboardEngine, "xboard")
 REGISTER_ENGINE_CLASS(UciEngine, "uci")
 
 ClassRegistry<ChessEngine>* EngineFactory::registry()

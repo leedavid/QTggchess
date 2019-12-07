@@ -72,10 +72,10 @@ Board::~Board()
 {
 }
 
-bool Board::isRandomVariant() const
-{
-	return false;
-}
+//bool Board::isRandomVariant() const
+//{
+//	return false;
+//}
 
 //bool Board::variantHasDrops() const
 //{

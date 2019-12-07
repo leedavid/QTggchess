@@ -138,7 +138,8 @@ Chess::Board* PgnGame::createBoard() const
 	else
 	{
 		board->reset();
-		ok = !board->isRandomVariant();
+		//ok = !board->isRandomVariant();
+		ok = true;
 	}
 	if (!ok)
 	{
@@ -179,11 +180,11 @@ bool PgnGame::parseMove(PgnStream& in, bool addEco)
 		tmp = m_tags.value("FEN");
 		if (tmp.isEmpty())
 		{
-			if (board->isRandomVariant())
-			{
-				qWarning("Missing FEN tag");
-				return false;
-			}
+			//if (board->isRandomVariant())
+			//{
+			//	qWarning("Missing FEN tag");
+			//	return false;
+			//}
 			tmp = board->defaultFenString();
 		}
 

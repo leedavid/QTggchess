@@ -462,6 +462,9 @@
     <ClInclude Include="databasemanager.h">
       <Filter>Source Files\Sqlite</Filter>
     </ClInclude>
+    <ClInclude Include="src\xboardengine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include=".moc\moc_predefs.h.cbt">
@@ -479,9 +482,6 @@
   <ItemGroup>
     <QtMoc Include="src\gamemanager.cpp">
       <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\xboardengine.h">
-      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

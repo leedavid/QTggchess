@@ -649,17 +649,17 @@ bool ChessGame::resetBoard()
 	if (fen.isEmpty())
 	{
 		fen = m_board->defaultFenString();
-		if (m_board->isRandomVariant())
-			m_startingFen = fen;
+		//if (m_board->isRandomVariant())
+		//	m_startingFen = fen;
 	}
 
 	if (!m_board->setFenString(fen))
 	{
 		qWarning("ÎÞÐ§µÄ FEN ×Ö·û´®: %s", qUtf8Printable(fen));
 		m_board->reset();
-		if (m_board->isRandomVariant())
-			m_startingFen = m_board->fenString();
-		else
+		//if (m_board->isRandomVariant())
+		//	m_startingFen = m_board->fenString();
+		//else
 			m_startingFen.clear();
 		return false;
 	}

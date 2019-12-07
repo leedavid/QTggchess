@@ -141,10 +141,10 @@ void UciEngine::startGame()   // 引擎开始局面
 	m_moveStrings.clear();
 	m_useDirectPv = directPvList.contains(board()->variant());
 
-	if (board()->isRandomVariant())
-		m_startFen = board()->fenString(Chess::Board::ShredderFen);
-	else
-		m_startFen = board()->fenString(Chess::Board::XFen);
+	//if (board()->isRandomVariant())
+	//	m_startFen = board()->fenString(Chess::Board::ShredderFen);
+	//else
+	m_startFen = board()->fenString(Chess::Board::XFen);
 	setVariant(board()->variant());
 
 	write("ucinewgame");
