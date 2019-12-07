@@ -49,8 +49,8 @@ class Move
 		 * square and a target square.
 		 */
 		Move(int sourceSquare,
-		     int targetSquare,
-		     int promotion = 0);
+			int targetSquare);
+		//     int promotion = 0);
 
 		/*!
 		 * The source square.
@@ -68,7 +68,7 @@ class Move
 		 * If this move is a piece drop, the promotion type
 		 * denotes the type of the dropped piece.
 		 */
-		int promotion() const;
+		//int promotion() const;
 
 		/*! Returns true if this is a null move. */
 		bool isNull() const;
@@ -88,15 +88,17 @@ inline Move::Move()
 }
 
 inline Move::Move(int sourceSquare,
-		  int targetSquare,
-		  int promotion)
+	int targetSquare)
+	// int promotion)
 	: m_data(sourceSquare |
-		 (targetSquare << 10) |
-		 (promotion << 20))
+	(targetSquare << 8))
+	//| (promotion << 20))
 {
-	Q_ASSERT(sourceSquare >= 0 && sourceSquare <= 0x3FF);
-	Q_ASSERT(targetSquare >= 0 && targetSquare <= 0x3FF);
-	Q_ASSERT(promotion >= 0 && promotion <= 0x3FF);
+	
+	
+	Q_ASSERT(sourceSquare >= 0 && sourceSquare <= 0xFF);
+	Q_ASSERT(targetSquare >= 0 && targetSquare <= 0xFF);
+	//Q_ASSERT(promotion >= 0 && promotion <= 0x3FF);
 }
 
 inline bool Move::isNull() const
@@ -116,18 +118,18 @@ inline bool Move::operator!=(const Move& other) const
 
 inline int Move::sourceSquare() const
 {
-	return m_data & 0x3FF;
+	return m_data & 0xFF;
 }
 
 inline int Move::targetSquare() const
 {
-	return (m_data >> 10) & 0x3FF;
+	return (m_data >> 8) & 0xFF;
 }
 
-inline int Move::promotion() const
-{
-	return (m_data >> 20) & 0x3FF;
-}
+//inline int Move::promotion() const
+//{
+//	return (m_data >> 20) & 0x3FF;
+//}
 
 } // namespace Chess
 

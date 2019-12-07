@@ -67,33 +67,33 @@ bool CaparandomBoard::isRandomVariant() const
 
 bool CaparandomBoard::pawnsAreSafe(const QVector<int>& pieces) const
 {
-	int size = pieces.size();
+	//int size = pieces.size();
 
-	for (int i = 0; i < size; i++)
-	{
-		bool safe = false;
+	//for (int i = 0; i < size; i++)
+	//{
+	//	bool safe = false;
 
-		for (int j = i - 2; j <= i + 2; j += 4)
-		{
-			if (j < 0 || j >= size)
-				continue;
-			if (pieceHasMovement(pieces.at(j), KnightMovement))
-				safe = true;
-		}
-		for (int j = i - 1; j <= i + 1; j += 2)
-		{
-			if (j < 0 || j >= size)
-				continue;
-			if (pieceHasMovement(pieces.at(j), BishopMovement)
-			||  pieces.at(j) == King)
-				safe = true;
-		}
-		if (pieceHasMovement(pieces.at(i), RookMovement) || pieces.at(i) == King)
-			safe = true;
+	//	for (int j = i - 2; j <= i + 2; j += 4)
+	//	{
+	//		if (j < 0 || j >= size)
+	//			continue;
+	//		if (pieceHasMovement(pieces.at(j), MaMovement))
+	//			safe = true;
+	//	}
+	//	for (int j = i - 1; j <= i + 1; j += 2)
+	//	{
+	//		if (j < 0 || j >= size)
+	//			continue;
+	//		if (pieceHasMovement(pieces.at(j), XiangMovement)
+	//		||  pieces.at(j) == King)
+	//			safe = true;
+	//	}
+	//	if (pieceHasMovement(pieces.at(i), CheMovement) || pieces.at(i) == King)
+	//		safe = true;
 
-		if (!safe)
-			return false;
-	}
+	//	if (!safe)
+	//		return false;
+	//}
 
 	return true;
 }
@@ -110,22 +110,22 @@ QString CaparandomBoard::defaultFenString() const
 		pieces.fill(empty);
 		if ((Mersenne::random() % 2) == 0)
 		{
-			addPiece(pieces, Queen, Mersenne::random() % 5, 0, 2);
+			addPiece(pieces, Che, Mersenne::random() % 5, 0, 2);
 			addPiece(pieces, Archbishop, Mersenne::random() % 5, 1, 2);
 		}
 		else
 		{
 			addPiece(pieces, Archbishop, Mersenne::random() % 5, 0, 2);
-			addPiece(pieces, Queen, Mersenne::random() % 5, 1, 2);
+			addPiece(pieces, Che, Mersenne::random() % 5, 1, 2);
 		}
-		addPiece(pieces, Bishop, Mersenne::random() % 4, 0, 2);
-		addPiece(pieces, Bishop, Mersenne::random() % 4, 1, 2);
+		addPiece(pieces, Shi, Mersenne::random() % 4, 0, 2);
+		addPiece(pieces, Shi, Mersenne::random() % 4, 1, 2);
 		addPiece(pieces, Chancellor, Mersenne::random() % 6);
-		addPiece(pieces, Knight, Mersenne::random() % 5);
-		addPiece(pieces, Knight, Mersenne::random() % 4);
-		addPiece(pieces, Rook, 0);
+		addPiece(pieces, Xiang, Mersenne::random() % 5);
+		addPiece(pieces, Xiang, Mersenne::random() % 4);
+		addPiece(pieces, Pao, 0);
 		addPiece(pieces, King, 0);
-		addPiece(pieces, Rook, 0);
+		addPiece(pieces, Pao, 0);
 	}
 	while (!pawnsAreSafe(pieces));
 

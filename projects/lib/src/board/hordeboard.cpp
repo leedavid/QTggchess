@@ -61,9 +61,9 @@ bool HordeBoard::vIsLegalMove(const Move& m)
 	int tgt = m.targetSquare();
 	Piece piece = pieceAt(src);
 
-	if (piece.type() != Pawn
-	|| tgt != enpassantSquare())
-		return true;
+	//if (piece.type() != Pawn
+	//|| tgt != enpassantSquare())
+	//	return true;
 
 	int targetRank = chessSquare(tgt).rank();
 	return targetRank == 2 || targetRank == height() - 3;

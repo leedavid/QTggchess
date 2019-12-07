@@ -34,7 +34,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="m_variantLabel">
        <property name="text">
-        <string>Variant:</string>
+        <string>游戏种类:</string>
        </property>
        <property name="buddy">
         <cstring>m_variantCombo</cstring>
@@ -51,7 +51,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="m_timeControlLabel">
        <property name="text">
-        <string>Time Control:</string>
+        <string>时间设置:</string>
        </property>
        <property name="buddy">
         <cstring>m_timeControlBtn</cstring>
@@ -66,7 +66,7 @@
       <bool>true</bool>
      </property>
      <property name="title">
-      <string>Opening suite</string>
+      <string>开局设定</string>
      </property>
      <layout class="QFormLayout" name="formLayout_4">
       <property name="fieldGrowthPolicy">
@@ -75,7 +75,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="m_pgnEpdLabel">
         <property name="text">
-         <string>PGN/EPD file:</string>
+         <string>PGN/EPD 文件:</string>
         </property>
         <property name="buddy">
          <cstring>m_openingSuiteEdit</cstring>
@@ -90,7 +90,7 @@
         <item>
          <widget class="QPushButton" name="m_browseOpeningSuiteBtn">
           <property name="text">
-           <string>Browse...</string>
+           <string>浏览...</string>
           </property>
          </widget>
         </item>
@@ -99,7 +99,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="m_openingOrderLabel">
         <property name="text">
-         <string>Opening order:</string>
+         <string>开局顺序:</string>
         </property>
         <property name="buddy">
          <cstring>m_seqOrderRadio</cstring>
@@ -114,7 +114,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Sequential</string>
+           <string>顺序</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -127,7 +127,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Random</string>
+           <string>随机</string>
           </property>
          </widget>
         </item>
@@ -149,7 +149,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="m_openingSuiteDepth">
         <property name="text">
-         <string>Depth:</string>
+         <string>深度:</string>
         </property>
        </widget>
       </item>
@@ -159,7 +159,7 @@
          <bool>false</bool>
         </property>
         <property name="suffix">
-         <string> plies</string>
+         <string> 层</string>
         </property>
         <property name="minimum">
          <number>1</number>
@@ -172,7 +172,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="m_fenLabel">
         <property name="text">
-         <string>FEN string:</string>
+         <string>FEN 串:</string>
         </property>
         <property name="buddy">
          <cstring>m_fenEdit</cstring>
@@ -195,7 +195,7 @@
       <bool>false</bool>
      </property>
      <property name="title">
-      <string>Opening book</string>
+      <string>开局库</string>
      </property>
      <layout class="QFormLayout" name="formLayout_5">
       <property name="fieldGrowthPolicy">
@@ -204,7 +204,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="m_polyglotFileLabel">
         <property name="text">
-         <string>Polyglot file:</string>
+         <string>库文件:</string>
         </property>
         <property name="buddy">
          <cstring>m_polyglotFileEdit</cstring>
@@ -219,7 +219,7 @@
         <item>
          <widget class="QPushButton" name="m_browsePolyglotFile">
           <property name="text">
-           <string>Browse...</string>
+           <string>浏览...</string>
           </property>
          </widget>
         </item>
@@ -228,7 +228,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="m_polyglotDepthLabel">
         <property name="text">
-         <string>Depth:</string>
+         <string>回合数:</string>
         </property>
         <property name="buddy">
          <cstring>m_polyglotDepthSpin</cstring>
@@ -241,7 +241,7 @@
          <bool>false</bool>
         </property>
         <property name="suffix">
-         <string> full moves</string>
+         <string> 回合</string>
         </property>
         <property name="minimum">
          <number>1</number>
@@ -251,7 +251,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="m_polyglotAccessMode">
         <property name="text">
-         <string>Access mode:</string>
+         <string>选步方式:</string>
         </property>
         <property name="buddy">
          <cstring>m_ramAccessRadio</cstring>
@@ -266,10 +266,10 @@
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>The whole book is loaded in memory. This makes book access a bit faster but uses more memory.</string>
+           <string>随便选择大于0分的棋步</string>
           </property>
           <property name="text">
-           <string>Ram</string>
+           <string>大于0分</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -282,10 +282,10 @@
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>The book is accessed directly from disk. This is a good choice for very large books.</string>
+           <string>自动选择最高的评分走棋</string>
           </property>
           <property name="text">
-           <string>Disk</string>
+           <string>最高分</string>
           </property>
          </widget>
         </item>
@@ -318,7 +318,7 @@
         <bool>false</bool>
        </property>
        <property name="title">
-        <string>Draw adjudication</string>
+        <string>和棋判决</string>
        </property>
        <layout class="QFormLayout" name="formLayout">
         <property name="fieldGrowthPolicy">
@@ -327,7 +327,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="m_drawMoveNumberLabel">
           <property name="text">
-           <string>Move number:</string>
+           <string>回合数:</string>
           </property>
           <property name="buddy">
            <cstring>m_drawMoveNumberSpin</cstring>
@@ -337,7 +337,7 @@
         <item row="0" column="1">
          <widget class="QSpinBox" name="m_drawMoveNumberSpin">
           <property name="toolTip">
-           <string>The game can be adjudicated as a draw after this many full moves have been played. A value of 0 disables draw adjudication.</string>
+           <string>该对局将在下了这么多完整回合后判和。0 值禁用和棋判决。</string>
           </property>
           <property name="specialValueText">
            <string>Off</string>
@@ -356,7 +356,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="m_drawMoveCountLabel">
           <property name="text">
-           <string>Move count:</string>
+           <string>累计回合:</string>
           </property>
           <property name="buddy">
            <cstring>m_drawMoveCountSpin</cstring>
@@ -369,7 +369,7 @@
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>The scores of both players need to be within the chosen threshold for this many consecutive moves. Captures and pawn moves will reset the counters.</string>
+           <string>两位选手的分数都需要在这么多连续回合间位于选定的阈值内。</string>
           </property>
           <property name="maximum">
            <number>999</number>
@@ -379,7 +379,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="m_drawScoreLabel">
           <property name="text">
-           <string>Score:</string>
+           <string>分数:</string>
           </property>
           <property name="buddy">
            <cstring>m_drawScoreSpin</cstring>
@@ -392,7 +392,7 @@
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>Both players' scores must be within this many centipawns from zero.</string>
+           <string>两位选手的分数必须都在距离零这么多百分兵的范围内。</string>
           </property>
           <property name="suffix">
            <string> cp</string>
@@ -410,8 +410,11 @@
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="toolTip">
+        <string/>
+       </property>
        <property name="title">
-        <string>Resign adjudication</string>
+        <string>认输判决</string>
        </property>
        <layout class="QFormLayout" name="formLayout_3">
         <property name="fieldGrowthPolicy">
@@ -420,7 +423,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="m_resignMoveCountLabel">
           <property name="text">
-           <string>Move count:</string>
+           <string>回合数:</string>
           </property>
           <property name="buddy">
            <cstring>m_resignMoveCountSpin</cstring>
@@ -430,7 +433,7 @@
         <item row="1" column="1">
          <widget class="QSpinBox" name="m_resignMoveCountSpin">
           <property name="toolTip">
-           <string>Resign adjudication is used if an engine's score is below the threshold for at least this many consecutive moves.</string>
+           <string>如果一个引擎的分数在至少这么多连续回合间低于阈值，认输判决将被采用。</string>
           </property>
           <property name="specialValueText">
            <string>Off</string>
@@ -443,7 +446,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="m_resignScoreLabel">
           <property name="text">
-           <string>Score:</string>
+           <string>分数:</string>
           </property>
           <property name="buddy">
            <cstring>m_resignScoreSpin</cstring>
@@ -456,7 +459,7 @@
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>The score must be at least this many centipawns below zero.</string>
+           <string>分数必须至少负这么多百分兵。</string>
           </property>
           <property name="specialValueText">
            <string/>
@@ -478,10 +481,10 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>Resignation is only based on losing side's scores.</string>
+           <string>认输判决只取决于失败方的分数。</string>
           </property>
           <property name="text">
-           <string>Normal</string>
+           <string>正常</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -491,10 +494,10 @@
         <item row="3" column="1">
          <widget class="QRadioButton" name="m_resignTwoSidedRadio">
           <property name="toolTip">
-           <string>Both sides are needed to indicate decisive scores.</string>
+           <string> 必须双方表明决定性的分数。</string>
           </property>
           <property name="text">
-           <string>Two-Sided</string>
+           <string>双方</string>
           </property>
          </widget>
         </item>
@@ -507,20 +510,20 @@
         <bool>false</bool>
        </property>
        <property name="title">
-        <string>Game Length</string>
+        <string>对局棋步总数</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="m_maxGameLengthLabel">
           <property name="text">
-           <string>Limit:</string>
+           <string>限制:</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QSpinBox" name="m_maxGameLengthSpin">
           <property name="toolTip">
-           <string>The game will be adjucated as drawn when move limit is reached</string>
+           <string>对局达到限定棋步后，强制判和。</string>
           </property>
           <property name="toolTipDuration">
            <number>-1</number>
@@ -532,7 +535,7 @@
            <string>Off</string>
           </property>
           <property name="suffix">
-           <string> moves</string>
+           <string>  步</string>
           </property>
           <property name="minimum">
            <number>0</number>
@@ -556,7 +559,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Tablebase adjudication</string>
+      <string>残局库判定</string>
      </property>
     </widget>
    </item>
@@ -566,7 +569,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Thinking on opponent's time</string>
+      <string>后台思考</string>
      </property>
     </widget>
    </item>

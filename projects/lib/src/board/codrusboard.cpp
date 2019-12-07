@@ -40,15 +40,7 @@ bool CodrusBoard::kingsCountAssertion(int whiteKings, int blackKings) const
 	return whiteKings + blackKings > 0;
 }
 
-void CodrusBoard::addPromotions(int sourceSquare,
-				int targetSquare,
-				QVarLengthArray<Move>& moves) const
-{
-	moves.append(Move(sourceSquare, targetSquare, Knight));
-	moves.append(Move(sourceSquare, targetSquare, Bishop));
-	moves.append(Move(sourceSquare, targetSquare, Rook));
-	moves.append(Move(sourceSquare, targetSquare, Queen));
-}
+
 
 int CodrusBoard::pieceCount(Side side, int ptype) const
 {

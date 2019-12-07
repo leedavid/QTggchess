@@ -71,12 +71,7 @@ void ShatranjBoard::vInitialize()
 	m_alfilOffsets[3] = 2 * arrWidth + 2;
 }
 
-void ShatranjBoard::addPromotions(int sourceSquare,
-				 int targetSquare,
-				 QVarLengthArray<Move>& moves) const
-{
-	moves.append(Move(sourceSquare, targetSquare, Ferz));
-}
+
 
 void ShatranjBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 					  int pieceType,

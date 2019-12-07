@@ -25,6 +25,10 @@
 #include "pgnstream.h"
 #include "mersenne.h"
 
+//#include "ConnectionPool.h"
+//#include "databasemanager.h"
+
+
 
 QDataStream& operator>>(QDataStream& in, OpeningBook* book)
 {
@@ -47,7 +51,7 @@ QDataStream& operator<<(QDataStream& out, const OpeningBook* book)
 	return out;
 }
 
-OpeningBook::OpeningBook(AccessMode mode)
+OpeningBook::OpeningBook(BookMoveMode mode)
 	: m_mode(mode)
 {
 }
@@ -56,28 +60,42 @@ OpeningBook::~OpeningBook()
 {
 }
 
-bool OpeningBook::read(const QString& filename)
+QString getRandomString(int length)
 {
-	m_filename = filename;
-	QFile file(filename);
-	if (!file.open(QIODevice::ReadOnly))
-		return false;
+	qsrand(QDateTime::currentMSecsSinceEpoch());//为随机值设定一个seed
 
-	if ((file.size() % entrySize()) != 0)
+	const char chrs[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	int chrs_size = sizeof(chrs);
+
+	char* ch = new char[length + 1];
+	memset(ch, 0, length + 1);
+	int randomx = 0;
+	for (int i = 0; i < length; ++i)
 	{
-		qWarning("Invalid size for opening book %s",
-			 qUtf8Printable(filename));
-		return false;
+		randomx = rand() % (chrs_size - 1);
+		ch[i] = chrs[randomx];
 	}
 
-	if (m_mode == Disk)
-		return true;
+	QString ret(ch);
+	delete[] ch;
+	return ret;
+}
 
-	m_map.clear();
-	QDataStream in(&file);
-	in >> this;
+bool OpeningBook::read(const QString& filename)
+{
+   
+	this->m_filename = filename;
 
-	return !m_map.isEmpty();
+	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", getRandomString(10));
+	db.setDatabaseName(this->m_filename);
+	
+	if (!db.open()) {
+		qWarning("打不开开局库文件 %s",
+			qUtf8Printable(this->m_filename));
+		return false;
+	}
+	db.close();
+	return true;
 }
 
 bool OpeningBook::write(const QString& filename) const
@@ -92,6 +110,8 @@ bool OpeningBook::write(const QString& filename) const
 	return true;
 }
 
+
+
 void OpeningBook::addEntry(const Entry& entry, quint64 key)
 {
 	Map::iterator it = m_map.find(key);
@@ -100,7 +120,7 @@ void OpeningBook::addEntry(const Entry& entry, quint64 key)
 		Entry& tmp = it.value();
 		if (tmp.move == entry.move)
 		{
-			tmp.weight += entry.weight;
+			//tmp.weight += entry.weight;
 			return;
 		}
 		++it;
@@ -164,66 +184,90 @@ int OpeningBook::import(PgnStream& in, int maxMoves)
 QList<OpeningBook::Entry> OpeningBook::entriesFromDisk(quint64 key) const
 {
 	QList<Entry> entries;
-	QFile file(m_filename);
-	if (!file.open(QIODevice::ReadOnly))
-	{
-		qWarning("Could not open book file %s",
-			 qUtf8Printable(m_filename));
+
+	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", getRandomString(10));
+	db.setDatabaseName(this->m_filename);
+	if (!db.open()) {
+		qWarning("打不开开局库文件 %s",
+			qUtf8Printable(this->m_filename));
 		return entries;
 	}
-	QDataStream in(&file);
 
-	quint64 entryKey = 0;
-	qint64 step = entrySize();
-	qint64 n = file.size() / step;
-	qint64 first = 0;
-	qint64 last = n - 1;
-	qint64 middle = (first + last) / 2;
+	QSqlQuery query(db);
 
-	// Binary search
-	while (first <= last)
-	{
-		qint64 pos = middle * step;
-		file.seek(pos);
-		Entry entry = readEntry(in, &entryKey);
-		if (entryKey < key)
-			first = middle + 1;
-		else if (entryKey == key)
-		{
-			entries << entry;
-			for (qint64 i = pos - step; i >= 0; i -= step)
-			{
-				file.seek(i);
-				entry = readEntry(in, &entryKey);
-				if (entryKey != key)
-					break;
-				entries << entry;
-			}
-			qint64 maxPos = (n - 1) * step;
-			for (qint64 i = pos + step; i <= maxPos; i += step)
-			{
-				file.seek(i);
-				entry = readEntry(in, &entryKey);
-				if (entryKey != key)
-					break;
-				entries << entry;
-			}
-			return entries;
-		}
-		else
-			last = middle - 1;
-		middle = (first + last) / 2;
+	//key = 0x628d04d7c9c144ae;						// 开局初始hash
+	//qint64 ikey = 0xa1ead1f6470e07ee;
+	//quint64 ukey = 0xa1ead1f6470e07ee;
+
+	QString sql = "select * from bhobk where vkey = ?";
+	query.prepare(sql);
+	qint64 ikey = key;
+	if (ikey > 0) {		
+		query.bindValue(0, key);
 	}
+	else {
+		double dkey;
+		memcpy(&dkey, &key, sizeof(qint64));	// SQlite3 不认负的 uint64 key
+		query.bindValue(0, dkey);
+	}
+
+
+	if (query.exec()) {
+
+		Entry entry;
+
+		query.first();
+		while (query.isValid()) {
+
+			quint32 mbh = query.value("vmove").toInt();
+
+			// 这儿要转换一下
+			int from = mbh >> 8;
+			int to = mbh & 0xff;
+
+			int fx = from % 16-3;
+			int fy = 12 - from / 16;
+			Chess::Square sqfrom = Chess::Square(fx, fy);
+
+			int tx = to % 16 - 3;
+			int ty = 12 - to / 16;
+			Chess::Square sqto = Chess::Square(tx, ty);
+			entry.move = Chess::GenericMove(sqfrom, sqto);
+
+			//Chess::Move move = m_board->moveFromGenericMove(bookMove);				// 
+
+			entry.vscore = query.value("vscore").toInt();
+			//entry.win_count = query.value("vwin").toInt();
+			//entry.draw_count = query.value("vdraw").toInt();
+			//entry.lost_connt = query.value("vlost").toInt();
+			entry.valid = query.value("vvalid").toInt();
+			//entry.comments = query.value("vmemo").toString();
+			//entry.vindex = query.value("vindex").toInt();
+
+			//if (entry.vscore == 0) {
+			//	entry.vscore = 1;            // 最小给一个1分，防止除0出错
+			//}
+
+			if(entry.vscore > 0 && entry.valid == 1){  // 只选择大于0分，且是有效的棋步走棋
+				entries << entry;
+			}
+
+			if (!query.next()) {   // 移动到下一条，并判断是不是到未尾了
+				break;
+			}
+		}		
+	}
+
+	db.close();
 
 	return entries;
 }
 
 QList<OpeningBook::Entry> OpeningBook::entries(quint64 key) const
 {
-	if (m_mode == Ram)
-		return m_map.values(key);
 	return entriesFromDisk(key);
 }
+
 
 Chess::GenericMove OpeningBook::move(quint64 key) const
 {
@@ -236,22 +280,61 @@ Chess::GenericMove OpeningBook::move(quint64 key) const
 		return move;
 	
 	// Calculate the total weight of all available moves
+	//int totalWeight = 0;
+	//for (const Entry& entry : entries)
+	//	totalWeight += entry.weight;
+	//if (totalWeight <= 0)
+	//	return move;
+
 	int totalWeight = 0;
 	for (const Entry& entry : entries)
-		totalWeight += entry.weight;
-	if (totalWeight <= 0)
+		totalWeight += entry.vscore;
+	if (totalWeight < 0)
 		return move;
 
 	// Pick a move randomly, with the highest-weighted move having
-	// the highest probability of getting picked.
-	int pick = Mersenne::random() % totalWeight;
-	int currentWeight = 0;
-	for (const Entry& entry : entries)
-	{
-		currentWeight += entry.weight;
-		if (currentWeight > pick)
-			return entry.move;
+	// the highest probability of getting picked.	
+	if (m_mode == BookRandom) {
+		int pick = Mersenne::random() % totalWeight;	
+		int currentWeight = 0;
+		for (const Entry& entry : entries)
+		{
+			currentWeight += entry.vscore;
+			if (currentWeight > pick)
+				return entry.move;
+		}
 	}
+	else {
+		int bestScore = 0;	
+		// 1. 求得最高分
+		for (const Entry& entry : entries) {
+			if (entry.vscore >= bestScore) {
+				bestScore = entry.vscore;				
+			}
+		}
+		// 2. 将全部的最高分集中起来
+		QList<Entry> BestEntries;
+		for (const Entry& entry : entries) {
+			if (entry.vscore == bestScore) {
+				BestEntries << entry;
+			}
+		}
+		// 3. 再在几个最佳步中随机选择
+		int totalWeight = 0;
+		for (const Entry& entry : BestEntries)
+			totalWeight += entry.vscore;
+		if (totalWeight < 0)
+			return move;
+
+		int pick = Mersenne::random() % totalWeight;
+		int currentWeight = 0;
+		for (const Entry& entry : BestEntries)
+		{
+			currentWeight += entry.vscore;
+			if (currentWeight > pick)
+				return entry.move;
+		}
+	}	
 	
 	return move;
 }

@@ -45,15 +45,24 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source Files\PGN">
+      <UniqueIdentifier>{8a27c28c-f3f2-44bb-9582-21d6936bd3a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\board_display">
+      <UniqueIdentifier>{eb8a0b12-c696-4f24-8da2-872481dbca0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gameDatabase">
+      <UniqueIdentifier>{6af23039-ad1c-4a0c-a3c4-f3f752e13027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{66b7b873-5374-423e-8675-6db95fc843b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Capture">
+      <UniqueIdentifier>{0a43746d-b949-4428-8fc1-d011279c6363}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\autoverticalscroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\boardview\boardscene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\boardview\boardview.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\chessclock.cpp">
@@ -62,37 +71,10 @@
     <ClCompile Include="src\cutechessapp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engineconfigproxymodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineconfigurationdlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineconfigurationmodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginemanagementwidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineoptiondelegate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineoptionmodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineselectiondlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\evalhistory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\evalwidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamedatabasemanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamedatabasesearchdlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gamesettingswidget.cpp">
@@ -101,28 +83,10 @@
     <ClCompile Include="src\gametabbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gameviewer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\boardview\graphicsboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\boardview\graphicspiece.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\boardview\graphicspiecereserve.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\importprogressdlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mainwindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="3rdparty\modeltest\modeltest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\movecommenttoken.cpp">
@@ -144,24 +108,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\pathlineedit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgndatabase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgndatabasemodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgngameentrymodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgnimporter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgntagsmodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgntoken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\boardview\piecechooser.cpp">
@@ -193,6 +139,78 @@
     </ClCompile>
     <ClCompile Include="src\tournamentsettingswidget.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\modeltest\modeltest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgndatabase.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgndatabasemodel.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgngameentrymodel.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgnimporter.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgntagsmodel.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgntoken.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\boardscene.cpp">
+      <Filter>Source Files\board_display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\boardview.cpp">
+      <Filter>Source Files\board_display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\graphicsboard.cpp">
+      <Filter>Source Files\board_display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\graphicspiece.cpp">
+      <Filter>Source Files\board_display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\graphicspiecereserve.cpp">
+      <Filter>Source Files\board_display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamedatabasemanager.cpp">
+      <Filter>Source Files\gameDatabase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamedatabasesearchdlg.cpp">
+      <Filter>Source Files\gameDatabase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameviewer.cpp">
+      <Filter>Source Files\board_display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineselectiondlg.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineconfigproxymodel.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineconfigurationdlg.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineconfigurationmodel.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginemanagementwidget.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineoptiondelegate.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineoptionmodel.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\importprogressdlg.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\capture.cpp">
+      <Filter>Source Files\Capture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,11 +364,14 @@
     <QtMoc Include="src\tournamentsettingswidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\gamedatabasedlg.cpp">
-      <Filter>Source Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\gamewall.cpp">
       <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gamedatabasedlg.cpp">
+      <Filter>Source Files\gameDatabase</Filter>
+    </QtMoc>
+    <QtMoc Include="src\capture.h">
+      <Filter>Source Files\Capture</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -429,6 +450,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ui\tournamentsettingswidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\connectconfig.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -517,5 +541,16 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\icons\cutechess_win.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\icons\cutechess_win.ico" />
+    <Image Include="res\icons\cutechess_win.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="res\icons\resource.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,7 +40,8 @@ MoveList::MoveList(QWidget* parent)
 	m_moveList->setUndoRedoEnabled(false);
 	m_moveList->document()->setDefaultStyleSheet(
 		"a:link { text-decoration: none; } "
-		".move { color: black; font-weight: bold; } "
+		//".move { color: black; font-weight: bold; } "
+		".move { color: black;  } "   // 中文棋步不用加粗显示
 		".comment { color: green; }");
 
 	#ifdef Q_OS_WIN32

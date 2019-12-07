@@ -92,16 +92,7 @@ bool RifleBoard::inCheck(Side side, int square) const
 	return WesternBoard::inCheck(side, square);
 }
 
-void RifleBoard::addPromotions(int sourceSquare, int targetSquare,
-			       QVarLengthArray< Move >& moves) const
-{
-	// Prevent capturing Pawn from promoting on seventh rank
-	if (pieceAt(targetSquare).isEmpty())
-		return WesternBoard::addPromotions(sourceSquare, // clazy:exclude=returning-void-expression
-						   targetSquare,
-						   moves);
-	moves.append(Move(sourceSquare, targetSquare));
-}
+
 
 
 ShootBoard::ShootBoard()

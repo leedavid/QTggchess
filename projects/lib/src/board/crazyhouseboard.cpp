@@ -25,10 +25,10 @@ namespace Chess {
 CrazyhouseBoard::CrazyhouseBoard()
 	: WesternBoard(new WesternZobrist())
 {
-	setPieceType(PromotedKnight, tr("promoted knight"), "N~", KnightMovement);
-	setPieceType(PromotedBishop, tr("promoted bishop"), "B~", BishopMovement);
-	setPieceType(PromotedRook, tr("promoted rook"), "R~", RookMovement);
-	setPieceType(PromotedQueen, tr("promoted queen"), "Q~", BishopMovement | RookMovement);
+	setPieceType(PromotedKnight, tr("promoted knight"), "N~", MaMovement);
+	setPieceType(PromotedBishop, tr("promoted bishop"), "B~", XiangMovement);
+	setPieceType(PromotedRook, tr("promoted rook"), "R~", CheMovement);
+	setPieceType(PromotedQueen, tr("promoted queen"), "Q~", XiangMovement | CheMovement);
 }
 
 Board* CrazyhouseBoard::copy() const
@@ -42,7 +42,7 @@ QList<Piece> CrazyhouseBoard::reservePieceTypes() const
 
 	for (int i = 0; i < 2; i++)
 	{
-		for (int type = Pawn; type <= Queen; type++)
+		for (int type = Pawn; type <= Che; type++)
 			list << Piece(Side::Type(i), type);
 	}
 
@@ -76,13 +76,13 @@ int CrazyhouseBoard::normalPieceType(int type)
 	switch (type)
 	{
 	case PromotedKnight:
-		return Knight;
+		return Xiang;
 	case PromotedBishop:
-		return Bishop;
+		return Shi;
 	case PromotedRook:
-		return Rook;
+		return Pao;
 	case PromotedQueen:
-		return Queen;
+		return Che;
 	default:
 		return type;
 	}
@@ -92,13 +92,13 @@ int CrazyhouseBoard::promotedPieceType(int type) const
 {
 	switch (type)
 	{
-	case Knight:
+	case Xiang:
 		return PromotedKnight;
-	case Bishop:
+	case Shi:
 		return PromotedBishop;
-	case Rook:
+	case Pao:
 		return PromotedRook;
-	case Queen:
+	case Che:
 		return PromotedQueen;
 	default:
 		return type;
@@ -173,22 +173,22 @@ void CrazyhouseBoard::vMakeMove(const Move& move, BoardTransition* transition)
 {
 	int source = move.sourceSquare();
 	int target = move.targetSquare();
-	int prom = move.promotion();
+	//int prom = move.promotion();
 
 	Move tmp(move);
-	if (source != 0 && prom != Piece::NoPiece)
-		tmp = Move(source, target, promotedPieceType(prom));
+	//if (source != 0 && prom != Piece::NoPiece)
+	//	tmp = Move(source, target, promotedPieceType(prom));
 	
 	int ctype = captureType(move);
 	if (ctype != Piece::NoPiece)
 	{
 		Piece reservePiece(sideToMove(), reserveType(ctype));
-		addToReserve(reservePiece);
+		//addToReserve(reservePiece);
 		if (transition != nullptr)
 			transition->addReservePiece(reservePiece);
 	}
-	else if (source == 0)
-		removeFromReserve(Piece(sideToMove(), prom));
+	//else if (source == 0)
+	//	removeFromReserve(Piece(sideToMove(), prom));
 
 	WesternBoard::vMakeMove(tmp, transition);
 }
@@ -197,19 +197,19 @@ void CrazyhouseBoard::vUndoMove(const Move& move)
 {
 	int source = move.sourceSquare();
 	int target = move.targetSquare();
-	int prom = move.promotion();
+	//int prom = move.promotion();
 
 	Move tmp(move);
-	if (source != 0 && prom != Piece::NoPiece)
-		tmp = Move(source, target, promotedPieceType(prom));
+	//if (source != 0 && prom != Piece::NoPiece)
+	//	tmp = Move(source, target, promotedPieceType(prom));
 
 	WesternBoard::vUndoMove(tmp);
 
 	int ctype = captureType(move);
-	if (ctype != Piece::NoPiece)
-		removeFromReserve(Piece(sideToMove(), reserveType(ctype)));
-	else if (source == 0)
-		addToReserve(Piece(sideToMove(), prom));
+	//if (ctype != Piece::NoPiece)
+	//	removeFromReserve(Piece(sideToMove(), reserveType(ctype)));
+	//else if (source == 0)
+	//	addToReserve(Piece(sideToMove(), prom));
 }
 
 bool CrazyhouseBoard::pawnDropOkOnRank(int rank) const
@@ -236,7 +236,7 @@ void CrazyhouseBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 				if (!pawnDropOkOnRank(sq.rank()))
 					continue;
 			}
-			moves.append(Move(0, i, pieceType));
+			moves.append(Move(0, i));// , pieceType));
 		}
 	}
 	else

@@ -105,15 +105,17 @@ void UciEngine::startProtocol()
 
 QString UciEngine::positionString()
 {
-	QString str("position");
+	//QString str("position");
 
-	if (board()->isRandomVariant() || m_startFen != board()->defaultFenString())
-		str += QString(" fen ") + m_startFen;
-	else
-		str += " startpos";
+	QString str("");
+
+	//if (board()->isRandomVariant() || m_startFen != board()->defaultFenString())
+		str += QString("fen ") + m_startFen;
+	//else
+	//	str += " startpos";
 
 	if (!m_moveStrings.isEmpty())
-		str += QString(" moves") + m_moveStrings;
+		str += QString(" moves") + m_moveStrings;	// 棋步输出
 
 	return str;
 }
@@ -123,7 +125,7 @@ void UciEngine::sendPosition()
 	write(positionString());
 }
 
-void UciEngine::startGame()
+void UciEngine::startGame()   // 引擎开始局面
 {
 	Q_ASSERT(supportsVariant(board()->variant()));
 	const QList<QString> directPvList = {"giveaway", "suicide", "antichess"};
@@ -139,10 +141,10 @@ void UciEngine::startGame()
 	m_moveStrings.clear();
 	m_useDirectPv = directPvList.contains(board()->variant());
 
-	if (board()->isRandomVariant())
-		m_startFen = board()->fenString(Chess::Board::ShredderFen);
-	else
-		m_startFen = board()->fenString(Chess::Board::XFen);
+	//if (board()->isRandomVariant())
+	//	m_startFen = board()->fenString(Chess::Board::ShredderFen);
+	//else
+	m_startFen = board()->fenString(Chess::Board::XFen);
 	setVariant(board()->variant());
 
 	write("ucinewgame");
@@ -369,9 +371,9 @@ void UciEngine::parseInfo(const QVarLengthArray<QStringRef>& tokens,
 		InfoSelDepth,
 		InfoTime,
 		InfoNodes,
-		InfoPv,
-		InfoMultiPv,
 		InfoScore,
+		InfoPv,
+		InfoMultiPv,		
 		InfoCurrMove,
 		InfoCurrMoveNumber,
 		InfoHashFull,
@@ -409,23 +411,27 @@ void UciEngine::parseInfo(const QVarLengthArray<QStringRef>& tokens,
 	case InfoScore:
 		{
 			int score = 0;
-			for (int i = 1; i < tokens.size(); i++)
+			//for (int i = 1; i < tokens.size(); i++)
+			//{
+			int i = 1;
+			if (tokens[i - 1] == "cp")
+				score = tokens[i].toString().toInt();
+			else if (tokens[i - 1] == "mate")
 			{
-				if (tokens[i - 1] == "cp")
-					score = tokens[i].toString().toInt();
-				else if (tokens[i - 1] == "mate")
-				{
-					score = tokens[i].toString().toInt();
-					if (score > 0)
-						score = eval->MATE_SCORE + 1 - score * 2;
-					else if (score < 0)
-						score = -eval->MATE_SCORE - score * 2;
-				}
-				else if (tokens[i - 1] == "lowerbound"
-				     ||  tokens[i - 1] == "upperbound")
-					return;
-				i++;
+				score = tokens[i].toString().toInt();
+				if (score > 0)
+					score = eval->MATE_SCORE + 1 - score * 2;
+				else if (score < 0)
+					score = -eval->MATE_SCORE - score * 2;
 			}
+			else if (tokens[i - 1] == "lowerbound"
+				|| tokens[i - 1] == "upperbound")
+				return;
+			else {
+				score = tokens[i-1].toString().toInt();
+			}
+			//i++;
+			//}
 			if (whiteEvalPov() && side() == Chess::Side::Black)
 				score = -score;
 			eval->setScore(score);
@@ -449,13 +455,13 @@ void UciEngine::parseInfo(const QStringRef& line)
 {
 	static const QString types[] =
 	{
-		"depth",
+		"depth",			//
 		"seldepth",
 		"time",
 		"nodes",
+		"score",				// by LGL
 		"pv",
-		"multipv",
-		"score",
+		"multipv",		
 		"currmove",
 		"currmovenumber",
 		"hashfull",
@@ -466,7 +472,7 @@ void UciEngine::parseInfo(const QStringRef& line)
 		"refutation",
 		"currline"
 	};
-
+	
 	int type = -1;
 	QStringRef token(nextToken(line));
 	QVarLengthArray<QStringRef> tokens;
@@ -794,7 +800,7 @@ void UciEngine::setPonderMove(const QString& moveString)
 		board->undoMove();
 
 		if (!m_ponderMove.isNull())
-			m_ponderMoveSan = board->moveString(m_ponderMove, Chess::Board::StandardAlgebraic);
+			m_ponderMoveSan = board->moveString(m_ponderMove, Chess::Board::StandardChinese);
 	}
 }
 
@@ -838,7 +844,7 @@ QString UciEngine::sanPv(const QVarLengthArray<QStringRef>& tokens)
 		}
 		if (!pv.isEmpty())
 			pv += " ";
-		pv += board->moveString(move, Chess::Board::StandardAlgebraic);
+		pv += board->moveString(move, Chess::Board::StandardChinese);
 		board->makeMove(move);
 		movesMade++;
 	}

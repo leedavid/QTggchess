@@ -23,6 +23,9 @@
 #include <QPointer>
 #include <board/side.h>
 
+#include "capture.h"
+//#include "TestThread.h"
+
 namespace Chess {
 	class Board;
 	class Move;
@@ -42,6 +45,8 @@ class Tournament;
 class GameTabBar;
 class EvalHistory;
 class EvalWidget;
+class PgnStream;
+class Capture;
 
 /**
  * MainWindow
@@ -55,6 +60,8 @@ class MainWindow : public QMainWindow
 		virtual ~MainWindow();
 		QString windowListTitle() const;
 
+		//TestThread* t;
+
 	public slots:
 		void addGame(ChessGame* game);
 
@@ -64,6 +71,7 @@ class MainWindow : public QMainWindow
 
 	private slots:
 		void newGame();
+		void OpenPgnGame();
 		void newTournament();
 		void onWindowMenuAboutToShow();
 		void showGameWindow();
@@ -82,6 +90,7 @@ class MainWindow : public QMainWindow
 		void editMoveComment(int ply, const QString& comment);
 		void copyFen();
 		void pasteFen();
+		//void msgFen(QString fen);              // 这个是临时的
 		void copyPgn();
 		void showAboutDialog();
 		void closeAllGames();
@@ -90,17 +99,23 @@ class MainWindow : public QMainWindow
 		void adjudicateBlackWin();
 		void resignGame();
 
+		void processCapMsg(stCaptureMsg msg);
+
+		// 連线棋盘
+		void onLXchessboard();
+
 	private:
 		struct TabData
 		{
 			explicit TabData(ChessGame* m_game,
-					 Tournament* m_tournament = nullptr);
+				Chess::Capture* cap, Tournament* m_tournament = nullptr);
 
 			ChessGame* m_id;
 			QPointer<ChessGame> m_game;
 			PgnGame* m_pgn;
 			Tournament* m_tournament;
 			bool m_finished;
+			Chess::Capture* m_cap; 
 		};
 
 		void createActions();
@@ -129,11 +144,15 @@ class MainWindow : public QMainWindow
 		QMenu* m_windowMenu;
 		QMenu* m_helpMenu;
 
-		GameTabBar* m_tabBar;
+		QToolBar* mainToolbar;        // 主菜单工具条
+		QAction* actLinkChessBoard;   // 连接其它棋盘
+		QAction* actEngineThink;      // 让引擎思考
+		QAction* actEngineStop;       // 让引擎停止
+		QAction* actEngineAnalyze;    // 让引擎分析
+		QAction* actEngineSetting;    // 引擎设置参数
 
-		// 状态栏
-		QStatusBar* statusBar() const;
-		void setStatusBar(QStatusBar* statusbar);
+
+		GameTabBar* m_tabBar;		    
 
 		GameViewer* m_gameViewer;
 		MoveList* m_moveList;
@@ -141,6 +160,7 @@ class MainWindow : public QMainWindow
 
 		QAction* m_quitGameAct;
 		QAction* m_newGameAct;
+		QAction* m_openPgnAct;             
 		QAction* m_adjudicateBlackWinAct;
 		QAction* m_adjudicateWhiteWinAct;
 		QAction* m_adjudicateDrawAct;

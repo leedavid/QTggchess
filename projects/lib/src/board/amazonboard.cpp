@@ -26,7 +26,7 @@ AmazonBoard::AmazonBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	setPieceType(Amazon, tr("amazon"), "A",
-		     KnightMovement | BishopMovement | RookMovement, "Q");
+		     MaMovement | XiangMovement | CheMovement, "Q");
 }
 
 Board* AmazonBoard::copy() const

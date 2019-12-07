@@ -71,14 +71,14 @@ QString FrcBoard::defaultFenString() const
 	const int empty = Piece::NoPiece;
 	QVector<int> pieces(8, empty);
 
-	addPiece(pieces, Bishop, Mersenne::random() % 4, 0, 2);
-	addPiece(pieces, Bishop, Mersenne::random() % 4, 1, 2);
-	addPiece(pieces, Queen, Mersenne::random() % 6);
-	addPiece(pieces, Knight, Mersenne::random() % 5);
-	addPiece(pieces, Knight, Mersenne::random() % 4);
-	addPiece(pieces, Rook, 0);
+	addPiece(pieces, Shi, Mersenne::random() % 4, 0, 2);
+	addPiece(pieces, Shi, Mersenne::random() % 4, 1, 2);
+	addPiece(pieces, Che, Mersenne::random() % 6);
+	addPiece(pieces, Xiang, Mersenne::random() % 5);
+	addPiece(pieces, Xiang, Mersenne::random() % 4);
+	addPiece(pieces, Pao, 0);
 	addPiece(pieces, King, 0);
-	addPiece(pieces, Rook, 0);
+	addPiece(pieces, Pao, 0);
 
 	QString fen;
 

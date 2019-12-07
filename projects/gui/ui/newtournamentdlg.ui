@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>New Tournament</string>
+   <string>新建锦标赛</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="sizeConstraint">
@@ -24,13 +24,13 @@
        <item>
         <widget class="QGroupBox" name="groupBox_3">
          <property name="title">
-          <string>General information</string>
+          <string>基本信息</string>
          </property>
          <layout class="QFormLayout" name="formLayout_2">
           <item row="0" column="0">
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>Event:</string>
+             <string>赛事:</string>
             </property>
             <property name="buddy">
              <cstring>m_nameEdit</cstring>
@@ -40,7 +40,7 @@
           <item row="0" column="1">
            <widget class="QLineEdit" name="m_nameEdit">
             <property name="text">
-             <string>My Tournament</string>
+             <string>我的锦标赛</string>
             </property>
             <property name="maxLength">
              <number>127</number>
@@ -50,7 +50,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Site:</string>
+             <string>地点:</string>
             </property>
             <property name="buddy">
              <cstring>m_siteEdit</cstring>
@@ -67,7 +67,7 @@
           <item row="2" column="0">
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>PGN output:</string>
+             <string>PGN 输出:</string>
             </property>
             <property name="buddy">
              <cstring>m_pgnoutEdit</cstring>
@@ -98,7 +98,7 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Browse...</string>
+               <string>浏览...</string>
               </property>
              </widget>
             </item>
@@ -107,7 +107,7 @@
           <item row="3" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>EPD output:</string>
+             <string>EPD 输出:</string>
             </property>
            </widget>
           </item>
@@ -122,7 +122,7 @@
             <item>
              <widget class="QPushButton" name="m_browseEpdoutBtn">
               <property name="text">
-               <string>Browse...</string>
+               <string>浏览...</string>
               </property>
              </widget>
             </item>
@@ -152,7 +152,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_6">
        <property name="title">
-        <string>Games</string>
+        <string>对局</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
@@ -169,7 +169,7 @@
           <bool>false</bool>
          </property>
          <property name="title">
-          <string>Players</string>
+          <string>选手</string>
          </property>
          <property name="flat">
           <bool>false</bool>

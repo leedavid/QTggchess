@@ -21,24 +21,24 @@
 namespace Chess {
 
 GenericMove::GenericMove()
-	: m_promotion(0)
+	//: m_promotion(0)
 {
 }
 
 GenericMove::GenericMove(const Square& sourceSquare,
-			 const Square& targetSquare,
-			 int promotion)
+			 const Square& targetSquare)
+			// int promotion)
 	: m_sourceSquare(sourceSquare),
-	  m_targetSquare(targetSquare),
-	  m_promotion(promotion)
+	  m_targetSquare(targetSquare)
+	//  m_promotion(promotion)
 {
 }
 
 bool GenericMove::operator==(const GenericMove& other) const
 {
 	if (m_sourceSquare == other.m_sourceSquare
-	&&  m_targetSquare == other.m_targetSquare
-	&&  m_promotion == other.m_promotion)
+	&&  m_targetSquare == other.m_targetSquare)
+	//&&  m_promotion == other.m_promotion)
 		return true;
 	return false;
 }
@@ -46,15 +46,15 @@ bool GenericMove::operator==(const GenericMove& other) const
 bool GenericMove::operator!=(const GenericMove& other) const
 {
 	if (m_sourceSquare != other.m_sourceSquare
-	||  m_targetSquare != other.m_targetSquare
-	||  m_promotion != other.m_promotion)
+	||  m_targetSquare != other.m_targetSquare)
+	//||  m_promotion != other.m_promotion)
 		return true;
 	return false;
 }
 
 bool GenericMove::isNull() const
 {
-	bool validSource = (m_sourceSquare.isValid() || m_promotion);
+	bool validSource = (m_sourceSquare.isValid()); // || m_promotion);
 	return !(validSource && m_targetSquare.isValid());
 }
 
@@ -68,10 +68,10 @@ Square GenericMove::targetSquare() const
 	return m_targetSquare;
 }
 
-int GenericMove::promotion() const
-{
-	return m_promotion;
-}
+//int GenericMove::promotion() const
+//{
+//	return m_promotion;
+//}
 
 void GenericMove::setSourceSquare(const Square& square)
 {
@@ -83,9 +83,9 @@ void GenericMove::setTargetSquare(const Square& square)
 	m_targetSquare = square;
 }
 
-void GenericMove::setPromotion(int pieceType)
-{
-	m_promotion = pieceType;
-}
+//void GenericMove::setPromotion(int pieceType)
+//{
+//	m_promotion = pieceType;
+//}
 
 } // namespace Chess

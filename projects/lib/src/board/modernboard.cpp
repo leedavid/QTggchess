@@ -25,8 +25,8 @@ ModernBoard::ModernBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	// Use Minister "M" symbol for notation and Archbishop graphics
-	setPieceType(Minister, tr("minister"), "M",
-		     KnightMovement | BishopMovement, "A");
+	//setPieceType(Minister, tr("minister"), "M",
+	//	     MaMovement | XiangMovement, "A");
 }
 
 Board* ModernBoard::copy() const
@@ -54,18 +54,7 @@ int ModernBoard::height() const
 	return 9;
 }
 
-int ModernBoard::castlingFile(WesternBoard::CastlingSide castlingSide) const
-{
-	Q_ASSERT(castlingSide != NoCastlingSide);
-	// QueenSide denotes lower file side, towards a-rook
-	return castlingSide == QueenSide ? 2 : 6; // c-file and g-file
-}
 
-void ModernBoard::addPromotions(int sourceSquare, int targetSquare, QVarLengthArray< Move >& moves) const
-{
-	WesternBoard::addPromotions(sourceSquare, targetSquare, moves);
-	moves.append(Move(sourceSquare, targetSquare, Minister));
-}
 
 
 // Variant's SAN notation for castling moves: O-M-O (left) and O-Q-O (right).

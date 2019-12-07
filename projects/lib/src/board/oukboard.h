@@ -61,10 +61,10 @@ class LIB_EXPORT OukBoard : public MakrukBoard
 		enum OukPieceType
 		{
 			Fish = Pawn,	//!< Trey, Trei
-			Horse = Knight,	//!< Ses, Se
-			Pillar = Bishop,//!< Kol, Koul
-			Boat = Rook,	//!< Tuuk
-			Maiden = Queen,	//!< Neang (Met)
+			Horse = Xiang,	//!< Ses, Se
+			Pillar = Shi,//!< Kol, Koul
+			Boat = Pao,	//!< Tuuk
+			Maiden = Che,	//!< Neang (Met)
 			King		//!< Sdaach, Ang
 		};
 

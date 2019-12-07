@@ -58,14 +58,14 @@ int Square::rank() const
 	return m_rank;
 }
 
-Square::Color Square::color() const
-{
-	if (!isValid())
-		return NoColor;
-	if ((m_file % 2) != (m_rank % 2))
-		return Light;
-	return Dark;
-}
+//Square::Color Square::color() const
+//{
+//	if (!isValid())
+//		return NoColor;
+//	if ((m_file % 2) != (m_rank % 2))
+//		return Light;
+//	return Dark;
+//}
 
 void Square::setFile(int file)
 {

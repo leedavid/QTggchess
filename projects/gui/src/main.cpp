@@ -16,6 +16,8 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "cutechessapp.h"
 
 #include <QLoggingCategory>
@@ -30,6 +32,8 @@
 #include <board/result.h>
 #include <moveevaluation.h>
 
+#include "capture.h"
+
 int main(int argc, char* argv[])
 {
 	// Register types for signal / slot connections
@@ -39,12 +43,15 @@ int main(int argc, char* argv[])
 	qRegisterMetaType<Chess::Result>("Chess::Result");
 	qRegisterMetaType<MoveEvaluation>("MoveEvaluation");
 
+	qRegisterMetaType<stCaptureMsg>("stCaptureMsg");
+
 	QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 
 	CuteChessApplication app(argc, argv);
 
+	// ”Ô—‘…Ë÷√
 	QTranslator translator;
-	translator.load(QLocale(), "cutechess", "_", "translations", ".qm");
+	translator.load(QLocale(), "GGzeroGui", "_", "translations", ".qm");
 	app.installTranslator(&translator);
 
 	QStringList arguments = app.arguments();
@@ -57,9 +64,9 @@ int main(int argc, char* argv[])
 		if (arguments.first() == QLatin1String("-v") ||
 			arguments.first() == QLatin1String("--version"))
 		{
-			out << "Cute Chess " << CUTECHESS_VERSION << endl;
+			out << "GGzeroGui Chess " << CUTECHESS_VERSION << endl;
 			out << "Using Qt version " << qVersion() << endl << endl;
-			out << "Copyright (C) 2008-2018 Ilari Pihlajisto and Arto Jonsson" << endl;
+			out << "Copyright (C) 2008-2018 LeeDavid " << endl;
 			out << "This is free software; see the source for copying ";
 			out << "conditions.  There is NO" << endl << "warranty; not even for ";
 			out << "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";

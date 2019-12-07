@@ -25,8 +25,8 @@ HoppelPoppelBoard::HoppelPoppelBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	// cross-over definitions used for checks and capturing moves
-	setPieceType(Knight, "Knibis", "N", BishopMovement);
-	setPieceType(Bishop, "Biskni", "B", KnightMovement);
+	setPieceType(Xiang, "Knibis", "N", XiangMovement);
+	setPieceType(Shi, "Biskni", "B", MaMovement);
 }
 
 Board* HoppelPoppelBoard::copy() const
@@ -48,26 +48,26 @@ void HoppelPoppelBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 					      int pieceType,
 					      int square) const
 {
-	if (pieceType != Knight && pieceType != Bishop)
+	if (pieceType != Xiang && pieceType != Shi)
 		return WesternBoard::generateMovesForPiece(moves, pieceType, square); // clazy:exclude=returning-void-expression
 
 	// Knight and Bishop: sort moves obtained from cross-over definitions
 	QVarLengthArray< Move > testmoves;
-	WesternBoard::generateMovesForPiece(testmoves, Knight, square);
+	WesternBoard::generateMovesForPiece(testmoves, Xiang, square);
 	for (const auto m: testmoves)
 	{
 		const bool isCapture = captureType(m) != Piece::NoPiece;
-		if ((isCapture && pieceType == Knight)
-		|| (!isCapture && pieceType == Bishop))
+		if ((isCapture && pieceType == Xiang)
+		|| (!isCapture && pieceType == Shi))
 			moves.append(m);  // diagonal
 	}
 	testmoves.clear();
-	WesternBoard::generateMovesForPiece(testmoves, Bishop, square);
+	WesternBoard::generateMovesForPiece(testmoves, Shi, square);
 	for (const auto m: testmoves)
 	{
 		const bool isCapture = captureType(m) != Piece::NoPiece;
-		if ((isCapture && pieceType == Bishop)
-		|| (!isCapture && pieceType == Knight))
+		if ((isCapture && pieceType == Shi)
+		|| (!isCapture && pieceType == Xiang))
 			moves.append(m);  // orthodox knight leaps
 	}
 } //TODO: insufficient material?
@@ -77,8 +77,8 @@ NewZealandBoard::NewZealandBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	// cross-over definitions used for checks and capturing moves
-	setPieceType(Knight, "Kniroo", "N", RookMovement);
-	setPieceType(Rook, "Rookni", "R", KnightMovement);
+	setPieceType(Xiang, "Kniroo", "N", CheMovement);
+	setPieceType(Pao, "Rookni", "R", MaMovement);
 }
 
 Board* NewZealandBoard::copy() const
@@ -98,26 +98,26 @@ QString NewZealandBoard::defaultFenString() const
 
 void NewZealandBoard::generateMovesForPiece(QVarLengthArray< Move >& moves, int pieceType, int square) const
 {
-	if (pieceType != Knight && pieceType != Rook)
+	if (pieceType != Xiang && pieceType != Pao)
 		return WesternBoard::generateMovesForPiece(moves, pieceType, square); // clazy:exclude=returning-void-expression
 
 	// Knight and Rook: sort moves obtained from cross-over definitions
 	QVarLengthArray< Move > testmoves;
-	WesternBoard::generateMovesForPiece(testmoves, Knight, square);
+	WesternBoard::generateMovesForPiece(testmoves, Xiang, square);
 	for (const auto m: testmoves)
 	{
 		const bool isCapture = captureType(m) != Piece::NoPiece;
-		if ((isCapture && pieceType == Knight)
-		|| (!isCapture && pieceType == Rook))
+		if ((isCapture && pieceType == Xiang)
+		|| (!isCapture && pieceType == Pao))
 			moves.append(m);  // rook move: file or rank
 	}
 	testmoves.clear();
-	WesternBoard::generateMovesForPiece(testmoves, Rook, square);
+	WesternBoard::generateMovesForPiece(testmoves, Pao, square);
 	for (const auto m: testmoves)
 	{
 		const bool isCapture = captureType(m) != Piece::NoPiece;
-		if ((isCapture && pieceType == Rook)
-		|| (!isCapture && pieceType == Knight))
+		if ((isCapture && pieceType == Pao)
+		|| (!isCapture && pieceType == Xiang))
 			moves.append(m);  // orthodox knight leaps
 	}
 }

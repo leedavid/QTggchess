@@ -22,19 +22,19 @@ namespace Chess {
 
 MakrukBoard::MakrukBoard()
 	: ShatranjBoard(),
-	  m_promotionRank(5),
+	  //m_promoti onRank(5),
 	  m_rules(Makruk),
 	  m_useWesternCounting(false),
 	  m_history()
 {
 	// King, Ferz, Rook, Knight and Pawn as in chaturanga and shatranj
-	setPieceType(Bia, tr("bia"), "P");                    //! Cowry Shell, Chip
-	setPieceType(Ma, tr("ma"), "N", KnightMovement);      //! Horse
-	//! Khon (Base) replaces Alfil (Bishop): moves as Shogi's Silver General
-	setPieceType(Khon, tr("khon"), "S", SilverGeneralMovement, "E");
-	setPieceType(Rua, tr("rua"), "R", RookMovement);      //! Boat
-	setPieceType(Met, tr("met"), "M", FerzMovement, "F"); //! Grain: Advisor
-	setPieceType(Khun, tr("khun"), "K");                  //! Leader, Lord
+	//setPieceType(Bia, tr("bia"), "P");                    //! Cowry Shell, Chip
+	//setPieceType(Ma, tr("ma"), "N", MaMovement);      //! Horse
+	////! Khon (Base) replaces Alfil (Bishop): moves as Shogi's Silver General
+	//setPieceType(Khon, tr("khon"), "S", SilverGeneralMovement, "E");
+	//setPieceType(Rua, tr("rua"), "R", CheMovement);      //! Boat
+	//setPieceType(Met, tr("met"), "M", FerzMovement, "F"); //! Grain: Advisor
+	//setPieceType(Khun, tr("khun"), "K");                  //! Leader, Lord
 }
 
 Board* MakrukBoard::copy() const
@@ -52,10 +52,6 @@ QString MakrukBoard::defaultFenString() const
 	return "rnsmksnr/8/pppppppp/8/8/PPPPPPPP/8/RNSKMSNR w - 0 0 1";
 }
 
-int MakrukBoard::promotionRank(int) const
-{
-	return 5; // counting from zero
-}
 
 MakrukBoard::CountingRules MakrukBoard::countingRules() const
 {
@@ -79,8 +75,7 @@ void MakrukBoard::initHistory()
 void MakrukBoard::vInitialize()
 {
 	ShatranjBoard::vInitialize();
-
-	m_promotionRank = promotionRank();
+	
 	m_rules = countingRules();
 	initHistory();
 
@@ -103,11 +98,11 @@ void MakrukBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 					  int pieceType,
 					  int square) const
 {
-	if (pieceHasMovement(pieceType, SilverGeneralMovement))
-		generateHoppingMoves(square, m_silverGeneralOffsets[sideToMove()], moves);
+	//if (pieceHasMovement(pieceType, SilverGeneralMovement))
+	//	generateHoppingMoves(square, m_silverGeneralOffsets[sideToMove()], moves);
 
-	if (pieceType != Bia)
-		return ShatranjBoard::generateMovesForPiece(moves, pieceType, square); // clazy:exclude=returning-void-expression
+	//if (pieceType != Bia)
+	//	return ShatranjBoard::generateMovesForPiece(moves, pieceType, square); // clazy:exclude=returning-void-expression
 
 	generatePawnMoves(square, moves);
 }
@@ -115,44 +110,44 @@ void MakrukBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 void MakrukBoard::generatePawnMoves(int square,
 				    QVarLengthArray< Move >& moves) const
 {
-	// Generate moves for pawn (bia)
-	QVarLengthArray< Move > moves1;
-	ShatranjBoard::generateMovesForPiece(moves1, Bia, square);
+	//// Generate moves for pawn (bia)
+	//QVarLengthArray< Move > moves1;
+	//ShatranjBoard::generateMovesForPiece(moves1, Bia, square);
 
-	Side side = sideToMove();
-	int arwidth = width() + 2;
+	//Side side = sideToMove();
+	//int arwidth = width() + 2;
 
-	// Add moves, promote pawn (bia) to ferz (met) when reaching the
-	// promotion rank
-	for (const Move& m: moves1)
-	{
-		int rank = height() + 1 - m.targetSquare() / arwidth;
-		int rrank = (side == Side::White) ? rank : height() - 1 - rank;
+	//// Add moves, promote pawn (bia) to ferz (met) when reaching the
+	//// promotion rank
+	//for (const Move& m: moves1)
+	//{
+	//	int rank = height() + 1 - m.targetSquare() / arwidth;
+	//	int rrank = (side == Side::White) ? rank : height() - 1 - rank;
 
-		if (rrank < m_promotionRank)
-			moves.append(m);
-		else if (m.promotion() != 0)
-			moves.append(m);
-		else
-			addPromotions(square, m.targetSquare(), moves);
-	}
+	//	if (rrank < m_promoti onRank)
+	//		moves.append(m);
+	//	else if (m.promotion() != 0)
+	//		moves.append(m);
+	//	else
+	//		addPr omotions(square, m.targetSquare(), moves);
+	//}
 }
 
 bool MakrukBoard::inCheck(Side side, int square) const
 {
-	Piece piece;
-	Side opSide = side.opposite();
-	if (square == 0)
-		square = kingSquare(side);
+	//Piece piece;
+	//Side opSide = side.opposite();
+	//if (square == 0)
+	//	square = kingSquare(side);
 
-	// Silver General Attacks attacks (by Khon)
-	for (int i = 0; i < m_silverGeneralOffsets[side].size(); i++)
-	{
-		piece = pieceAt(square + m_silverGeneralOffsets[side][i]);
-		if (piece.side() == opSide
-		&&  pieceHasMovement(piece.type(), SilverGeneralMovement))
-			return true;
-	}
+	//// Silver General Attacks attacks (by Khon)
+	//for (int i = 0; i < m_silverGeneralOffsets[side].size(); i++)
+	//{
+	//	piece = pieceAt(square + m_silverGeneralOffsets[side][i]);
+	//	if (piece.side() == opSide
+	//	&&  pieceHasMovement(piece.type(), SilverGeneralMovement))
+	//		return true;
+	//}
 	return ShatranjBoard::inCheck(side, square);
 }
 
@@ -183,15 +178,15 @@ void MakrukBoard::vMakeMove(const Move& move, BoardTransition* transition)
 		md.pieceCount[Piece::NoPiece][opp]--;
 	}
 
-	int promotion = move.promotion();
-	if (promotion != Piece::NoPiece)
-	{
-		if (move.sourceSquare() == 0)
-			md.pieceCount[Piece::NoPiece][side]++; //drop
-		else
-			md.pieceCount[type][side]--;
-		md.pieceCount[promotion][side]++;
-	}
+	//int promotion = move.promotion();
+	//if (promotion != Piece::NoPiece)
+	//{
+	//	if (move.sourceSquare() == 0)
+	//		md.pieceCount[Piece::NoPiece][side]++; //drop
+	//	else
+	//		md.pieceCount[type][side]--;
+	//	md.pieceCount[promotion][side]++;
+	//}
 
 	// Makruk: Allow counting only if there are no Pawns (Chip, Bia)
 	bool noPawns = (0 == pieceCount(Side::NoSide, Bia));

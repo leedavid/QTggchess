@@ -24,16 +24,16 @@ CourierBoard::CourierBoard()
 {
 	// Use Bishop's and Queen's names but set to old movements:
 	// War Elephant (Alfil) and Counselor (Ferz)
-	setPieceType(Bishop, tr("bishop"), "E", AlfilMovement);
-	setPieceType(Queen, tr("queen"), "F", FerzMovement);
-	// Introduce Courier, the modern Bishop piece
-	setPieceType(Courier, tr("courier"), "B", BishopMovement);
-	// Mann moves like King but is no royal piece
-	setPieceType(Mann, tr("mann"), "M", FerzMovement | WazirMovement);
-	// Schleich moves as Wazir
-	setPieceType(Schleich, tr("schleich"), "W", WazirMovement);
-	// King, Rook, Knight and Pawn as in standard chess
-	// but without special moves: pawn double step, en passant and castling
+	//setPieceType(Shi, tr("bishop"), "E", AlfilMovement);
+	//setPieceType(Che, tr("queen"), "F", FerzMovement);
+	//// Introduce Courier, the modern Bishop piece
+	//setPieceType(Courier, tr("courier"), "B", XiangMovement);
+	//// Mann moves like King but is no royal piece
+	//setPieceType(Mann, tr("mann"), "M", FerzMovement | WazirMovement);
+	//// Schleich moves as Wazir
+	//setPieceType(Schleich, tr("schleich"), "W", WazirMovement);
+	//// King, Rook, Knight and Pawn as in standard chess
+	//// but without special moves: pawn double step, en passant and castling
 }
 
 Board* CourierBoard::copy() const
@@ -81,26 +81,26 @@ void CourierBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 					  int pieceType,
 					  int square) const
 {
-	Chess::ShatranjBoard::generateMovesForPiece(moves, pieceType, square);
-	if (pieceHasMovement(pieceType, WazirMovement))
-		generateHoppingMoves(square, m_wazirOffsets, moves);
+	//Chess::ShatranjBoard::generateMovesForPiece(moves, pieceType, square);
+	//if (pieceHasMovement(pieceType, WazirMovement))
+	//	generateHoppingMoves(square, m_wazirOffsets, moves);
 }
 
 bool CourierBoard::inCheck(Side side, int square) const
 {
-	Piece piece;
-	Side opSide = side.opposite();
-	if (square == 0)
-		square = kingSquare(side);
+	//Piece piece;
+	//Side opSide = side.opposite();
+	//if (square == 0)
+	//	square = kingSquare(side);
 
 	// Wazir attacks by Schleich, Mann
-	for (int i = 0; i < m_wazirOffsets.size(); i++)
-	{
-		piece = pieceAt(square + m_wazirOffsets[i]);
-		if (piece.side() == opSide
-		&&  pieceHasMovement(piece.type(), WazirMovement))
-			return true;
-	}
+	//for (int i = 0; i < m_wazirOffsets.size(); i++)
+	//{
+	//	piece = pieceAt(square + m_wazirOffsets[i]);
+	//	if (piece.side() == opSide
+	//	&&  pieceHasMovement(piece.type(), WazirMovement))
+	//		return true;
+	//}
 	return ShatranjBoard::inCheck(side, square);
 }
 

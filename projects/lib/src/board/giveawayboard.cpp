@@ -47,8 +47,8 @@ bool GiveawayBoard::hasCastling() const
 
 void GiveawayBoard::vMakeMove(const Move& move, BoardTransition* transition)
 {
-	if (captureType(move) == King)
-		removeCastlingRights(sideToMove().opposite());
+	//if (captureType(move) == King)
+	//	removeCastlingRights(sideToMove().opposite());
 
 	WesternBoard::vMakeMove(move, transition);
 }

@@ -24,7 +24,7 @@ JanusBoard::JanusBoard()
 	: WesternBoard(new WesternZobrist())
 {
 	// Janus uses notation "J" and the graphical image of Archbishop "A"
-	setPieceType(Janus, tr("janus"), "J", KnightMovement | BishopMovement, "A");
+	setPieceType(Janus, tr("janus"), "J", MaMovement | XiangMovement, "A");
 }
 
 Board* JanusBoard::copy() const
@@ -47,26 +47,16 @@ QString JanusBoard::defaultFenString() const
 	return "rjnbkqbnjr/pppppppppp/10/10/10/10/PPPPPPPPPP/RJNBKQBNJR w KQkq - 0 1";
 }
 
-void JanusBoard::addPromotions(int sourceSquare,
-				int targetSquare,
-				QVarLengthArray<Move>& moves) const
-{
-	WesternBoard::addPromotions(sourceSquare, targetSquare, moves);
-	moves.append(Move(sourceSquare, targetSquare, Janus));
-}
 
-int JanusBoard::castlingFile(CastlingSide castlingSide) const
-{
-	Q_ASSERT(castlingSide != NoCastlingSide);
-	return castlingSide == QueenSide ? 1 : width() - 2; // B-File and I-File
-}
+
+
 
 QString JanusBoard::sanMoveString(const Move& move)
 {
 	QString san = WesternBoard::sanMoveString(move);
 
-	if (!san.startsWith("O-O"))
-		return san;
+	//if (!san.startsWith("O-O"))
+	//	return san;
 
 	// uses Kb1/Kb8/Ki1/Ki8 for castling
 	QString sym = san.right(1);
@@ -90,18 +80,18 @@ Move JanusBoard::moveFromSanString(const QString& str)
 	if (!str.startsWith(pieceSymbol(King).toUpper()))
 		return WesternBoard::moveFromSanString(str);  //main path
 
-	if (hasCastlingRight(sideToMove(), KingSide))
-	{
-		Move castlingMove = WesternBoard::moveFromSanString("O-O");
-		if (!castlingMove.isNull() && str == sanMoveString(castlingMove))
-			return castlingMove;
-	}
-	if (hasCastlingRight(sideToMove(), QueenSide))
-	{
-		Move castlingMove = WesternBoard::moveFromSanString("O-O-O");
-		if (!castlingMove.isNull() && str == sanMoveString(castlingMove))
-			return castlingMove;
-	}
+	//if (hasCastlingRight(sideToMove(), KingSide))
+	//{
+	//	Move castlingMove = WesternBoard::moveFromSanString("O-O");
+	//	if (!castlingMove.isNull() && str == sanMoveString(castlingMove))
+	//		return castlingMove;
+	//}
+	//if (hasCastlingRight(sideToMove(), QueenSide))
+	//{
+	//	Move castlingMove = WesternBoard::moveFromSanString("O-O-O");
+	//	if (!castlingMove.isNull() && str == sanMoveString(castlingMove))
+	//		return castlingMove;
+	//}
 
 	return WesternBoard::moveFromSanString(str); // normal king moves
 }

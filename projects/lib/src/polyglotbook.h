@@ -34,7 +34,7 @@ class LIB_EXPORT PolyglotBook: public OpeningBook
 {
 	public:
 		/*! Creates a new PolyglotBook with access mode \a mode. */
-		PolyglotBook(AccessMode mode = Ram);
+		PolyglotBook(BookMoveMode mode = BookRandom);
 
 	protected:
 		// Inherited from OpeningBook

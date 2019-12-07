@@ -16,6 +16,8 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "evalwidget.h"
 #include <QTableWidget>
 #include <QTableWidgetItem>
@@ -40,12 +42,13 @@ EvalWidget::EvalWidget(QWidget *parent)
 	m_statsTable->setMaximumHeight(maxHeight);
 
 	QStringList statsHeaders;
-	statsHeaders << tr("NPS") << tr("Hash")
-		     << tr("Pondermove") << tr("Ponderhit") << tr("TB");
+	statsHeaders << tr("速度") << tr("哈希")
+		     << tr("后台") << tr("概率") << tr("EGB");
 	m_statsTable->setHorizontalHeaderLabels(statsHeaders);
 	hHeader->setSectionResizeMode(QHeaderView::Stretch);
 	auto protoItem = new QTableWidgetItem;
-	protoItem->setTextAlignment(Qt::AlignVCenter | Qt::AlignRight);
+	//protoItem->setTextAlignment(Qt::AlignVCenter | Qt::AlignRight);
+	protoItem->setTextAlignment(Qt::AlignVCenter | Qt::AlignCenter);
 	m_statsTable->setItemPrototype(protoItem);
 	m_statsTable->setWordWrap(false);
 
@@ -53,10 +56,10 @@ EvalWidget::EvalWidget(QWidget *parent)
 	m_pvTable->verticalHeader()->hide();
 
 	QStringList pvHeaders;
-	pvHeaders << tr("Depth") << tr("Time") << tr("Nodes")
-		  << tr("Score") << tr("PV");
+	pvHeaders << tr("深度") << tr("用时") << tr("节点")
+		  << tr("估分") << tr("关键路线");
 	m_pvTable->setHorizontalHeaderLabels(pvHeaders);
-	m_pvTable->setColumnWidth(0, 60);
+	m_pvTable->setColumnWidth(0, 50);
 	m_pvTable->setColumnWidth(1, 60);
 	m_pvTable->setColumnWidth(2, 100);
 	m_pvTable->setColumnWidth(3, 60);

@@ -47,15 +47,15 @@ class LIB_EXPORT WesternZobrist : public Zobrist
 		 * Returns the zobrist value for an en-passant target
 		 * at \a square.
 		 */
-		virtual quint64 enpassant(int square) const;
+		//virtual quint64 enpassant(int square) const;
 		/*!
 		 * Returns the zobrist value for player \a side's
 		 * castling rook at \a square.
 		 */
-		virtual quint64 castling(int side, int square) const;
+		//virtual quint64 castling(int side, int square) const;
 
 	private:
-		int m_castlingIndex;
+		//int m_castlingIndex;
 		int m_pieceIndex;
 		QMutex m_mutex;
 };

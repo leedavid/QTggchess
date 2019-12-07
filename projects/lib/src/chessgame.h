@@ -51,6 +51,8 @@ class LIB_EXPORT ChessGame : public QObject
 		bool boardShouldBeFlipped() const;
 		void setBoardShouldBeFlipped(bool flip);
 
+		void PlayerMakeBookMove(Chess::Move m);
+
 		PgnGame* pgn() const;
 		Chess::Board* board() const;
 		QString startingFen() const;
@@ -76,6 +78,9 @@ class LIB_EXPORT ChessGame : public QObject
 
 		void lockThread();
 		void unlockThread();
+		void emitLastMovePub() {
+			this->emitLastMove();
+		};
 
 	public slots:
 		void start();
@@ -116,6 +121,9 @@ class LIB_EXPORT ChessGame : public QObject
 		void pauseThread();
 
 	private:
+
+		//void bookGetNextPosKeys(QVector<quint64>& keys);   // get next move position key list
+
 		Chess::Move bookMove(Chess::Side side);
 		bool resetBoard();
 		void initializePgn();

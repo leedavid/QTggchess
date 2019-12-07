@@ -29,11 +29,12 @@ Chess::GenericMove moveFromBits(quint16 pgMove)
 		      (quint16)(pgMove << 10) >> 13);
 	Square source((quint16)(pgMove << 7) >> 13,
 		      (quint16)(pgMove << 4) >> 13);
-	int promotion = (quint16)(pgMove << 1) >> 13;
-	if (promotion > 0)
-		promotion++;
-	
-	return Chess::GenericMove(source, target, promotion);
+	//int promotion = (quint16)(pgMove << 1) >> 13;
+	//if (promotion > 0)
+	//	promotion++;
+	//
+	return Chess::GenericMove(source, target); // , promotion);
+
 }
 
 quint16 moveToBits(const Chess::GenericMove& move)
@@ -45,16 +46,16 @@ quint16 moveToBits(const Chess::GenericMove& move)
 	
 	quint16 target = trg.file() | (trg.rank() << 3);
 	quint16 source = (src.file() << 6) | (src.rank() << 9);
-	quint16 promotion = 0;
-	if (move.promotion() > 0)
-		promotion = (move.promotion() - 1) << 12;
-	
-	return target | source | promotion;
+	//quint16 promotion = 0;
+	//if (move.promotion() > 0)
+	//	promotion = (move.promotion() - 1) << 12;
+	//
+	return target | source; // | promotion;
 }
 
 } // anonymous namespace
 
-PolyglotBook::PolyglotBook(AccessMode mode)
+PolyglotBook::PolyglotBook(BookMoveMode mode)
 	: OpeningBook(mode)
 {
 }
@@ -83,7 +84,7 @@ void PolyglotBook::writeEntry(const Map::const_iterator& it,
 	quint32 learn = 0;
 	quint64 key = it.key();
 	quint16 pgMove = moveToBits(it.value().move);
-	quint16 weight = it.value().weight;
+	quint16 weight = 0; //  it.value().weight;
 	
 	// Store the data. Again, big-endian is used by default.
 	out << key << pgMove << weight << learn;

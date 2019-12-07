@@ -49,7 +49,7 @@ class LIB_EXPORT AlmostBoard : public WesternBoard
 	protected:
 		enum AlmostPieceType
 		{
-			Chancellor = Queen //!< Chancellor (knight + rook) replaces Queen
+			Chancellor = Che //!< Chancellor (knight + rook) replaces Queen
 		};
 };
 

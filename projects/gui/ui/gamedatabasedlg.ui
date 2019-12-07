@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>760</width>
-    <height>520</height>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Game Database</string>
+   <string>游戏对局数据库</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&amp;Search:</string>
+        <string>查找:</string>
        </property>
        <property name="buddy">
         <cstring>m_searchEdit</cstring>
@@ -35,7 +35,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>&amp;Clear</string>
+        <string>清除</string>
        </property>
       </widget>
      </item>
@@ -45,7 +45,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Advanced...</string>
+        <string>高级...</string>
        </property>
       </widget>
      </item>
@@ -56,7 +56,7 @@
      <item>
       <widget class="QPushButton" name="m_importBtn">
        <property name="text">
-        <string>Import...</string>
+        <string>导入...</string>
        </property>
       </widget>
      </item>
@@ -69,7 +69,7 @@
         <string>Export filtered games in PGN format</string>
        </property>
        <property name="text">
-        <string>Export...</string>
+        <string>导出...</string>
        </property>
       </widget>
      </item>
@@ -79,7 +79,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Create opening book...</string>
+        <string>生成开局库...</string>
        </property>
       </widget>
      </item>
@@ -95,7 +95,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Copy PGN</string>
+        <string>复制 PGN</string>
        </property>
       </widget>
      </item>
@@ -111,7 +111,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Copy FEN</string>
+        <string>复制 FEN</string>
        </property>
       </widget>
      </item>
@@ -191,15 +191,24 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>102</width>
-            <height>428</height>
+            <width>87</width>
+            <height>551</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_2">
            <property name="horizontalSpacing">
             <number>6</number>
            </property>
-           <property name="margin">
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
             <number>4</number>
            </property>
            <item row="0" column="0">
@@ -211,7 +220,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Event:</string>
+              <string>事件:</string>
              </property>
             </widget>
            </item>
@@ -239,7 +248,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Site:</string>
+              <string>地点:</string>
              </property>
             </widget>
            </item>
@@ -267,7 +276,7 @@
               </font>
              </property>
              <property name="text">
-              <string>White:</string>
+              <string>红方:</string>
              </property>
             </widget>
            </item>
@@ -295,7 +304,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Black:</string>
+              <string>黑方:</string>
              </property>
             </widget>
            </item>
@@ -323,7 +332,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Result:</string>
+              <string>结果:</string>
              </property>
             </widget>
            </item>
@@ -351,11 +360,11 @@
                <kerning>true</kerning>
               </font>
              </property>
-             <property name="text">
-              <string>Variant:</string>
-             </property>
              <property name="visible">
               <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Variant:</string>
              </property>
             </widget>
            </item>

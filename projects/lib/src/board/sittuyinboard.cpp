@@ -26,9 +26,9 @@ SittuyinBoard::SittuyinBoard()
 {
 	// Movements as in makruk, the Elephant has Silver General Movement
 	setPieceType(Pawn, tr("pawn"), "P");                      //!< Ne: Feudal Lord P
-	setPieceType(Knight, tr("knight"), "N", KnightMovement);  //!< Myin: Horse N
+	setPieceType(Knight, tr("knight"), "N", MaMovement);  //!< Myin: Horse N
 	setPieceType(Elephant, tr("elephant"), "S", SilverGeneralMovement, "E"); //! Sin: Elephant E
-	setPieceType(Rook, tr("rook"), "R", RookMovement);        //! Yahhta: Chariot R
+	setPieceType(Rook, tr("rook"), "R", CheMovement);        //! Yahhta: Chariot R
 	setPieceType(General, tr("general"), "F", FerzMovement);  //! Sit-ke: General G
 	setPieceType(King, tr("king"), "K");                      //! Min-gyi: King K
 }
@@ -78,15 +78,8 @@ bool SittuyinBoard::kingsCountAssertion(int whiteKings, int blackKings) const
 	return whiteKings + reserveCount(whiteKing) == 1 && blackKings + reserveCount(blackKing) == 1;
 }
 
-int SittuyinBoard::promotionRank(int file) const
-{
-	return std::max(file , height() - 1 - file);
-}
 
-void SittuyinBoard::addPromotions(int sourceSquare, int targetSquare, QVarLengthArray< Move >& moves) const
-{
-	moves.append(Move(sourceSquare, targetSquare, General));
-}
+
 
 void SittuyinBoard::generatePawnMoves(int square,
 				     QVarLengthArray<Move>& moves) const
@@ -110,20 +103,20 @@ void SittuyinBoard::generatePawnMoves(int square,
 	int rrank = (side == Side::White) ? rank : height() - 1 - rank;
 
 	// Must promote from promotion rank (except the last pawn)
-	if (rrank != promotionRank(file)
-	&&  pieceCount(sideToMove(), Pawn) != 1)
-		return;
+	//if (rrank != promot ionRank(file)
+	//&&  pieceCount(sideToMove(), Pawn) != 1)
+	//	return;
 
 	// Generate promotion to General when on promotion square
-	addPromotions(square, square, moves);
+	//addPro motions(square, square, moves);
 
 	// Generate General's moves, must not capture by promotion
 	QVarLengthArray< Move > moves2;
 	generateMovesForPiece(moves2, General, square);
 	for (const Move& move: moves2)
 	{
-		if (captureType(move) == Piece::NoPiece)
-			addPromotions(square, move.targetSquare(), moves);
+		//if (captureType(move) == Piece::NoPiece)
+		//	addPromoti ons(square, move.targetSquare(), moves);
 	}
 }
 
@@ -167,7 +160,7 @@ void SittuyinBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 		&&  chessSquare(i).rank() != height() - 1)
 			continue;
 
-		moves.append(Move(0, index, pieceType));
+		moves.append(Move(0, index)); // , pieceType));
 	}
 }
 
@@ -195,9 +188,9 @@ Move SittuyinBoard::moveFromSanString(const QString& str)
 	Move move = MakrukBoard::moveFromSanString(str);
 
 	// Avoid problems with promotion moves in LAN(!) format
-	if (move.sourceSquare() != 0
-	&&  move.promotion() != Piece::NoPiece && !str.contains("=") )
-		return Move();
+	//if (move.sourceSquare() != 0
+	//&&  move.promotion() != Piece::NoPiece && !str.contains("=") )
+	//	return Move();
 
 	return move;
 }
@@ -206,8 +199,8 @@ void SittuyinBoard::vMakeMove(const Move& move, BoardTransition* transition)
 {
 	MakrukBoard::vMakeMove(move, transition);
 
-	if (move.sourceSquare() == 0)
-		removeFromReserve(Piece(sideToMove(), move.promotion()));
+	//if (move.sourceSquare() == 0)
+	//	removeFromReserve(Piece(sideToMove(), move.promotion()));
 
 	m_inSetUp = inSetup();
 }
@@ -216,30 +209,30 @@ void SittuyinBoard::vUndoMove(const Move& move)
 {
 	MakrukBoard::vUndoMove(move);
 
-	if (move.sourceSquare() == 0)
-		addToReserve(Piece(sideToMove(), move.promotion()));
+	//if (move.sourceSquare() == 0)
+	//	addToReserve(Piece(sideToMove(), move.promotion()));
 
 	m_inSetUp = inSetup();
 }
 
 bool SittuyinBoard::vIsLegalMove(const Move& move)
 {
-	int promotion = move.promotion();
+	//int promotion = move.promotion();
 	Side side = sideToMove();
 	Side opp = side.opposite();
 	int oppKingSquare = kingSquare(opp);
 
 	// Pawn promotion: must not give check
-	if (!m_inSetUp && promotion == General)
-	{
-		QVarLengthArray<Move> moves;
-		generateMovesForPiece(moves, General, move.targetSquare());
-		for (const Move& m: moves)
-		{
-			if (m.targetSquare() == oppKingSquare)
-				return false;
-		}
-	}
+	//if (!m_inSetUp && promotion == General)
+	//{
+	//	QVarLengthArray<Move> moves;
+	//	generateMovesForPiece(moves, General, move.targetSquare());
+	//	for (const Move& m: moves)
+	//	{
+	//		if (m.targetSquare() == oppKingSquare)
+	//			return false;
+	//	}
+	//}
 	return MakrukBoard::vIsLegalMove(move);
 }
 
@@ -260,8 +253,8 @@ bool SittuyinBoard::isLegalPosition()
 		return false;
 
 	// Do not allow (discovered) checks by a promotion move
-	if (plyCount() > 0 && lastMove().promotion() != 0 && inCheck(side))
-		return false;
+	//if (plyCount() > 0 && lastMove().promotion() != 0 && inCheck(side))
+	//	return false;
 
 	return true;
 }
@@ -275,7 +268,7 @@ int SittuyinBoard::countingLimit() const
 		return 16;
 
 	int elephants = pieceCount(side, Elephant);
-	int generals = pieceCount(side,Queen);
+	int generals = pieceCount(side,Che);
 	if (elephants > 0 && generals > 0)
 		return 44;
 
@@ -295,7 +288,7 @@ bool SittuyinBoard::canMakeNormalMove()
 
 	for (int i = 0; i < moves.size(); i++)
 	{
-		if (vIsLegalMove(moves[i]) && moves[i].promotion() == Piece::NoPiece)
+		if (vIsLegalMove(moves[i]) /*&& moves[i].promotion() == Piece::NoPiece*/)
 			return true;
 	}
 

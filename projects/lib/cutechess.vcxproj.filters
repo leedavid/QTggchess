@@ -35,78 +35,27 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source Files\UCI">
+      <UniqueIdentifier>{56518f2b-113a-4c05-a160-b8fe0de84f0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sqlite">
+      <UniqueIdentifier>{77c99011-3cfe-499e-8b35-cce41dc623d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\board">
+      <UniqueIdentifier>{dd64041d-a7cd-4d53-af70-beb8dc25e77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine">
+      <UniqueIdentifier>{95c18e73-2172-4e1d-8a15-0db39a9d253f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PGN">
+      <UniqueIdentifier>{928c39c7-ccf9-4107-9db9-0f590c88869d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\board\aiwokboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\almostboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\amazonboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\andernachboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\antiboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\aseanboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\atomicboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\berolinaboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\board.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\boardfactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\boardtransition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\capablancaboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\caparandomboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\chancellorboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\checklessboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chessengine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\chessgame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\chessgiboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\chessplayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\chigorinboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\codrusboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\coregalboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\courierboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\crazyhouseboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\econode.cpp">
@@ -115,52 +64,7 @@
     <ClCompile Include="src\elo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\embassyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginebuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginebuttonoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginecheckoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginecombooption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineconfiguration.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginefactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginemanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineoptionfactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engineprocess_win.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginespinoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enginetextoption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\epdrecord.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\extinctionboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\frcboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gameadjudicator.cpp">
@@ -169,43 +73,10 @@
     <ClCompile Include="src\gauntlettournament.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\genericmove.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\giveawayboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\gothicboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\grandboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\gridboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\gryphonboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\gustavboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\hoppelpoppelboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\hordeboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\humanbuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\humanplayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\janusboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\jesonmorboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="components\json\src\jsonparser.cpp">
@@ -214,37 +85,13 @@
     <ClCompile Include="components\json\src\jsonserializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\kingofthehillboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\knightmateboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\knockouttournament.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\loopboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\losalamosboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\losersboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\makrukboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mersenne.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\modernboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\moveevaluation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\ncheckboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\openingbook.cpp">
@@ -253,31 +100,10 @@
     <ClCompile Include="src\openingsuite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\oukboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgngame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgngameentry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgngamefilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pgnstream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\pipereader_win.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\placementboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\playerbuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\pocketknightboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\polyglotbook.cpp">
@@ -286,31 +112,10 @@
     <ClCompile Include="src\pyramidtournament.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\racingkingsboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\restrictedmoveboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\board\result.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\rifleboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\roundrobintournament.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\seirawanboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\shatranjboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\side.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\sittuyinboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\sprt.cpp">
@@ -322,16 +127,10 @@
     <ClCompile Include="src\board\standardboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\suicideboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\board\syzygytablebase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="3rdparty\fathom\src\tbprobe.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\threekingsboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\timecontrol.cpp">
@@ -349,53 +148,98 @@
     <ClCompile Include="src\tournamentplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board\twokingseachboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\uciengine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\westernboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\board\westernzobrist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\worker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\uciengine.cpp">
+      <Filter>Source Files\UCI</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectionPool.cpp">
+      <Filter>Source Files\Sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="databasemanager.cpp">
+      <Filter>Source Files\Sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chessengine.cpp">
+      <Filter>Source Files\UCI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\westernboard.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\westernzobrist.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
     <ClCompile Include="src\xboardengine.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\board</Filter>
     </ClCompile>
     <ClCompile Include="src\board\zobrist.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\board.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\boardfactory.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\boardtransition.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginebuilder.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginebuttonoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginecheckoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginecombooption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineconfiguration.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginefactory.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginemanager.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineoptionfactory.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engineprocess_win.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginespinoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enginetextoption.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\side.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgngame.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgngameentry.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgngamefilter.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pgnstream.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\board\genericmove.cpp">
+      <Filter>Source Files\board</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\board\aiwokboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\almostboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\amazonboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\andernachboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\antiboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\aseanboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\atomicboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\berolinaboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\board\board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -403,18 +247,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\board\boardtransition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\capablancaboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\caparandomboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\chancellorboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\checklessboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <QtMoc Include="src\chessengine.h">
@@ -429,22 +261,7 @@
     <QtMoc Include="src\chessplayer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="src\board\chigorinboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\classregistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\codrusboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\coregalboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\courierboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\crazyhouseboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\econode.h">
@@ -495,9 +312,6 @@
     <ClInclude Include="src\epdrecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\board\extinctionboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\board\frcboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -513,42 +327,12 @@
     <ClInclude Include="src\board\genericmove.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\board\giveawayboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\gothicboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\grandboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\gridboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\gryphonboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\gustavboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\hoppelpoppelboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\hordeboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\humanbuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <QtMoc Include="src\humanplayer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="src\board\janusboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\jesonmorboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="components\json\src\jsonparser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -558,28 +342,10 @@
     <ClInclude Include="src\board\kingofthehillboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\board\knightmateboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <QtMoc Include="src\knockouttournament.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="src\board\loopboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\losalamosboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\losersboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\makrukboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\mersenne.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\modernboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\board\move.h">
@@ -588,16 +354,10 @@
     <ClInclude Include="src\moveevaluation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\board\ncheckboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\openingbook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\openingsuite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\oukboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\pgngame.h">
@@ -618,13 +378,7 @@
     <QtMoc Include="src\pipereader_win.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="src\board\placementboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\playerbuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\pocketknightboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\polyglotbook.h">
@@ -642,22 +396,10 @@
     <ClInclude Include="src\board\result.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\board\rifleboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <QtMoc Include="src\roundrobintournament.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="src\board\seirawanboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\shatranjboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\board\side.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\sittuyinboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\sprt.h">
@@ -667,9 +409,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\board\standardboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\suicideboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\board\syzygytablebase.h">
@@ -682,9 +421,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="3rdparty\fathom\src\tbprobe.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\board\threekingsboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\timecontrol.h">
@@ -717,10 +453,16 @@
     <QtMoc Include="src\worker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\xboardengine.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <ClInclude Include="src\board\zobrist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectionPool.h">
+      <Filter>Source Files\Sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="databasemanager.h">
+      <Filter>Source Files\Sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\xboardengine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

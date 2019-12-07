@@ -16,10 +16,12 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "graphicspiece.h"
 #include <QSvgRenderer>
 
-
+// 绘制棋子
 GraphicsPiece::GraphicsPiece(const Chess::Piece& piece,
 			     qreal squareSize,
 			     const QString& elementId,
@@ -42,6 +44,8 @@ int GraphicsPiece::type() const
 	return Type;
 }
 
+	
+
 QRectF GraphicsPiece::boundingRect() const
 {
 	return m_rect;
@@ -56,7 +60,7 @@ void GraphicsPiece::paint(QPainter* painter,
 
 	QRectF bounds(m_renderer->boundsOnElement(m_elementId));
 	qreal ar = bounds.width() / bounds.height();
-	qreal width = m_rect.width() * 0.8;
+	qreal width = m_rect.width() * 0.95;  // was 0.8 棋子相对格子的比例
 
 	if (ar > 1.0)
 	{

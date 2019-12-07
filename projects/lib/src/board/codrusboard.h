@@ -65,9 +65,7 @@ class LIB_EXPORT CodrusBoard : public GiveawayBoard
 		// Inherited from GiveawayBoard
 		virtual bool kingsCountAssertion(int whiteKings,
 						 int blackKings) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
+
 		virtual bool vIsLegalMove(const Move& move);
 
 		/*! Rules outcome of stalemate */

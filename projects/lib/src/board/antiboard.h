@@ -69,9 +69,7 @@ class LIB_EXPORT AntiBoard : public StandardBoard
 		virtual bool vSetFenString(const QStringList& fen);
 		virtual bool inCheck(Side side, int square = 0) const;
 		virtual bool vIsLegalMove(const Move& move);
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
+
 
 		/*! Rules stalemate outcome. */
 		virtual Result vResultOfStalemate() const;

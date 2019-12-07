@@ -38,8 +38,8 @@ class LIB_EXPORT GenericMove
 		GenericMove();
 		/*! Constructs and initializes a new move. */
 		GenericMove(const Square& sourceSquare,
-			    const Square& targetSquare,
-			    int promotion);
+			const Square& targetSquare);
+			   // int promotion);
 
 		/*! Returns true if \a other is the same as this move. */
 		bool operator==(const GenericMove& other) const;
@@ -54,19 +54,19 @@ class LIB_EXPORT GenericMove
 		/*! The target square. */
 		Square targetSquare() const;
 		/*! Type of the promotion piece. */
-		int promotion() const;
+		//int promotion() const;
 
 		/*! Sets the source square to \a square. */
 		void setSourceSquare(const Square& square);
 		/*! Sets the target square to \a square. */
 		void setTargetSquare(const Square& square);
 		/*! Sets the promotion type to \a pieceType. */
-		void setPromotion(int pieceType);
+		//void setPromotion(int pieceType);
 
 	private:
 		Square m_sourceSquare;
 		Square m_targetSquare;
-		int m_promotion;
+		//int m_promotion;
 };
 
 } // namespace Chess

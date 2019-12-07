@@ -26,6 +26,8 @@
 #include "pgnstream.h"
 #include "moveevaluation.h"
 
+#pragma execution_character_set("utf-8")
+
 namespace {
 
 void writeTag(QTextStream& out, const QString& tag, const QString& value)
@@ -136,7 +138,8 @@ Chess::Board* PgnGame::createBoard() const
 	else
 	{
 		board->reset();
-		ok = !board->isRandomVariant();
+		//ok = !board->isRandomVariant();
+		ok = true;
 	}
 	if (!ok)
 	{
@@ -177,11 +180,11 @@ bool PgnGame::parseMove(PgnStream& in, bool addEco)
 		tmp = m_tags.value("FEN");
 		if (tmp.isEmpty())
 		{
-			if (board->isRandomVariant())
-			{
-				qWarning("Missing FEN tag");
-				return false;
-			}
+			//if (board->isRandomVariant())
+			//{
+			//	qWarning("Missing FEN tag");
+			//	return false;
+			//}
 			tmp = board->defaultFenString();
 		}
 
@@ -193,8 +196,12 @@ bool PgnGame::parseMove(PgnStream& in, bool addEco)
 		m_startingSide = board->startingSide();
 	}
 
-	const QString str(in.tokenString());
-	Chess::Move move(board->moveFromString(str));
+	//QString name = QString::fromLocal8Bit(nn);
+	//const QString str(in.tokenString());
+
+	const QString str = QString::fromLocal8Bit(in.tokenString());
+
+	Chess::Move move(board->moveFromStringCN(str));   // by LGL
 	if (move.isNull())
 	{
 		qWarning("Illegal move: %s", qUtf8Printable(str));

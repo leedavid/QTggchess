@@ -43,15 +43,7 @@ QString KnightMateBoard::defaultFenString() const
 	return "rmbqkbmr/pppppppp/8/8/8/8/PPPPPPPP/RMBQKBMR w KQkq - 0 1";
 }
 
-void KnightMateBoard::addPromotions(int sourceSquare,
-				    int targetSquare,
-				    QVarLengthArray< Move >& moves) const
-{
-	moves.append(Move(sourceSquare, targetSquare, Mann));
-	moves.append(Move(sourceSquare, targetSquare, Bishop));
-	moves.append(Move(sourceSquare, targetSquare, Rook));
-	moves.append(Move(sourceSquare, targetSquare, Queen));
-}
+
 
 void KnightMateBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 					    int pieceType,
@@ -74,7 +66,7 @@ void KnightMateBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 		if (pieceType == Mann)
 			return;
 		// king's leaps
-		return WesternBoard::generateMovesForPiece(moves, Knight, square); // clazy:exclude=returning-void-expression
+		return WesternBoard::generateMovesForPiece(moves, Xiang, square); // clazy:exclude=returning-void-expression
 	}
 	WesternBoard::generateMovesForPiece(moves, pieceType, square);
 }
@@ -130,13 +122,13 @@ Move KnightMateBoard::moveFromSanString(const QString& str)
 	int target = squareIndex(str.mid(ksymlen, len - ksymlen));
 	int kingFile = chessSquare(kingSquare(side)).file();
 
-	if (hasCastlingRight(side, QueenSide)
-	&&  target == kingSquare(side) + castlingFile(QueenSide) - kingFile)
-		return moveFromSanString("O-O-O");
+	//if (hasCastlingRight(side, QueenSide)
+	//&&  target == kingSquare(side) + castlingFile(QueenSide) - kingFile)
+	//	return moveFromSanString("O-O-O");
 
-	if (hasCastlingRight(side, KingSide)
-	&&  target == kingSquare(side) + castlingFile(KingSide) - kingFile)
-		return moveFromSanString("O-O");
+	//if (hasCastlingRight(side, KingSide)
+	//&&  target == kingSquare(side) + castlingFile(KingSide) - kingFile)
+	//	return moveFromSanString("O-O");
 
 	return WesternBoard::moveFromSanString(str); // other king moves
 }

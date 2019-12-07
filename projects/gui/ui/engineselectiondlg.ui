@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&amp;Filter:</string>
+        <string>过滤:</string>
        </property>
        <property name="buddy">
         <cstring>m_engineFilterEdit</cstring>
@@ -50,7 +50,7 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Configured chess engines:</string>
+      <string>已设置的引擎:</string>
      </property>
      <property name="buddy">
       <cstring>m_enginesList</cstring>

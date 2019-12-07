@@ -68,9 +68,9 @@ class LIB_EXPORT ShatranjBoard : public WesternBoard
 		enum ShatranjPieceType
 		{
 			//!< Ferz (leaps 1 square diag.) overrides Queen
-			Ferz = Queen,
+			Ferz = Che,
 			//!< Alfil (leaps 2 squares diag.) overrides Bishop
-			Alfil = Bishop
+			Alfil = Shi
 		};
 
 		/*! Movement mask for Ferz moves. */
@@ -86,9 +86,7 @@ class LIB_EXPORT ShatranjBoard : public WesternBoard
 		virtual void generateMovesForPiece(QVarLengthArray<Move>& moves,
 						   int pieceType,
 						   int square) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
+
 
 		/*!
 		 * Returns true if the side to move can bare the opponent king with this move

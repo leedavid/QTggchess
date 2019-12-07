@@ -24,7 +24,8 @@ namespace {
 
 // Zobrist keys for Polyglot opening book compatibility
 // Specs: http://alpha.uhasselt.be/Research/Algebra/Toga/book_format.html
-const quint64 s_keys[] = {
+	/*
+	const quint64 s_keys[] = {
 	Q_UINT64_C(0xF8D626AAAF278509), Q_UINT64_C(0x2218DBC13AB50C2A),
 	Q_UINT64_C(0xEB7284FF06058ED8), Q_UINT64_C(0x588B4C4C77A4044D),
 	Q_UINT64_C(0xC2366DF16A5D128C), Q_UINT64_C(0x6AF41C8BC3CD3747),
@@ -1047,13 +1048,16 @@ const quint64 s_keys[] = {
 	Q_UINT64_C(0x74C5309606137D59), Q_UINT64_C(0x5AE494C4BDF36285),
 	Q_UINT64_C(0x7C7FA74105624E40)
 };
+    */
+
+
 
 } // anonymous namespace
 
 namespace Chess {
 
 StandardBoard::StandardBoard()
-	: WesternBoard(new WesternZobrist(s_keys))
+	: WesternBoard(new WesternZobrist(nullptr))
 {
 }
 
@@ -1069,40 +1073,47 @@ QString StandardBoard::variant() const
 
 QString StandardBoard::defaultFenString() const
 {
-	return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+	return "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1";   // StartFen 
+
+	//"1nbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1";
 }
 
 Result StandardBoard::tablebaseResult(unsigned int* dtz) const
 {
-	SyzygyTablebase::PieceList pieces;
+	Q_UNUSED(dtz);
+	//SyzygyTablebase::PieceList pieces;
 
-	for (int i = 0; i < arraySize(); i++)
-	{
-		Piece piece(pieceAt(i));
-		if (piece.isValid())
-		{
-			if (pieces.size() > 6)
-				return Result();
-			pieces.append(qMakePair(chessSquare(i), piece));
-		}
-	}
+	//for (int i = 0; i < arraySize(); i++)
+	//{
+	//	Piece piece(pieceAt(i));
+	//	if (piece.isValid())
+	//	{
+	//		if (pieces.size() > 6)
+	//			return Result();
+	//		pieces.append(qMakePair(chessSquare(i), piece));
+	//	}
+	//}
 
-	SyzygyTablebase::Castling castling = 0;
-	if (hasCastlingRight(Chess::Side::White, KingSide))
-		castling |= SyzygyTablebase::WhiteKingSide;
-	if (hasCastlingRight(Chess::Side::White, QueenSide))
-		castling |= SyzygyTablebase::WhiteQueenSide;
-	if (hasCastlingRight(Chess::Side::Black, KingSide))
-		castling |= SyzygyTablebase::BlackKingSide;
-	if (hasCastlingRight(Chess::Side::Black, QueenSide))
-		castling |= SyzygyTablebase::BlackQueenSide;
+	//SyzygyTablebase::Castling castling = 0;
+	//if (hasCastlingRight(Chess::Side::White, KingSide))
+	//	castling |= SyzygyTablebase::WhiteKingSide;
+	//if (hasCastlingRight(Chess::Side::White, QueenSide))
+	//	castling |= SyzygyTablebase::WhiteQueenSide;
+	//if (hasCastlingRight(Chess::Side::Black, KingSide))
+	//	castling |= SyzygyTablebase::BlackKingSide;
+	//if (hasCastlingRight(Chess::Side::Black, QueenSide))
+	//	castling |= SyzygyTablebase::BlackQueenSide;
 
-	return SyzygyTablebase::result(sideToMove(),
-					chessSquare(enpassantSquare()),
-					castling,
-					reversibleMoveCount(),
-					pieces,
-					dtz);
+	return Result();
+
+	//return SyzygyTablebase::result(sideToMove(),
+	//				chessSquare(enpassantSquare()),
+	//				castling,
+	//				reversibleMoveCount(),
+	//				pieces,
+	//				dtz);
 }
+
+
 
 } // namespace Chess

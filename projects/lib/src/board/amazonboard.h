@@ -48,7 +48,7 @@ class LIB_EXPORT AmazonBoard : public WesternBoard
 	protected:
 		enum AmazonPieceType
 		{
-			Amazon = Queen //!< Amazon (queen + rook) replaces Queen
+			Amazon = Che //!< Amazon (queen + rook) replaces Queen
 		};
 };
 

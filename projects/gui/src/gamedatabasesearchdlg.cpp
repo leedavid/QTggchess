@@ -19,6 +19,8 @@
 #include "gamedatabasesearchdlg.h"
 #include "ui_gamedatabasesearchdlg.h"
 
+#pragma execution_character_set("utf-8")
+
 GameDatabaseSearchDialog::GameDatabaseSearchDialog(QWidget* parent)
 	: QDialog(parent, Qt::Window),
 	  ui(new Ui::GameDatabaseSearchDialog)

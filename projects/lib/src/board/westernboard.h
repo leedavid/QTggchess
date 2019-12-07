@@ -44,10 +44,11 @@ class LIB_EXPORT WesternBoard : public Board
 		enum WesternPieceType
 		{
 			Pawn = 1,	//!< Pawn
-			Knight,		//!< Knight
-			Bishop,		//!< Bishop
-			Rook,		//!< Rook
-			Queen,		//!< Queen
+			Xiang,		//!< Knight
+			Shi,		//!< Bishop
+			Pao,		//!< Rook
+			Ma,		    //!< Ma
+			Che,		//!< Queen
 			King		//!< King
 		};
 
@@ -62,19 +63,26 @@ class LIB_EXPORT WesternBoard : public Board
 
 	protected:
 		/*! The king's castling side. */
-		enum CastlingSide
-		{
-			QueenSide,	//!< Queen side (O-O-O)
-			KingSide,	//!< King side (O-O)
-			NoCastlingSide	//!< No castling side
-		};
-
-		/*! Movement mask for Knight moves. */
-		static const unsigned KnightMovement = 2;
-		/*! Movement mask for Bishop moves. */
-		static const unsigned BishopMovement = 4;
-		/*! Movement mask for Rook moves. */
-		static const unsigned RookMovement = 8;
+		//enum CastlingSide
+		//{
+		//	QueenSide,	//!< Queen side (O-O-O)
+		//	KingSide,	//!< King side (O-O)
+		//	NoCastlingSide	//!< No castling side
+		//};
+		/*! Movement mask for Pawn moves. */
+		//static const unsigned PawnMovement = 1;
+		///*! Movement mask for Knight moves. */
+		//static const unsigned MaMovement = 2;
+		///*! Movement mask for Xiang moves. */
+		//static const unsigned XiangMovement = 4;
+		///*! Movement mask for Rook moves. */
+		//static const unsigned CheMovement = 8;
+		///*! Movement mask for Shi moves. */
+		//static const unsigned ShiMovement = 16;
+		///*! Movement mask for Pao moves. */
+		//static const unsigned PaoMovement = 32;
+		///*! Movement mask for King moves. */
+		//static const unsigned KingMovement = 64;
 
 		/*! Types of Pawn moves. */
 		enum StepType
@@ -85,7 +93,7 @@ class LIB_EXPORT WesternBoard : public Board
 			 /* FreeOrCaptureStep = FreeStep|CaptureStep //!< like King or Sergeant*/
 		};
 		/*! Stores a move \a type and a move direction \a file for a Pawn move */
-		struct PawnStep { StepType type; int file; };
+		//struct PawnStep { StepType type; int file; };
 		/*!
 		 * Movement mask for Pawn moves.
 		 * Lists pawn move types and relative files
@@ -95,12 +103,12 @@ class LIB_EXPORT WesternBoard : public Board
 		 * capture diagonally forward. So initialise this
 		 * as { {CaptureStep, -1}, {FreeStep, 0}, {CaptureStep, 1} }
 		 */
-		QVarLengthArray<PawnStep, 8> m_pawnSteps;
+		//QVarLengthArray<PawnStep, 8> m_pawnSteps;
 		/*!
 		 * Helper function for Pawn moves. Returns the count of moves
 		 * of the given \a type that are specified in pawnSteps.
 		 */
-		int pawnAmbiguity(StepType type = FreeStep) const;
+		
 		/*!
 		 * Returns true if both counts of kings given by
 		 * \a whiteKings and \a blackKings are correct.
@@ -115,25 +123,25 @@ class LIB_EXPORT WesternBoard : public Board
 		 * The default value is true.
 		 * \sa AtomicBoard
 		 */
-		virtual bool kingCanCapture() const;
+		//virtual bool kingCanCapture() const;
 		/*!
 		* Returns true if castling is allowed.
 		* The default value is true.
 		* \sa ShatranjBoard
 		*/
-		virtual bool hasCastling() const;
+		//virtual bool hasCastling() const;
 		/*!
 		 * Returns true if pawns have an initial double step option.
 		 * The default value is true.
 		 * \sa ShatranjBoard
 		 */
-		virtual bool pawnHasDoubleStep() const;
+		//virtual bool pawnHasDoubleStep() const;
 		/*!
 		 * Returns true if a pawn can be captured en passant after
 		 * an initial double step.
 		 * The default value is the value of pawnHasDoubleStep().
 		 */
-		virtual bool hasEnPassantCaptures() const;
+		//virtual bool hasEnPassantCaptures() const;
 		/*!
 		 * Returns true if a rule provides \a side to insert a reserve
 		 * piece at a vacated source \a square immediately after a move.
@@ -141,7 +149,7 @@ class LIB_EXPORT WesternBoard : public Board
 		 *
 		 * \sa SeirawanBoard
 		 */
-		virtual bool variantHasChanneling(Side side, int square) const;
+		//virtual bool variantHasChanneling(Side side, int square) const;
 		/*!
 		 * Adds pawn promotions to a move list.
 		 *
@@ -150,18 +158,16 @@ class LIB_EXPORT WesternBoard : public Board
 		 * This function generates all the possible promotions
 		 * and adds them to \a moves.
 		 */
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
+
 		/*! Returns the king square of \a side. */
 		int kingSquare(Side side) const;
 		/*! Returns the current en-passant square. */
-		int enpassantSquare() const;
+		//int enpassantSquare() const;
 		/*!
 		 * Parse castling rights given by character \a c of the FEN
 		 * token. Returns true if successful.
 		 */
-		virtual bool parseCastlingRights(QChar c);
+		//virtual bool parseCastlingRights(QChar c);
 		/*!
 		 * Returns true if \a side has a right to castle on \a castlingSide;
 		 * otherwise returns false.
@@ -169,7 +175,7 @@ class LIB_EXPORT WesternBoard : public Board
 		 * \note Even if this function returns true, castling may not be
 		 * a legal move in the current position.
 		 */
-		bool hasCastlingRight(Side side, CastlingSide castlingSide) const;
+		//bool hasCastlingRight(Side side, CastlingSide castlingSide) const;
 		/*!
 		 * Removes castling rights at \a square.
 		 *
@@ -177,21 +183,21 @@ class LIB_EXPORT WesternBoard : public Board
 		 * be used for castling. This function should be called when a
 		 * capture happens at \a square.
 		 */
-		void removeCastlingRights(int square);
+		//void removeCastlingRights(int square);
 		/*!
 		 * Removes all castling rights of \a side.
 		 */
-		void removeCastlingRights(Side side);
+		//void removeCastlingRights(Side side);
 		/*!
 		 * Defines the file a king may castle to on \a castlingSide.
 		 * Defaults: 2 (c-file) and width() - 2 (normally g-file)
 		 */
-		virtual int castlingFile(CastlingSide castlingSide) const;
+		//virtual int castlingFile(CastlingSide castlingSide) const;
 		/*!
 		 * Returns true if \a side is under attack at \a square.
 		 * If \a square is 0, then the king square is used.
 		 */
-		virtual bool inCheck(Side side, int square = 0) const;
+		virtual bool inCheck(Side side /*, int square = 0*/) const;
 
 		/*!
 		 * Returns FEN extensions. The default is an empty string.
@@ -207,9 +213,9 @@ class LIB_EXPORT WesternBoard : public Board
 		virtual QString vFenString(FenNotation notation) const;
 		virtual bool vSetFenString(const QStringList& fen);
 		virtual QString lanMoveString(const Move& move);
-		virtual QString sanMoveString(const Move& move);
+		virtual QString ChineseMoveString(const Move& move);
 		virtual Move moveFromLanString(const QString& str);
-		virtual Move moveFromSanString(const QString& str);
+		//virtual Move moveFromSanString(const QString& str);
 		virtual void vMakeMove(const Move& move,
 				       BoardTransition* transition);
 		virtual void vUndoMove(const Move& move);
@@ -220,63 +226,51 @@ class LIB_EXPORT WesternBoard : public Board
 		virtual bool isLegalPosition();
 		virtual int captureType(const Move& move) const;
 
+		virtual Move moveFromStringCN(const QString& str);
+
 	private:
-		struct CastlingRights
-		{
-			// Usage: 'rookSquare[Side][CastlingSide]'
-			// A value of zero (square 0) means no castling rights
-			int rookSquare[2][2];
-		};
 
 		// Data for reversing/unmaking a move
 		struct MoveData
 		{
 			Piece capture;
-			int enpassantSquare;
-			int enpassantTarget;
-			CastlingRights castlingRights;
-			CastlingSide castlingSide;
+			//bool isIncheck;       // 是否被将军
+			//bool isRecap;         // 是否常捉
+			//int enpassantSquare;
+			//int enpassantTarget;
+			//CastlingRights castlingRights;
+			//CastlingSide castlingSide;
 			int reversibleMoveCount;
 		};
-
-		void generateCastlingMoves(QVarLengthArray<Move>& moves) const;
-		void generatePawnMoves(int sourceSquare,
-				       QVarLengthArray<Move>& moves) const;
-
-		bool canCastle(CastlingSide castlingSide) const;
-		QString castlingRightsString(FenNotation notation) const;
-		CastlingSide castlingSide(const Move& move) const;
-		void setEnpassantSquare(int square,
-					int target=0);
-		void setCastlingSquare(Side side,
-				       CastlingSide cside,
-				       int square);
-		/*! Helper for Pawn moves. Returns square offset for the
-		 *  given \a step with orientation \a sign. */
-		inline int pawnPushOffset(const PawnStep& ps,
-					  int sign) const;
-
+		
 		int m_arwidth;
 		int m_sign;
 		int m_kingSquare[2];
-		int m_enpassantSquare;
-		int m_enpassantTarget;
 		int m_plyOffset;
 		int m_reversibleMoveCount;
-		bool m_kingCanCapture;
-		bool m_hasCastling;
-		bool m_pawnHasDoubleStep;
-		bool m_hasEnPassantCaptures;
-		bool m_pawnAmbiguous;
-		bool m_multiDigitNotation;
+		//bool m_kingCanCapture;
+	
+		//bool m_multiDigitNotation;
 		QVector<MoveData> m_history;
-		CastlingRights m_castlingRights;
-		int m_castleTarget[2][2];
+
 		const WesternZobrist* m_zobrist;
 
-		QVarLengthArray<int> m_knightOffsets;
-		QVarLengthArray<int> m_bishopOffsets;
-		QVarLengthArray<int> m_rookOffsets;
+		QVarLengthArray<int> m_BPawnOffsets;	    // 黑卒
+		QVarLengthArray<int> m_RPawnOffsets;	    // 红兵
+		QVarLengthArray<int> m_MaOffsets;
+		QVarLengthArray<int> m_MaLegOffsets;             // 马腿
+		QVarLengthArray<int> m_MaCheckLegOffsets;        // 别人的马将军的马腿
+
+		QVarLengthArray<int> m_XiangOffsets;        // 相
+		QVarLengthArray<int> m_XiangEyeOffsets;     // 象眼
+	
+		QVarLengthArray<int> m_CheOffsets;			// 车
+		QVarLengthArray<int> m_ShiOffsets;			// 仕
+
+		QVarLengthArray<QString> strnumCn;
+		QVarLengthArray<QString> strnumEn;
+		QVarLengthArray<QString> strnumName;
+
 };
 
 

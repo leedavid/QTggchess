@@ -35,9 +35,9 @@ CuteChessCoreApplication::CuteChessCoreApplication(int& argc, char* argv[])
 {
 	Mersenne::initialize(QTime(0,0,0).msecsTo(QTime::currentTime()));
 
-	QCoreApplication::setOrganizationName(QLatin1String("cutechess"));
-	QCoreApplication::setOrganizationDomain(QLatin1String("cutechess.com"));
-	QCoreApplication::setApplicationName(QLatin1String("cutechess"));
+	QCoreApplication::setOrganizationName(QLatin1String("GGZero_Team"));
+	QCoreApplication::setOrganizationDomain(QLatin1String("ggzero.cn"));
+	QCoreApplication::setApplicationName(QLatin1String("GGchessGUI"));
 
 	// Use Ini format on all platforms
 	QSettings::setDefaultFormat(QSettings::IniFormat);

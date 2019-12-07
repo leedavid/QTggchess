@@ -64,10 +64,7 @@ class LIB_EXPORT ModernBoard : public WesternBoard
 			Minister = 7 //!< Minister = Archbishop (knight + bishop)
 		};
 		// Inherited from WesternBoard
-		virtual int castlingFile(CastlingSide castlingSide) const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray< Move >& moves) const;
+
 };
 
 } // namespace Chess

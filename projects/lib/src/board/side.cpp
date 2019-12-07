@@ -43,9 +43,9 @@ QString Side::symbol() const
 QString Side::toString() const
 {
 	if (m_type == White)
-		return tr("white");
+		return tr("ºì·½");
 	else if (m_type == Black)
-		return tr("black");
+		return tr("ºÚ·½");
 
 	return QString();
 }

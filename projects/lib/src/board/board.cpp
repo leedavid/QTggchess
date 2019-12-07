@@ -58,7 +58,7 @@ Board::Board(Zobrist* zobrist)
 	  m_height(0),
 	  m_side(Side::White),
 	  m_startingSide(Side::White),
-	  m_maxPieceSymbolLength(1),
+	  //m_maxPieceSymbolLength(1),
 	  m_key(0),
 	  m_zobrist(zobrist),
 	  m_sharedZobrist(zobrist)
@@ -72,15 +72,15 @@ Board::~Board()
 {
 }
 
-bool Board::isRandomVariant() const
-{
-	return false;
-}
+//bool Board::isRandomVariant() const
+//{
+//	return false;
+//}
 
-bool Board::variantHasDrops() const
-{
-	return false;
-}
+//bool Board::variantHasDrops() const
+//{
+//	return false;
+//}
 
 bool Board::variantHasWallSquares() const
 {
@@ -92,10 +92,10 @@ QList<Piece> Board::reservePieceTypes() const
 	return QList<Piece>();
 }
 
-Board::CoordinateSystem Board::coordinateSystem() const
-{
-	return NormalCoordinates;
-}
+//Board::CoordinateSystem Board::coordinateSystem() const
+//{
+//	return NormalCoordinates;
+//}
 
 Side Board::upperCaseSide() const
 {
@@ -119,25 +119,25 @@ void Board::initialize()
 	m_height = height();
 	for (int i = 0; i < (m_width + 2) * (m_height + 4); i++)
 		m_squares.append(Piece::WallPiece);
-	vInitialize();
+	vInitialize();   // 显示初始化
 
-	m_maxPieceSymbolLength = 1;
-	for (const PieceData& pd: m_pieceData)
-		if (pd.symbol.length() > m_maxPieceSymbolLength)
-			m_maxPieceSymbolLength = pd.symbol.length();
+	//m_maxPieceSymbolLength = 1;
+	//for (const PieceData& pd: m_pieceData)
+	//	if (pd.symbol.length() > m_maxPieceSymbolLength)
+	//		m_maxPieceSymbolLength = pd.symbol.length();
 
 	m_zobrist->initialize((m_width + 2) * (m_height + 4), m_pieceData.size());
 }
 
-int Board::maxPieceSymbolLength() const
-{
-	return m_maxPieceSymbolLength;
-}
+//int Board::maxPieceSymbolLength() const
+//{
+//	return m_maxPieceSymbolLength;
+//}
 
 void Board::setPieceType(int type,
 			 const QString& name,
 			 const QString& symbol,
-			 unsigned movement,
+			 //unsigned movement,
 			 const QString& gsymbol)
 {
 	if (type >= m_pieceData.size())
@@ -146,7 +146,7 @@ void Board::setPieceType(int type,
 	const QString& graphicalSymbol = gsymbol.isEmpty() ? symbol : gsymbol;
 
 	PieceData data =
-		{ name, symbol.toUpper(), movement, graphicalSymbol.toUpper() };
+		{ name, symbol.toUpper(), /*movement,*/ graphicalSymbol.toUpper() };
 	m_pieceData[type] = data;
 }
 
@@ -209,37 +209,37 @@ int Board::reserveType(int pieceType) const
 	return pieceType;
 }
 
-int Board::reserveCount(Piece piece) const
-{
-	if (!piece.isValid()
-	||  piece.type() >= m_reserve[piece.side()].size())
-		return 0;
-	return m_reserve[piece.side()].at(piece.type());
-}
+//int Board::reserveCount(Piece piece) const
+//{
+//	if (!piece.isValid()
+//	||  piece.type() >= m_reserve[piece.side()].size())
+//		return 0;
+//	return m_reserve[piece.side()].at(piece.type());
+//}
 
-void Board::addToReserve(const Piece& piece, int count)
-{
-	Q_ASSERT(piece.isValid());
-	Q_ASSERT(count > 0);
+//void Board::addToReserve(const Piece& piece, int count)
+//{
+//	Q_ASSERT(piece.isValid());
+//	Q_ASSERT(count > 0);
+//
+//	Side side(piece.side());
+//	int type(piece.type());
+//	if (type >= m_reserve[side].size())
+//		m_reserve[side].resize(type + 1);
+//
+//	int& oldCount = m_reserve[side][type];
+//	for (int i = 1; i <= count; i++)
+//		xorKey(m_zobrist->reservePiece(piece, oldCount++));
+//}
 
-	Side side(piece.side());
-	int type(piece.type());
-	if (type >= m_reserve[side].size())
-		m_reserve[side].resize(type + 1);
-
-	int& oldCount = m_reserve[side][type];
-	for (int i = 1; i <= count; i++)
-		xorKey(m_zobrist->reservePiece(piece, oldCount++));
-}
-
-void Board::removeFromReserve(const Piece& piece)
-{
-	Q_ASSERT(piece.isValid());
-	Q_ASSERT(piece.type() < m_reserve[piece.side()].size());
-
-	int& count = m_reserve[piece.side()][piece.type()];
-	xorKey(m_zobrist->reservePiece(piece, --count));
-}
+//void Board::removeFromReserve(const Piece& piece)
+//{
+//	Q_ASSERT(piece.isValid());
+//	Q_ASSERT(piece.type() < m_reserve[piece.side()].size());
+//
+//	int& count = m_reserve[piece.side()][piece.type()];
+//	xorKey(m_zobrist->reservePiece(piece, --count));
+//}
 
 Square Board::chessSquare(int index) const
 {
@@ -266,6 +266,18 @@ bool Board::isValidSquare(const Chess::Square& square) const
 	return true;
 }
 
+bool Board::isInPalace(const Square& square) const
+{
+	int f = square.file();
+	int r = square.rank();
+
+	if (f < 3) return false;
+	if (f > 5) return false;
+	if (r > 6) return true;
+	if (r < 3) return true;
+	return false;
+}
+
 QString Board::squareString(int index) const
 {
 	return squareString(chessSquare(index));
@@ -278,16 +290,16 @@ QString Board::squareString(const Square& square) const
 
 	QString str;
 
-	if (coordinateSystem() == NormalCoordinates)
-	{
+	//if (coordinateSystem() == NormalCoordinates)
+	//{
 		str += QChar('a' + square.file());
-		str += QString::number(square.rank() + 1);
-	}
-	else
-	{
-		str += QString::number(m_width - square.file());
-		str += QChar('a' + (m_height - square.rank()) - 1);
-	}
+		str += QString::number(square.rank()); // +1);
+	//}
+	//else
+	//{
+	//	str += QString::number(m_width - square.file());
+	//	str += QChar('a' + (m_height - square.rank()) - 1);
+	//}
 
 	return str;
 }
@@ -301,17 +313,17 @@ Square Board::chessSquare(const QString& str) const
 	int file = 0;
 	int rank = 0;
 
-	if (coordinateSystem() == NormalCoordinates)
-	{
+	//if (coordinateSystem() == NormalCoordinates)
+	//{
 		file = str.at(0).toLatin1() - 'a';
-		rank = str.midRef(1).toInt(&ok) - 1;
-	}
-	else
-	{
-		int tmp = str.length() - 1;
-		file = m_width - str.leftRef(tmp).toInt(&ok);
-		rank = m_height - (str.at(tmp).toLatin1() - 'a') - 1;
-	}
+		rank = str.midRef(1).toInt(&ok); //  -1;
+	//}
+	//else
+	//{
+	//	int tmp = str.length() - 1;
+	//	file = m_width - str.leftRef(tmp).toInt(&ok);
+	//	rank = m_height - (str.at(tmp).toLatin1() - 'a') -1;
+	//}
 
 	if (!ok)
 		return Square();
@@ -323,35 +335,35 @@ int Board::squareIndex(const QString& str) const
 	return squareIndex(chessSquare(str));
 }
 
-QString Board::lanMoveString(const Move& move)
+QString Board::lanMoveString(const Move& move)   // 长棋步表达
 {
 	QString str;
 
 	// Piece drop
-	if (move.sourceSquare() == 0)
-	{
-		Q_ASSERT(move.promotion() != Piece::NoPiece);
-		str += pieceSymbol(move.promotion()).toUpper() + '@';
-		str += squareString(move.targetSquare());
-		return str;
-	}
+	//if (move.sourceSquare() == 0)
+	//{
+	//	Q_ASSERT(move.promotion() != Piece::NoPiece);
+	//	str += pieceSymbol(move.promotion()).toUpper() + '@';
+	//	str += squareString(move.targetSquare());
+	//	return str;
+	//}
 
 	str += squareString(move.sourceSquare());
 	str += squareString(move.targetSquare());
-	if (move.promotion() != Piece::NoPiece)
-		str += pieceSymbol(move.promotion()).toLower();
+	//if (move.promotion() != Piece::NoPiece)
+	//	str += pieceSymbol(move.promotion()).toLower();
 
 	return str;
 }
 
 QString Board::moveString(const Move& move, MoveNotation notation)
 {
-	if (notation == StandardAlgebraic)
-		return sanMoveString(move);
+	if (notation == StandardChinese)
+		return ChineseMoveString(move);
 	return lanMoveString(move);
 }
 
-Move Board::moveFromLanString(const QString& istr)
+Move Board::moveFromEnglishString(const QString& istr)
 {
 	QString str(istr);
 	str.remove(QRegExp("[x=+#!?]"));
@@ -359,26 +371,26 @@ Move Board::moveFromLanString(const QString& istr)
 	if (len < 4)
 		return Move();
 
-	Piece promotion;
-	int drop = str.indexOf('@');
-	if (drop > 0)
-	{
-		promotion = pieceFromSymbol(str.left(drop));
-		if (!promotion.isValid())
-			return Move();
-		
-		Square trg(chessSquare(str.mid(drop + 1)));
-		if (!isValidSquare(trg))
-			return Move();
-		
-		return Move(0, squareIndex(trg), promotion.type());
-	}
+	//Piece promotion;
+	//int drop = str.indexOf('@');
+	//if (drop > 0)
+	//{
+	//	promotion = pieceFromSymbol(str.left(drop));
+	//	if (!promotion.isValid())
+	//		return Move();
+	//	
+	//	Square trg(chessSquare(str.mid(drop + 1)));
+	//	if (!isValidSquare(trg))
+	//		return Move();
+	//	
+	//	return Move(0, squareIndex(trg)); //, promotion.type());
+	//}
 
-	if (len > 4)
-		promotion = pieceFromSymbol(str.mid(len - 1));
+	//if (len > 4)
+	//	promotion = pieceFromSymbol(str.mid(len - 1));
 
-	if (promotion.isValid())
-		len = len - 1;
+	//if (promotion.isValid())
+	//	len = len - 1;
 
 	for (int i = 2; i < len - 1; i++)
 	{
@@ -389,7 +401,7 @@ Move Board::moveFromLanString(const QString& istr)
 		int source = squareIndex(sourceSq);
 		int target = squareIndex(targetSq);
 
-		return Move(source, target, promotion.type());
+		return Move(source, target); // , promotion.type());
 	}
 	return Move();
 
@@ -397,22 +409,24 @@ Move Board::moveFromLanString(const QString& istr)
 
 Move Board::moveFromString(const QString& str)
 {
-	Move move = moveFromSanString(str);
-	if (move.isNull())
-	{
-		move = moveFromLanString(str);
-		if (!isLegalMove(move))
-			return Move();
-	}
+	//Move move = moveFromSanString(str);
+	//if (move.isNull())
+	//{
+	Move move;
+	move = moveFromEnglishString(str);
+	if (!isLegalMove(move))
+		return Move();
+	//}
 	return move;
 }
+
 
 Move Board::moveFromGenericMove(const GenericMove& move) const
 {
 	int source = squareIndex(move.sourceSquare());
 	int target = squareIndex(move.targetSquare());
 
-	return Move(source, target, move.promotion());
+	return Move(source, target); // , move.promotion());
 }
 
 GenericMove Board::genericMove(const Move& move) const
@@ -421,8 +435,7 @@ GenericMove Board::genericMove(const Move& move) const
 	int target = move.targetSquare();
 
 	return GenericMove(chessSquare(source),
-			   chessSquare(target),
-			   move.promotion());
+		chessSquare(target));//			   move.promotion());
 }
 
 QStringList Board::pieceList(Side side) const
@@ -482,23 +495,23 @@ QString Board::fenString(FenNotation notation) const
 	}
 
 	// Hand pieces
-	if (variantHasDrops())
-	{
-		QString str;
-		for (i = Side::White; i <= Side::Black; i++)
-		{
-			Side side = Side::Type(i);
-			for (int j = m_reserve[i].size() - 1; j >= 1; j--)
-			{
-				int count = m_reserve[i].at(j);
-				for (int k = 0; k < count; k++)
-					str += pieceSymbol(Piece(side, j));
-			}
-		}
-		if (str.isEmpty())
-			str = "-";
-		fen += QString("[%1]").arg(str);
-	}
+	//if (variantHasDrops())
+	//{
+	//	QString str;
+	//	for (i = Side::White; i <= Side::Black; i++)
+	//	{
+	//		Side side = Side::Type(i);
+	//		for (int j = m_reserve[i].size() - 1; j >= 1; j--)
+	//		{
+	//			int count = m_reserve[i].at(j);
+	//			for (int k = 0; k < count; k++)
+	//				str += pieceSymbol(Piece(side, j));
+	//		}
+	//	}
+	//	if (str.isEmpty())
+	//		str = "-";
+	//	fen += QString("[%1]").arg(str);
+	//}
 
 	// Side to move
 	fen += QString(" %1 ").arg(m_side.symbol());
@@ -528,8 +541,8 @@ bool Board::setFenString(const QString& fen)
 	m_key = 0;
 
 	// Get the board contents (squares)
-	int handPieceIndex = -1;
-	int maxsymlen = maxPieceSymbolLength();
+	//int handPieceIndex = -1;
+	int maxsymlen = 1; // maxPieceSymbolLength();
 	QString pieceStr;
 	for (int i = 0; i < token->length(); i++)
 	{
@@ -550,13 +563,13 @@ bool Board::setFenString(const QString& fen)
 			continue;
 		}
 		// Start of hand pieces
-		if (c == '[')
-		{
-			if (!variantHasDrops())
-				return false;
-			handPieceIndex = i + 1;
-			break;
-		}
+		//if (c == '[')
+		//{
+		//	if (!variantHasDrops())
+		//		return false;
+		//	handPieceIndex = i + 1;
+		//	break;
+		//}
 		// Wall square
 		if (c == '*' && variantHasWallSquares())
 		{
@@ -598,7 +611,15 @@ bool Board::setFenString(const QString& fen)
 		// read ahead for multi-character symbols
 		for (int l = qMin(maxsymlen, token->length() - i); l > 0; l--)
 		{
+			
+			
 			pieceStr = token->mid(i, l);
+
+
+			//if (pieceStr == "b") {
+			//	int a = 0;
+			//}
+
 			Piece piece = pieceFromSymbol(pieceStr);
 			if (piece.isValid())
 			{
@@ -619,37 +640,6 @@ bool Board::setFenString(const QString& fen)
 	if (square != boardSize || square - rankEndSquare != m_width)
 		return false;
 
-	// Hand pieces
-	m_reserve[Side::White].clear();
-	m_reserve[Side::Black].clear();
-	if (handPieceIndex != -1)
-	{
-		for (int i = handPieceIndex; i < token->length(); i++)
-		{
-			QChar c = token->at(i);
-			if (c == ']')
-				break;
-			if (c == '-' && i == handPieceIndex)
-				continue;
-
-			int count = 1;
-			if (c.isDigit())
-			{
-				count = c.digitValue();
-				if (count <= 0)
-					return false;
-				++i;
-				if (i >= token->length() - 1)
-					return false;
-				c = token->at(i);
-			}
-			Piece tmp = pieceFromSymbol(c);
-			if (!tmp.isValid())
-				return false;
-			addToReserve(tmp, count);
-		}
-	}
-
 	// Side to move
 	if (++token == strList.end())
 		return false;
@@ -659,7 +649,10 @@ bool Board::setFenString(const QString& fen)
 		return false;
 
 	m_moveHistory.clear();
-	m_startingFen = fen;
+
+	//m_startingFen = fen;				// by LGL
+	QStringList stFList = fen.split("moves");
+	m_startingFen = stFList[0];
 
 	// Let subclasses handle the rest of the FEN string
 	if (token != strList.end())
@@ -673,6 +666,37 @@ bool Board::setFenString(const QString& fen)
 
 	if (!isLegalPosition())
 		return false;
+
+	
+	/*
+	// moves 
+	while (token != strList.end()) {
+
+		QString str = *token;
+		if (str == "moves") {
+			++token;
+			while (token != strList.end()) {
+				str = *token;
+
+				Move m = moveFromString(str);
+				if (!m.isNull()) {
+					this->makeMove(m);
+				}
+				else {
+					qWarning("Fen Error! %s", qUtf8Printable(fen));
+					return true;
+				}
+
+				++token;
+			}
+			return true;
+		}
+		++token;
+	}
+	*/
+
+	
+
 
 	return true;
 }
@@ -726,27 +750,44 @@ void Board::generateMoves(QVarLengthArray<Move>& moves, int pieceType) const
 			generateMovesForPiece(moves, tmp.type(), sq);
 	}
 
-	generateDropMoves(moves, pieceType);
+	//generateDropMoves(moves, pieceType);
 }
 
-void Board::generateDropMoves(QVarLengthArray<Move>& moves, int pieceType) const
-{
-	const QVector<int>& pieces(m_reserve[m_side]);
-	if (pieces.isEmpty())
-		return;
+//void Board::GetNextPosKeys(QVector<quint64>& keys)
+//{
+//	QVarLengthArray<Move> moves;
+//	generateMoves(moves);
+//
+//	for (int i = 0; i < moves.size(); i++)
+//	{
+//		
+//		Move m = moves[i];
+//		makeMove(m);
+//		if (isLegalPosition()) {
+//			keys.append(m_key);
+//		}
+//		undoMove();
+//	}
+//}
 
-	if (pieceType == Piece::NoPiece)
-	{
-		for (int i = 1; i < pieces.size(); i++)
-		{
-			Q_ASSERT(pieces.at(i) >= 0);
-			if (pieces.at(i) > 0)
-				generateMovesForPiece(moves, i, 0);
-		}
-	}
-	else if (pieceType < pieces.size() && pieces.at(pieceType) > 0)
-		generateMovesForPiece(moves, pieceType, 0);
-}
+//void Board::generateDropMoves(QVarLengthArray<Move>& moves, int pieceType) const
+//{
+//	const QVector<int>& pieces(m_reserve[m_side]);
+//	if (pieces.isEmpty())
+//		return;
+//
+//	if (pieceType == Piece::NoPiece)
+//	{
+//		for (int i = 1; i < pieces.size(); i++)
+//		{
+//			Q_ASSERT(pieces.at(i) >= 0);
+//			if (pieces.at(i) > 0)
+//				generateMovesForPiece(moves, i, 0);
+//		}
+//	}
+//	else if (pieceType < pieces.size() && pieces.at(pieceType) > 0)
+//		generateMovesForPiece(moves, pieceType, 0);
+//}
 
 void Board::generateHoppingMoves(int sourceSquare,
 				 const QVarLengthArray<int>& offsets,
@@ -764,7 +805,7 @@ void Board::generateHoppingMoves(int sourceSquare,
 	}
 }
 
-void Board::generateSlidingMoves(int sourceSquare,
+void Board::generateCheMoves(int sourceSquare,
 				 const QVarLengthArray<int>& offsets,
 				 QVarLengthArray<Move>& moves) const
 {
@@ -792,9 +833,9 @@ bool Board::moveExists(const Move& move) const
 	int source = move.sourceSquare();
 	QVarLengthArray<Move> moves;
 
-	if (source == 0)
-		generateDropMoves(moves, move.promotion());
-	else
+	//if (source == 0)
+	//	generateDropMoves(moves, move.promotion());
+	//else
 	{
 		Piece piece = m_squares[source];
 		if (piece.side() != m_side)
@@ -820,14 +861,78 @@ int Board::captureType(const Move& move) const
 	return Piece::NoPiece;
 }
 
+// 这个是输入的不需要unmake的board  常将常捉判断
+bool Board::vIsBan(const Move& move) {
+	
+	bool isBan = false;
+
+	int n = 0;
+	int moCheck[2] = { 1,1 };
+	int moCap[2] = { 0, 0 };
+
+	quint64 last_key = m_key;
+
+	for (int i = plyCount() - 1; i >= 0; i--)
+	{
+
+		Side side = sideToMove();
+		if (!inCheck(side)) {
+			moCheck[1 & n] = 0;
+		}
+
+		// 
+		undoMove();		
+
+		if (m_key == last_key) {
+			break;
+		}
+
+		if ((moCheck[0] + moCheck[1] + moCap[0] + moCap[1]) == 0) {
+			return false;
+		}
+		n++;
+	}
+
+	n--;
+	if ((moCheck[1] + moCheck[0]) == 2) {
+		return false;  // 双方常将
+	}
+	if (moCheck[1 & n]) {
+		return true;   // 我方常将
+	}	
+	return isBan;
+}
+
 bool Board::vIsLegalMove(const Move& move)
 {
 	Q_ASSERT(!move.isNull());
 
+	int repcount = 0;
+
+	bool isBan = false;
+
+
 	makeMove(move);
 	bool isLegal = isLegalPosition();
+
+
+	if (isLegal == true) {
+
+		repcount = this->repeatCount();
+
+		if (repcount >= 2) {  // 二次重复，要判断是不是犯规了
+			Board* newB = this->copy();
+			isBan = newB->vIsBan(move);
+			delete newB;
+		}
+	}
+
 	undoMove();
 
+	if (isBan) {
+		return false;
+	}	
+	
 	return isLegal;
 }
 
@@ -891,8 +996,10 @@ QVector<Move> Board::legalMoves()
 
 	for (int i = moves.size() - 1; i >= 0; i--)
 	{
-		if (vIsLegalMove(moves[i]))
-			legalMoves << moves[i];
+		Move m = moves[i];
+
+		if (vIsLegalMove(m))
+			legalMoves << m;
 	}
 
 	return legalMoves;

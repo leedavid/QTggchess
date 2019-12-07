@@ -16,6 +16,8 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "chessclock.h"
 #include <QTimerEvent>
 #include <QLabel>
@@ -53,7 +55,7 @@ void ChessClock::setPlayerName(const QString& name)
 		m_nameLabel->setText(QString("<h3>%1</h3>").arg(name));
 }
 
-void ChessClock::setInfiniteTime(bool infinite)
+void ChessClock::setInfiniteTime(bool infinite) 
 {
 	m_infiniteTime = infinite;
 	if (!infinite)

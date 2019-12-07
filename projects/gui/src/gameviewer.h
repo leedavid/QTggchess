@@ -52,6 +52,10 @@ class GameViewer : public QWidget
 		BoardScene* boardScene() const;
 		ChessClock* chessClock(Chess::Side side);
 
+		//void copyBoard(Chess::Board* orgBoard);   // 把棋子复制过来
+
+		void viewPreviousMove2(Chess::Board* orgBoard);
+
 	public slots:
 		void viewMove(int index, bool keyLeft = false);
 

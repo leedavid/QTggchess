@@ -21,7 +21,11 @@
 
 #include <QtGlobal>
 #include <QMultiMap>
+#include <QtSql>
 #include "board/genericmove.h"
+
+//#include "sqlite3.h"
+//#pragma comment(lib,"SQLite3.lib")
 
 class QString;
 class QDataStream;
@@ -44,10 +48,10 @@ class LIB_EXPORT OpeningBook
 {
 	public:
 		/*! AccessMode defines how a book is accessed during play. */
-		enum AccessMode
+		enum BookMoveMode
 		{
-			Ram,	//!< Load the entire book to RAM
-			Disk	//!< Read moves directly from disk
+			BookRandom,	// 棋步选择大于0分的随机步
+			BookBest	// 选择最佳的开局步
 		};
 
 		/*!
@@ -66,11 +70,18 @@ class LIB_EXPORT OpeningBook
 			 * of the move. The higher the weight, the more
 			 * likely the move will be played.
 			 */
-			quint16 weight;
+			//quint16 weight;
+			qint32 vscore;
+			quint32 win_count;
+			quint32 draw_count;
+			quint32 lost_connt;
+			quint32 valid;
+			quint32 vindex;
+			QString  comments;
 		};
 
 		/*! Creates a new OpeningBook with access mode \a mode. */
-		OpeningBook(AccessMode mode = Ram);
+		OpeningBook(BookMoveMode mode = BookRandom);
 		/*! Destroys the opening book. */
 		virtual ~OpeningBook();
 		
@@ -108,8 +119,14 @@ class LIB_EXPORT OpeningBook
 		 */
 		Chess::GenericMove move(quint64 key) const;
 
+		//Chess::GenericMove moveFromKeys(QVector<quint64>& keys) const;
+
 		/*! Returns all entries matching \a key. */
 		QList<Entry> entries(quint64 key) const;
+
+		//QList<OpeningBook::Entry> getEntriesFromKeys(QVector<quint64>& keys) const;
+
+		//bool GetBookOneEntry(quint64 key, Entry& entry) const;
 
 		/*!
 		 * Reads a book from \a filename.
@@ -122,6 +139,8 @@ class LIB_EXPORT OpeningBook
 		 * Returns true if successful; otherwise returns false.
 		 */
 		bool write(const QString& filename) const;
+
+		//QString getRandomString(int length);
 
 
 	protected:
@@ -152,9 +171,16 @@ class LIB_EXPORT OpeningBook
 	private:
 		QList<Entry> entriesFromDisk(quint64 key) const;
 
-		AccessMode m_mode;
+		BookMoveMode m_mode;
 		QString m_filename;
 		Map m_map;
+		bool useBerKeyDB;	    	// 
+		bool useSqlliteDB;
+		//QSqlDatabase DB[2];         // 红黑二个连接 
+
+		//QList<QSqlDatabase> SQLDB;
+
+	
 };
 
 /*!

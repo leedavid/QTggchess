@@ -16,6 +16,8 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "evalhistory.h"
 #include <QVBoxLayout>
 #include <QtGlobal>
@@ -32,7 +34,7 @@ EvalHistory::EvalHistory(QWidget *parent)
 	auto y = m_plot->yAxis;
 	auto ticker = new QCPAxisTickerFixed;
 
-	x->setLabel(tr("move"));
+	x->setLabel(tr("Æå²½"));
 	x->setRange(1, 5);
 	x->setTicker(QSharedPointer<QCPAxisTicker>(ticker));
 	x->setSubTicks(false);
@@ -41,7 +43,7 @@ EvalHistory::EvalHistory(QWidget *parent)
 	x->setTickPen(QApplication::palette().text().color());
 	x->setBasePen(QApplication::palette().text().color());
 
-	y->setLabel(tr("score"));
+	y->setLabel(tr("µÃ·Ö"));
 	y->setRange(-1, 1);
 	y->setSubTicks(false);
 	y->setLabelColor(QApplication::palette().text().color());
@@ -90,18 +92,29 @@ void EvalHistory::setScores(const QMap< int, int >& scores)
 	m_plot->addGraph();
 	m_plot->addGraph();
 
-	auto cWhite = QColor(0xff, 0xce, 0x9e);
-	auto cBlack = QColor(0xd1, 0x8b, 0x47);
-	auto pWhite = QPen(cWhite.darker(150));
+	//auto cWhite = QColor(0xff, 0xce, 0x9e);    // 
+	//auto cBlack = QColor(0xd1, 0x8b, 0x47);
+	//auto pWhite = QPen(cWhite.darker(150));
+	//pWhite.setWidth(2);
+	//auto pBlack = QPen(cBlack.darker());
+	//pBlack.setWidth(2);
+
+	auto cWhite = QColor(0xff, 0x30, 0x30);    // 
+	auto cBlack = QColor(0x30, 0x30, 0xff);
+
+	//cWhite.setNamedColor("red");
+	//cBlack.setNamedColor("blue");
+
+	auto pWhite = QPen(cWhite.darker(100));
 	pWhite.setWidth(2);
-	auto pBlack = QPen(cBlack.darker());
+	auto pBlack = QPen(cBlack.darker(100));
 	pBlack.setWidth(2);
 
 	m_plot->graph(0)->setPen(pWhite);
-	cWhite.setAlpha(200);
+	cWhite.setAlpha(100);
 	m_plot->graph(0)->setBrush(QBrush(cWhite));
 	m_plot->graph(1)->setPen(pBlack);
-	cBlack.setAlpha(128);
+	cBlack.setAlpha(100);
 	m_plot->graph(1)->setBrush(QBrush(cBlack));
 
 	int ply = -1;

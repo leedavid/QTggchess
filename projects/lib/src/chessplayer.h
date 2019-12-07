@@ -19,6 +19,8 @@
 #ifndef CHESSPLAYER_H
 #define CHESSPLAYER_H
 
+#pragma execution_character_set("utf-8")
+
 #include <QObject>
 #include <QString>
 #include <QVector>

@@ -29,6 +29,8 @@
 #include "importprogressdlg.h"
 #include "cutechessapp.h"
 
+#pragma execution_character_set("utf-8")
+
 #define GAME_DATABASE_STATE_MAGIC   0xDEADD00D
 #define GAME_DATABASE_STATE_VERSION 1
 

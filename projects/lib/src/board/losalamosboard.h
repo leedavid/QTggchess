@@ -51,9 +51,7 @@ class LIB_EXPORT LosAlamosBoard : public WesternBoard
 		// Inherited from WesternBoard
 		virtual bool hasCastling() const;
 		virtual bool pawnHasDoubleStep() const;
-		virtual void addPromotions(int sourceSquare,
-					   int targetSquare,
-					   QVarLengthArray<Move>& moves) const;
+
 };
 
 } // namespace Chess

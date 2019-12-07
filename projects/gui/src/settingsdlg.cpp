@@ -16,6 +16,8 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "settingsdlg.h"
 #include "ui_settingsdlg.h"
 #include <QShowEvent>

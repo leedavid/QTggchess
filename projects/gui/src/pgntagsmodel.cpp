@@ -18,6 +18,8 @@
 
 #include "pgntagsmodel.h"
 
+#pragma execution_character_set("utf-8")
+
 PgnTagsModel::PgnTagsModel(QObject* parent)
 	: QAbstractItemModel(parent)
 {

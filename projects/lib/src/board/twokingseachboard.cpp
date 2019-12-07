@@ -117,23 +117,23 @@ void TwoKingsEachBoard::generateMovesForPiece(QVarLengthArray< Move >& moves, in
 	int rookSqQ = square - m_castlingSourceFile;
 	int rookSqK = rookSqQ + width() - 1;
 
-	if (sq.file() == m_castlingSourceFile && rrank == 0)
-	{
-		bool freeK = true;
-		bool freeQ = true;
-		for (int index = square + 1; index < rookSqK; index++)
-			if (!pieceAt(index).isEmpty())
-				freeK = false;
-		for (int index = rookSqQ + 1; index < square; index++)
-			if (!pieceAt(index).isEmpty())
-				freeQ = false;
+	//if (sq.file() == m_castlingSourceFile && rrank == 0)
+	//{
+	//	bool freeK = true;
+	//	bool freeQ = true;
+	//	for (int index = square + 1; index < rookSqK; index++)
+	//		if (!pieceAt(index).isEmpty())
+	//			freeK = false;
+	//	for (int index = rookSqQ + 1; index < square; index++)
+	//		if (!pieceAt(index).isEmpty())
+	//			freeQ = false;
 
-		if (hasCastlingRight(side, KingSide) && freeK)
-			moves.append(Move(square, rookSqK));
+	//	if (hasCastlingRight(side, KingSide) && freeK)
+	//		moves.append(Move(square, rookSqK));
 
-		if (hasCastlingRight(side, QueenSide) && freeQ)
-			moves.append(Move(square, rookSqQ));
-	}
+	//	if (hasCastlingRight(side, QueenSide) && freeQ)
+	//		moves.append(Move(square, rookSqQ));
+	//}
 }
 
 Move TwoKingsEachBoard::moveFromLanString(const QString& str)
@@ -209,7 +209,7 @@ Result TwoKingsEachBoard::result()
 
 		switch (piece.type())
 		{
-		case Bishop:
+		case Shi:
 		{
 			auto color = chessSquare(i).color();
 			if (color != Square::NoColor && !bishops[color])
@@ -219,7 +219,7 @@ Result TwoKingsEachBoard::result()
 			}
 			break;
 		}
-		case Knight:
+		case Xiang:
 			material++;
 			break;
 		default:

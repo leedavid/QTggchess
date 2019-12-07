@@ -137,7 +137,7 @@ void AtomicBoard::vMakeMove(const Move& move, BoardTransition* transition)
 			if (pc.isWall() || pc.type() == Pawn)
 				continue;
 			
-			removeCastlingRights(sq);
+			//removeCastlingRights(sq);
 			setSquare(sq, Piece::NoPiece);
 
 			if (transition != nullptr)

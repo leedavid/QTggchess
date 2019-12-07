@@ -16,6 +16,8 @@
     along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma execution_character_set("utf-8")
+
 #include "cutechessapp.h"
 
 #include <QCoreApplication>
@@ -23,6 +25,7 @@
 #include <QTime>
 #include <QFileInfo>
 #include <QSettings>
+#include <QTextCodec>
 
 #include <mersenne.h>
 #include <enginemanager.h>
@@ -40,6 +43,9 @@
 #include "importprogressdlg.h"
 #include "pgnimporter.h"
 #include "gamewall.h"
+
+
+
 #ifndef Q_OS_WIN32
 #	include <sys/types.h>
 #	include <pwd.h>
@@ -61,25 +67,27 @@ CuteChessApplication::CuteChessApplication(int& argc, char* argv[])
 
 	// Set the application icon
 	QIcon icon;
-	icon.addFile(":/icons/cutechess_512x512.png");
-	icon.addFile(":/icons/cutechess_256x256.png");
-	icon.addFile(":/icons/cutechess_128x128.png");
-	icon.addFile(":/icons/cutechess_64x64.png");
-	icon.addFile(":/icons/cutechess_32x32.png");
-	icon.addFile(":/icons/cutechess_24x24.png");
-	icon.addFile(":/icons/cutechess_16x16.png");
+	//icon.addFile(":/icons/cutechess_512x512.png");
+	//icon.addFile(":/icons/cutechess_256x256.png");
+	//icon.addFile(":/icons/cutechess_128x128.png");
+	//icon.addFile(":/icons/cutechess_64x64.png");
+	//icon.addFile(":/icons/cutechess_32x32.png");
+	//icon.addFile(":/icons/cutechess_24x24.png");
+	icon.addFile(":/cutechess_win.png");
 	setWindowIcon(icon);
 
 	setQuitOnLastWindowClosed(false);
 
-	QCoreApplication::setOrganizationName("cutechess");
-	QCoreApplication::setOrganizationDomain("cutechess.com");
-	QCoreApplication::setApplicationName("cutechess");
+	QCoreApplication::setOrganizationName(QLatin1String("GGZero_Team"));
+	QCoreApplication::setOrganizationDomain(QLatin1String("ggzero.cn"));
+	QCoreApplication::setApplicationName(QLatin1String("GGchessGUI"));
 	QCoreApplication::setApplicationVersion(CUTECHESS_VERSION);
 
 	// Use Ini format on all platforms
 	QSettings::setDefaultFormat(QSettings::IniFormat);
 
+
+	//QString path = configPath();
 	// Load the engines
 	engineManager()->loadEngines(configPath() + QLatin1String("/engines.json"));
 
@@ -105,8 +113,20 @@ CuteChessApplication* CuteChessApplication::instance()
 
 QString CuteChessApplication::userName()
 {
-	#ifdef Q_OS_WIN32
-	return qgetenv("USERNAME");
+	//QTextCodec* codec = QTextCodec::codecForName("UTF-8");
+
+	//QTextCodec::setCodecForTr(codec);
+
+	//QTextCodec::setCodecForLocale(QTextCodec::codecForLocale());
+	//QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
+
+#ifdef Q_OS_WIN32
+
+	const QByteArray nn = qgetenv("USERNAME");
+	QString name = QString::fromLocal8Bit(nn);
+	return name;
+
+	//return "玩家";
 	#else
 	if (QSettings().value("ui/use_full_user_name", true).toBool())
 	{
@@ -245,7 +265,7 @@ void CuteChessApplication::showGameWall()
 		auto flags = m_gameWall->windowFlags();
 		m_gameWall->setWindowFlags(flags | Qt::Window);
 		m_gameWall->setAttribute(Qt::WA_DeleteOnClose, true);
-		m_gameWall->setWindowTitle(tr("Active Games"));
+		m_gameWall->setWindowTitle(tr("当前对局"));
 	}
 
 	showDialog(m_gameWall);

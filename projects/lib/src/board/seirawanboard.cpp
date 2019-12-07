@@ -25,8 +25,8 @@ namespace Chess {
 SeirawanBoard::SeirawanBoard()
 	: WesternBoard(new WesternZobrist())
 {
-	setPieceType(Hawk, tr("hawk"), "H", KnightMovement | BishopMovement, "A");
-	setPieceType(Elephant, tr("elephant"), "E", KnightMovement | RookMovement, "C");
+	setPieceType(Hawk, tr("hawk"), "H", MaMovement | XiangMovement, "A");
+	setPieceType(Elephant, tr("elephant"), "E", MaMovement | CheMovement, "C");
 
 	// following "virtual" piece types are only used for castling/channeling disambiguation
 	setPieceType(rookSquareChanneling(Hawk, forward), tr("auxhawk"), "X", 0, "A");
@@ -78,15 +78,7 @@ QList<Piece> SeirawanBoard::reservePieceTypes() const
 	return list;
 }
 
-void SeirawanBoard::addPromotions(int sourceSquare,
-				  int targetSquare,
-				  QVarLengthArray<Move>& moves) const
-{
-	WesternBoard::addPromotions(sourceSquare, targetSquare, moves);
 
-	moves.append(Move(sourceSquare, targetSquare, Hawk));
-	moves.append(Move(sourceSquare, targetSquare, Elephant));
-}
 
 bool SeirawanBoard::vSetFenString(const QStringList& fen)
 {
@@ -110,29 +102,29 @@ void SeirawanBoard::updateSquareMap(const Move& move, int increment)
 		m_squareMap[target] += increment;
 }
 
-bool SeirawanBoard::parseCastlingRights(QChar c)
-{
-	Side side = (c.isUpper()) ? upperCaseSide() : upperCaseSide().opposite();
-	QChar ch = c.toLower();
-	QString rank = side == Side::White ? "1" : QString::number(height());
-
-	if (ch >= 'a' && ch <= 'h')
-	{
-		insertIntoSquareMap(squareIndex(ch + rank));
-		return true;
-	}
-	if (ch == 'k')
-	{
-		insertIntoSquareMap(kingSquare(side));
-		insertIntoSquareMap(squareIndex("h" + rank));
-	}
-	if (ch == 'q')
-	{
-		insertIntoSquareMap(kingSquare(side));
-		insertIntoSquareMap(squareIndex("a" + rank));
-	}
-	return WesternBoard::parseCastlingRights(c);
-}
+//bool SeirawanBoard::parseCastlingRights(QChar c)
+//{
+//	Side side = (c.isUpper()) ? upperCaseSide() : upperCaseSide().opposite();
+//	QChar ch = c.toLower();
+//	QString rank = side == Side::White ? "1" : QString::number(height());
+//
+//	if (ch >= 'a' && ch <= 'h')
+//	{
+//		insertIntoSquareMap(squareIndex(ch + rank));
+//		return true;
+//	}
+//	if (ch == 'k')
+//	{
+//		insertIntoSquareMap(kingSquare(side));
+//		insertIntoSquareMap(squareIndex("h" + rank));
+//	}
+//	if (ch == 'q')
+//	{
+//		insertIntoSquareMap(kingSquare(side));
+//		insertIntoSquareMap(squareIndex("a" + rank));
+//	}
+//	return WesternBoard::parseCastlingRights(c);
+//}
 
 QString SeirawanBoard::vFenString(Board::FenNotation notation) const
 {
@@ -203,21 +195,21 @@ QString SeirawanBoard::vFenString(Board::FenNotation notation) const
  */
 QString SeirawanBoard::lanMoveString(const Move& move)
 {
-	int promotion = move.promotion();
+	//int promotion = move.promotion();
 	QString str(Chess::WesternBoard::lanMoveString(move));
 
 	// normal move or channeling /wo castling
-	if (Board::lanMoveString(move) == str || !promotion)
+	if (Board::lanMoveString(move) == str)// || !promotion)
 		return str;
 
 	// castling with channeling onto king square
-	if (promotion < rookSquareChanneling(Hawk))
-		return str + pieceSymbol(promotion).toLower();
+	//if (promotion < rookSquareChanneling(Hawk))
+	//	return str + pieceSymbol(promotion).toLower();
 
 	// castling with channeling onto rook square
 	Move move1(move.targetSquare(),
-		   move.sourceSquare(),
-		   rookSquareChanneling(move.promotion(), backward));
+		move.sourceSquare());
+		//  rookSquareChanneling(move.promotion(), backward));
 	return Board::lanMoveString(move1);
 }
 
@@ -234,35 +226,35 @@ QString SeirawanBoard::lanMoveString(const Move& move)
 QString SeirawanBoard::sanMoveString(const Move& move)
 {
 	QString str(WesternBoard::sanMoveString(move));
-	int promotion = move.promotion();
-	int pieceType = promotion;
-	Side side = sideToMove();
+	//int promotion = move.promotion();
+	//int pieceType = promotion;
+	//Side side = sideToMove();
 
-	int source = move.sourceSquare();
-	Square srcSq = chessSquare(source);
-	int target = move.targetSquare();
-	int baserank = (side == Side::White) ? 0 : height() - 1;
+	//int source = move.sourceSquare();
+	//Square srcSq = chessSquare(source);
+	//int target = move.targetSquare();
+	//int baserank = (side == Side::White) ? 0 : height() - 1;
 
 	// promotion on own baserank is channeling move
-	if (srcSq.rank() == baserank && promotion != Piece::NoPiece)
-	{
-		// use notation symbol "/" (slash) for channeling move
-		str.replace('=','/');
-		// castling moves
-		if (!str.contains('/'))
-		{
-			// internal representation of rook square channeling
-			if (promotion >= rookSquareChanneling(Hawk))
-				pieceType = rookSquareChanneling(promotion, backward);
+	//if (srcSq.rank() == baserank && promotion != Piece::NoPiece)
+	//{
+	//	// use notation symbol "/" (slash) for channeling move
+	//	str.replace('=','/');
+	//	// castling moves
+	//	if (!str.contains('/'))
+	//	{
+	//		// internal representation of rook square channeling
+	//		//if (promotion >= rookSquareChanneling(Hawk))
+	//		//	pieceType = rookSquareChanneling(promotion, backward);
 
-			Piece piece(side, pieceType);
-			str.append('/' + pieceSymbol(piece).toUpper());
-			if (promotion == pieceType)
-				str.append(squareString(source));
-			else
-				str.append(squareString(target));
-		}
-	}
+	//		Piece piece(side, pieceType);
+	//		str.append('/' + pieceSymbol(piece).toUpper());
+	//		//if (promotion == pieceType)
+	//		//	str.append(squareString(source));
+	//		//else
+	//			str.append(squareString(target));
+	//	}
+	//}
 	return str;
 }
 
@@ -283,24 +275,24 @@ Move SeirawanBoard::moveFromSanString(const QString& str)
 	// channeling moves
 	QString s = str.left(index);
 	Move move = WesternBoard::moveFromSanString(s);
-	int promotion = pieceFromSymbol(str.mid(index + 1, 1)).type();
+	//int promotion = pieceFromSymbol(str.mid(index + 1, 1)).type();
 
-	if (move.isNull() || promotion == 0)
+	//if (move.isNull() || promotion == 0)
 		return Move();
 
-	Piece piece = Piece(sideToMove(), promotion);
-	if (!reservePieceTypes().contains(piece) ||  reserveCount(piece) < 1)
-		return Move();
+	//Piece piece = Piece(sideToMove(), promotion);
+	//if (!reservePieceTypes().contains(piece) ||  reserveCount(piece) < 1)
+	//	return Move();
 
-	int target = move.targetSquare();
+	//int target = move.targetSquare();
 
-	// castling with channeling onto rook square
-	if (move.sourceSquare() == kingSquare(sideToMove())
-	&&  str.mid(index + 2, 1) == squareString(target).at(0))
-		promotion = rookSquareChanneling(promotion);
+	//// castling with channeling onto rook square
+	//if (move.sourceSquare() == kingSquare(sideToMove())
+	//&&  str.mid(index + 2, 1) == squareString(target).at(0))
+	//	promotion = rookSquareChanneling(promotion);
 
-	// channeling moves
-	return Move(move.sourceSquare(), target, promotion );
+	//// channeling moves
+	//return Move(move.sourceSquare(), target, promotion );
 }
 
 Move SeirawanBoard::moveFromLanString(const QString& str)
@@ -309,52 +301,52 @@ Move SeirawanBoard::moveFromLanString(const QString& str)
 	Side side = sideToMove();
 	int source = move0.sourceSquare();
 	int target = move0.targetSquare();
-	int promotion = move0.promotion();
+	//int promotion = move0.promotion();
 
 	// castling move with channeling onto rook square
 	// coded as castling with promotion to auxiliary type
-	if (promotion != Piece::NoPiece
-	&&  pieceAt(source) == Piece(side, Rook)
-	&&  target == kingSquare(side))
-	{
-		return Move(target, source, rookSquareChanneling(promotion));
-	}
+	//if (promotion != Piece::NoPiece
+	//&&  pieceAt(source) == Piece(side, Pao)
+	//&&  target == kingSquare(side))
+	//{
+	return Move(target, source); // , rookSquareChanneling(promotion));
+	//}
 
-	Move move(WesternBoard::moveFromLanString(str));
-	return Move(move.sourceSquare(), move.targetSquare(), promotion);
+	//Move move(WesternBoard::moveFromLanString(str));
+	//return Move(move.sourceSquare(), move.targetSquare(), promotion);
 }
 
 void SeirawanBoard::vMakeMove(const Move& move, BoardTransition* transition)
 {
-	int source = move.sourceSquare();
-	int prom = move.promotion();
-	Side side = sideToMove();
+	//int source = move.sourceSquare();
+	//int prom = move.promotion();
+	//Side side = sideToMove();
 
 	WesternBoard::vMakeMove(move, transition);
 
-	if (m_squareMap.contains(source)
-	&&  m_squareMap[source] == 0
-	&&  prom != Piece::NoPiece)
-	{
-		if (prom >= rookSquareChanneling(Hawk))
-		{
-			prom = rookSquareChanneling(prom, backward);
-			source = move.targetSquare();
-		}
-		Piece piece(side, prom);
-		if (reserveCount(piece) > 0)
-		{
-			Square csq = chessSquare(source);
+	//if (m_squareMap.contains(source)
+	//&&  m_squareMap[source] == 0)
+	////&&  prom != Piece::NoPiece)
+	//{
+	//	if (prom >= rookSquareChanneling(Hawk))
+	//	{
+	//		prom = rookSquareChanneling(prom, backward);
+	//		source = move.targetSquare();
+	//	}
+	//	Piece piece(side, prom);
+	//	if (reserveCount(piece) > 0)
+	//	{
+	//		Square csq = chessSquare(source);
 
-			if (csq.isValid())
-			{
-				removeFromReserve(piece);
-				setSquare(source, piece); // drop-in
-				if (transition != nullptr)
-					transition->addDrop(piece, csq);
-			}
-		}
-	}
+	//		if (csq.isValid())
+	//		{
+	//			//removeFromReserve(piece);
+	//			setSquare(source, piece); // drop-in
+	//			if (transition != nullptr)
+	//				transition->addDrop(piece, csq);
+	//		}
+	//	}
+	//}
 	updateSquareMap(move, +1);
 }
 
@@ -363,22 +355,22 @@ void SeirawanBoard::vUndoMove(const Move& move)
 	Side side = sideToMove();
 	int index = move.sourceSquare();
 
-	if (move.promotion() >= rookSquareChanneling(Hawk))
-		  index = move.targetSquare();
+	//if (move.promotion() >= rookSquareChanneling(Hawk))
+	//	  index = move.targetSquare();
 
 	Piece piece = pieceAt(index);
 
 	updateSquareMap(move, -1);
 
 	// channeling move?
-	if ( piece.side() == side
-	&&   chessSquare(index).isValid()
-	&&   reservePieceTypes().contains(piece))
-	{
-		// undo channeling move
-		addToReserve(piece);
-		// skipped: setSquare(index, Piece());
-	}
+	//if ( piece.side() == side
+	//&&   chessSquare(index).isValid()
+	//&&   reservePieceTypes().contains(piece))
+	//{
+	//	// undo channeling move
+	//	addToReserve(piece);
+	//	// skipped: setSquare(index, Piece());
+	//}
 	WesternBoard::vUndoMove(move);
 }
 
@@ -402,17 +394,17 @@ void SeirawanBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 
 	// generate channeling moves as promotions on base rank
 	Side side = sideToMove();
-	for (Move m: moves1)
-	{
-		const QList<Piece>& reserveTypes = reservePieceTypes();
-		for (const Piece& pc: reserveTypes)
-		{
-			if (pc.side() == side &&  reserveCount(pc) > 0)
-				moves2.append(Move(m.sourceSquare(),
-						   m.targetSquare(),
-						   pc.type()));
-		}
-	}
+	//for (Move m: moves1)
+	//{
+	//	const QList<Piece>& reserveTypes = reservePieceTypes();
+	//	for (const Piece& pc: reserveTypes)
+	//	{
+	//		if (pc.side() == side &&  reserveCount(pc) > 0)
+	//			moves2.append(Move(m.sourceSquare(),
+	//					   m.targetSquare(),
+	//					   pc.type()));
+	//	}
+	//}
 
 	// add channeling moves
 	for (Move m: moves2)
@@ -423,11 +415,11 @@ void SeirawanBoard::generateMovesForPiece(QVarLengthArray< Move >& moves,
 		Piece piece2 = pieceAt(m.targetSquare());
 
 		if (piece1.type() == King
-		&&  piece2.type() == Rook
-		&&  piece2.side() == side)
+			&& piece2.type() == Pao
+			&& piece2.side() == side)
 			moves.append(Move(m.sourceSquare(),
-					  m.targetSquare(),
-					  rookSquareChanneling(m.promotion())));
+				m.targetSquare()));//
+					 // rookSquareChanneling(m.promotion())));
 	}
 }
 

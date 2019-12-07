@@ -113,6 +113,8 @@ void ChessGame::setBoardShouldBeFlipped(bool flip)
 	m_boardShouldBeFlipped = flip;
 }
 
+
+
 PgnGame* ChessGame::pgn() const
 {
 	return m_pgn;
@@ -226,7 +228,7 @@ void ChessGame::addPgnMove(const Chess::Move& move, const QString& comment)
 	PgnGame::MoveData md;
 	md.key = m_board->key();
 	md.move = m_board->genericMove(move);
-	md.moveString = m_board->moveString(move, Chess::Board::StandardAlgebraic);
+	md.moveString = m_board->moveString(move, Chess::Board::StandardChinese);
 	md.comment = comment;
 
 	m_pgn->addMove(md);
@@ -316,6 +318,29 @@ void ChessGame::startTurn()
 	}
 }
 
+void ChessGame::PlayerMakeBookMove(Chess::Move move)
+{
+	//if (m_paused)
+	//	return;
+
+	Chess::Side side(m_board->sideToMove());
+	Q_ASSERT(!side.isNull());
+
+	emit humanEnabled(m_player[side]->isHuman());
+
+	//Chess::Move move(bookMove(side));
+	if (move.isNull())
+	{
+		//m_player[side]->go();
+		//m_player[side.opposite()]->startPondering();
+	}
+	else
+	{
+		m_player[side.opposite()]->clearPonderState();
+		m_player[side]->makeBookMove(move);
+	}
+}
+
 void ChessGame::onAdjudication(const Chess::Result& result)
 {
 	if (m_finished || result.type() != Chess::Result::Adjudication)
@@ -374,6 +399,38 @@ void ChessGame::onResultClaim(const Chess::Result& result)
 	stop();
 }
 
+//void ChessGame::bookGetNextPosKeys(QVector<quint64>& keys)
+//{
+//
+//	m_board->GetNextPosKeys(keys);
+//	//QVarLengthArray<Chess::Move> moves;
+//	////QVector<Move> legalMoves;
+//
+//	//m_board->generateMoves(moves);
+//	//legalMoves.reserve(moves.size());
+//
+//	//for (int i = moves.size() - 1; i >= 0; i--)
+//	//{
+//	//	if (vIsLegalMove(moves[i]))
+//	//		legalMoves << moves[i];
+//	//}
+//
+//	//return legalMoves;
+//	//
+//	//
+//	//
+//	//const auto moves = m_board->legalMoves();
+//	//quint64 preKey = m_board->key;
+//
+//	//for (const auto& move : moves){
+//
+//	//	makeMove(move);
+//	//	bool isLegal = isLegalPosition();
+//	//	undoMove();
+//
+//	//}
+//}
+
 Chess::Move ChessGame::bookMove(Chess::Side side)
 {
 	Q_ASSERT(!side.isNull());
@@ -382,8 +439,14 @@ Chess::Move ChessGame::bookMove(Chess::Side side)
 	||  m_moves.size() >= m_bookDepth[side] * 2)
 		return Chess::Move();
 
+
+	//
+	//QVector<quint64> keys;
+	//bookGetNextPosKeys(keys);
+
+
 	Chess::GenericMove bookMove = m_book[side]->move(m_board->key());
-	Chess::Move move = m_board->moveFromGenericMove(bookMove);
+	Chess::Move move = m_board->moveFromGenericMove(bookMove);				// 
 	if (move.isNull())
 		return Chess::Move();
 
@@ -416,7 +479,35 @@ void ChessGame::setPlayer(Chess::Side side, ChessPlayer* player)
 void ChessGame::setStartingFen(const QString& fen)
 {
 	Q_ASSERT(!m_gameInProgress);
-	m_startingFen = fen;
+	//m_startingFen = fen;
+
+	QStringList stFList = fen.split("moves");		// by LGL
+	m_startingFen = stFList[0];
+
+	if (stFList.length() == 2) {
+		// 如果有move
+		//m_board->setFenString(m_startingFen);
+
+		QStringList strList = stFList[1].split(' ');
+		QStringList::iterator token = strList.begin();
+		++token;
+
+		while (token != strList.end()) {
+			QString str = *token;
+
+			Chess::Move m = m_board->moveFromString(str);
+			if (!m.isNull()) {	
+				addPgnMove(m, "");            //
+				m_board->makeMove(m);
+			}
+			else {
+				qWarning("Fen Error! %s", qUtf8Printable(fen));
+				//return true;
+			}
+			++token;
+		}
+	}
+	return;
 }
 
 void ChessGame::setTimeControl(const TimeControl& timeControl, Chess::Side side)
@@ -558,17 +649,17 @@ bool ChessGame::resetBoard()
 	if (fen.isEmpty())
 	{
 		fen = m_board->defaultFenString();
-		if (m_board->isRandomVariant())
-			m_startingFen = fen;
+		//if (m_board->isRandomVariant())
+		//	m_startingFen = fen;
 	}
 
 	if (!m_board->setFenString(fen))
 	{
-		qWarning("Invalid FEN string: %s", qUtf8Printable(fen));
+		qWarning("无效的 FEN 字符串: %s", qUtf8Printable(fen));
 		m_board->reset();
-		if (m_board->isRandomVariant())
-			m_startingFen = m_board->fenString();
-		else
+		//if (m_board->isRandomVariant())
+		//	m_startingFen = m_board->fenString();
+		//else
 			m_startingFen.clear();
 		return false;
 	}
@@ -660,7 +751,8 @@ void ChessGame::resume()
 		return;
 	m_paused = false;
 
-	QMetaObject::invokeMethod(this, "startTurn", Qt::QueuedConnection);
+	QMetaObject::invokeMethod(this, "startTurn", Qt::QueuedConnection);  
+	// 如果type是Qt :: QueuedConnection 则会发送一个QEvent，并在应用程序进入主事件循环后立即调用该成员。
 }
 
 void ChessGame::initializePgn()
@@ -707,7 +799,7 @@ void ChessGame::startGame()
 			emitStartFailed();
 			return;
 		}
-		if (!player->supportsVariant(m_board->variant()))
+		if (!player->supportsVariant(m_board->variant()))		// 游戏变种处理
 		{
 			qWarning("%s doesn't support variant %s",
 				 qUtf8Printable(player->name()),

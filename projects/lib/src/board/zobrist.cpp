@@ -24,10 +24,13 @@
 
 namespace {
 
-QVarLengthArray<quint64, 0x2000> s_keys;
+//QVarLengthArray<quint64, 0x2000> s_keys;
+QVarLengthArray<quint64, 0x10> s_keys;
 QMutex s_mutex;
 
 } // anonymous namespace
+
+
 
 namespace Chess {
 
@@ -38,24 +41,24 @@ int Zobrist::s_randomSeed = 1;
  * by Park and Miller.
  * Returns a pseudo-random integer between 1 and 2147483646.
  */
-int Zobrist::random32()
-{
-	const int a = 16807;
-	const int m = 2147483647;
-	const int q = (m / a);
-	const int r = (m % a);
-
-	int hi = s_randomSeed / q;
-	int lo = s_randomSeed % q;
-	int test = a * lo - r * hi;
-
-	if (test > 0)
-		s_randomSeed = test;
-	else
-		s_randomSeed = test + m;
-
-	return s_randomSeed;
-}
+//int Zobrist::random32()
+//{
+//	const int a = 16807;
+//	const int m = 2147483647;
+//	const int q = (m / a);
+//	const int r = (m % a);
+//
+//	int hi = s_randomSeed / q;
+//	int lo = s_randomSeed % q;
+//	int test = a * lo - r * hi;
+//
+//	if (test > 0)
+//		s_randomSeed = test;
+//	else
+//		s_randomSeed = test + m;
+//
+//	return s_randomSeed;
+//}
 
 
 Zobrist::Zobrist(const quint64* keys)
@@ -88,12 +91,12 @@ void Zobrist::initialize(int squareCount,
 	if (m_keys == nullptr)
 	{
 		// Initialize the global zobrist array
-		if (s_keys.isEmpty())
-		{
-			for (int i = 0; i < s_keys.capacity(); i++)
-				s_keys.append(random64());
-		}
-		m_keys = s_keys.constData();
+		//if (s_keys.isEmpty())
+		//{
+		//	for (int i = 0; i < s_keys.capacity(); i++)
+		//		s_keys.append(random64());
+		//}
+		//m_keys = s_keys.constData();
 	}
 	m_initialized = true;
 }
@@ -101,7 +104,12 @@ void Zobrist::initialize(int squareCount,
 quint64 Zobrist::side() const
 {
 	return m_keys[0];
+	
 }
+
+//White,	//!< The side with the white pieces.
+//Black,	//!< The side with the black pieces.
+//NoSide	//!< No side
 
 quint64 Zobrist::piece(const Piece& piece, int square) const
 {
@@ -112,6 +120,10 @@ quint64 Zobrist::piece(const Piece& piece, int square) const
 	int i = 1 + m_squareCount * m_pieceTypeCount * piece.side() +
 		piece.type() * m_squareCount + square;
 	return m_keys[i];
+
+
+
+
 }
 
 quint64 Zobrist::reservePiece(const Piece& piece, int slot) const
@@ -123,13 +135,13 @@ quint64 Zobrist::reservePiece(const Piece& piece, int slot) const
 	return this->piece(piece, slot);
 }
 
-quint64 Zobrist::random64()
-{
-	quint64 random1 = (quint64)random32();
-	quint64 random2 = (quint64)random32();
-	quint64 random3 = (quint64)random32();
-
-	return random1 ^ (random2 << 31) ^ (random3 << 62);
-}
+//quint64 Zobrist::random64()
+//{
+//	quint64 random1 = (quint64)random32();
+//	quint64 random2 = (quint64)random32();
+//	quint64 random3 = (quint64)random32();
+//
+//	return random1 ^ (random2 << 31) ^ (random3 << 62);
+//}
 
 } // namespace Chess
