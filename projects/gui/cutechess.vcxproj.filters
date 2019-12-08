@@ -364,14 +364,14 @@
     <QtMoc Include="src\tournamentsettingswidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\capture.h">
+      <Filter>Source Files\Capture</Filter>
+    </QtMoc>
     <QtMoc Include="src\gamewall.cpp">
       <Filter>Source Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gamedatabasedlg.cpp">
       <Filter>Source Files\gameDatabase</Filter>
-    </QtMoc>
-    <QtMoc Include="src\capture.h">
-      <Filter>Source Files\Capture</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
