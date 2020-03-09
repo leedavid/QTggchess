@@ -21,6 +21,8 @@
 #include "graphicspiece.h"
 #include <QSvgRenderer>
 
+#include <qdebug.h>
+
 // 绘制棋子
 GraphicsPiece::GraphicsPiece(const Chess::Piece& piece,
 			     qreal squareSize,
@@ -35,6 +37,9 @@ GraphicsPiece::GraphicsPiece(const Chess::Piece& piece,
 	  m_renderer(renderer),
 	  m_container(nullptr)
 {
+	squareSize *= 1.2;
+	m_boundingRect.setRect(-squareSize / 2, -squareSize / 2,
+		squareSize, squareSize);
 	setAcceptedMouseButtons(Qt::LeftButton);
 	setCacheMode(DeviceCoordinateCache);
 }
@@ -48,7 +53,7 @@ int GraphicsPiece::type() const
 
 QRectF GraphicsPiece::boundingRect() const
 {
-	return m_rect;
+	return m_boundingRect;
 }
 
 void GraphicsPiece::paint(QPainter* painter,
@@ -61,6 +66,10 @@ void GraphicsPiece::paint(QPainter* painter,
 	QRectF bounds(m_renderer->boundsOnElement(m_elementId));
 	qreal ar = bounds.width() / bounds.height();
 	qreal width = m_rect.width() * 0.95;  // was 0.8 棋子相对格子的比例
+
+	if (pieceSelected) {
+		width *= 1.2;
+	}
 
 	if (ar > 1.0)
 	{
@@ -90,6 +99,20 @@ QGraphicsItem* GraphicsPiece::container() const
 void GraphicsPiece::setContainer(QGraphicsItem* item)
 {
 	m_container = item;
+}
+
+void GraphicsPiece::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+	pieceSelected = true;
+	QGraphicsObject::mousePressEvent(event);
+	update();
+}
+
+void GraphicsPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+	pieceSelected = false;
+	QGraphicsObject::mouseReleaseEvent(event);
+	update();
 }
 
 void GraphicsPiece::restoreParent()

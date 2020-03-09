@@ -227,7 +227,7 @@ class LIB_EXPORT ChessPlayer : public QObject
 		/*! Emitted when player's name is changed. */
 		void nameChanged(const QString& name);
 
-	protected slots:
+	public slots:
 		/*!
 		 * Called when the player's process or connection
 		 * crashes unexpectedly.
@@ -242,7 +242,7 @@ class LIB_EXPORT ChessPlayer : public QObject
 		 */
 		virtual void onTimeout();
 
-	protected:
+	public:
 		/*! Returns the chessboard on which the player is playing. */
 		Chess::Board* board();
 

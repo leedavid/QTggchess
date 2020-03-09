@@ -34,6 +34,7 @@
 #include <QWindow>
 #include <QSettings>
 #include <QDesktopWidget>
+#include <qtoolbutton.h>
 
 #include <board/boardfactory.h>
 #include <chessgame.h>
@@ -43,6 +44,7 @@
 #include <playerbuilder.h>
 #include <chessplayer.h>
 #include <humanbuilder.h>
+#include <enginebuilder.h>
 #include <tournament.h>
 
 #include "cutechessapp.h"
@@ -59,6 +61,8 @@
 #include "evalwidget.h"
 #include "boardview/boardscene.h"
 #include "tournamentresultsdlg.h"
+
+#include "BoardEditor.h"
 
 #include <pgnstream.h>
 #include <pgngameentry.h>
@@ -146,6 +150,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::createActions()
 {
+	m_editBoardAct = new QAction(tr("编辑局面"), this);
+
 	m_newGameAct = new QAction(tr("&新建对局..."), this);
 	m_newGameAct->setShortcut(QKeySequence::New);
 
@@ -223,6 +229,7 @@ void MainWindow::createActions()
 	m_aboutAct = new QAction(tr("&关于佳佳界面..."), this);
 	m_aboutAct->setMenuRole(QAction::AboutRole);
 
+	connect(m_editBoardAct, SIGNAL(triggered()), this, SLOT(editBoard()));
 	connect(m_newGameAct, SIGNAL(triggered()), this, SLOT(newGame()));
 	
 	connect(m_openPgnAct, SIGNAL(triggered()), this, SLOT(OpenPgnGame()));
@@ -292,6 +299,7 @@ void MainWindow::createActions()
 void MainWindow::createMenus()
 {
 	m_gameMenu = menuBar()->addMenu(tr("&游戏"));
+	m_gameMenu->addAction(m_editBoardAct);
 	m_gameMenu->addAction(m_newGameAct);
 	m_gameMenu->addAction(m_openPgnAct);
 	m_gameMenu->addSeparator();
@@ -368,75 +376,93 @@ void MainWindow::createToolBars()
 	//QAction* actEngineAnalyze;    // 让引擎分析
 
 	// 主菜单工具条
-
-	// 连接其它棋盘
-	this->actLinkChessBoard = new QAction(this);
-	this->actLinkChessBoard->setObjectName(QStringLiteral("LinkChessBoard"));
-	QIcon iconLinkChessBoard;
-	iconLinkChessBoard.addFile(QStringLiteral(":/icon/Links.ico"),
-		QSize(), QIcon::Normal, QIcon::Off);
-	this->actLinkChessBoard->setIcon(iconLinkChessBoard);
-	this->actLinkChessBoard->setText("连线");
-	this->actLinkChessBoard->setToolTip("连接其它棋盘");
-
-	// 让引擎思考
-	this->actEngineThink = new QAction(this);
-	this->actEngineThink->setObjectName(QStringLiteral("EngineThink"));
-	QIcon iconEngineThink;
-	iconEngineThink.addFile(QStringLiteral(":/icon/thought-balloon.ico"),
-		QSize(), QIcon::Normal, QIcon::Off);
-	this->actEngineThink->setIcon(iconEngineThink);
-	this->actEngineThink->setText("思考");
-	this->actEngineThink->setToolTip("让引擎思考当前棋局，并自动走棋");
-
-	// 让引擎分析
-	this->actEngineAnalyze = new QAction(this);
-	this->actEngineAnalyze->setObjectName(QStringLiteral("EngineAnalyze"));
-	QIcon iconEngineAnalyze;
-	iconEngineAnalyze.addFile(QStringLiteral(":/icon/analyze.ico"),
-		QSize(), QIcon::Normal, QIcon::Off);
-	this->actEngineAnalyze->setIcon(iconEngineAnalyze);
-	this->actEngineAnalyze->setText("分析");
-	this->actEngineAnalyze->setToolTip("让引擎分析当前棋局");
-
-	// 让引擎分析
-	this->actEngineStop = new QAction(this);
-	this->actEngineStop->setObjectName(QStringLiteral("EngineStop"));
-	QIcon iconEngineStop;
-	iconEngineStop.addFile(QStringLiteral(":/icon/stop.ico"),
-		QSize(), QIcon::Normal, QIcon::Off);
-	this->actEngineStop->setIcon(iconEngineStop);
-	this->actEngineStop->setText("停止");
-	this->actEngineStop->setToolTip("让引擎停止思考");
-
-	// 引擎设置
-	this->actEngineSetting = new QAction(this);
-	this->actEngineSetting->setObjectName(QStringLiteral("EngineSetting"));
-	QIcon iconEngineSetting;
-	iconEngineSetting.addFile(QStringLiteral(":/icon/Settings.ico"),
-		QSize(), QIcon::Normal, QIcon::Off);
-	this->actEngineSetting->setIcon(iconEngineSetting);
-	this->actEngineSetting->setText("设置");
-	this->actEngineSetting->setToolTip("设置引擎参数");
-
 	this->mainToolbar = new QToolBar(this);
 	this->mainToolbar->setObjectName(QStringLiteral("mainToolBar"));
 	this->mainToolbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //  ToolButtonTextUnderIcon); ToolButtonIconOnly
-
-
-	//this->mainToolbar->setMovable(false);
-	//this->mainToolbar->setAllowedAreas(Qt::TopToolBarArea);
-
+	this->mainToolbar->setMovable(false);
+	this->mainToolbar->setAllowedAreas(Qt::TopToolBarArea);
 	this->addToolBar(Qt::TopToolBarArea, this->mainToolbar);
 
-	this->mainToolbar->addAction(this->actLinkChessBoard);
-	this->mainToolbar->addAction(this->actEngineThink);
-	this->mainToolbar->addAction(this->actEngineAnalyze);
-	this->mainToolbar->addAction(this->actEngineStop);   
-	this->mainToolbar->addAction(this->actEngineSetting);   
+	// 引擎执红
+	this->tbtnEnginePlayRed = new QToolButton(this);
+	this->tbtnEnginePlayRed->setCheckable(true);
+	this->tbtnEnginePlayRed->setObjectName(QStringLiteral("EnginePlayRed"));
+	QIcon iconEnginePlayRed;
+	iconEnginePlayRed.addFile(QStringLiteral(":/icon/playred.ico"), QSize(), QIcon::Normal, QIcon::Off);
+	this->tbtnEnginePlayRed->setIcon(iconEnginePlayRed);
+	this->tbtnEnginePlayRed->setToolTip("电脑执红");
+	this->mainToolbar->addWidget(this->tbtnEnginePlayRed);
+	connect(this->tbtnEnginePlayRed, SIGNAL(toggled(bool)), this, SLOT(onPlayRedToggled(bool)));
+
+	// 引擎执黑
+	this->tbtnEnginePlayBlack = new QToolButton(this);
+	this->tbtnEnginePlayBlack->setCheckable(true);
+	this->tbtnEnginePlayBlack->setObjectName(QStringLiteral("EnginePlayBlack"));
+	QIcon iconEnginePlayBlack;
+	iconEnginePlayBlack.addFile(QStringLiteral(":/icon/playblack.ico"), QSize(), QIcon::Normal, QIcon::Off);
+	this->tbtnEnginePlayBlack->setIcon(iconEnginePlayBlack);
+	this->tbtnEnginePlayBlack->setToolTip("电脑执黑");
+	this->mainToolbar->addWidget(this->tbtnEnginePlayBlack);
+	connect(this->tbtnEnginePlayBlack, SIGNAL(toggled(bool)), this, SLOT(onPlayBlackToggled(bool)));
+
+	//// 连接其它棋盘
+	//this->actLinkChessBoard = new QAction(this);
+	//this->actLinkChessBoard->setObjectName(QStringLiteral("LinkChessBoard"));
+	//QIcon iconLinkChessBoard;
+	//iconLinkChessBoard.addFile(QStringLiteral(":/icon/Links.ico"),
+	//	QSize(), QIcon::Normal, QIcon::Off);
+	//this->actLinkChessBoard->setIcon(iconLinkChessBoard);
+	//this->actLinkChessBoard->setText("连线");
+	//this->actLinkChessBoard->setToolTip("连接其它棋盘");
+
+	//// 让引擎思考
+	//this->actEngineThink = new QAction(this);
+	//this->actEngineThink->setObjectName(QStringLiteral("EngineThink"));
+	//QIcon iconEngineThink;
+	//iconEngineThink.addFile(QStringLiteral(":/icon/thought-balloon.ico"),
+	//	QSize(), QIcon::Normal, QIcon::Off);
+	//this->actEngineThink->setIcon(iconEngineThink);
+	//this->actEngineThink->setText("思考");
+	//this->actEngineThink->setToolTip("让引擎思考当前棋局，并自动走棋");
+
+	//// 让引擎分析
+	//this->actEngineAnalyze = new QAction(this);
+	//this->actEngineAnalyze->setObjectName(QStringLiteral("EngineAnalyze"));
+	//QIcon iconEngineAnalyze;
+	//iconEngineAnalyze.addFile(QStringLiteral(":/icon/analyze.ico"),
+	//	QSize(), QIcon::Normal, QIcon::Off);
+	//this->actEngineAnalyze->setIcon(iconEngineAnalyze);
+	//this->actEngineAnalyze->setText("分析");
+	//this->actEngineAnalyze->setToolTip("让引擎分析当前棋局");
+
+	//// 让引擎分析
+	//this->actEngineStop = new QAction(this);
+	//this->actEngineStop->setObjectName(QStringLiteral("EngineStop"));
+	//QIcon iconEngineStop;
+	//iconEngineStop.addFile(QStringLiteral(":/icon/stop.ico"),
+	//	QSize(), QIcon::Normal, QIcon::Off);
+	//this->actEngineStop->setIcon(iconEngineStop);
+	//this->actEngineStop->setText("停止");
+	//this->actEngineStop->setToolTip("让引擎停止思考");
+
+	//// 引擎设置
+	//this->actEngineSetting = new QAction(this);
+	//this->actEngineSetting->setObjectName(QStringLiteral("EngineSetting"));
+	//QIcon iconEngineSetting;
+	//iconEngineSetting.addFile(QStringLiteral(":/icon/Settings.ico"),
+	//	QSize(), QIcon::Normal, QIcon::Off);
+	//this->actEngineSetting->setIcon(iconEngineSetting);
+	//this->actEngineSetting->setText("设置");
+	//this->actEngineSetting->setToolTip("设置引擎参数");
+
+	//this->mainToolbar->addAction(this->actLinkChessBoard);
+	//this->mainToolbar->addAction(this->actEngineThink);
+	//this->mainToolbar->addAction(this->actEngineAnalyze);
+	//this->mainToolbar->addAction(this->actEngineStop);   
+	//this->mainToolbar->addAction(this->actEngineSetting);   
 
 
-	connect(this->actLinkChessBoard, &QAction::triggered, this, &MainWindow::onLXchessboard);
+	//connect(this->actLinkChessBoard, &QAction::triggered, this, &MainWindow::onLXchessboard);
 
 
 	//connect(m_tabBar, SIGNAL(currentChanged(int)),
@@ -810,6 +836,34 @@ void MainWindow::closeTab(int index)
 void MainWindow::closeCurrentGame()
 {
 	closeTab(m_tabBar->currentIndex());
+}
+
+void MainWindow::editBoard() {
+	BoardEditorDlg dlgEditBoard(m_tabs.at(m_tabBar->currentIndex()).m_game->board(), this);
+	if (dlgEditBoard.exec() != QDialog::Accepted)
+		return;
+
+	QString fen = dlgEditBoard.fenString();
+	qDebug() << "编辑fen: " << fen;
+
+	QString variant = m_game.isNull() || m_game->board() == nullptr ?
+		"standard" : m_game->board()->variant();
+
+	auto board = Chess::BoardFactory::create(variant);
+	board->setFenString(fen);
+
+	//board->legalMoves();
+	auto game = new ChessGame(board, new PgnGame());
+	game->setTimeControl(TimeControl("inf"));
+	game->setStartingFen(fen);
+	game->pause();
+
+	connect(game, &ChessGame::initialized, this, &MainWindow::addGame);
+	connect(game, &ChessGame::startFailed, this, &MainWindow::onGameStartFailed);
+
+	CuteChessApplication::instance()->gameManager()->newGame(game,
+		new HumanBuilder(CuteChessApplication::userName()),
+		new HumanBuilder(CuteChessApplication::userName()));
 }
 
 void MainWindow::newGame()
@@ -1471,6 +1525,20 @@ void MainWindow::onLXchessboard()
 	//}
 
 }
+
+
+void MainWindow::onPlayRedToggled(bool checked) {
+	if (checked) {
+		EngineConfiguration config = CuteChessApplication::instance()->engineManager()->engineAt(0);
+		m_tabs.at(m_tabBar->currentIndex()).m_game->setPlayer(Chess::Side::White, (new EngineBuilder(config))->create(nullptr, nullptr, this, nullptr));
+	}
+}
+
+
+void MainWindow::onPlayBlackToggled(bool checked) {
+	
+}
+
 
 void MainWindow::addDefaultWindowMenu()
 {

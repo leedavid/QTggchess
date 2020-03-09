@@ -21,6 +21,7 @@
 
 #include <QMainWindow>
 #include <QPointer>
+#include <qtoolbutton.h>
 #include <board/side.h>
 
 #include "capture.h"
@@ -70,6 +71,7 @@ class MainWindow : public QMainWindow
 		void closeCurrentGame();
 
 	private slots:
+		void editBoard();
 		void newGame();
 		void OpenPgnGame();
 		void newTournament();
@@ -103,6 +105,11 @@ class MainWindow : public QMainWindow
 
 		// 連线棋盘
 		void onLXchessboard();
+
+		// 电脑执红
+		void onPlayRedToggled(bool checked);
+		// 电脑执黑
+		void onPlayBlackToggled(bool checked);
 
 	private:
 		struct TabData
@@ -145,6 +152,8 @@ class MainWindow : public QMainWindow
 		QMenu* m_helpMenu;
 
 		QToolBar* mainToolbar;        // 主菜单工具条
+		QToolButton* tbtnEnginePlayRed;     // 引擎执红
+		QToolButton* tbtnEnginePlayBlack;   // 引擎执黑
 		QAction* actLinkChessBoard;   // 连接其它棋盘
 		QAction* actEngineThink;      // 让引擎思考
 		QAction* actEngineStop;       // 让引擎停止
@@ -159,6 +168,7 @@ class MainWindow : public QMainWindow
 		PgnTagsModel* m_tagsModel;
 
 		QAction* m_quitGameAct;
+		QAction* m_editBoardAct;
 		QAction* m_newGameAct;
 		QAction* m_openPgnAct;             
 		QAction* m_adjudicateBlackWinAct;

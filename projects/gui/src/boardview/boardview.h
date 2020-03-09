@@ -35,6 +35,7 @@ class BoardView : public QGraphicsView
 	Q_OBJECT
 
 	public:
+
 		/*! Creates a new BoardView object that displays \a scene. */
 		explicit BoardView(QGraphicsScene* scene, QWidget* parent = nullptr);
 

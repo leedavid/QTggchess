@@ -87,9 +87,15 @@ class GraphicsPiece : public QGraphicsObject
 		 */
 		void restoreParent();
 
+protected:
+	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+
 	private:
+		bool pieceSelected = false;
 		Chess::Piece m_piece;
 		QRectF m_rect;
+		QRectF m_boundingRect;
 		QString m_elementId;
 		QSvgRenderer* m_renderer;
 		QGraphicsItem* m_container;

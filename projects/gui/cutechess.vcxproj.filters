@@ -212,6 +212,12 @@
     <ClCompile Include="src\capture.cpp">
       <Filter>Source Files\Capture</Filter>
     </ClCompile>
+    <ClCompile Include="BoardEditor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boardview\BasicBoardScene.cpp">
+      <Filter>Source Files\board_display</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\autoverticalscroller.h">
@@ -373,6 +379,12 @@
     <QtMoc Include="src\gamedatabasedlg.cpp">
       <Filter>Source Files\gameDatabase</Filter>
     </QtMoc>
+    <QtMoc Include="BoardEditor.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\boardview\BasicBoardScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include=".moc\moc_predefs.h.cbt">
@@ -453,6 +465,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ui\connectconfig.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\boardeditor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -550,6 +565,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res\icons\resource.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_boardeditor.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -294,6 +294,16 @@ class LIB_EXPORT Board
 		 */
 		virtual Result tablebaseResult(unsigned int* dtm = nullptr) const;
 
+		/*! Converts a Square object into a square index. */
+		int squareIndex(const Square& square) const;
+		/*!
+		 * Sets \a square to contain \a piece.
+		 *
+		 * This function also updates the zobrist position key, so
+		 * subclasses shouldn't mess with it directly.
+		 */
+		void setSquare(int square, Piece piece);
+		void setSideToMove(Side side);
 	protected:
 		/*!
 		 * Initializes the variant.
@@ -353,8 +363,6 @@ class LIB_EXPORT Board
 		Square chessSquare(int index) const;
 		/*! Converts a string into a Square object. */
 		Square chessSquare(const QString& str) const;
-		/*! Converts a Square object into a square index. */
-		int squareIndex(const Square& square) const;
 		/*! Converts a string into a square index. */
 		int squareIndex(const QString& str) const;
 		/*! Converts a square index into a string. */
@@ -494,13 +502,7 @@ class LIB_EXPORT Board
 		int arraySize() const;
 		/*! Returns the piece at \a square. */
 		Piece pieceAt(int square) const;
-		/*!
-		 * Sets \a square to contain \a piece.
-		 *
-		 * This function also updates the zobrist position key, so
-		 * subclasses shouldn't mess with it directly.
-		 */
-		void setSquare(int square, Piece piece);
+		 
 		/*! Returns the last move made in the game. */
 		const Move& lastMove() const;
 		/*!
@@ -596,6 +598,10 @@ inline void Board::setSquare(int square, Piece piece)
 		xorKey(m_zobrist->piece(piece, square));
 
 	old = piece;
+}
+
+inline void Board::setSideToMove(Side side) {
+	m_side = side;
 }
 
 inline int Board::plyCount() const
