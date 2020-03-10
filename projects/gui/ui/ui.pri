@@ -1,6 +1,7 @@
 DEPENDPATH += $$PWD
 
 FORMS += $$PWD/engineconfigdlg.ui \
+    $$PWD/boardeditor.ui \
 	 $$PWD/newgamedlg.ui \
 	 $$PWD/gamedatabasedlg.ui \
 	 $$PWD/importprogressdlg.ui \

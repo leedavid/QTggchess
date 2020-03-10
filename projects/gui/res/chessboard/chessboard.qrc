@@ -19,5 +19,7 @@
         <file>icon/analyze.ico</file>
         <file>icon/stop.ico</file>
         <file>icon/Settings.ico</file>
+        <file>icon/playblack.ico</file>
+        <file>icon/playred.ico</file>
     </qresource>
 </RCC>

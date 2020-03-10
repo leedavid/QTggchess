@@ -23,6 +23,7 @@
 #include "chessgame.h"
 #include "chessplayer.h"
 
+
 class GameInitializer : public QObject
 {
 	Q_OBJECT

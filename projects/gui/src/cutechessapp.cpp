@@ -45,7 +45,6 @@
 #include "gamewall.h"
 
 
-
 #ifndef Q_OS_WIN32
 #	include <sys/types.h>
 #	include <pwd.h>
