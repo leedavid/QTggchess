@@ -113,9 +113,9 @@ ChessGame* NewGameDialog::createGame() const
 	auto game = new ChessGame(board, pgn);
 
 	game->setTimeControl(ui->m_gameSettings->timeControl());
-	game->setAdjudicator(ui->m_gameSettings->adjudicator());
+	game->setAdjudicator(ui->m_gameSettings->adjudicator());  // 裁定设置
 
-	auto suite = ui->m_gameSettings->openingSuite();
+	auto suite = ui->m_gameSettings->openingSuite();          // 开局设定
 	if (suite)
 	{
 		int depth = ui->m_gameSettings->openingSuiteDepth();

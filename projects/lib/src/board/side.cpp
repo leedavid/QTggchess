@@ -22,7 +22,7 @@ namespace Chess {
 
 Side::Side(const QString& symbol)
 {
-	if (symbol == "w")
+	if (symbol == "w" || symbol == "r")
 		m_type = White;
 	else if (symbol == "b")
 		m_type = Black;

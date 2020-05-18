@@ -1526,7 +1526,7 @@ void MainWindow::onLXchessboard()
 
 }
 
-
+// ºì·½×ßÆå
 void MainWindow::onPlayRedToggled(bool checked) {
 	if (checked) {
 		EngineConfiguration config = CuteChessApplication::instance()->engineManager()->engineAt(0);
