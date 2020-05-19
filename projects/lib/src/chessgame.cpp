@@ -55,15 +55,16 @@ QString evalString(const MoveEvaluation& eval)
 
 ChessGame::ChessGame(Chess::Board* board, PgnGame* pgn, QObject* parent)
 	: QObject(parent),
-	  m_board(board),
-	  m_startDelay(0),
-	  m_finished(false),
-	  m_gameInProgress(false),
-	  m_paused(false),
-	  m_pgnInitialized(false),
-	  m_bookOwnership(false),
-	  m_boardShouldBeFlipped(false),
-	  m_pgn(pgn)
+	m_board(board),
+	m_startDelay(0),
+	m_finished(false),
+	m_gameInProgress(false),
+	m_paused(false),
+	m_pgnInitialized(false),
+	m_bookOwnership(false),
+	m_boardShouldBeFlipped(false),
+	m_pgn(pgn),
+	isGetSetting(false)
 {
 	Q_ASSERT(pgn != nullptr);
 
@@ -666,7 +667,7 @@ bool ChessGame::resetBoard()
 	else if (!m_startingFen.isEmpty())
 		m_startingFen = m_board->fenString();
 
-	this->isGetSetting = false; 
+	//this->isGetSetting = false; 
 
 	return true;
 }

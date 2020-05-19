@@ -61,6 +61,7 @@
 #include "evalwidget.h"
 #include "boardview/boardscene.h"
 #include "tournamentresultsdlg.h"
+#include <engineconfiguration.h>
 
 #include "BoardEditor.h"
 
@@ -379,7 +380,7 @@ void MainWindow::createToolBars()
 	this->mainToolbar = new QToolBar(this);
 	this->mainToolbar->setObjectName(QStringLiteral("mainToolBar"));
 	this->mainToolbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //  ToolButtonTextUnderIcon); ToolButtonIconOnly
-	this->mainToolbar->setMovable(false);
+	this->mainToolbar->setMovable(true);
 	this->mainToolbar->setAllowedAreas(Qt::TopToolBarArea);
 	this->addToolBar(Qt::TopToolBarArea, this->mainToolbar);
 
@@ -895,7 +896,7 @@ void MainWindow::newGame()  // 新建一局游戏
 		this, SLOT(addGame(ChessGame*)));
 	connect(game, SIGNAL(startFailed(ChessGame*)),
 		this, SLOT(onGameStartFailed(ChessGame*)));
-	CuteChessApplication::instance()->gameManager()->newGame(game,
+	CuteChessApplication::instance()->gameManager()->newGame(game,             // 将这个新棋局添加到Tab表中
 		builders[Chess::Side::White], builders[Chess::Side::Black]);
 }
 
@@ -1526,15 +1527,64 @@ void MainWindow::onLXchessboard()
 
 }
 
+PlayerBuilder* MainWindow::mainCreatePlayerBuilder(Chess::Side side, bool isCPU) const
+{
+	if (isCPU) //(playerType(side) == CPU)
+	{
+		
+		//auto config =  m_engineConfig[side];
+		
+		EngineManager* engineManager = CuteChessApplication::instance()->engineManager();
+		auto config = engineManager->engineAt(1);
+
+		QSettings s;
+		s.beginGroup("games");
+
+		bool ponder = s.value("pondering").toBool();
+		config.setPondering(ponder);
+		// 是否要后台思考
+		// ui->m_gameSettings->applyEngineConfiguration(&config);
+
+		s.endGroup();
+
+		return new EngineBuilder(config);
+		
+	}
+	bool ignoreFlag = QSettings().value("games/human_can_play_after_timeout",
+		true).toBool();
+	return new HumanBuilder(CuteChessApplication::userName(), ignoreFlag);
+}
+
+
+
+
 // 红方走棋
 void MainWindow::onPlayRedToggled(bool checked) {
+	this->onPlayWhich(checked, Chess::Side::White);
+}
+
+
+
+void MainWindow::onPlayBlackToggled(bool checked) {
+	this->onPlayWhich(checked, Chess::Side::Black);
+}
+
+void MainWindow::onPlayWhich(bool checked, Chess::Side side)
+{
 	if (checked) {
 		//EngineConfiguration config = CuteChessApplication::instance()->engineManager()->engineAt(0);
 		//m_tabs.at(m_tabBar->currentIndex()).m_game->setPlayer(Chess::Side::White, (new EngineBuilder(config))->create(nullptr, nullptr, this, nullptr));
 
-		auto cur_game = m_tabs.at(m_tabBar->currentIndex()).m_game;
+		//auto cur_game = m_tabs.at(m_tabBar->currentIndex()).m_game;
+		//this->m_game
 
-		if (cur_game->isGetSetting == false) {
+		if (this->m_game->isGetSetting == false) {
+
+			//EngineManager* engineManager = CuteChessApplication::instance()->engineManager();
+
+
+			bool ok = true;
+
 			// 得到当前的设置
 			QSettings s;
 
@@ -1542,10 +1592,15 @@ void MainWindow::onPlayRedToggled(bool checked) {
 			//const QString variant1 = s.value("variant").toString();
 			const QString variant = "standard"; // s.value("variant").toString();    // 游戏类型
 
+			auto board = Chess::BoardFactory::create(variant);
+			auto pgn = new PgnGame();
+			pgn->setSite(QSettings().value("pgn/site").toString());
+			auto game = new ChessGame(board, pgn);
+
 			// 时间控制
 			TimeControl m_timeControl;
 			m_timeControl.readSettings(&s);
-			cur_game->setTimeControl(m_timeControl);
+			game->setTimeControl(m_timeControl);
 
 			// 裁定设置
 			s.beginGroup("draw_adjudication");
@@ -1554,38 +1609,72 @@ void MainWindow::onPlayRedToggled(bool checked) {
 				s.value("move_count").toInt(),
 				s.value("score").toInt());
 			s.endGroup();
+			game->setAdjudicator(m_adjudicator);
+
+			//auto suite = ui->m_gameSettings->openingSuite();          // 开局初始局面设定
+			//if (suite)
+			//{
+			//	int depth = ui->m_gameSettings->openingSuiteDepth();
+			//	ok = game->setMoves(suite->nextGame(depth));
+			//	delete suite;
+			//}
+
+			//auto book = ui->m_gameSettings->openingBook();           // 开局库
+			//if (book)
+			//{
+			//	int depth = ui->m_gameSettings->bookDepth();
+			//	game->setBookOwnership(true);
+
+			//	for (int i = 0; i < 2; i++)
+			//	{
+			//		auto side = Chess::Side::Type(i);
+			//		if (playerType(side) == CPU)
+			//			game->setOpeningBook(book, side, depth);
+			//	}
+			//}
 
 			s.endGroup();   // 
+
+			if (!ok)
+			{
+				delete game;
+				QMessageBox::critical(this, tr("Could not initialize game"),
+					tr("The game could not be initialized "
+						"due to an invalid opening."));
+				return;
+			}
+			game->isGetSetting = true;    // 棋局已设置好了
+
+			bool isWhiteCPU = (side == Chess::Side::White);
+			bool isBlackCPU = (side == Chess::Side::Black);
+
+			PlayerBuilder* builders[2] = {
+				mainCreatePlayerBuilder(Chess::Side::White, isWhiteCPU),
+				mainCreatePlayerBuilder(Chess::Side::Black, isBlackCPU)
+			};
+
+
+			if (builders[game->board()->sideToMove()]->isHuman())
+				game->pause();
+
+			// Start the game in a new tab
+			connect(game, SIGNAL(initialized(ChessGame*)),
+				this, SLOT(addGame(ChessGame*)));
+			connect(game, SIGNAL(startFailed(ChessGame*)),
+				this, SLOT(onGameStartFailed(ChessGame*)));
+			CuteChessApplication::instance()->gameManager()->newGame(game,             // 将这个新棋局添加到Tab表中
+				builders[Chess::Side::White], builders[Chess::Side::Black]);
+
 		}
 		else {
 
 		}
 
+
 	}
 	else { // 停止红方走棋
 
 	}
-}
-
-//GameAdjudicator GameSettingsWidget::adjudicator() const
-//{
-//	GameAdjudicator ret;
-//	ret.setDrawThreshold(ui->m_drawMoveNumberSpin->value(),
-//		ui->m_drawMoveCountSpin->value(),
-//		ui->m_drawScoreSpin->value());
-//	ret.setResignThreshold(ui->m_resignMoveCountSpin->value(),
-//		-ui->m_resignScoreSpin->value(),
-//		ui->m_resignTwoSidedRadio->isEnabled()
-//		&& ui->m_resignTwoSidedRadio->isChecked());
-//	ret.setMaximumGameLength(ui->m_maxGameLengthSpin->value());
-//	ret.setTablebaseAdjudication(ui->m_tbCheck->isChecked());
-//
-//	return ret;
-//}
-
-
-void MainWindow::onPlayBlackToggled(bool checked) {
-	
 }
 
 

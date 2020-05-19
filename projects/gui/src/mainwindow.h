@@ -24,6 +24,9 @@
 #include <qtoolbutton.h>
 #include <board/side.h>
 
+#include <humanbuilder.h>
+
+
 #include "capture.h"
 //#include "TestThread.h"
 
@@ -106,10 +109,13 @@ class MainWindow : public QMainWindow
 		// ßBÏßÆåÅÌ
 		void onLXchessboard();
 
-		// µçÄÔÖ´ºì
-		void onPlayRedToggled(bool checked);
-		// µçÄÔÖ´ºÚ
-		void onPlayBlackToggled(bool checked);
+		PlayerBuilder* mainCreatePlayerBuilder(Chess::Side side, bool isCPU) const;
+		//EngineConfiguration m_engineConfig[2];
+
+		
+		void onPlayRedToggled(bool checked);	// µçÄÔÖ´ºì	
+		void onPlayBlackToggled(bool checked);  // µçÄÔÖ´ºÚ
+		void onPlayWhich(bool checked, Chess::Side side);
 
 	private:
 		struct TabData

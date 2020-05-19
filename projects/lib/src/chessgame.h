@@ -33,7 +33,7 @@ namespace Chess { class Board; }
 class ChessPlayer;
 class OpeningBook;
 class MoveEvaluation;
-
+//class EngineConfiguration;
 
 class LIB_EXPORT ChessGame : public QObject
 {
@@ -83,6 +83,7 @@ class LIB_EXPORT ChessGame : public QObject
 		};
 
 		bool isGetSetting;    // 是否从设置文件中得到了设置数据
+		//EngineConfiguration m_engineConfig[2];
 
 	public slots:
 		void start();

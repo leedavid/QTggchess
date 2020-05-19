@@ -143,6 +143,8 @@ ChessGame* NewGameDialog::createGame() const
 		return nullptr;
 	}
 
+	game->isGetSetting = true;    // 棋局已设置好了
+
 	return game;
 }
 
