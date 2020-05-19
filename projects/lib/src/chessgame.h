@@ -82,6 +82,8 @@ class LIB_EXPORT ChessGame : public QObject
 			this->emitLastMove();
 		};
 
+		bool isGetSetting;    // 是否从设置文件中得到了设置数据
+
 	public slots:
 		void start();
 		void pause();

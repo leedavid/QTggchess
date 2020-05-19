@@ -115,7 +115,7 @@ ChessGame* NewGameDialog::createGame() const
 	game->setTimeControl(ui->m_gameSettings->timeControl());
 	game->setAdjudicator(ui->m_gameSettings->adjudicator());  // 裁定设置
 
-	auto suite = ui->m_gameSettings->openingSuite();          // 开局设定
+	auto suite = ui->m_gameSettings->openingSuite();          // 开局初始局面设定
 	if (suite)
 	{
 		int depth = ui->m_gameSettings->openingSuiteDepth();
@@ -123,7 +123,7 @@ ChessGame* NewGameDialog::createGame() const
 		delete suite;
 	}
 
-	auto book = ui->m_gameSettings->openingBook();
+	auto book = ui->m_gameSettings->openingBook();           // 开局库
 	if (book)
 	{
 		int depth = ui->m_gameSettings->bookDepth();

@@ -866,7 +866,7 @@ void MainWindow::editBoard() {
 		new HumanBuilder(CuteChessApplication::userName()));
 }
 
-void MainWindow::newGame()
+void MainWindow::newGame()  // 新建一局游戏
 {
 	EngineManager* engineManager = CuteChessApplication::instance()->engineManager();
 	NewGameDialog dlg(engineManager, this);
@@ -1529,10 +1529,59 @@ void MainWindow::onLXchessboard()
 // 红方走棋
 void MainWindow::onPlayRedToggled(bool checked) {
 	if (checked) {
-		EngineConfiguration config = CuteChessApplication::instance()->engineManager()->engineAt(0);
-		m_tabs.at(m_tabBar->currentIndex()).m_game->setPlayer(Chess::Side::White, (new EngineBuilder(config))->create(nullptr, nullptr, this, nullptr));
+		//EngineConfiguration config = CuteChessApplication::instance()->engineManager()->engineAt(0);
+		//m_tabs.at(m_tabBar->currentIndex()).m_game->setPlayer(Chess::Side::White, (new EngineBuilder(config))->create(nullptr, nullptr, this, nullptr));
+
+		auto cur_game = m_tabs.at(m_tabBar->currentIndex()).m_game;
+
+		if (cur_game->isGetSetting == false) {
+			// 得到当前的设置
+			QSettings s;
+
+			s.beginGroup("games");
+			//const QString variant1 = s.value("variant").toString();
+			const QString variant = "standard"; // s.value("variant").toString();    // 游戏类型
+
+			// 时间控制
+			TimeControl m_timeControl;
+			m_timeControl.readSettings(&s);
+			cur_game->setTimeControl(m_timeControl);
+
+			// 裁定设置
+			s.beginGroup("draw_adjudication");
+			GameAdjudicator m_adjudicator;
+			m_adjudicator.setDrawThreshold(s.value("move_number").toInt(),
+				s.value("move_count").toInt(),
+				s.value("score").toInt());
+			s.endGroup();
+
+			s.endGroup();   // 
+		}
+		else {
+
+		}
+
+	}
+	else { // 停止红方走棋
+
 	}
 }
+
+//GameAdjudicator GameSettingsWidget::adjudicator() const
+//{
+//	GameAdjudicator ret;
+//	ret.setDrawThreshold(ui->m_drawMoveNumberSpin->value(),
+//		ui->m_drawMoveCountSpin->value(),
+//		ui->m_drawScoreSpin->value());
+//	ret.setResignThreshold(ui->m_resignMoveCountSpin->value(),
+//		-ui->m_resignScoreSpin->value(),
+//		ui->m_resignTwoSidedRadio->isEnabled()
+//		&& ui->m_resignTwoSidedRadio->isChecked());
+//	ret.setMaximumGameLength(ui->m_maxGameLengthSpin->value());
+//	ret.setTablebaseAdjudication(ui->m_tbCheck->isChecked());
+//
+//	return ret;
+//}
 
 
 void MainWindow::onPlayBlackToggled(bool checked) {

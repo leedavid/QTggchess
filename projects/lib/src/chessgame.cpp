@@ -666,6 +666,8 @@ bool ChessGame::resetBoard()
 	else if (!m_startingFen.isEmpty())
 		m_startingFen = m_board->fenString();
 
+	this->isGetSetting = false; 
+
 	return true;
 }
 
