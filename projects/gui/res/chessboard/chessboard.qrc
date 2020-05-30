@@ -21,5 +21,10 @@
         <file>icon/Settings.ico</file>
         <file>icon/playblack.ico</file>
         <file>icon/playred.ico</file>
+        <file>icon/backThink.png</file>
+        <file>icon/BlackLink.png</file>
+        <file>icon/computer_84314.png</file>
+        <file>icon/computer_123003.png</file>
+        <file>icon/RedLink.png</file>
     </qresource>
 </RCC>

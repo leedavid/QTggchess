@@ -74,7 +74,6 @@ namespace Chess {
 		this->m_Ready_LXset = true;
 
 		this->m_LxInfo.m_PieceCatlog = "0";
-
 		this->m_connectedBoard_OK = false;  // 
 
 	}
@@ -321,31 +320,34 @@ namespace Chess {
 	// 线程运行
 	void Capture::run() {
 
-		// 发送一个走步
-		//{
-		//	m_msg.mType = stCaptureMsg::eMove;
-		//	m_msg.m = m_board->moveFromString("h2e2");
-		//	emit CapSendSignal(m_msg);	
-		//	return;
-		//}
-
-		return;
+		bMustStop = false;
+		bSendInitFen = false;
 
 		//this->GetMoveFromBoard();
 		if (!isSolutionReady()) {	
-
 			SendMessageToMain("出错啦", "连线方案还没有准备好！");
-
 			return;
 		}
 
 		while (true) {
-			if (GetLxBoardChess()) {
 
-				QString fen = this->m_LxBoard[0].fen;
-				SendFenToMain(fen);
+			if (bMustStop) break;
+
+			if (bSendInitFen == false) {
+				if (GetLxBoardChess(true)) {
+					QString fen = this->m_LxBoard[0].fen;
+					SendFenToMain(fen);
+					bSendInitFen = true;
+				}
+			}
+			else {
+				// 读取对方的走步，发送到主线程上
+				int a = 0;
+
 			}
 		}
+
+		SendMessageToMain("OK", "你已退出连线！");
 	}
 
 	Chess::Move Capture::GetMoveFromBoard()
@@ -361,7 +363,12 @@ namespace Chess {
 	// 启动线程
 	void Capture::on_start()
 	{
-		this->start();
+		this->start();	
+	}
+
+	void Capture::on_stop()
+	{
+		bMustStop = true;
 	}
 
 	// 得到所有的棋子列表

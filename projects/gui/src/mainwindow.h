@@ -107,7 +107,8 @@ class MainWindow : public QMainWindow
 		void processCapMsg(stCaptureMsg msg);
 
 		// 連线棋盘
-		void onLXchessboard();
+		void onLXchessboardStart();
+		void onLXchessboardStop();
 
 		PlayerBuilder* mainCreatePlayerBuilder(Chess::Side side, bool isCPU) const;
 		//EngineConfiguration m_engineConfig[2];
@@ -115,7 +116,11 @@ class MainWindow : public QMainWindow
 		
 		void onPlayRedToggled(bool checked);	// 电脑执红	
 		void onPlayBlackToggled(bool checked);  // 电脑执黑
-		void onPlayWhich(bool checked, Chess::Side side);
+		void onPlayWhich(bool checked); // , Chess::Side side);
+
+		void onLinkRedToggled(bool checked); // 电脑执红连线
+		void onLinkBlackToggled(bool checked); // 电脑执红连线
+		void onLinkWhich(bool checked);
 
 	private:
 		struct TabData
@@ -157,12 +162,14 @@ class MainWindow : public QMainWindow
 		QMenu* m_windowMenu;
 		QMenu* m_helpMenu;
 
-		QToolBar* mainToolbar;        // 主菜单工具条
+		QToolBar* mainToolbar;              // 主菜单工具条
 		QToolButton* tbtnEnginePlayRed;     // 引擎执红
 		QToolButton* tbtnEnginePlayBlack;   // 引擎执黑
-		QAction* actLinkChessBoard;   // 连接其它棋盘
-		QAction* actEngineThink;      // 让引擎思考
-		QAction* actEngineStop;       // 让引擎停止
+		QToolButton* tbtnLinkChessBoardRed;      // 连接其它棋盘，红方电脑 
+		QToolButton* tbtnLinkChessBoardBlack;    // 连接其它棋盘，黑方电脑
+
+		//QAction* actEngineThink;      // 让引擎思考
+		QAction* actEngineStop;       // 让引擎停止思考，立即出步
 		QAction* actEngineAnalyze;    // 让引擎分析
 		QAction* actEngineSetting;    // 引擎设置参数
 
@@ -213,6 +220,11 @@ class MainWindow : public QMainWindow
 		bool m_readyToClose;
 
 		bool m_firstTabAutoCloseEnabled;
+		bool m_myClosePreTab;
+		bool m_onPlayRedToggled;
+		bool m_onPlayBlackToggled;
+		bool m_onLinkRedToggled;
+		bool m_onLinkBlackToggled;
 };
 
 #endif // MAINWINDOW_H

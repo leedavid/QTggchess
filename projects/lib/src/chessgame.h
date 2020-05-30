@@ -35,6 +35,10 @@ class OpeningBook;
 class MoveEvaluation;
 //class EngineConfiguration;
 
+//enum class GameState {
+//    
+//};
+
 class LIB_EXPORT ChessGame : public QObject
 {
 	Q_OBJECT

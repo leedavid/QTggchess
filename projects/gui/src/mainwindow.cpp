@@ -89,7 +89,12 @@ MainWindow::MainWindow(ChessGame* game)
 	: m_game(nullptr),
 	  m_closing(false),
 	  m_readyToClose(false),
-	  m_firstTabAutoCloseEnabled(true)
+	  m_firstTabAutoCloseEnabled(true),
+	m_myClosePreTab(false),
+	m_onPlayRedToggled(false),
+	m_onPlayBlackToggled(false),
+	m_onLinkRedToggled(false),
+	m_onLinkBlackToggled(false)
 {
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setDockNestingEnabled(true);
@@ -389,9 +394,9 @@ void MainWindow::createToolBars()
 	this->tbtnEnginePlayRed->setCheckable(true);
 	this->tbtnEnginePlayRed->setObjectName(QStringLiteral("EnginePlayRed"));
 	QIcon iconEnginePlayRed;
-	iconEnginePlayRed.addFile(QStringLiteral(":/icon/playred.ico"), QSize(), QIcon::Normal, QIcon::Off);
+	iconEnginePlayRed.addFile(QStringLiteral(":/icon/computer_84314.png"), QSize(), QIcon::Normal, QIcon::Off);
 	this->tbtnEnginePlayRed->setIcon(iconEnginePlayRed);
-	this->tbtnEnginePlayRed->setToolTip("电脑执红");
+	this->tbtnEnginePlayRed->setToolTip("电脑执红走棋");
 	this->mainToolbar->addWidget(this->tbtnEnginePlayRed);
 	connect(this->tbtnEnginePlayRed, SIGNAL(toggled(bool)), this, SLOT(onPlayRedToggled(bool)));
 
@@ -400,11 +405,56 @@ void MainWindow::createToolBars()
 	this->tbtnEnginePlayBlack->setCheckable(true);
 	this->tbtnEnginePlayBlack->setObjectName(QStringLiteral("EnginePlayBlack"));
 	QIcon iconEnginePlayBlack;
-	iconEnginePlayBlack.addFile(QStringLiteral(":/icon/playblack.ico"), QSize(), QIcon::Normal, QIcon::Off);
+	iconEnginePlayBlack.addFile(QStringLiteral(":/icon/computer_123003.png"), QSize(), QIcon::Normal, QIcon::Off);
 	this->tbtnEnginePlayBlack->setIcon(iconEnginePlayBlack);
-	this->tbtnEnginePlayBlack->setToolTip("电脑执黑");
+	this->tbtnEnginePlayBlack->setToolTip("电脑执黑走棋");
 	this->mainToolbar->addWidget(this->tbtnEnginePlayBlack);
 	connect(this->tbtnEnginePlayBlack, SIGNAL(toggled(bool)), this, SLOT(onPlayBlackToggled(bool)));
+
+	// 让引擎立即出步
+	this->actEngineStop = new QAction(this);
+	this->actEngineStop->setObjectName(QStringLiteral("EngineStop"));
+	QIcon iconEngineStop;
+	iconEngineStop.addFile(QStringLiteral(":/icon/stop.ico"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->actEngineStop->setIcon(iconEngineStop);
+	this->actEngineStop->setText("立即出步");
+    this->actEngineStop->setToolTip("让引擎立即出步");
+	this->mainToolbar->addAction(this->actEngineStop);
+
+	// 连接其它棋盘，红方走棋
+	this->tbtnLinkChessBoardRed = new QToolButton(this);
+	this->tbtnLinkChessBoardRed->setCheckable(true);
+	this->tbtnLinkChessBoardRed->setObjectName(QStringLiteral("LinkChessBoardRed"));
+	QIcon iconLinkChessBoardRed;
+	iconLinkChessBoardRed.addFile(QStringLiteral(":/icon/RedLink.png"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->tbtnLinkChessBoardRed->setIcon(iconLinkChessBoardRed);
+	this->tbtnLinkChessBoardRed->setText("红方连线");
+	this->tbtnLinkChessBoardRed->setToolTip("连接其它棋盘, 我方执红");
+	this->mainToolbar->addWidget(this->tbtnLinkChessBoardRed);
+	connect(this->tbtnLinkChessBoardRed, SIGNAL(toggled(bool)), this, SLOT(onLinkRedToggled(bool)));
+
+
+	//onLinkRedToggled
+
+	// 连接其它棋盘，黑方走棋
+	this->tbtnLinkChessBoardBlack = new QToolButton(this);
+	this->tbtnLinkChessBoardBlack->setCheckable(true);
+	this->tbtnLinkChessBoardBlack->setObjectName(QStringLiteral("LinkChessBoardBlack"));
+	QIcon iconLinkChessBoardBlack;
+	iconLinkChessBoardBlack.addFile(QStringLiteral(":/icon/BlackLink.png"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->tbtnLinkChessBoardBlack->setIcon(iconLinkChessBoardBlack);
+	this->tbtnLinkChessBoardBlack->setText("红方连线");
+	this->tbtnLinkChessBoardBlack->setToolTip("连接其它棋盘, 我方执黑");
+	this->mainToolbar->addWidget(this->tbtnLinkChessBoardBlack);
+	connect(this->tbtnLinkChessBoardBlack, SIGNAL(toggled(bool)), this, SLOT(onLinkBlackToggled(bool)));
+
+
+
+	//QAction* actLinkChessBoardRed;      // 连接其它棋盘
+	//QAction* actLinkChessBoardBlack;    // 连接其它棋盘
 
 	//// 连接其它棋盘
 	//this->actLinkChessBoard = new QAction(this);
@@ -436,15 +486,7 @@ void MainWindow::createToolBars()
 	//this->actEngineAnalyze->setText("分析");
 	//this->actEngineAnalyze->setToolTip("让引擎分析当前棋局");
 
-	//// 让引擎分析
-	//this->actEngineStop = new QAction(this);
-	//this->actEngineStop->setObjectName(QStringLiteral("EngineStop"));
-	//QIcon iconEngineStop;
-	//iconEngineStop.addFile(QStringLiteral(":/icon/stop.ico"),
-	//	QSize(), QIcon::Normal, QIcon::Off);
-	//this->actEngineStop->setIcon(iconEngineStop);
-	//this->actEngineStop->setText("停止");
-	//this->actEngineStop->setToolTip("让引擎停止思考");
+	
 
 	//// 引擎设置
 	//this->actEngineSetting = new QAction(this);
@@ -598,6 +640,13 @@ void MainWindow::addGame(ChessGame* game)
 			closeTab(0);
 
 		m_firstTabAutoCloseEnabled = false;
+		//m_myClosePreTab = true;
+	}
+	else {
+		if (m_myClosePreTab) {
+			closeTab(0);
+			m_myClosePreTab = false;
+		}
 	}
 
 	if (m_tabs.size() >= 2)
@@ -1473,8 +1522,125 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 	case stCaptureMsg::eSetFen: 
 	{
 		//msg.pGame->stop(false);
-		msg.pGame->board()->setFenString(msg.text);                  // 一共二个board ChessGame, GameViewer
-		this->m_gameViewer->viewPreviousMove2(msg.pGame->board());
+		//msg.pGame->board()->setFenString(msg.text);                  // 一共二个board ChessGame, GameViewer
+		//this->m_gameViewer->viewPreviousMove2(msg.pGame->board());
+
+		//QString fen = msg.text;
+
+		QString fen = "2bakab2/9/9/8R/pnpNP4/3r5/c3c4/1C2B2C1/4A4/2BAK4 w - - 0 1";
+
+		if (m_onLinkRedToggled || m_onLinkBlackToggled) {  // 红方连线走棋
+			bool ok = true;
+
+			// 得到当前的设置
+			QSettings s;
+
+			s.beginGroup("games");
+			//const QString variant1 = s.value("variant").toString();
+			const QString variant = "standard"; // s.value("variant").toString();    // 游戏类型
+
+			auto board = Chess::BoardFactory::create(variant);
+
+			//QString fen = "2bakab2/9/9/8R/pnpNP4/3r5/c3c4/1C2B2C1/4A4/2BAK4 w - - 0 1";
+
+			//QString fen(m_gameViewer->board()->fenString());
+			//if (!fen.isEmpty() && !board->setFenString(fen))
+			//{
+				//auto palette = ui->m_fenEdit->palette();
+				//palette.setColor(QPalette::Text, Qt::red);
+				//ui->m_fenEdit->setPalette(palette);
+				//m_isValid = false;
+				//emit statusChanged(false);
+			//	fen = "";
+			//}
+			//board->setFenString(fen);
+
+			auto pgn = new PgnGame();
+			pgn->setSite(QSettings().value("pgn/site").toString());
+			auto game = new ChessGame(board, pgn);
+
+
+			game->setStartingFen(fen);
+			//this->m_gameViewer->viewPreviousMove2(game->board());  //
+
+			// 时间控制
+			TimeControl m_timeControl;
+			m_timeControl.readSettings(&s);
+			game->setTimeControl(m_timeControl);
+
+			// 裁定设置
+			s.beginGroup("draw_adjudication");
+			GameAdjudicator m_adjudicator;
+			m_adjudicator.setDrawThreshold(s.value("move_number").toInt(),
+				s.value("move_count").toInt(),
+				s.value("score").toInt());
+			s.endGroup();
+			game->setAdjudicator(m_adjudicator);
+
+			//auto suite = ui->m_gameSettings->openingSuite();          // 开局初始局面设定
+			//if (suite)
+			//{
+			//	int depth = ui->m_gameSettings->openingSuiteDepth();
+			//	ok = game->setMoves(suite->nextGame(depth));
+			//	delete suite;
+			//}
+
+
+
+			//auto book = ui->m_gameSettings->openingBook();           // 开局库
+			//if (book)
+			//{
+			//	int depth = ui->m_gameSettings->bookDepth();
+			//	game->setBookOwnership(true);
+
+			//	for (int i = 0; i < 2; i++)
+			//	{
+			//		auto side = Chess::Side::Type(i);
+			//		if (playerType(side) == CPU)
+			//			game->setOpeningBook(book, side, depth);
+			//	}
+			//}
+
+			s.endGroup();   // 
+
+			if (!ok)
+			{
+				delete game;
+				QMessageBox::critical(this, tr("Could not initialize game"),
+					tr("The game could not be initialized "
+						"due to an invalid opening."));
+				return;
+			}
+
+			//auto game = this->m_game;
+
+			game->isGetSetting = true;    // 棋局已设置好了
+
+
+			//bool isWhiteCPU = (side == Chess::Side::White);
+			//bool isBlackCPU = (side == Chess::Side::Black);
+
+			PlayerBuilder* builders[2] = {
+				mainCreatePlayerBuilder(Chess::Side::White, m_onLinkRedToggled),
+				mainCreatePlayerBuilder(Chess::Side::Black, m_onLinkBlackToggled)
+			};
+
+
+			if (builders[game->board()->sideToMove()]->isHuman())
+				game->pause();
+
+
+			m_myClosePreTab = true; // 关了前一个窗口
+
+			// Start the game in a new tab
+			connect(game, SIGNAL(initialized(ChessGame*)),
+				this, SLOT(addGame(ChessGame*)));
+			connect(game, SIGNAL(startFailed(ChessGame*)),
+				this, SLOT(onGameStartFailed(ChessGame*)));
+			CuteChessApplication::instance()->gameManager()->newGame(game,             // 将这个新棋局添加到Tab表中
+				builders[Chess::Side::White], builders[Chess::Side::Black]);
+		}
+		
 	
 	}
 		break;
@@ -1483,7 +1649,7 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 	}
 }
 
-void MainWindow::onLXchessboard()
+void MainWindow::onLXchessboardStart()
 {
 	//Capture cap;
 	//if (cap.getChessboardHwnd(true) == true) {
@@ -1502,10 +1668,10 @@ void MainWindow::onLXchessboard()
 	// 让引擎思考
 	//this->actEngineThink = new QAction(this);
 	//this->actEngineThink->setObjectName(QStringLiteral("EngineThink"));
-	QIcon iconEngineThink;
-	iconEngineThink.addFile(QStringLiteral(":/icon/thought-balloon.ico"),
-		QSize(), QIcon::Normal, QIcon::Off);
-	this->actLinkChessBoard->setIcon(iconEngineThink);
+	//QIcon iconEngineThink;
+	//iconEngineThink.addFile(QStringLiteral(":/icon/thought-balloon.ico"),
+	//	QSize(), QIcon::Normal, QIcon::Off);
+	//this->actLinkChessBoard->setIcon(iconEngineThink);
 
 	//this->actEngineThink->setIcon(iconEngineThink);
 	//this->actEngineThink->setText("思考");
@@ -1515,7 +1681,6 @@ void MainWindow::onLXchessboard()
 
 
 	Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
-
 	pcap->on_start();
 
 	// 换一个图标
@@ -1527,8 +1692,18 @@ void MainWindow::onLXchessboard()
 
 }
 
+void MainWindow::onLXchessboardStop()
+{
+	Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
+	pcap->on_stop();
+
+	m_game->stop(); 
+}
+
 PlayerBuilder* MainWindow::mainCreatePlayerBuilder(Chess::Side side, bool isCPU) const
 {
+	(void)side;
+
 	if (isCPU) //(playerType(side) == CPU)
 	{
 		
@@ -1556,33 +1731,45 @@ PlayerBuilder* MainWindow::mainCreatePlayerBuilder(Chess::Side side, bool isCPU)
 }
 
 
-
-
-// 红方走棋
+// 红方电脑思考按钮
 void MainWindow::onPlayRedToggled(bool checked) {
-	this->onPlayWhich(checked, Chess::Side::White);
+
+	m_onPlayRedToggled = checked;	
+
+	this->onPlayWhich(checked);  //  , Chess::Side::White);
 }
 
-
-
+// 黑方电脑思考按钮
 void MainWindow::onPlayBlackToggled(bool checked) {
-	this->onPlayWhich(checked, Chess::Side::Black);
+
+	m_onPlayBlackToggled = checked;
+
+	this->onPlayWhich(checked); // , Chess::Side::Black);
 }
 
-void MainWindow::onPlayWhich(bool checked, Chess::Side side)
+void MainWindow::onPlayWhich(bool checked) //, Chess::Side side)
 {
-	if (checked) {
+	(void)checked;
+	if (m_onPlayRedToggled || m_onPlayBlackToggled) {
+
+		
 		//EngineConfiguration config = CuteChessApplication::instance()->engineManager()->engineAt(0);
 		//m_tabs.at(m_tabBar->currentIndex()).m_game->setPlayer(Chess::Side::White, (new EngineBuilder(config))->create(nullptr, nullptr, this, nullptr));
 
 		//auto cur_game = m_tabs.at(m_tabBar->currentIndex()).m_game;
 		//this->m_game
 
-		if (this->m_game->isGetSetting == false) {
+		//QString stFen = m_game->startingFen();
+		//QVector<Chess::Move> moves = m_game->moves();
 
-			//EngineManager* engineManager = CuteChessApplication::instance()->engineManager();
+		//auto game = this->m_game;
 
+		//if (this->m_game->isGetSetting == false) {
+		//if(1){
 
+			//int preIndex = m_tabBar->currentIndex();
+
+			//EngineManager* engineManager = CuteChessApplication::instance()->engineManager();			
 			bool ok = true;
 
 			// 得到当前的设置
@@ -1593,9 +1780,25 @@ void MainWindow::onPlayWhich(bool checked, Chess::Side side)
 			const QString variant = "standard"; // s.value("variant").toString();    // 游戏类型
 
 			auto board = Chess::BoardFactory::create(variant);
+
+			//QString fen = "2bakab2/9/9/8R/pnpNP4/3r5/c3c4/1C2B2C1/4A4/2BAK4 w - - 0 1";
+
+			QString fen(m_gameViewer->board()->fenString());
+			//if (!fen.isEmpty() && !board->setFenString(fen))
+			//{
+				//auto palette = ui->m_fenEdit->palette();
+				//palette.setColor(QPalette::Text, Qt::red);
+				//ui->m_fenEdit->setPalette(palette);
+				//m_isValid = false;
+				//emit statusChanged(false);
+			//	fen = "";
+			//}
+
 			auto pgn = new PgnGame();
 			pgn->setSite(QSettings().value("pgn/site").toString());
 			auto game = new ChessGame(board, pgn);
+
+			game->setStartingFen(fen);
 
 			// 时间控制
 			TimeControl m_timeControl;
@@ -1618,6 +1821,8 @@ void MainWindow::onPlayWhich(bool checked, Chess::Side side)
 			//	ok = game->setMoves(suite->nextGame(depth));
 			//	delete suite;
 			//}
+
+			
 
 			//auto book = ui->m_gameSettings->openingBook();           // 开局库
 			//if (book)
@@ -1643,19 +1848,26 @@ void MainWindow::onPlayWhich(bool checked, Chess::Side side)
 						"due to an invalid opening."));
 				return;
 			}
+
+			//auto game = this->m_game;
+
 			game->isGetSetting = true;    // 棋局已设置好了
 
-			bool isWhiteCPU = (side == Chess::Side::White);
-			bool isBlackCPU = (side == Chess::Side::Black);
+
+			//bool isWhiteCPU = (side == Chess::Side::White);
+			//bool isBlackCPU = (side == Chess::Side::Black);
 
 			PlayerBuilder* builders[2] = {
-				mainCreatePlayerBuilder(Chess::Side::White, isWhiteCPU),
-				mainCreatePlayerBuilder(Chess::Side::Black, isBlackCPU)
+				mainCreatePlayerBuilder(Chess::Side::White, m_onPlayRedToggled),
+				mainCreatePlayerBuilder(Chess::Side::Black, m_onPlayBlackToggled)
 			};
 
 
 			if (builders[game->board()->sideToMove()]->isHuman())
 				game->pause();
+
+
+			m_myClosePreTab = true; // 关了前一个窗口
 
 			// Start the game in a new tab
 			connect(game, SIGNAL(initialized(ChessGame*)),
@@ -1665,15 +1877,50 @@ void MainWindow::onPlayWhich(bool checked, Chess::Side side)
 			CuteChessApplication::instance()->gameManager()->newGame(game,             // 将这个新棋局添加到Tab表中
 				builders[Chess::Side::White], builders[Chess::Side::Black]);
 
-		}
-		else {
+			//if (m_tabs.size() >= 2) {
+			//	closeTab(preIndex);
+			//}
 
-		}
-
-
+		//}
 	}
-	else { // 停止红方走棋
+	else { // 停止走棋
+	    // destroyGame(m_game);
+		// this->m_game->isGetSetting = false;
+		//resignGame();
+		//closeTab(m_tabBar->currentIndex());
+		//int ci = m_tabBar->currentIndex();
+		//int count = m_tabBar->count();
 
+		//if (m_tabs.size() >= 2){
+		//	closeTab(m_tabBar->currentIndex());
+		//}
+
+		//int currentIndex() const;
+		//int count() const;
+		m_game->stop();
+	}
+}
+
+void MainWindow::onLinkRedToggled(bool checked)
+{
+	m_onLinkRedToggled = checked;
+
+	this->onLinkWhich(checked);  //  , Chess::Side::White);
+}
+void MainWindow::onLinkBlackToggled(bool checked)
+{
+	m_onLinkBlackToggled = checked;
+
+	this->onLinkWhich(checked);  //  , Chess::Side::White);
+}
+
+void MainWindow::onLinkWhich(bool checked)
+{
+	if (checked) {
+		onLXchessboardStart();  // 开始连线
+	}
+	else {
+		onLXchessboardStop();
 	}
 }
 

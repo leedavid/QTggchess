@@ -30,8 +30,6 @@ struct stCaptureMsg {
 
 namespace Chess {
 
-
-
 	class Capture : public QThread
 	{
 		Q_OBJECT
@@ -174,8 +172,11 @@ namespace Chess {
 		stLxBoard m_LxBoard[2];
 		Chess::Board* m_board;
 
-		bool m_Ready_LXset;          // 已有连线设置信息了
+		bool m_Ready_LXset;               // 已有连线设置信息了
 		bool m_connectedBoard_OK;         // 已连接了
+
+		bool bMustStop;
+		bool bSendInitFen;                // 已发送初始局面了
 
 
 		int m_sleepTimeMs;   // 截图定时

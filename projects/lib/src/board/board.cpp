@@ -864,6 +864,8 @@ int Board::captureType(const Move& move) const
 // 这个是输入的不需要unmake的board  常将常捉判断
 bool Board::vIsBan(const Move& move) {
 	
+	(void)move;
+
 	bool isBan = false;
 
 	int n = 0;

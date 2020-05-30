@@ -399,7 +399,7 @@ void GameSettingsWidget::validateFen(const QString& fen)
 	if (!m_board || m_board->variant() != variant)
 	{
 		delete m_board;
-		m_board = Chess::BoardFactory::create(variant);
+ 		m_board = Chess::BoardFactory::create(variant);
 	}
 	if (!fen.isEmpty() && !m_board->setFenString(fen))
 	{

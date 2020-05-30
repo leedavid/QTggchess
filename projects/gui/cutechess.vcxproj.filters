@@ -212,11 +212,11 @@
     <ClCompile Include="src\capture.cpp">
       <Filter>Source Files\Capture</Filter>
     </ClCompile>
-    <ClCompile Include="BoardEditor.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\boardview\BasicBoardScene.cpp">
       <Filter>Source Files\board_display</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardEditor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,11 +379,11 @@
     <QtMoc Include="src\gamedatabasedlg.cpp">
       <Filter>Source Files\gameDatabase</Filter>
     </QtMoc>
-    <QtMoc Include="BoardEditor.h">
-      <Filter>Generated Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\boardview\BasicBoardScene.h">
       <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BoardEditor.h">
+      <Filter>Source Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
