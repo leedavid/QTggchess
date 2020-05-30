@@ -25,7 +25,7 @@ struct stCaptureMsg {
 	Chess::Move m;
 	QString title;
 	QString text;
-	ChessGame* pGame;
+	//ChessGame* pGame;
 };
 
 namespace Chess {
