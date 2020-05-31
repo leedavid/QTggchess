@@ -22,13 +22,34 @@ struct stCaptureMsg {
 	};
 
 	eCapMsg mType;
-	Chess::Move m;
+	//Chess::Move m;
+	Chess::GenericMove m;
 	QString title;
 	QString text;
 	//ChessGame* pGame;
 };
 
 namespace Chess {
+
+	enum ChinesePieceType
+	{
+		eNoPice = 0,
+		eBPawn,	//!< Pawn
+		eBXiang,		//!< Knight
+		eBShi,		//!< Bishop
+		eBPao,		//!< Rook
+		eBMa,		    //!< Ma
+		eBChe,		//!< Queen
+		eBKing,		//!< King
+
+		eRPawn,	    //!< Pawn
+		eRXiang,		//!< Knight
+		eRShi,		//!< Bishop
+		eRPao,		//!< Rook
+		eRMa,		    //!< Ma
+		eRChe,		//!< Queen
+		eRKing		//!< King
+	};
 
 	class Capture : public QThread
 	{
@@ -44,6 +65,9 @@ namespace Chess {
 
 	signals:
 		void CapSendSignal(stCaptureMsg msg);
+
+	public slots:
+		void ProcessBoardMove(const Chess::GenericMove& move);
 	
 		
 	private:
@@ -84,7 +108,7 @@ namespace Chess {
 			QVector<cv::Point> BKingList;		// 黑将
 			QVector<cv::Point> BPawnList;		// 黑兵
 
-			int b90[90];			
+			ChinesePieceType b90[90];
 		    Side side;
 			QString fen;
 		};
@@ -92,7 +116,7 @@ namespace Chess {
 
 	public:
 
-		explicit Capture(ChessGame* pGame, QObject* parent = nullptr);
+		explicit Capture(QObject* parent = nullptr);
 		//Capture(float precision, bool UseAdb = false, int sleepMs = 200, float scX = 1.0f, float scY = 1.0f);
 		~Capture();
 
@@ -103,7 +127,9 @@ namespace Chess {
 
 		bool GetFen(stLxBoard* pList);
 
-		Chess::Move GetMoveFromBoard();
+		bool Board2Move(Chess::GenericMove& m);
+
+		//Chess::Move GetMoveFromBoard();
 
 		void on_start();
 		void on_stop();
@@ -113,7 +139,7 @@ namespace Chess {
 
 		stCaptureMsg m_msg;
 		void SendMessageToMain(const QString title, const QString msg);
-		void SendMoveToMain(const Chess::Move m);
+		void SendMoveToMain(const Chess::GenericMove m);
 		void SendFenToMain(const QString fen);
 
 		//QString GetFenLxBoard(bool isOrg = true);
@@ -122,7 +148,7 @@ namespace Chess {
 		bool isSolutionReady(); // 方案是不是OK了
 
 		int getB90(cv::Point p);
-		bool fillB90(int b90[], QVector<cv::Point>& plist, int chess);
+		bool fillB90(ChinesePieceType b90[], QVector<cv::Point>& plist, ChinesePieceType chess);
 
 		bool getChessboardHwnd(bool onlyBChe = false);
 		bool  SaveAllPiecePicture();  // 得到所有的棋子信息
@@ -164,13 +190,22 @@ namespace Chess {
 		cv::Mat QImageToCvMat(const QImage& inImage, bool inCloneImageData = true);
 		cv::Mat QPixmapToCvMat(const QPixmap& inPixmap, bool inCloneImageData = true);
 
+		void winLeftClick(HWND hwnd, int x, int y);
+
+		void wait(int msec) {
+			QTime dieTime = QTime::currentTime().addMSecs(msec);
+			while (QTime::currentTime() < dieTime)
+				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+		}
+
 
 	private:
 
+		Chess::Side m_side;
 
 		cLXinfo m_LxInfo;
 		stLxBoard m_LxBoard[2];
-		Chess::Board* m_board;
+		Chess::Board *m_board;
 
 		bool m_Ready_LXset;               // 已有连线设置信息了
 		bool m_connectedBoard_OK;         // 已连接了

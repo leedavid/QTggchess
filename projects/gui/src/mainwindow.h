@@ -125,15 +125,14 @@ class MainWindow : public QMainWindow
 	private:
 		struct TabData
 		{
-			explicit TabData(ChessGame* m_game,
-				Chess::Capture* cap, Tournament* m_tournament = nullptr);
+			explicit TabData(ChessGame* m_game, Tournament* m_tournament = nullptr);
 
 			ChessGame* m_id;
 			QPointer<ChessGame> m_game;
 			PgnGame* m_pgn;
 			Tournament* m_tournament;
 			bool m_finished;
-			Chess::Capture* m_cap; 
+			//Chess::Capture* m_cap; 
 		};
 
 		void createActions();
@@ -225,6 +224,8 @@ class MainWindow : public QMainWindow
 		bool m_onPlayBlackToggled;
 		bool m_onLinkRedToggled;
 		bool m_onLinkBlackToggled;
+
+		Chess::Capture* pcap;  // 一个界面只有一个
 };
 
 #endif // MAINWINDOW_H

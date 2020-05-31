@@ -64,7 +64,8 @@ ChessGame::ChessGame(Chess::Board* board, PgnGame* pgn, QObject* parent)
 	m_bookOwnership(false),
 	m_boardShouldBeFlipped(false),
 	m_pgn(pgn),
-	isGetSetting(false)
+	isGetSetting(false),
+	isLinkBoard(false)
 {
 	Q_ASSERT(pgn != nullptr);
 

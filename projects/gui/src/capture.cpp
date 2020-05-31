@@ -12,31 +12,14 @@ namespace Chess {
 
 	class MainWindow;
 
-	enum ChinesePieceType
-	{
-		eBPawn = 1,	//!< Pawn
-		eBXiang,		//!< Knight
-		eBShi,		//!< Bishop
-		eBPao,		//!< Rook
-		eBMa,		    //!< Ma
-		eBChe,		//!< Queen
-		eBKing,		//!< King
-
-		eRPawn,	    //!< Pawn
-		eRXiang,		//!< Knight
-		eRShi,		//!< Bishop
-		eRPao,		//!< Rook
-		eRMa,		    //!< Ma
-		eRChe,		//!< Queen
-		eRKing		//!< King
-	};
+	
 
 
-	Capture::Capture(ChessGame* pGame, QObject* parent)
+	Capture::Capture(QObject* parent)
 		:QThread(parent)
 	{		
 		//MsgBoxThread(par);
-		this->m_msg.pGame = pGame;
+		//this->m_msg.pGame = pGame;
 
 		initBoard();
 
@@ -55,7 +38,7 @@ namespace Chess {
 		m_Ready_LXset = false;
 		m_chessWinOK = false;
 		
-		m_chessClip = 0.2f;
+		m_chessClip = 0.20f;
 		
 		this->m_board = Chess::BoardFactory::create("standard");
 		//this->m_board_second = Chess::BoardFactory::create("standard");
@@ -64,17 +47,25 @@ namespace Chess {
 
 
 		this->m_LxInfo.m_LX_name = "兵河五四小棋盘";
-		this->m_LxInfo.m_titleKeyword = "BHGUI(test) - 新棋局";
-		this->m_LxInfo.m_class = "Afx:00400000:b:00010003:00000006:0A1D05FB";
+		this->m_LxInfo.m_titleKeyword = "中国象棋2017"; // "BHGUI(test) - 新棋局";
+		this->m_LxInfo.m_class = "QQChess"; // "Afx:00400000:b:00010003:00000006:0A1D05FB";
 
-		this->m_LxInfo.offx = 29.0f;
-		this->m_LxInfo.offy = 138.0f;
-		this->m_LxInfo.m_dx = 28.0f;
-		this->m_LxInfo.m_dy = 28.0f;
-		this->m_Ready_LXset = true;
+		//this->m_LxInfo.offx = 29.0f;
+		//this->m_LxInfo.offy = 138.0f;
+		//this->m_LxInfo.m_dx = 28.0f;
+		//this->m_LxInfo.m_dy = 28.0f;
+
+		this->m_LxInfo.offx = 70.0f;
+		this->m_LxInfo.offy = 175.0f;
+		this->m_LxInfo.m_dx = 68.0f;
+		this->m_LxInfo.m_dy = 68.0f;
+
+		this->m_Ready_LXset = false;
 
 		this->m_LxInfo.m_PieceCatlog = "0";
 		this->m_connectedBoard_OK = false;  // 
+
+		m_side = Chess::Side::NoSide;
 
 	}
 
@@ -148,6 +139,91 @@ namespace Chess {
 		return QImageToCvMat(inPixmap.toImage(), inCloneImageData);
 	}
 
+	void Capture::winLeftClick(HWND hwnd, int x, int y)
+	{
+	/*	if (this->isUseAdb) {
+			this->pAdb->LeftClick(x, y);
+		}
+		else {*/
+			LONG temp = MAKELONG(x, y);
+			// click
+			//::PostMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
+			//::PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, temp);
+			//wait(10);
+			//::PostMessage(hwnd, WM_LBUTTONUP, 0, temp);
+
+			//::SendMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
+			//::SendMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, temp);
+			::SendMessage(hwnd, WM_LBUTTONDOWN, 0, temp);
+			::SendMessage(hwnd, WM_LBUTTONUP, 0, temp);
+		//}
+	}
+
+	void Capture::ProcessBoardMove(const Chess::GenericMove& move) {
+		int fx = move.sourceSquare().file();
+		int fy = move.sourceSquare().rank();
+
+		int tx = move.targetSquare().file();
+		int ty = move.targetSquare().rank();
+
+		// 发送走步
+		//int fx = 7;
+		//int fy = 0;
+		//int tx = 6;
+		//int ty = 2;
+
+		cLXinfo* pInfo = &this->m_LxInfo;
+
+		int ffx = pInfo->offx + fx * pInfo->m_dx;
+		int ffy = pInfo->offy + (9 - fy) * pInfo->m_dy;
+
+		int ttx = pInfo->offx + tx * pInfo->m_dx;
+		int tty = pInfo->offy + (9 - ty) * pInfo->m_dy;
+
+
+		//m_hwnd = (HWND)0x0052140E;
+
+		//ShowWindow(m_hwnd, SW_RESTORE);
+		//SetForegroundWindow(m_hwnd);
+
+		//for (ffx = 5; ffx < 300; ffx += 5) {
+		//	for (ffy = 5; ffy < 400; ffy += 5) {
+		//		winLeftClick(m_hwnd, ffx, ffy);
+		//		wait(1);
+		//	}
+		//}
+
+		int from = (9 - fy) * 9 + fx;
+		int to = (9 - ty) * 9 + tx;
+		ChinesePieceType piece = this->m_LxBoard[0].b90[from];
+		if (piece <= eBKing && piece >= eBPawn) {
+			m_side = Chess::Side::White;
+		}
+		else if (piece <= eRKing && piece >= eRPawn) {
+			m_side = Chess::Side::Black;
+		}
+		else {
+			//this->SendMessageToMain("error", "move error");
+			return;
+		}
+
+		// 更新一下当前棋盘
+		this->m_LxBoard[0].b90[from] = ChinesePieceType::eNoPice;
+		this->m_LxBoard[0].b90[to] = piece;
+
+		winLeftClick(m_hwnd, ffx, ffy);
+		wait(5);
+		winLeftClick(m_hwnd, ttx, tty);
+
+
+		//m_side = Chess::Side::NoSide;
+		
+
+		//wait(20);
+
+		//winLeftClick(m_hwnd, 0, 0);
+		//int a = 0;
+	}
 
 	bool Capture::GetLxInfo(QString catlog)  // 只要查到有没有车就行了
 	{
@@ -204,7 +280,7 @@ namespace Chess {
 		emit CapSendSignal(m_msg);
 	}
 
-	void Capture::SendMoveToMain(const Chess::Move m)
+	void Capture::SendMoveToMain(const Chess::GenericMove m)
 	{
 		m_msg.mType = stCaptureMsg::eMove;
 		m_msg.m = m;
@@ -247,7 +323,7 @@ namespace Chess {
 		return s90;
 	}
 
-	bool Capture::fillB90(int b90[], QVector<cv::Point>& plist, int chess)
+	bool Capture::fillB90(ChinesePieceType b90[], QVector<cv::Point>& plist, ChinesePieceType chess)
 	{
 		for (auto p : plist) {
 			int s90 = getB90(p);
@@ -317,48 +393,208 @@ namespace Chess {
 		return true;
 	}
 
+	//由新旧两个盘面的变化情况找到上一步走子状态
+	bool Capture::Board2Move(Chess::GenericMove& m)
+	{
+		ChinesePieceType* pre_board = this->m_LxBoard[0].b90;
+		ChinesePieceType* now_board = this->m_LxBoard[1].b90;
+
+		int fx = -1;
+		int fy = -1;
+		int tx = -1;
+		int ty = -1;
+	
+
+		for (int y = 0; y < 10; y++) {
+			for (int x = 0; x < 9; x++) {
+				ChinesePieceType chess2 = pre_board[y * 9 + x];
+				ChinesePieceType chess1 = now_board[y * 9 + x];
+
+				if (chess2 != chess1) {     // 有棋子走动
+					if (chess1 == eNoPice) {       // 
+						fx = x;
+						fy = y;						
+					}
+					else {
+						tx = x;
+						ty = y;						
+					}					
+				}
+			}
+		}
+
+		if (fx != -1 && fy != -1 && tx != -1 && ty != -1) {
+			int from = fy * 9 + fx;
+			int to = ty * 9 + tx;
+			if (from != to) {
+
+				ChinesePieceType piece = pre_board[from];
+				if (piece <= eBKing && piece >= eBPawn) {
+					if (m_side != Chess::Side::Black) {
+						return false;
+					}
+				}
+				else if (piece <= eRKing && piece >= eRPawn) {
+					if (m_side != Chess::Side::White) {
+						return false;
+					}
+				}
+				else {
+					this->SendMessageToMain("error", "move error");
+					return false;
+				}
+
+				Square from_square = Square(fx, 9 - fy);
+				Square to_square = Square(tx, 9 - ty);
+
+				//square.rank() * m_files + square.file()
+
+				int source = from_square.rank() * 9 + from_square.file();
+				int target = to_square.rank() * 9 + to_square.file();
+
+				//target = 0x33;
+				//source = 0x1e;
+
+				// 走子
+				this->m_LxBoard[0].b90[from] = eNoPice;
+				this->m_LxBoard[0].b90[to] = piece;
+
+				m = Chess::GenericMove(from_square, to_square);
+
+				//m = 0x331e;
+
+				//int source = Chess::sq
+
+				//Square(int file, int rank);
+				//
+				//Chess::GenericMove gmove;
+				//gmove.
+				//
+				//m = Chess::Move(from, to);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	// 线程运行
 	void Capture::run() {
 
 		bMustStop = false;
 		bSendInitFen = false;
 
+		this->m_Ready_LXset = true;
 		//this->GetMoveFromBoard();
 		if (!isSolutionReady()) {	
-			SendMessageToMain("出错啦", "连线方案还没有准备好！");
-			return;
+
+			this->GetLxInfo("0");
+
+			if (!isSolutionReady()) {
+
+				SendMessageToMain("出错啦", "连线方案还没有准备好！");
+				return;
+			}
 		}
 
 		while (true) {
 
 			if (bMustStop) break;
 
+			/*
+			//HWND m_hWndProg = (HWND)0x00711024;
+			////HWND m_hWndBoard = (HWND)0x0052140E;
+
+			//HWND m_hWndBoard = (HWND)0x00711024;
+
+			////m_hwnd = (HWND)0x016A09DC;
+
+			//ShowWindow(m_hWndProg, SW_RESTORE);
+			//SetForegroundWindow(m_hWndProg);
+
+			//for (int ffx = 5; ffx < 300; ffx += 5) {
+			//	for (int ffy = 5; ffy < 400; ffy += 5) {
+
+
+			//		
+
+			//		BringWindowToTop(m_hWndProg);       //可以试一下不同的函数效果
+			//		SetForegroundWindow(m_hWndProg);
+
+			//		winLeftClick(m_hWndBoard, ffx, ffy);
+			//		wait(1);
+			//	}
+			//}
+
+			*/
+
+
 			if (bSendInitFen == false) {
 				if (GetLxBoardChess(true)) {
 					QString fen = this->m_LxBoard[0].fen;
 					SendFenToMain(fen);
 					bSendInitFen = true;
+
+					/*
+					// 发送走步
+					int fx = 7;
+					int fy = 0;
+					int tx = 6;
+					int ty = 2;
+
+					cLXinfo* pInfo = &this->m_LxInfo;
+
+					int ffx = pInfo->offx + fx * pInfo->m_dx;
+					int ffy = pInfo->offy + (9-fy) * pInfo->m_dy;
+
+					int ttx = pInfo->offx + tx * pInfo->m_dx;
+					int tty = pInfo->offy + (9 - ty) * pInfo->m_dy;
+
+
+					//m_hwnd = (HWND)0x0052140E;
+
+					//ShowWindow(m_hwnd, SW_RESTORE);
+					//SetForegroundWindow(m_hwnd);
+
+					//for (ffx = 5; ffx < 300; ffx += 5) {
+					//	for (ffy = 5; ffy < 400; ffy += 5) {
+					//		winLeftClick(m_hwnd, ffx, ffy);
+					//		wait(1);
+					//	}
+					//}
+
+					winLeftClick(m_hwnd, ffx, ffy);
+					wait(20);
+					winLeftClick(m_hwnd, ttx, tty);
+					wait(20);
+					*/
+					
 				}
 			}
 			else {
 				// 读取对方的走步，发送到主线程上
-				int a = 0;
+				if (GetLxBoardChess(false)) {   // 读出第二个棋盘''
 
+					Chess::GenericMove m;
+					if (this->Board2Move(m)) {
+						SendMoveToMain(m);					
+					}
+				}	
 			}
+			wait(2);
 		}
-
 		SendMessageToMain("OK", "你已退出连线！");
 	}
 
-	Chess::Move Capture::GetMoveFromBoard()
-	{
-		//while (true)
-		//{
-		//	this->GetLxBoardChess();
-		//}
-		
-		return Chess::Move();
-	}
+	//Chess::Move Capture::GetMoveFromBoard()
+	//{
+	//	//while (true)
+	//	//{
+	//	//	this->GetLxBoardChess();
+	//	//}
+	//	
+	//	return Chess::Move();
+	//}
 
 	// 启动线程
 	void Capture::on_start()
@@ -548,17 +784,30 @@ namespace Chess {
 
 		}
 		catch (...) {
-			qWarning("searchImage 2 %s 出错了！", findName);
+			//qWarning("searchImage 2 %s 出错了！", findName);
 			return false;
 		}
 
-
+//#define TM_CCOEFF
+#ifdef TM_CCOEFF
 		//cv::imshow("img", image_source);
 		//cv::imshow("templ", image_template_scaled);
 		//cv::waitKey();
 
+//图像模板匹配
+//一般而言，源图像与模板图像patch尺寸一样的话，可以直接使用上面介绍的图像相似度测量的方法；
+//如果源图像与模板图像尺寸不一样，通常需要进行滑动匹配窗口，扫面个整幅图像获得最好的匹配patch。
+//在OpenCV中对应的函数为：matchTemplate()：函数功能是在输入图像中滑动窗口寻找各个位置与模板图像patch的相似度。相似度的评价标准（匹配方法）有：
+//CV_TM_SQDIFF 平方差匹配法（相似度越高，值越小），
+//CV_TM_CCORR 相关匹配法（采用乘法操作，相似度越高值越大），
+//CV_TM_CCOEFF 相关系数匹配法（1表示最好的匹配，-1表示最差的匹配）。
+//通常,随着从简单的测量(平方差)到更复杂的测量(相关系数),我们可获得越来越准确的匹配(同时也意味着越来越大的计算代价). /
+//最好的办法是对所有这些设置多做一些测试实验,以便为自己的应用选择同时兼顾速度和精度的最佳方案.//
+
 		cv::Mat image_matched;
 		try {
+			// CV_TM_SQDIFF
+			//cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_SQDIFF);
 			cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_CCOEFF_NORMED);
 		}
 		catch (...) {
@@ -566,10 +815,13 @@ namespace Chess {
 			return false;
 		}
 
-		//cv::imshow("templ", image_template_scaled);
-		//cv::imshow("img", image_source);
-		//cv::imshow("matched", image_matched);
-		//cv::GOB::WaitKey();
+#if 0
+		cv::imshow("templ", image_template_scaled);
+		cv::imshow("img", m_image_source);
+		cv::imshow("matched", image_matched);
+		cv::waitKey();
+#endif
+
 
 		if (threshold == 1.0f) {
 			threshold = this->m_precision;
@@ -621,7 +873,106 @@ namespace Chess {
 
 		}
 
-		return Isfind;
+#else
+		//cv::imshow("img", image_source);
+		//cv::imshow("templ", image_template_scaled);
+		//cv::waitKey();
+
+//图像模板匹配
+//一般而言，源图像与模板图像patch尺寸一样的话，可以直接使用上面介绍的图像相似度测量的方法；
+//如果源图像与模板图像尺寸不一样，通常需要进行滑动匹配窗口，扫面个整幅图像获得最好的匹配patch。
+//在OpenCV中对应的函数为：matchTemplate()：函数功能是在输入图像中滑动窗口寻找各个位置与模板图像patch的相似度。相似度的评价标准（匹配方法）有：
+//CV_TM_SQDIFF 平方差匹配法（相似度越高，值越小），
+//CV_TM_CCORR 相关匹配法（采用乘法操作，相似度越高值越大），
+//CV_TM_CCOEFF 相关系数匹配法（1表示最好的匹配，-1表示最差的匹配）。
+//通常,随着从简单的测量(平方差)到更复杂的测量(相关系数),我们可获得越来越准确的匹配(同时也意味着越来越大的计算代价). /
+//最好的办法是对所有这些设置多做一些测试实验,以便为自己的应用选择同时兼顾速度和精度的最佳方案.//
+
+		cv::Mat image_matched;
+		try {
+			// CV_TM_SQDIFF
+			cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+			//cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_CCOEFF_NORMED);
+		}
+		catch (...) {
+			qWarning("searchImage 3 %s 出错了！", findName);
+			return false;
+		}
+
+#if 0
+		cv::imshow("templ", image_template_scaled);
+		cv::imshow("img", m_image_source);
+		cv::imshow("matched", image_matched);
+		//cv::waitKey();
+#endif
+		try {
+
+			if (threshold == 1.0f) {
+				threshold = this->m_precision;
+			}
+			res.clear();  // 清空数组
+
+			bool Isfind = false;
+
+			while (true) {
+				cv::Point minLoc, maxLoc;
+				double minVal, maxVal;
+
+				//寻找最佳匹配位置
+				cv::minMaxLoc(image_matched, &minVal, &maxVal, &minLoc, &maxLoc);
+
+
+				////double matchVal = minVal / (image_template_scaled.cols * image_template_scaled.rows);
+				//threshold = 0.90;
+				double matchThres = maxVal * (1 - threshold);
+
+				if (minVal < matchThres) {
+
+					Isfind = true;
+
+					cv::Point chessP;
+
+					chessP.x = minLoc.x + image_template_scaled.cols / 2;
+					chessP.y = minLoc.y + image_template_scaled.rows / 2;
+
+					if (isShow) {
+						//cv::Mat image_color;
+						//cv::cvtColor(image_source, image_color, cv::CV_BGR2GRAY);
+						cv::circle(m_image_source,
+							chessP, //cv::Point(imgX, imgY),
+							image_template_scaled.rows,
+							cv::Scalar(0, 255, 255),
+							2,
+							8,
+							0);
+
+						cv::imshow("target", m_image_source);
+						cv::imshow("templ", image_template_scaled);
+					}
+
+					res.append(chessP);
+
+					cv::Rect rc; // = cv::Rect(minLoc, cv::Size(10, 10));
+					//cv::imshow("m1", image_matched);
+					cv::floodFill(image_matched, minLoc, cv::Scalar(maxVal), &rc, cv::Scalar(minVal), cv::Scalar(minVal));
+					//cv::imshow("m2", image_matched);
+					//cv::waitKey();
+				}
+				else {
+					break;
+				}
+
+			}
+
+#endif
+			return Isfind;
+		}
+		catch (...) {
+			//qWarning("searchImage 5 %s 出错了！", findName);
+			return false;
+		}
+
+		
 	}
 
 	cv::Mat Capture::QImage_to_cvMat(const QImage& image, bool inCloneImageData)
@@ -724,18 +1075,37 @@ namespace Chess {
 		HWND hw = first_window();
 		while (hw != nullptr)
 		{
+			//if (hw == (HWND)0x00791730) {
+			//	//this->m_hwnd = hw;
+
+			//	//this->m_connectedBoard_OK = true;
+
+			//	//return true;
+			//	int a = 0;
+			//}
+			//else {
+			//	hw = next_window(hw);
+			//	continue;
+			//}
+
+			
 			if (isChessBoardWindow(hw, &m_LxBoard[0], onlyBChe)) {
 				//if (isMoveOrg) {
 				//	RECT  rect;
 				//	GetClientRect(hw, &rect);
 				//	::MoveWindow(hw, 0, 0, rect.right, rect.top, false);
 				//}
+
+
+				
+
 				this->m_hwnd = hw;
 
 				this->m_connectedBoard_OK = true;
 
 				return true;
 			}
+
 			hw = next_window(hw);
 		}
 		return false;
@@ -832,29 +1202,37 @@ namespace Chess {
 			return false;
 		}
 
-		if (onlyBche) {
-			//QString rk = m_LxInfo.m_PieceCatlog + "/br.png";  // 黑车
-			//if (!searchImage(hwnd, rk, pieceList->BCheList, nullptr, true)) {
+		//QString title = this->get_window_title(hwnd);
+		if (wc == this->m_LxInfo.m_class) {
 
-			if (!SearchOnChessList(hwnd, "br.png", pieceList->BCheList, true)) {
-				return false;
-			}
-			if (pieceList->BCheList.count() == 2) {
-				return true;
-			}
-		}
-		else {  // 得判断双方有将
 
-			if (!SearchOnChessList(hwnd, "bk.png", pieceList->BKingList, true)) {
-				return false;
-			}
+			if (onlyBche) {
+				//QString rk = m_LxInfo.m_PieceCatlog + "/br.png";  // 黑车
+				//if (!searchImage(hwnd, rk, pieceList->BCheList, nullptr, true)) {
 
-			if (!SearchOnChessList(hwnd, "rk.png", pieceList->RKingList)) {
-				return false;
+				if (!SearchOnChessList(hwnd, "br.png", pieceList->BCheList, true)) {
+					return false;
+				}
+				//if (pieceList->BCheList.count() >= 1) {
+				//	int a = 0;
+				//}
+				if (pieceList->BCheList.count() == 2) {
+					return true;
+				}
 			}
+			else {  // 得判断双方有将
 
-			if (pieceList->RKingList.count() >= 1 && pieceList->BKingList.count() >= 1) {
-				return true;  // 兵河把将当时间方了！！
+				if (!SearchOnChessList(hwnd, "bk.png", pieceList->BKingList, true)) {
+					return false;
+				}
+
+				if (!SearchOnChessList(hwnd, "rk.png", pieceList->RKingList)) {
+					return false;
+				}
+
+				if (pieceList->RKingList.count() >= 1 && pieceList->BKingList.count() >= 1) {
+					return true;  // 兵河把将当时间方了！！
+				}
 			}
 		}
 

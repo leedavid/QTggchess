@@ -101,6 +101,14 @@ void BoardScene::setBoard(Chess::Board* board)
 	//this->setba
 }
 
+void BoardScene::LinkMove(const Chess::GenericMove& move) // , const Chess::Side& side)
+{
+	emit humanMove(move, m_board->sideToMove());
+
+	m_highlightPiece = nullptr;
+	m_squares->clearHighlights();
+}
+
 void BoardScene::populate()
 {
 	Q_ASSERT(m_board != nullptr);

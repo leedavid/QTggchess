@@ -72,18 +72,12 @@
 #include <modeltest.h>
 #endif
 
-MainWindow::TabData::TabData(ChessGame* game, Chess::Capture* cap, Tournament* tournament)
+MainWindow::TabData::TabData(ChessGame* game, Tournament* tournament)
 	: m_id(game),
 	  m_game(game),
 	  m_pgn(game->pgn()),
 	  m_tournament(tournament),
-	  m_finished(false),
-	m_cap(cap)
-{
-	//m_cap = new Chess::Capture(this);
-
-	
-}
+	  m_finished(false)	{}
 
 MainWindow::MainWindow(ChessGame* game)
 	: m_game(nullptr),
@@ -603,9 +597,9 @@ void MainWindow::writeSettings()
 void MainWindow::addGame(ChessGame* game)
 {
 	Tournament* tournament = qobject_cast<Tournament*>(QObject::sender());
-	Chess::Capture* pcap = new Chess::Capture(game, this);
+	//Chess::Capture* pcap = new Chess::Capture(game, this);
 
-	TabData tab(game,  pcap, tournament);
+	TabData tab(game, tournament);
 
 
 	if (tournament)
@@ -679,7 +673,7 @@ void MainWindow::destroyGame(ChessGame* game)
 	delete tab.m_pgn;
 
 	// 
-	delete tab.m_cap;
+	//delete tab.m_cap;
 
 	if (m_tabs.isEmpty())
 		close();
@@ -1517,7 +1511,9 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 		QMessageBox::warning(this, msg.title, msg.text);
 		break;
 	case stCaptureMsg::eMove:
-		msg.pGame->PlayerMakeBookMove(msg.m);
+		//msg.pGame->PlayerMakeBookMove(msg.m);
+		//m_game->PlayerMakeBookMove(msg.m);
+		m_gameViewer->viewLinkMove(msg.m);
 		break;
 	case stCaptureMsg::eSetFen: 
 	{
@@ -1525,9 +1521,9 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 		//msg.pGame->board()->setFenString(msg.text);                  // 一共二个board ChessGame, GameViewer
 		//this->m_gameViewer->viewPreviousMove2(msg.pGame->board());
 
-		//QString fen = msg.text;
+		QString fen = msg.text;
 
-		QString fen = "2bakab2/9/9/8R/pnpNP4/3r5/c3c4/1C2B2C1/4A4/2BAK4 w - - 0 1";
+		//QString fen = "2bakab2/9/9/8R/pnpNP4/3r5/c3c4/1C2B2C1/4A4/2BAK4 w - - 0 1";
 
 		if (m_onLinkRedToggled || m_onLinkBlackToggled) {  // 红方连线走棋
 			bool ok = true;
@@ -1558,7 +1554,8 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 			auto pgn = new PgnGame();
 			pgn->setSite(QSettings().value("pgn/site").toString());
 			auto game = new ChessGame(board, pgn);
-
+			game->isLinkBoard = true;
+	
 
 			game->setStartingFen(fen);
 			//this->m_gameViewer->viewPreviousMove2(game->board());  //
@@ -1638,10 +1635,25 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 			connect(game, SIGNAL(startFailed(ChessGame*)),
 				this, SLOT(onGameStartFailed(ChessGame*)));
 			CuteChessApplication::instance()->gameManager()->newGame(game,             // 将这个新棋局添加到Tab表中
-				builders[Chess::Side::White], builders[Chess::Side::Black]);
+				builders[Chess::Side::White], builders[Chess::Side::Black]);      
+
+			// 连接引擎走步到capture
+			// void moveMade(const Chess::GenericMove& move,
+			//nst QString& sanString,
+			//	const QString& comment);
+
+			//connect(game, SIGNAL(moveMade(Chess::GenericMove, QString, QString)),
+			//	m_scene, SLOT(makeMove(Chess::GenericMove)));
+
+			connect(game, SIGNAL(moveMade(Chess::GenericMove, QString, QString)),
+				pcap, SLOT(ProcessBoardMove(const Chess::GenericMove &)));
+
+			// 如果是红方走，就不需要翻转棋盘
+			//connect(m_flipBoardAct, SIGNAL(triggered()),
+			//	m_gameViewer->boardScene(), SLOT(flip()));
+
+			//m_gameViewer->boardScene()->flip();
 		}
-		
-	
 	}
 		break;
 	default:
@@ -1680,7 +1692,10 @@ void MainWindow::onLXchessboardStart()
 
 
 
-	Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
+	//Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
+
+	pcap = new Chess::Capture(this);
+
 	pcap->on_start();
 
 	// 换一个图标
@@ -1694,8 +1709,9 @@ void MainWindow::onLXchessboardStart()
 
 void MainWindow::onLXchessboardStop()
 {
-	Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
+	//Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
 	pcap->on_stop();
+	delete pcap;
 
 	m_game->stop(); 
 }

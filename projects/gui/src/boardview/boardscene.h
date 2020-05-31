@@ -74,6 +74,9 @@ class BoardScene : public QGraphicsScene
 		 */
 		void setBoard(Chess::Board* board);
 
+		void LinkMove(const Chess::GenericMove& move);
+			//const Chess::Side& side);
+
 	public slots:
 		/*!
 		 * Clears the scene, creates a new board, and populates

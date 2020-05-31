@@ -142,6 +142,11 @@ ChessClock* GameViewer::chessClock(Chess::Side side)
 	return m_chessClock[side];
 }
 
+void GameViewer::viewLinkMove(const Chess::GenericMove& move)
+{
+	m_boardScene->LinkMove(move);
+}
+
 void GameViewer::viewPreviousMove2(Chess::Board* orgBoard)
 {
 	//orgBoard->initialize();

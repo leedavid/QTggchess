@@ -51,7 +51,9 @@ class LIB_EXPORT GameManager : public QObject
 			 * The game is added to a queue, and is started when
 			 * a game slot becomes free. This could be immediately.
 			 */
-			Enqueue
+			Enqueue,
+
+			// NoClip
 		};
 		/*! The mode for cleaning up after deleted games. */
 		enum CleanupMode
