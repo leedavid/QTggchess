@@ -203,6 +203,8 @@ namespace Chess {
 
 		Chess::Side m_side;
 
+		bool m_flip;                      // 棋盘是不是翻转了
+
 		cLXinfo m_LxInfo;
 		stLxBoard m_LxBoard[2];
 		Chess::Board *m_board;

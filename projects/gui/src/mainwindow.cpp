@@ -88,7 +88,8 @@ MainWindow::MainWindow(ChessGame* game)
 	m_onPlayRedToggled(false),
 	m_onPlayBlackToggled(false),
 	m_onLinkRedToggled(false),
-	m_onLinkBlackToggled(false)
+	m_onLinkBlackToggled(false),
+	m_pcap(nullptr)
 {
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setDockNestingEnabled(true);
@@ -1622,9 +1623,10 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 				mainCreatePlayerBuilder(Chess::Side::Black, m_onLinkBlackToggled)
 			};
 
+			//Chess::Side sss = game->board()->sideToMove();
 
-			if (builders[game->board()->sideToMove()]->isHuman())
-				game->pause();
+			//if (builders[game->board()->sideToMove()]->isHuman())
+			//	game->pause();
 
 
 			m_myClosePreTab = true; // 关了前一个窗口
@@ -1646,7 +1648,7 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 			//	m_scene, SLOT(makeMove(Chess::GenericMove)));
 
 			connect(game, SIGNAL(moveMade(Chess::GenericMove, QString, QString)),
-				pcap, SLOT(ProcessBoardMove(const Chess::GenericMove &)));
+				m_pcap, SLOT(ProcessBoardMove(const Chess::GenericMove &)));
 
 			// 如果是红方走，就不需要翻转棋盘
 			//connect(m_flipBoardAct, SIGNAL(triggered()),
@@ -1661,57 +1663,17 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 	}
 }
 
-void MainWindow::onLXchessboardStart()
-{
-	//Capture cap;
-	//if (cap.getChessboardHwnd(true) == true) {
-	//	int a = 0;
-	//}
+void MainWindow::onLXchessboardStart(){
+	if(m_pcap==nullptr)
+		m_pcap = new Chess::Capture(this);
 
-	//this->actLinkChessBoard = new QAction(this);
-	//this->actLinkChessBoard->setObjectName(QStringLiteral("LinkChessBoard"));
-	//QIcon iconLinkChessBoard;
-	//iconLinkChessBoard.addFile(QStringLiteral(":/icon/Links.ico"),
-	//	QSize(), QIcon::Normal, QIcon::Off);
-	//this->actLinkChessBoard->setIcon(iconLinkChessBoard);
-	//this->actLinkChessBoard->setText("连线");
-	//this->actLinkChessBoard->setToolTip("连接其它棋盘");
-
-	// 让引擎思考
-	//this->actEngineThink = new QAction(this);
-	//this->actEngineThink->setObjectName(QStringLiteral("EngineThink"));
-	//QIcon iconEngineThink;
-	//iconEngineThink.addFile(QStringLiteral(":/icon/thought-balloon.ico"),
-	//	QSize(), QIcon::Normal, QIcon::Off);
-	//this->actLinkChessBoard->setIcon(iconEngineThink);
-
-	//this->actEngineThink->setIcon(iconEngineThink);
-	//this->actEngineThink->setText("思考");
-	//this->actEngineThink->setToolTip("让引擎思考当前棋局，并自动走棋");
-
-
-
-
-	//Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
-
-	pcap = new Chess::Capture(this);
-
-	pcap->on_start();
-
-	// 换一个图标
-
-
-	//if (pcap->getChessboardHwnd()) {
-	//	int a = 0;
-	//}
-
+	m_pcap->on_start();
 }
 
-void MainWindow::onLXchessboardStop()
-{
-	//Chess::Capture* pcap = m_tabs.at(m_tabBar->currentIndex()).m_cap;
-	pcap->on_stop();
-	delete pcap;
+void MainWindow::onLXchessboardStop(){
+	
+	m_pcap->on_stop();
+	//delete pcap;
 
 	m_game->stop(); 
 }
@@ -1745,7 +1707,6 @@ PlayerBuilder* MainWindow::mainCreatePlayerBuilder(Chess::Side side, bool isCPU)
 		true).toBool();
 	return new HumanBuilder(CuteChessApplication::userName(), ignoreFlag);
 }
-
 
 // 红方电脑思考按钮
 void MainWindow::onPlayRedToggled(bool checked) {

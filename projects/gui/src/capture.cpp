@@ -38,7 +38,7 @@ namespace Chess {
 		m_Ready_LXset = false;
 		m_chessWinOK = false;
 		
-		m_chessClip = 0.20f;
+		m_chessClip = 0.25f;
 		
 		this->m_board = Chess::BoardFactory::create("standard");
 		//this->m_board_second = Chess::BoardFactory::create("standard");
@@ -66,6 +66,8 @@ namespace Chess {
 		this->m_connectedBoard_OK = false;  // 
 
 		m_side = Chess::Side::NoSide;
+
+		m_flip = false;
 
 	}
 
@@ -159,6 +161,7 @@ namespace Chess {
 		//}
 	}
 
+	// 根据引擎发来的棋步，点击棋盘
 	void Capture::ProcessBoardMove(const Chess::GenericMove& move) {
 		int fx = move.sourceSquare().file();
 		int fy = move.sourceSquare().rank();
@@ -171,14 +174,7 @@ namespace Chess {
 		//int fy = 0;
 		//int tx = 6;
 		//int ty = 2;
-
-		cLXinfo* pInfo = &this->m_LxInfo;
-
-		int ffx = pInfo->offx + fx * pInfo->m_dx;
-		int ffy = pInfo->offy + (9 - fy) * pInfo->m_dy;
-
-		int ttx = pInfo->offx + tx * pInfo->m_dx;
-		int tty = pInfo->offy + (9 - ty) * pInfo->m_dy;
+		
 
 
 		//m_hwnd = (HWND)0x0052140E;
@@ -208,6 +204,23 @@ namespace Chess {
 		}
 
 		// 更新一下当前棋盘
+
+		if (m_flip) {
+			fx = 8 - fx;
+			fy = 9 - fy;
+			tx = 8 - tx;
+			ty = 9 - ty;
+		}
+
+
+		cLXinfo* pInfo = &this->m_LxInfo;
+
+		int ffx = pInfo->offx + fx * pInfo->m_dx;
+		int ffy = pInfo->offy + (9 - fy) * pInfo->m_dy;
+
+		int ttx = pInfo->offx + tx * pInfo->m_dx;
+		int tty = pInfo->offy + (9 - ty) * pInfo->m_dy;
+
 		this->m_LxBoard[0].b90[from] = ChinesePieceType::eNoPice;
 		this->m_LxBoard[0].b90[to] = piece;
 
@@ -317,6 +330,12 @@ namespace Chess {
 	{
 		int dx = (int)((p.x - m_LxInfo.offx) / m_LxInfo.m_dx + 0.5f);
 		int dy = (int)((p.y - m_LxInfo.offy) / m_LxInfo.m_dy + 0.5f);
+
+		if (m_flip) {
+			dy = 9 - dy;
+			dx = 8 - dx;
+		}
+
 		int s90 = dx + 9 * dy;
 
 		if (s90 > 89) s90 = 89;
@@ -339,6 +358,15 @@ namespace Chess {
 		//int a = sizeof(pList->b90);
 		memset(pList->b90, 0, sizeof(pList->b90));
 
+
+		//bool flip = false;
+		if (pList->BKingList[0].y > pList->RKingList[0].y) {
+			m_flip = true;
+		}
+		else {
+			m_flip = false;
+		}
+
 		fillB90(pList->b90, pList->RCheList, eRChe);
 		fillB90(pList->b90, pList->RMaList, eRMa);
 		fillB90(pList->b90, pList->RPaoList, eRPao);
@@ -354,13 +382,9 @@ namespace Chess {
 		fillB90(pList->b90, pList->BXiangList, eBXiang);
 		fillB90(pList->b90, pList->BPawnList, eBPawn);
 		fillB90(pList->b90, pList->BKingList, eBKing);
-
+		
 		// getFen from B90
 
-		bool flip = false;
-		if (pList->BKingList[0].y > pList->RKingList[0].y) {
-			flip = true;
-		}
 
 		QString fen;
 		QChar c;
@@ -385,7 +409,7 @@ namespace Chess {
 			}
 			fen += (rank < 9 ? '/' : ' ');
 		}
-		fen += (flip == false ? "w " : "b ");
+		fen += (m_flip == false ? "w " : "b ");   // 这个fen 只用一次
 		fen += "- - 0 1";
 
 		pList->fen = fen;
@@ -426,6 +450,14 @@ namespace Chess {
 		if (fx != -1 && fy != -1 && tx != -1 && ty != -1) {
 			int from = fy * 9 + fx;
 			int to = ty * 9 + tx;
+
+			
+			//if (m_flip) {
+			//	from = (9 - fy) * 9 + (8-fx);
+			//	to = (9 - ty) * 9 + (8-tx);
+			//}
+			
+
 			if (from != to) {
 
 				ChinesePieceType piece = pre_board[from];
@@ -440,17 +472,24 @@ namespace Chess {
 					}
 				}
 				else {
-					this->SendMessageToMain("error", "move error");
+					//this->SendMessageToMain("error", "move error");
 					return false;
 				}
+
+				//if (m_flip) {
+				//	fx = 8 - fx;
+				//	fy = 9 - fy;
+				//	tx = 8 - tx;
+				//	ty = 9 - ty;
+				//}
 
 				Square from_square = Square(fx, 9 - fy);
 				Square to_square = Square(tx, 9 - ty);
 
 				//square.rank() * m_files + square.file()
 
-				int source = from_square.rank() * 9 + from_square.file();
-				int target = to_square.rank() * 9 + to_square.file();
+				//int source = from_square.rank() * 9 + from_square.file();
+				//int target = to_square.rank() * 9 + to_square.file();
 
 				//target = 0x33;
 				//source = 0x1e;
@@ -581,9 +620,9 @@ namespace Chess {
 					}
 				}	
 			}
-			wait(2);
+			wait(1);
 		}
-		SendMessageToMain("OK", "你已退出连线！");
+		//SendMessageToMain("OK", "你已退出连线！");
 	}
 
 	//Chess::Move Capture::GetMoveFromBoard()
@@ -1216,7 +1255,7 @@ namespace Chess {
 				//if (pieceList->BCheList.count() >= 1) {
 				//	int a = 0;
 				//}
-				if (pieceList->BCheList.count() == 2) {
+				if (pieceList->BCheList.count() >= 2) {
 					return true;
 				}
 			}

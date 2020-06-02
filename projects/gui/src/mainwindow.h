@@ -225,7 +225,7 @@ class MainWindow : public QMainWindow
 		bool m_onLinkRedToggled;
 		bool m_onLinkBlackToggled;
 
-		Chess::Capture* pcap;  // 一个界面只有一个
+		Chess::Capture* m_pcap;  // 一个界面只有一个
 };
 
 #endif // MAINWINDOW_H
