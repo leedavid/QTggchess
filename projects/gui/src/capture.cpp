@@ -18,7 +18,7 @@ namespace Chess {
 		:QThread(parent),
 		m_isAutoClick(isAuto),
 		m_isRuning(false),
-		m_bSendInitFen(false),
+		m_bWeMustSendInitFen(false),
 		m_bMainGetFenAlready(false),
 		pMain((MainWindow*)(parent))
 	{
@@ -36,7 +36,7 @@ namespace Chess {
 		m_precision_chess = 0.52f;
 		m_precision_auto = 0.98f;
 		m_UseAdb = false;
-		m_sleepTimeMs = 1;
+		m_sleepTimeMs = 20;
 		m_scaleX = 1.0f;
 		m_scaleY = 1.0f;
 
@@ -639,219 +639,16 @@ namespace Chess {
 	}
 
 	// 线程运行
-	void Capture::run() {
+	void Capture::run() {		
 
 		m_isRuning = true;
 
-		this->m_MatHash.clear(); // 清空一下
-
-		if (m_isAutoClick) {    // 全自动连线	
-
-			bMustStop = false;
-			m_bSendInitFen = false;
-
-			
-			this->m_Ready_LXset = true;
-			//this->GetMoveFromBoard();
-			if (!isSolutionReady()) {
-
-				this->GetLxInfo("0");
-
-				if (!isSolutionReady()) {
-					SendMessageToMain("出错啦", "连线方案还没有准备好！");
-					return;
-				}
-			}	
-
-			if (isFindAutoWin() == false) {
-				return;
-			}
-
-			//this->m_hwnd = HWND(0x00030806);
-			QString last_fen; // = "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1";
-			QString last_send_fen; 
-			bool MayBeEnd; 
-			MayBeEnd = false;
-			
-
-			while (true) {
-				if (bMustStop) break;		
-
-				//------------------------------------------------------------------------
-				// 点击所有自动目录下的图
-				QStringList nameFilters;
-				nameFilters << "*.png";
-
-				QString runPath = QCoreApplication::applicationDirPath();
-				QString dirpath = runPath + "/image/findchess/0/auto/";
-
-				QDir dir(dirpath);
-
-				bool find = true;
-				
-				while (find) {
-					find = false;
-					QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
-					for (QString file : files) {						
-
-						while (true) {   // 主界面不能再返回了
-							if (searchImage("gate.png", true, "0/not/")) {
-								wait(500);
-							}
-							else {
-								break;
-							}
-							if (bMustStop) break;
-						}
-
-						if (this->SearchAndClick(file, true)) {
-							find = true;
-							MayBeEnd = true;
-							wait(200);
-						}
-						if (bMustStop) break;
-					}
-				}
-				//----------------------------------------------------------------------------
-
-
-				// 1. 发现初始FEN， 就发开始信息
-
-				if (GetLxBoardChess(true)) {    // 读到了棋盘信息
-					QString fen = this->m_LxBoard[0].fen;
-
-					if (MayBeEnd) {
-						last_send_fen = "";
-						MayBeEnd = false;
-					}
-					if (last_send_fen != fen) {
-
-						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") {
-							//m_bSendInitFen = false;
-							// 这个是对方走红，则我们，要等一下
-							//last_send_fen = fen;
-						}
-						else {
-							// if (fen.contains("w -", Qt::CaseSensitive)) {
-							if (fen.contains("b -", Qt::CaseSensitive)) {
-								if (fen.contains("rnbakabnr/9/1c5c1/p1p1p1p1p", Qt::CaseSensitive)) {
-									m_bSendInitFen = false;
-								}
-							}
-						}
-
-						// 如果我方一个棋子也没有走，对方走子了，则是新棋
-
-						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1") {
-							m_bSendInitFen = false;
-						}
-						if (last_send_fen != fen) {
-							if (m_bSendInitFen == false) {								
-								SendFenToMain(fen);
-								wait(300);								
-								m_bSendInitFen = true;
-								last_send_fen = fen;
-							}
-						}
-					}
-					last_fen = fen;
-				}
-				else {
-					//m_bSendInitFen = false;
-				}
-				wait(500);  
-			}
+		if (m_isAutoClick) {
+			this->runAutoClip();
 		}
 		else {
-
-			bMustStop = false;
-			m_bSendInitFen = false;
-
-			this->m_Ready_LXset = true;
-			//this->GetMoveFromBoard();
-			if (!isSolutionReady()) {
-
-				this->GetLxInfo("0");
-
-				if (!isSolutionReady()) {
-
-					SendMessageToMain("出错啦", "连线方案还没有准备好！");
-					return;
-				}
-			}
-
-			QString MoveSendingFen;
-			Chess::GenericMove MoveSendingMove;
-
-			while (true) {   // 走棋
-
-				if (bMustStop) break;
-
-				/*
-				//HWND m_hWndProg = (HWND)0x00711024;
-				////HWND m_hWndBoard = (HWND)0x0052140E;
-
-				//HWND m_hWndBoard = (HWND)0x00711024;
-
-				////m_hwnd = (HWND)0x016A09DC;
-
-				//ShowWindow(m_hWndProg, SW_RESTORE);
-				//SetForegroundWindow(m_hWndProg);
-
-				//for (int ffx = 5; ffx < 300; ffx += 5) {
-				//	for (int ffy = 5; ffy < 400; ffy += 5) {
-
-
-				//
-
-				//		BringWindowToTop(m_hWndProg);       //可以试一下不同的函数效果
-				//		SetForegroundWindow(m_hWndProg);
-
-				//		winLeftClick(m_hWndBoard, ffx, ffy);
-				//		wait(1);
-				//	}
-				//}
-
-				*/
-
-				if (m_bSendInitFen == false) {
-					if (GetLxBoardChess(true)) {
-						QString fen = this->m_LxBoard[0].fen;
-
-						// 如果fen是初始化的fen， 则要等待对方走棋
-						// rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1
-						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") {
-						}
-						else {
-							if (m_bMainGetFenAlready == false) {
-								SendFenToMain(fen);
-							}
-							m_bSendInitFen = true;
-						}
-					}
-				}
-				else {
-					// 读取对方的走步，发送到主线程上
-					if (GetLxBoardChess(false)) {   // 读出第二个棋盘''
-
-						Chess::GenericMove m;
-						if (this->Board2Move(m)) {
-							//SendMoveToMain(m);
-							MoveSendingFen = this->m_LxBoard[1].fen;
-							MoveSendingMove = m;
-						}
-
-						if (this->m_LxBoard[1].fen == MoveSendingFen) {   // 棋盘没有改动
-							if (MoveSendingMove.isNull() == false) {
-								SendMoveToMain(m);
-							}
-						}						
-					}
-				}
-				wait(m_sleepTimeMs);
-			}
-			//SendMessageToMain("OK", "你已退出连线！");
-		}
+			this->runAutoChess();
+		}	
 
 		m_isRuning = false;
 	}
@@ -867,8 +664,157 @@ namespace Chess {
 		bMustStop = true;
 	}
 
+	// 自动开始点击图片
+	void Capture::runAutoClip()
+	{
+		//this->m_MatHash.clear(); // 清空一下
+		bMustStop = false;
+		this->m_Ready_LXset = true;
+
+		//if (!isSolutionReady()) {
+		//	this->GetLxInfo("0");
+		//	if (!isSolutionReady()) {
+		//		SendMessageToMain("出错啦", "连线方案还没有准备好！");
+		//		return;
+		//	}
+		//}
+
+		if (isFindAutoWin() == false) {
+			SendMessageToMain("出错啦", "没有找到天天象棋界面！");
+			return;
+		}
+
+
+		while (true) {
+			if (bMustStop) break;
+
+			//------------------------------------------------------------------------
+			// 点击所有自动目录下的图
+			QStringList nameFilters;
+			nameFilters << "*.png";
+
+			QString runPath = QCoreApplication::applicationDirPath();
+			QString dirpath = runPath + "/image/findchess/0/auto/";
+
+			QDir dir(dirpath);
+
+			bool find = true;
+
+			while (find) {
+				find = false;
+				QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
+				for (QString file : files) {
+
+					while (true) {   // 主界面不能再返回了
+						if (searchImage("gate.png", true, "0/not/")) {
+							wait(1000);
+						}
+						else {
+							break;
+						}
+						if (bMustStop) break;
+					}
+
+					if (this->SearchAndClick(file, true)) {
+						find = true;
+						//MayBeEnd = true;
+						wait(500);
+					}
+					if (bMustStop) break;
+				}
+			}
+			wait(2000);
+		}
+	}
+
+	void Capture::runAutoChess()
+	{
+		this->m_MatHash.clear(); // 清空一下
+
+		bMustStop = false;
+		m_bWeMustSendInitFen = false;
+
+		this->m_Ready_LXset = true;
+	
+		if (!isSolutionReady()) {
+
+			this->GetLxInfo("0");
+
+			if (!isSolutionReady()) {
+
+				SendMessageToMain("出错啦", "连线方案还没有准备好！");
+				return;
+			}
+		}
+
+		QString MoveSendingFen;
+		Chess::GenericMove MoveSendingMove;
+
+		this->m_LxBoard[0].fen = "none";
+
+		while (true) {   // 走棋
+
+			if (bMustStop) break;
+			
+			if (GetLxBoardChess(1)) {   // 读出第二个棋盘''
+
+				QString fen = this->m_LxBoard[1].fen;
+				if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") { // 是初始局面
+					wait(m_sleepTimeMs);
+					continue;
+				}
+				
+				if (this->m_LxBoard[0].fen != fen) {
+					if (fen.contains("rnbakabnr/9/1c5c1/p1p1p1p1p", Qt::CaseSensitive)  // 黑棋没有动过
+						&& (fen.contains("b -", Qt::CaseSensitive))){ 
+						m_bWeMustSendInitFen = true;
+					}
+
+					if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1") {
+						m_bWeMustSendInitFen = true;
+					}
+				}
+				if (this->m_LxBoard[0].fen == "none") {  // 才启动					
+					m_bWeMustSendInitFen = true;
+				}
+
+				// 发送初始fen				
+				if (m_bWeMustSendInitFen) {
+					QString fen = this->m_LxBoard[1].fen;
+					SendFenToMain(fen);
+
+					//this->m_LxBoard[0].b90 = this->m_LxBoard[0].b90;
+					int size = sizeof(this->m_LxBoard[0].b90);
+					memcpy(this->m_LxBoard[0].b90, this->m_LxBoard[1].b90, size);
+					this->m_LxBoard[0].fen = this->m_LxBoard[1].fen;
+
+					m_bWeMustSendInitFen = false;
+					wait(2000);
+				}
+
+
+				Chess::GenericMove m;
+				if (this->Board2Move(m)) {
+					//SendMoveToMain(m);
+					MoveSendingFen = this->m_LxBoard[1].fen;
+					MoveSendingMove = m;
+
+					this->m_LxBoard[0].fen = MoveSendingFen;      // 保存走子后的fen
+				}
+
+				if (this->m_LxBoard[1].fen == MoveSendingFen) {   // 棋盘没有改动
+					if (MoveSendingMove.isNull() == false) {
+						SendMoveToMain(m);
+					}
+				}
+			}
+			wait(m_sleepTimeMs);
+		}
+		//SendMessageToMain("OK", "你已退出连线！");
+	}
+
 	// 得到所有的棋子列表
-	bool Capture::GetLxBoardChess(bool org)
+	bool Capture::GetLxBoardChess(int index)
 	{
 
 		if (this->m_Ready_LXset == false)
@@ -886,10 +832,10 @@ namespace Chess {
 		if (this->m_connectedBoard_OK == false) return false;
 
 		// 
-		stLxBoard* pList = &m_LxBoard[1];
-		if (org) {
-			pList = &m_LxBoard[0];
-		}
+		stLxBoard* pList = &m_LxBoard[index];
+		//if (org) {
+		//	pList = &m_LxBoard[0];
+		//}
 
 		if (!SearchOnChessList(m_hwnd, "bk.png", pList->BKingList, SearchWhichCap::eBlack, true)) {    // 黑将
 			return false;  // 找不到黑将了

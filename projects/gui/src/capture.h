@@ -141,6 +141,9 @@ namespace Chess {
 
 	private:
 
+		void runAutoClip();
+		void runAutoChess();
+
 		void wait(int msec) {
 			QTime dieTime = QTime::currentTime().addMSecs(msec);
 			while (QTime::currentTime() < dieTime)
@@ -150,7 +153,7 @@ namespace Chess {
 		// 得到连线的信息
 		bool GetLxInfo(QString catlog);
 
-		bool GetLxBoardChess(bool org = true);
+		bool GetLxBoardChess(int index);
 
 		bool GetFen(stLxBoard* pList);
 
@@ -240,7 +243,7 @@ namespace Chess {
 		bool m_connectedBoard_OK;         // 已连接了
 
 		bool bMustStop;
-		bool m_bSendInitFen;                // 已发送初始局面了
+		bool m_bWeMustSendInitFen;                // 已发送初始局面了
 
 
 		int m_sleepTimeMs;   // 截图定时

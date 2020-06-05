@@ -1552,14 +1552,14 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 		QString fen = msg.text;
 		if (this->tbtnLinkAuto->isChecked()) {
 
-			if (m_pcap == nullptr)
-				m_pcap = new Chess::Capture(this);
+			//if (m_pcap == nullptr)
+			//	m_pcap = new Chess::Capture(this);
 
-			while (m_pcap->m_isRuning) {
-				m_pcap->on_stop();
-				this->wait(1);
-				m_game->stop();
-			}
+			//while (m_pcap->m_isRuning) {
+			//	m_pcap->on_stop();
+			//	this->wait(1);
+			//	m_game->stop();
+			//}
 			
 
 			if (fen.contains("w -", Qt::CaseSensitive)) {
@@ -1573,7 +1573,7 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 			}			
 
 			m_pcap->m_bMainGetFenAlready = true;
-			m_pcap->on_start();
+			//m_pcap->on_start();
 
 		}
 
@@ -1973,8 +1973,17 @@ void MainWindow::onLinkAutomaticToggled(bool checked)
 	if (checked) {
 		if (m_autoClickCap == nullptr)
 			m_autoClickCap = new Chess::Capture(this,true);
-
 		m_autoClickCap->on_start();
+
+		if (m_pcap == nullptr)
+			m_pcap = new Chess::Capture(this);
+
+		while (m_pcap->m_isRuning) {
+			m_pcap->on_stop();
+			this->wait(1);
+			m_game->stop();
+		}
+		m_pcap->on_start();
 	}
 	else {
 		m_autoClickCap->on_stop();		
