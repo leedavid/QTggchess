@@ -448,7 +448,7 @@ void MainWindow::createToolBars()
 	this->tbtnLinkAuto->setCheckable(true);
 	this->tbtnLinkAuto->setObjectName(QStringLiteral("LinkChessBoardAuto"));
 	QIcon iconLinkChessBoardAuto;
-	iconLinkChessBoardAuto.addFile(QStringLiteral(":/icon/fullautolink.png"),
+	iconLinkChessBoardAuto.addFile(QStringLiteral(":/icon/autolink.png"),
 		QSize(), QIcon::Normal, QIcon::Off);
 	this->tbtnLinkAuto->setIcon(iconLinkChessBoardAuto);
 	this->tbtnLinkAuto->setText("全自动连线");
@@ -1172,6 +1172,13 @@ QString MainWindow::windowListTitle() const
 	return genericTitle(gameData);
 }
 
+bool MainWindow::isMoveValid(const Chess::GenericMove& move){
+	return m_gameViewer->isMoveValid(move);
+}
+	
+
+
+
 QString MainWindow::genericTitle(const TabData& gameData) const
 {
 	QString white;
@@ -1532,7 +1539,7 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 		break;
 	case stCaptureMsg::eMove:
 		// 判断走步是不是合法
-		if (m_gameViewer->isMoveValid(msg.m) == false) {
+		if (isMoveValid(msg.m) == false) {  // 防止重复输入走步
 			return;   
 		}
 		m_gameViewer->viewLinkMove(msg.m);
@@ -1547,10 +1554,10 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 
 			while (m_pcap->m_isRuning) {
 				m_pcap->on_stop();
-				this->wait(500);
+				this->wait(1);
 				m_game->stop();
 			}
-			this->wait(1);
+			
 
 			if (fen.contains("w -", Qt::CaseSensitive)) {
 				//m_onLinkRedToggled = true;
@@ -1562,7 +1569,7 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 				this->tbtnLinkChessBoardBlack->setChecked(true);
 			}			
 
-			m_pcap->m_noSendInitFen = true;
+			m_pcap->m_bMainGetFenAlready = true;
 			m_pcap->on_start();
 
 		}
@@ -1729,7 +1736,7 @@ PlayerBuilder* MainWindow::mainCreatePlayerBuilder(Chess::Side side, bool isCPU)
 		//auto config =  m_engineConfig[side];
 		
 		EngineManager* engineManager = CuteChessApplication::instance()->engineManager();
-		auto config = engineManager->engineAt(1);
+		auto config = engineManager->engineAt(0);
 
 		QSettings s;
 		s.beginGroup("games");

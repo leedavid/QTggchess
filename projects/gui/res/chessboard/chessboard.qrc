@@ -19,15 +19,11 @@
         <file>icon/analyze.ico</file>
         <file>icon/stop.ico</file>
         <file>icon/Settings.ico</file>
-        <file>icon/playblack.ico</file>
-        <file>icon/playred.ico</file>
         <file>icon/backThink.png</file>
         <file>icon/BlackLink.png</file>
-        <file>icon/computer_84314.png</file>
-        <file>icon/computer_123003.png</file>
         <file>icon/RedLink.png</file>
         <file>icon/com_blue.png</file>
         <file>icon/com_red.png</file>
-        <file>icon/fullautolink.png</file>
+        <file>icon/autolink.png</file>
     </qresource>
 </RCC>

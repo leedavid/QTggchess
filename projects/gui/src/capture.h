@@ -13,6 +13,9 @@
 #include <board/boardfactory.h>
 #include <chessgame.h>
 
+//#include "mainwindow.h"
+class MainWindow;
+
 struct stCaptureMsg {
 
 	enum eCapMsg {
@@ -127,7 +130,7 @@ namespace Chess {
 		~Capture();
 
 		bool m_isRuning;
-		bool m_noSendInitFen;                // 已发送初始局面了
+		bool m_bMainGetFenAlready;                // 已发送初始局面了
 		
 
 		//Chess::Move GetMoveFromBoard();
@@ -221,6 +224,8 @@ namespace Chess {
 
 
 	private:
+
+		MainWindow* pMain;
 
 		Chess::Side m_side;
 

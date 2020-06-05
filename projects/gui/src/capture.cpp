@@ -9,12 +9,9 @@
 #include <QMessagebox>
 #include <board/boardfactory.h>
 
+#include "mainwindow.h"
 
 namespace Chess {
-
-	class MainWindow;
-
-
 
 
 	Capture::Capture(QObject* parent, bool isAuto)
@@ -22,7 +19,8 @@ namespace Chess {
 		m_isAutoClick(isAuto),
 		m_isRuning(false),
 		m_bSendInitFen(false),
-		m_noSendInitFen(false)
+		m_bMainGetFenAlready(false),
+		pMain((MainWindow*)(parent))
 	{
 		//MsgBoxThread(par);
 		//this->m_msg.pGame = pGame;
@@ -610,31 +608,30 @@ namespace Chess {
 				Square from_square = Square(fx, 9 - fy);
 				Square to_square = Square(tx, 9 - ty);
 
-				//square.rank() * m_files + square.file()
-
-				//int source = from_square.rank() * 9 + from_square.file();
-				//int target = to_square.rank() * 9 + to_square.file();
-
-				//target = 0x33;
-				//source = 0x1e;
-
-				// 走子
-				this->m_LxBoard[0].b90[from] = eNoPice;
-				this->m_LxBoard[0].b90[to] = piece;
 
 				m = Chess::GenericMove(from_square, to_square);
 
-				//m = 0x331e;
+				if (pMain->isMoveValid(m) == true) {
+					// 走子
+					this->m_LxBoard[0].b90[from] = eNoPice;
+					this->m_LxBoard[0].b90[to] = piece;
 
-				//int source = Chess::sq
 
-				//Square(int file, int rank);
-				//
-				//Chess::GenericMove gmove;
-				//gmove.
-				//
-				//m = Chess::Move(from, to);
-				return true;
+
+					//m = 0x331e;
+
+					//int source = Chess::sq
+
+					//Square(int file, int rank);
+					//
+					//Chess::GenericMove gmove;
+					//gmove.
+					//
+					//m = Chess::Move(from, to);
+					return true;
+
+				}
+				
 			}
 		}
 		
@@ -699,7 +696,7 @@ namespace Chess {
 
 						while (true) {   // 主界面不能再返回了
 							if (searchImage("gate.png", true, "0/not/")) {
-								wait(200);
+								wait(500);
 							}
 							else {
 								break;
@@ -749,9 +746,9 @@ namespace Chess {
 						}
 						if (last_send_fen != fen) {
 							if (m_bSendInitFen == false) {
+								wait(300);
 								SendFenToMain(fen);
-
-								wait(2000);
+								
 								m_bSendInitFen = true;
 								last_send_fen = fen;
 							}
@@ -827,7 +824,7 @@ namespace Chess {
 						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") {
 						}
 						else {
-							if (m_noSendInitFen == false) {
+							if (m_bMainGetFenAlready == false) {
 								SendFenToMain(fen);
 							}
 							m_bSendInitFen = true;
@@ -906,8 +903,13 @@ namespace Chess {
 		}
 
 		if (!SearchOnChessList(m_hwnd, "bk.png", pList->BKingList, SearchWhichCap::eBlack, true)) {    // 黑将
-			return false;  // 找不到对方的将了
+			return false;  // 找不到黑将了
 		}
+
+		if (!SearchOnChessList(m_hwnd, "rk.png", pList->RKingList, SearchWhichCap::eRed)) {    // 红将
+			return false; // 找不到红将了
+		}
+
 
 		SearchOnChessList(m_hwnd, "br.png", pList->BCheList, SearchWhichCap::eBlack);     // 黑车
 		SearchOnChessList(m_hwnd, "bn.png", pList->BMaList, SearchWhichCap::eBlack);      // 黑马
@@ -923,7 +925,7 @@ namespace Chess {
 		SearchOnChessList(m_hwnd, "ra.png", pList->RShiList, SearchWhichCap::eRed);     // 红士
 		SearchOnChessList(m_hwnd, "rb.png", pList->RXiangList, SearchWhichCap::eRed);   // 红象
 		SearchOnChessList(m_hwnd, "rp.png", pList->RPawnList, SearchWhichCap::eRed);    // 红兵
-		SearchOnChessList(m_hwnd, "rk.png", pList->RKingList, SearchWhichCap::eRed);    // 红将
+		
 
 		return GetFen(pList);
 	}

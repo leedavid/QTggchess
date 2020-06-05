@@ -65,6 +65,7 @@ class MainWindow : public QMainWindow
 		QString windowListTitle() const;
 
 		bool m_isRuning; 
+		bool isMoveValid(const Chess::GenericMove& move);
 
 		//TestThread* t;
 
