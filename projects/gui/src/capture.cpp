@@ -4,20 +4,26 @@
 #include <QScreen>
 #include <QPixmap>
 #include <QRect>
+#include <QDir>
 #include <QGuiApplication>
 #include <QMessagebox>
 #include <board/boardfactory.h>
+
 
 namespace Chess {
 
 	class MainWindow;
 
-	
 
 
-	Capture::Capture(QObject* parent)
-		:QThread(parent)
-	{		
+
+	Capture::Capture(QObject* parent, bool isAuto)
+		:QThread(parent),
+		m_isAutoClick(isAuto),
+		m_isRuning(false),
+		m_bSendInitFen(false),
+		m_noSendInitFen(false)
+	{
 		//MsgBoxThread(par);
 		//this->m_msg.pGame = pGame;
 
@@ -26,20 +32,21 @@ namespace Chess {
 		connect(this, SIGNAL(CapSendSignal(stCaptureMsg)),
 			parent, SLOT(processCapMsg(stCaptureMsg)));
 	}
-	   	  
+
 	void Capture::initBoard()
 	{
-		m_precision = 0.96f;
+		m_precision_chess = 0.52f;
+		m_precision_auto = 0.98f;
 		m_UseAdb = false;
-		m_sleepTimeMs = 450;
+		m_sleepTimeMs = 1;
 		m_scaleX = 1.0f;
 		m_scaleY = 1.0f;
 
 		m_Ready_LXset = false;
 		m_chessWinOK = false;
-		
-		m_chessClip = 0.25f;
-		
+
+		//m_chessClip = 0.25f;
+
 		this->m_board = Chess::BoardFactory::create("standard");
 		//this->m_board_second = Chess::BoardFactory::create("standard");
 		m_board->reset();
@@ -55,7 +62,7 @@ namespace Chess {
 		//this->m_LxInfo.m_dx = 28.0f;
 		//this->m_LxInfo.m_dy = 28.0f;
 
-		this->m_LxInfo.offx = 70.0f;
+		this->m_LxInfo.offx = 73.0f;
 		this->m_LxInfo.offy = 175.0f;
 		this->m_LxInfo.m_dx = 68.0f;
 		this->m_LxInfo.m_dy = 68.0f;
@@ -70,8 +77,6 @@ namespace Chess {
 		m_flip = false;
 
 	}
-
-
 
 	cv::Mat Capture::QImageToCvMat(const QImage& inImage, bool inCloneImageData)
 	{
@@ -143,21 +148,21 @@ namespace Chess {
 
 	void Capture::winLeftClick(HWND hwnd, int x, int y)
 	{
-	/*	if (this->isUseAdb) {
-			this->pAdb->LeftClick(x, y);
-		}
-		else {*/
-			LONG temp = MAKELONG(x, y);
-			// click
-			//::PostMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
-			//::PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, temp);
-			//wait(10);
-			//::PostMessage(hwnd, WM_LBUTTONUP, 0, temp);
+		/*	if (this->isUseAdb) {
+				this->pAdb->LeftClick(x, y);
+			}
+			else {*/
+		LONG temp = MAKELONG(x, y);
+		// click
+		//::PostMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
+		//::PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, temp);
+		//wait(10);
+		//::PostMessage(hwnd, WM_LBUTTONUP, 0, temp);
 
-			//::SendMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
-			//::SendMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, temp);
-			::SendMessage(hwnd, WM_LBUTTONDOWN, 0, temp);
-			::SendMessage(hwnd, WM_LBUTTONUP, 0, temp);
+		//::SendMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
+		//::SendMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, temp);
+		::SendMessage(hwnd, WM_LBUTTONDOWN, 0, temp);
+		::SendMessage(hwnd, WM_LBUTTONUP, 0, temp);
 		//}
 	}
 
@@ -174,7 +179,7 @@ namespace Chess {
 		//int fy = 0;
 		//int tx = 6;
 		//int ty = 2;
-		
+
 
 
 		//m_hwnd = (HWND)0x0052140E;
@@ -230,7 +235,7 @@ namespace Chess {
 
 
 		//m_side = Chess::Side::NoSide;
-		
+
 
 		//wait(20);
 
@@ -284,6 +289,125 @@ namespace Chess {
 		return this->SaveAllPiecePicture();
 	}
 
+
+	bool Capture::SearchAndClick(QString findName, bool isCap, QString sub_catlog, HWND hw, float threshold)
+	{
+		if (sub_catlog == nullptr) {
+			sub_catlog = "0/auto/";
+		}
+		if (hw == nullptr) {
+			hw = m_hwnd;
+		}
+
+		int imgX, imgY;
+		if (!searchImage(findName, isCap, sub_catlog, imgX, imgY, threshold)) {
+			return false;
+		}
+
+		this->winLeftClick(hw, imgX, imgY);
+		//wait(1000);
+
+		return true;
+	}
+
+	bool Capture::searchImage(QString findName, bool isCap, QString sub_catlog, float threshold)
+	{
+		int imgX, imgY;
+		if (sub_catlog == nullptr) {
+			sub_catlog = "0/auto/";
+		}
+		return searchImage(findName, isCap, sub_catlog, imgX, imgY, threshold);
+	}
+
+	bool Capture::searchImage(QString findName, bool isCap, QString sub_catlog, int& imgX, int& imgY, float threshold)
+	{
+		if (isCap) {
+			if (this->captureOne(m_hwnd, false) == false) {
+				qWarning("searchImage 1 %s 出错了！", findName);
+				return false;
+			}
+		}
+
+		if (sub_catlog != nullptr) {
+			findName = sub_catlog + findName;
+		}
+
+		cv::Mat image_template_main;
+		try {
+
+			if (this->m_MatHash.contains(findName)) {              // 保存在缓存中			
+				image_template_main = this->m_MatHash.value(findName);
+			}
+			else {
+				QString fFile = this->getFindPath() + findName;
+				image_template_main = cv::imread(fFile.toStdString());   // 模板图
+				// 要不要缩放
+				//if (this->m_scaleX != 1.0f) {
+				//	cv::resize(image_template_main, image_template_main, cv::Size(), this->m_scaleX, this->m_scaleY);
+				//}
+				this->m_MatHash.insert(findName, image_template_main);
+			}
+		}
+		catch (...) {
+			//qWarning("searchImage 2 %s 出错了！", findName);
+			return false;
+		}
+
+
+		//cv::imshow("templ", m_image_black);
+		//cv::imshow("img", m_image_source);
+		//cv::imshow("matched", image_template2);
+		//cv::waitKey();	
+
+		cv::Mat image_matched;
+		try {
+			cv::matchTemplate(m_image_source_all, image_template_main, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+		}
+		catch (...) {
+			qWarning("searchImage 3 %s 出错了！", findName);
+			return false;
+		}
+
+#if 0
+		cv::imshow("m_image_source", m_image_source);
+		//cv::imshow("templ", image_template2);
+		cv::imshow("m_image_black", m_image_red);
+		cv::imshow("matched", image_matched);
+		cv::waitKey();
+#endif
+		try {
+
+			if (threshold == 1.0f) {
+				threshold = this->m_precision_auto;
+			}
+
+			cv::Point minLoc, maxLoc;
+			double minVal, maxVal;
+
+			//寻找最佳匹配位置
+			cv::minMaxLoc(image_matched, &minVal, &maxVal, &minLoc, &maxLoc);
+
+			double matchThres = maxVal * (1 - threshold);
+
+			if (minVal < matchThres) {
+				imgX = minLoc.x + image_template_main.cols / 2;
+				imgY = minLoc.y + image_template_main.rows / 2;
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		catch (...) {
+			//qWarning("searchImage 5 %s 出错了！", findName);
+			return false;
+		}
+
+
+		return false;
+}
+
+	
 
 	void Capture::SendMessageToMain(const QString title, const QString msg)
 	{
@@ -520,109 +644,220 @@ namespace Chess {
 	// 线程运行
 	void Capture::run() {
 
-		bMustStop = false;
-		bSendInitFen = false;
+		m_isRuning = true;
 
-		this->m_Ready_LXset = true;
-		//this->GetMoveFromBoard();
-		if (!isSolutionReady()) {	
+		this->m_MatHash.clear(); // 清空一下
 
-			this->GetLxInfo("0");
+		if (m_isAutoClick) {    // 全自动连线	
 
+			bMustStop = false;
+			m_bSendInitFen = false;
+
+			
+			this->m_Ready_LXset = true;
+			//this->GetMoveFromBoard();
 			if (!isSolutionReady()) {
 
-				SendMessageToMain("出错啦", "连线方案还没有准备好！");
+				this->GetLxInfo("0");
+
+				if (!isSolutionReady()) {
+					SendMessageToMain("出错啦", "连线方案还没有准备好！");
+					return;
+				}
+			}	
+
+			if (isFindAutoWin() == false) {
 				return;
 			}
-		}
 
-		while (true) {
+			//this->m_hwnd = HWND(0x00030806);
+			QString last_fen; // = "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1";
+			QString last_send_fen; 
+			bool MayBeEnd; 
+			MayBeEnd = false;
+			
 
-			if (bMustStop) break;
+			while (true) {
+				if (bMustStop) break;		
 
-			/*
-			//HWND m_hWndProg = (HWND)0x00711024;
-			////HWND m_hWndBoard = (HWND)0x0052140E;
+				//------------------------------------------------------------------------
+				// 点击所有自动目录下的图
+				QStringList nameFilters;
+				nameFilters << "*.png";
 
-			//HWND m_hWndBoard = (HWND)0x00711024;
+				QString runPath = QCoreApplication::applicationDirPath();
+				QString dirpath = runPath + "/image/findchess/0/auto/";
 
-			////m_hwnd = (HWND)0x016A09DC;
+				QDir dir(dirpath);
 
-			//ShowWindow(m_hWndProg, SW_RESTORE);
-			//SetForegroundWindow(m_hWndProg);
+				bool find = true;
+				
+				while (find) {
+					find = false;
+					QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
+					for (QString file : files) {						
 
-			//for (int ffx = 5; ffx < 300; ffx += 5) {
-			//	for (int ffy = 5; ffy < 400; ffy += 5) {
+						while (true) {   // 主界面不能再返回了
+							if (searchImage("gate.png", true, "0/not/")) {
+								wait(200);
+							}
+							else {
+								break;
+							}
+							if (bMustStop) break;
+						}
+
+						if (this->SearchAndClick(file, true)) {
+							find = true;
+							MayBeEnd = true;
+							wait(200);
+						}
+						if (bMustStop) break;
+					}
+				}
+				//----------------------------------------------------------------------------
 
 
-			//		
+				// 1. 发现初始FEN， 就发开始信息
 
-			//		BringWindowToTop(m_hWndProg);       //可以试一下不同的函数效果
-			//		SetForegroundWindow(m_hWndProg);
-
-			//		winLeftClick(m_hWndBoard, ffx, ffy);
-			//		wait(1);
-			//	}
-			//}
-
-			*/
-
-
-			if (bSendInitFen == false) {
-				if (GetLxBoardChess(true)) {
+				if (GetLxBoardChess(true)) {    // 读到了棋盘信息
 					QString fen = this->m_LxBoard[0].fen;
-					SendFenToMain(fen);
-					bSendInitFen = true;
 
-					/*
-					// 发送走步
-					int fx = 7;
-					int fy = 0;
-					int tx = 6;
-					int ty = 2;
-
-					cLXinfo* pInfo = &this->m_LxInfo;
-
-					int ffx = pInfo->offx + fx * pInfo->m_dx;
-					int ffy = pInfo->offy + (9-fy) * pInfo->m_dy;
-
-					int ttx = pInfo->offx + tx * pInfo->m_dx;
-					int tty = pInfo->offy + (9 - ty) * pInfo->m_dy;
-
-
-					//m_hwnd = (HWND)0x0052140E;
-
-					//ShowWindow(m_hwnd, SW_RESTORE);
-					//SetForegroundWindow(m_hwnd);
-
-					//for (ffx = 5; ffx < 300; ffx += 5) {
-					//	for (ffy = 5; ffy < 400; ffy += 5) {
-					//		winLeftClick(m_hwnd, ffx, ffy);
-					//		wait(1);
-					//	}
+					//if (m_bSendInitFen == true) {
+						// 如果fen是初始化的fen， 则要等待对方走棋
+						// rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1
+					//if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") {
+					//	m_bSendInitFen = false;						
 					//}
+					//if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1") {
+					//	m_bSendInitFen = false;				
+					//}
+					if (MayBeEnd) {
+						last_send_fen = "";
+						MayBeEnd = false;
+					}
 
-					winLeftClick(m_hwnd, ffx, ffy);
-					wait(20);
-					winLeftClick(m_hwnd, ttx, tty);
-					wait(20);
-					*/
-					
+					if (last_send_fen != fen) {
+
+						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") {
+							m_bSendInitFen = false;
+							// 这个是对方走红，则我们，要等一下
+							last_send_fen = fen;
+						}
+						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1") {
+							m_bSendInitFen = false;
+						}
+						if (last_send_fen != fen) {
+							if (m_bSendInitFen == false) {
+								SendFenToMain(fen);
+
+								wait(2000);
+								m_bSendInitFen = true;
+								last_send_fen = fen;
+							}
+						}
+					}
+
+					last_fen = fen;
+				}
+				else {
+					//m_bSendInitFen = false;
+				}
+				wait(500);
+			}
+		}
+		else {
+
+			bMustStop = false;
+			m_bSendInitFen = false;
+
+			this->m_Ready_LXset = true;
+			//this->GetMoveFromBoard();
+			if (!isSolutionReady()) {
+
+				this->GetLxInfo("0");
+
+				if (!isSolutionReady()) {
+
+					SendMessageToMain("出错啦", "连线方案还没有准备好！");
+					return;
 				}
 			}
-			else {
-				// 读取对方的走步，发送到主线程上
-				if (GetLxBoardChess(false)) {   // 读出第二个棋盘''
 
-					Chess::GenericMove m;
-					if (this->Board2Move(m)) {
-						SendMoveToMain(m);					
+			QString MoveSendingFen;
+			Chess::GenericMove MoveSendingMove;
+
+			while (true) {   // 走棋
+
+				if (bMustStop) break;
+
+				/*
+				//HWND m_hWndProg = (HWND)0x00711024;
+				////HWND m_hWndBoard = (HWND)0x0052140E;
+
+				//HWND m_hWndBoard = (HWND)0x00711024;
+
+				////m_hwnd = (HWND)0x016A09DC;
+
+				//ShowWindow(m_hWndProg, SW_RESTORE);
+				//SetForegroundWindow(m_hWndProg);
+
+				//for (int ffx = 5; ffx < 300; ffx += 5) {
+				//	for (int ffy = 5; ffy < 400; ffy += 5) {
+
+
+				//
+
+				//		BringWindowToTop(m_hWndProg);       //可以试一下不同的函数效果
+				//		SetForegroundWindow(m_hWndProg);
+
+				//		winLeftClick(m_hWndBoard, ffx, ffy);
+				//		wait(1);
+				//	}
+				//}
+
+				*/
+
+				if (m_bSendInitFen == false) {
+					if (GetLxBoardChess(true)) {
+						QString fen = this->m_LxBoard[0].fen;
+
+						// 如果fen是初始化的fen， 则要等待对方走棋
+						// rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1
+						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") {
+						}
+						else {
+							if (m_noSendInitFen == false) {
+								SendFenToMain(fen);
+							}
+							m_bSendInitFen = true;
+						}
 					}
-				}	
+				}
+				else {
+					// 读取对方的走步，发送到主线程上
+					if (GetLxBoardChess(false)) {   // 读出第二个棋盘''
+
+						Chess::GenericMove m;
+						if (this->Board2Move(m)) {
+							//SendMoveToMain(m);
+							MoveSendingFen = this->m_LxBoard[1].fen;
+							MoveSendingMove = m;
+						}
+
+						if (this->m_LxBoard[1].fen == MoveSendingFen) {   // 棋盘没有改动
+							if (MoveSendingMove.isNull() == false) {
+								SendMoveToMain(m);
+							}
+						}						
+					}
+				}
+				wait(m_sleepTimeMs);
 			}
-			wait(1);
+			//SendMessageToMain("OK", "你已退出连线！");
 		}
-		//SendMessageToMain("OK", "你已退出连线！");
+
+		m_isRuning = false;
 	}
 
 	//Chess::Move Capture::GetMoveFromBoard()
@@ -659,7 +894,7 @@ namespace Chess {
 			if (!getChessboardHwnd()) {
 				qWarning("找不到棋盘！");
 				return false;
-			}
+			}			
 		}
 
 		if (this->m_connectedBoard_OK == false) return false;
@@ -670,25 +905,25 @@ namespace Chess {
 			pList = &m_LxBoard[0];
 		}
 
-		if (!SearchOnChessList(m_hwnd, "bk.png", pList->BKingList, true)) {    // 黑将
+		if (!SearchOnChessList(m_hwnd, "bk.png", pList->BKingList, SearchWhichCap::eBlack, true)) {    // 黑将
 			return false;  // 找不到对方的将了
 		}
 
-		SearchOnChessList(m_hwnd, "br.png", pList->BCheList);     // 黑车
-		SearchOnChessList(m_hwnd, "bn.png", pList->BMaList);      // 黑马
-		SearchOnChessList(m_hwnd, "bc.png", pList->BPaoList);     // 黑炮
-		SearchOnChessList(m_hwnd, "ba.png", pList->BShiList);     // 黑士
-		SearchOnChessList(m_hwnd, "bb.png", pList->BXiangList);   // 黑象
-		SearchOnChessList(m_hwnd, "bp.png", pList->BPawnList);    // 黑兵
+		SearchOnChessList(m_hwnd, "br.png", pList->BCheList, SearchWhichCap::eBlack);     // 黑车
+		SearchOnChessList(m_hwnd, "bn.png", pList->BMaList, SearchWhichCap::eBlack);      // 黑马
+		SearchOnChessList(m_hwnd, "bc.png", pList->BPaoList, SearchWhichCap::eBlack);     // 黑炮
+		SearchOnChessList(m_hwnd, "ba.png", pList->BShiList, SearchWhichCap::eBlack);     // 黑士
+		SearchOnChessList(m_hwnd, "bb.png", pList->BXiangList, SearchWhichCap::eBlack);   // 黑象
+		SearchOnChessList(m_hwnd, "bp.png", pList->BPawnList, SearchWhichCap::eBlack);    // 黑兵
 
 
-		SearchOnChessList(m_hwnd, "rr.png", pList->RCheList);     // 红车
-		SearchOnChessList(m_hwnd, "rn.png", pList->RMaList);      // 红马
-		SearchOnChessList(m_hwnd, "rc.png", pList->RPaoList);     // 红炮
-		SearchOnChessList(m_hwnd, "ra.png", pList->RShiList);     // 红士
-		SearchOnChessList(m_hwnd, "rb.png", pList->RXiangList);   // 红象
-		SearchOnChessList(m_hwnd, "rp.png", pList->RPawnList);    // 红兵
-		SearchOnChessList(m_hwnd, "rk.png", pList->RKingList);    // 红将
+		SearchOnChessList(m_hwnd, "rr.png", pList->RCheList, SearchWhichCap::eRed);     // 红车
+		SearchOnChessList(m_hwnd, "rn.png", pList->RMaList, SearchWhichCap::eRed);      // 红马
+		SearchOnChessList(m_hwnd, "rc.png", pList->RPaoList, SearchWhichCap::eRed);     // 红炮
+		SearchOnChessList(m_hwnd, "ra.png", pList->RShiList, SearchWhichCap::eRed);     // 红士
+		SearchOnChessList(m_hwnd, "rb.png", pList->RXiangList, SearchWhichCap::eRed);   // 红象
+		SearchOnChessList(m_hwnd, "rp.png", pList->RPawnList, SearchWhichCap::eRed);    // 红兵
+		SearchOnChessList(m_hwnd, "rk.png", pList->RKingList, SearchWhichCap::eRed);    // 红将
 
 		return GetFen(pList);
 	}
@@ -721,7 +956,7 @@ namespace Chess {
 
 	bool Capture::SaveOnePiecePic(int x, int y, QString chessName)
 	{
-		int pieceSize = int(m_LxInfo.m_dx * 0.65f);
+		int pieceSize = int(m_LxInfo.m_dx * 0.8f);
 		QString picPath = getFindPath() + m_LxInfo.m_PieceCatlog + "/" + chessName;
 
 		QRect rect(
@@ -730,6 +965,8 @@ namespace Chess {
 			pieceSize, pieceSize);
 		QPixmap cropped = this->m_capPixmap.copy(rect);
 		cropped.save(picPath, "PNG");   // 黑车
+
+		//cv::FileStorage
 
 		return true;
 	}
@@ -740,92 +977,383 @@ namespace Chess {
 		//delete this->m_board_second;
 	}
 
-	bool Capture::captureOne(QString fname, HWND hw, bool disp, int sleepTimeMs, QString path)
-	{
-		Q_UNUSED(disp);
-
-		if (path == nullptr) {
-			path = this->getPicturePath();
-		}
+	bool Capture::captureOne(HWND hw, bool isTransHSV, int sleepTimeMs)	{
 		if (this->m_UseAdb) {
 			//return this->pAdb->one_screenshot(this->capPixmap, disp, fname, sleepTimeMs, path);
 			return false;
 		}
 		else {
-			return this->CaptureOneNotry(fname, hw, sleepTimeMs, path);
+			return this->CaptureOneNotry(hw, sleepTimeMs, isTransHSV);
 		}
 	}
 
-	bool Capture::searchImage(QString findName, bool isCap, QString mainName, HWND hw)
+	bool Capture::searchChess(QString findName, bool isCap, SearchWhichCap sWhich, HWND hw)
 	{
 		QVector<cv::Point> res;
 		if (hw == nullptr) {
 			hw = this->m_hwnd;
 		}
-		return this->searchImage(hw, findName, res, mainName, isCap);
+		return this->searchChess(hw, findName, res, sWhich, isCap);
 	}
 
-	bool Capture::searchImage(HWND hw, QString findName, QVector<cv::Point>& res, QString mainName, bool isCap, float threshold, bool isShow)
-	{
+	bool Capture::searchCountours(HWND hw, QString findName,bool isCap) {
 		if (isCap) {
-			if (this->captureOne(mainName, hw) == false) {
+			if (this->captureOne(hw) == false) {
 				qWarning("searchImage 1 %s 出错了！", findName);
 				return false;
 			}
 		}
 
-		cv::Mat image_template_scaled;
+		cv::namedWindow("Control", cv::WINDOW_AUTOSIZE); //create a window called "Control"
+		int iLowH = 100;
+		int iHighH = 140;
+
+		int iLowS = 90;
+		int iHighS = 255;
+
+		int iLowV = 90;
+		int iHighV = 255;
+
+		//Create trackbars in "Control" window		
+
+		cv::createTrackbar("LowH", "Control", &iLowH, 179); //Hue (0 - 179)
+		cv::createTrackbar("HighH", "Control", &iHighH, 179);
+
+		cv::createTrackbar("LowS", "Control", &iLowS, 255); //Saturation (0 - 255)
+		cv::createTrackbar("HighS", "Control", &iHighS, 255);
+
+		cv::createTrackbar("LowV", "Control", &iLowV, 255); //Value (0 - 255)
+		cv::createTrackbar("HighV", "Control", &iHighV, 255);
+
+
+		while (true) {
+
+			cv::Mat imgHSV;
+			std::vector<cv::Mat> hsvSplit;
+			cv::cvtColor(m_image_source, imgHSV, cv::COLOR_BGR2HSV);
+
+			//cv::split(imgHSV, hsvSplit);
+			//cv::equalizeHist(hsvSplit[2], hsvSplit[2]);
+			//cv::merge(hsvSplit, imgHSV);
+
+			cv::Mat imgThresholded;
+
+			cv::inRange(imgHSV, cv::Scalar(iLowH, iLowS, iLowV), cv::Scalar(iHighH, iHighS, iHighV), imgThresholded); //Threshold the image
+
+			// 开操作 (去除一些噪点)
+			cv::Mat element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(1, 1));
+			cv::morphologyEx(imgThresholded, imgThresholded, cv::MORPH_OPEN, element);
+
+			// 闭操作 (连接一些连通域)
+			cv::morphologyEx(imgThresholded, imgThresholded, cv::MORPH_CLOSE, element);
+	
+
+
+			cv::imshow("Thresholded Image", imgThresholded); //show the thresholded image
+			cv::imshow("Original", m_image_source); //show the original image
+
+			char key = (char)cv::waitKey(300);
+			if (key == 27)
+				break;		
+		}
+
+		// opencv 实现特定颜色线条提取与定位
+		// https://blog.csdn.net/chenghaoy/article/details/86509950
+
+
+		//CV_EXPORTS_W void findContours(InputArray image, OutputArrayOfArrays contours,
+		//	OutputArray hierarchy, int mode,
+		//	int method, Point offset = Point());
+
+		///** @overload */
+		//CV_EXPORTS void findContours(InputArray image, OutputArrayOfArrays contours,
+		//	int mode, int method, Point offset = Point());
+
+		//cv::Mat m_image_find = m_image_source;   // 转换好的主图
+		cv::Mat grayImage;
+		cv::Mat out_Canny;
+
+		cv::cvtColor(m_image_source,grayImage, cv::COLOR_BGR2GRAY);
+
+		cv::Mat hsvImage;
+		cv::cvtColor(m_image_source, hsvImage, cv::COLOR_BGR2HSV);
+
+		int hueValue = 0; // red color
+		int hueRange = 15; // how much difference from the desired color we want to include to the result If you increase this value, for example a red color would detect some orange values, too.
+
+		//int minSaturation = 50; // I'm not sure which value is good here...
+		//int minValue = 50; // not sure whether 50 is a good min value here...
+
+		cv::Mat hueMask;
+		cv::inRange(hsvImage, hueValue - hueRange, hueValue + hueRange, hueMask);
+
+
+		int min_Thresh = 240;
+		int max_Thresh = 255;
+		Canny(grayImage, out_Canny, min_Thresh, max_Thresh * 2, 3);
+
+		//cv::imshow("source", m_image_source);
+		cv::imshow("canny", out_Canny);
+		//cv::waitKey();
+
+		//CV_RETR_EXTERNAL只检测最外围轮廓，包含在外围轮廓内的内围轮廓被忽略
+		std::vector<std::vector<cv::Point>> g_vContours;
+		std::vector<cv::Vec4i> g_vHierarchy;		
+
+		cv::RNG G_RNG(1234);
+
+		cv::findContours(out_Canny, g_vContours, g_vHierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+		cv::Mat Drawing = cv::Mat::zeros(out_Canny.size(), CV_8UC3);
+
+		for (int i = 0; i < g_vContours.size(); i++) {
+			cv::Scalar color = cv::Scalar(G_RNG.uniform(0, 255), G_RNG.uniform(0, 255), G_RNG.uniform(0, 255));
+			cv::drawContours(Drawing, g_vContours, i, color, 2, 8, g_vHierarchy, 0);
+		}
+
+		cv::imshow("gray", grayImage);
+
+		cv::imshow("drawing", Drawing);
+
+		//cv::imshow("contours", grayImage);
+		cv::waitKey();
+
+		return true;
+
+	}
+
+	bool Capture::getKingInfo(HWND hw, QString findName, bool isCap)
+	{
+		if (isCap) {
+			if (this->captureOne(hw) == false) {
+				qWarning("searchImage 1 %s 出错了！", findName);
+				return false;
+			}
+		}
+
+		cv::namedWindow("Control", cv::WINDOW_AUTOSIZE); //create a window called "Control"
+		int iLowH = 100;
+		int iHighH = 140;
+
+		int iLowS = 90;
+		int iHighS = 255;
+
+		int iLowV = 90;
+		int iHighV = 255;
+
+		//Create trackbars in "Control" window		
+
+		cv::createTrackbar("LowH", "Control", &iLowH, 179); //Hue (0 - 179)
+		cv::createTrackbar("HighH", "Control", &iHighH, 179);
+
+		cv::createTrackbar("LowS", "Control", &iLowS, 255); //Saturation (0 - 255)
+		cv::createTrackbar("HighS", "Control", &iHighS, 255);
+
+		cv::createTrackbar("LowV", "Control", &iLowV, 255); //Value (0 - 255)
+		cv::createTrackbar("HighV", "Control", &iHighV, 255);
+
+
+		while (true) {
+
+			cv::Mat imgHSV;
+			std::vector<cv::Mat> hsvSplit;
+			cv::cvtColor(m_image_source, imgHSV, cv::COLOR_BGR2HSV);
+
+			//cv::split(imgHSV, hsvSplit);
+			//cv::equalizeHist(hsvSplit[2], hsvSplit[2]);
+			//cv::merge(hsvSplit, imgHSV);
+
+			cv::Mat imgThresholded;
+
+			cv::inRange(imgHSV, cv::Scalar(iLowH, iLowS, iLowV), cv::Scalar(iHighH, iHighS, iHighV), imgThresholded); //Threshold the image
+
+			// 开操作 (去除一些噪点)
+			cv::Mat element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(1, 1));
+			cv::morphologyEx(imgThresholded, imgThresholded, cv::MORPH_OPEN, element);
+
+			// 闭操作 (连接一些连通域)
+			cv::morphologyEx(imgThresholded, imgThresholded, cv::MORPH_CLOSE, element);
+
+
+
+			cv::imshow("Thresholded Image", imgThresholded); //show the thresholded image
+			cv::imshow("Original", m_image_source); //show the original image
+
+			char key = (char)cv::waitKey(300);
+			if (key == 27)
+				break;
+		}
+
+		// opencv 实现特定颜色线条提取与定位
+		// https://blog.csdn.net/chenghaoy/article/details/86509950
+
+
+		//CV_EXPORTS_W void findContours(InputArray image, OutputArrayOfArrays contours,
+		//	OutputArray hierarchy, int mode,
+		//	int method, Point offset = Point());
+
+		///** @overload */
+		//CV_EXPORTS void findContours(InputArray image, OutputArrayOfArrays contours,
+		//	int mode, int method, Point offset = Point());
+
+		//cv::Mat m_image_find = m_image_source;   // 转换好的主图
+		cv::Mat grayImage;
+		cv::Mat out_Canny;
+
+		cv::cvtColor(m_image_source, grayImage, cv::COLOR_BGR2GRAY);
+
+		cv::Mat hsvImage;
+		cv::cvtColor(m_image_source, hsvImage, cv::COLOR_BGR2HSV);
+
+		int hueValue = 0; // red color
+		int hueRange = 15; // how much difference from the desired color we want to include to the result If you increase this value, for example a red color would detect some orange values, too.
+
+		//int minSaturation = 50; // I'm not sure which value is good here...
+		//int minValue = 50; // not sure whether 50 is a good min value here...
+
+		cv::Mat hueMask;
+		cv::inRange(hsvImage, hueValue - hueRange, hueValue + hueRange, hueMask);
+
+
+		int min_Thresh = 240;
+		int max_Thresh = 255;
+		Canny(grayImage, out_Canny, min_Thresh, max_Thresh * 2, 3);
+
+		//cv::imshow("source", m_image_source);
+		cv::imshow("canny", out_Canny);
+		//cv::waitKey();
+
+		//CV_RETR_EXTERNAL只检测最外围轮廓，包含在外围轮廓内的内围轮廓被忽略
+		std::vector<std::vector<cv::Point>> g_vContours;
+		std::vector<cv::Vec4i> g_vHierarchy;
+
+		cv::RNG G_RNG(1234);
+
+		cv::findContours(out_Canny, g_vContours, g_vHierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+		cv::Mat Drawing = cv::Mat::zeros(out_Canny.size(), CV_8UC3);
+
+		for (int i = 0; i < g_vContours.size(); i++) {
+			cv::Scalar color = cv::Scalar(G_RNG.uniform(0, 255), G_RNG.uniform(0, 255), G_RNG.uniform(0, 255));
+			cv::drawContours(Drawing, g_vContours, i, color, 2, 8, g_vHierarchy, 0);
+		}
+
+		cv::imshow("gray", grayImage);
+
+		cv::imshow("drawing", Drawing);
+
+		//cv::imshow("contours", grayImage);
+		cv::waitKey();
+
+		return true;
+	}
+
+	bool Capture::searchChess(HWND hw, QString findName, QVector<cv::Point>& res, SearchWhichCap sWhich, bool isCap, float threshold, bool isShow)
+	{
+
+		//searchCountours(hw, findName, mainName, isCap);
+
+		if (isCap) {
+			if (this->captureOne(hw) == false) {
+				qWarning("searchImage 1 %s 出错了！", findName);
+				return false;
+			}
+		}
+
+		cv::Mat image_template_main;
+		//cv::Mat image_template2;
+
+		cv::Mat image_template_chess; // 棋子有可能有几种
+		bool bIsInHash = false;
 		//cv::Mat image_source;
+		//int tmpSize = 1;
+
+		cv::Mat image_template_chess_pre;  // 棋子有可能有几种
+		cv::Mat image_template_chess_gold; // 棋子有可能有几种
 
 		try {
-			if (mainName == nullptr) {
-
-				//cv::Mat mat = QImage_to_cvMat(this->capPixmap.toImage(), false);
-				//image_source = cv::Mat(mat.rows, mat.cols, CV_8UC3);
-				//int from_to[] = { 0,0,  1,1,  2,2 };
-				//cv::mixChannels(&mat, 1, &image_source, 1, from_to, 3);
-
-				//image_source = mat2;
-			}
-			else {
-				QString mFile = this->getPicturePath() + mainName;
-				m_image_source = cv::imread(mFile.toStdString()); // 主图
-			}
 
 			//QString hashName = "aff"; // getHashName(findName);
 
 			if (this->m_MatHash.contains(findName)) {              // 保存在缓存中
-				image_template_scaled = this->m_MatHash.value(findName);
+				if (sWhich == SearchWhichCap::eMain) {
+					image_template_main = this->m_MatHash.value(findName);
+				}
+				else {
+					image_template_chess = this->m_MatHash.value(findName);
+				}
+				bIsInHash = true;
 			}
 			else {
-				QString fFile = this->getFindPath() + findName;
-				cv::Mat image_template = cv::imread(fFile.toStdString());   // 模板图
+
+				if (sWhich == SearchWhichCap::eMain) {
+
+					QString fFile = this->getFindPath() + findName;
+					image_template_main = cv::imread(fFile.toStdString());   // 模板图
+
+					// 要不要缩放
+					//if (this->m_scaleX != 1.0f) {
+					//	cv::resize(image_template_main, image_template_main, cv::Size(), this->m_scaleX, this->m_scaleY);
+					//}
+					this->m_MatHash.insert(findName, image_template_main);
+				}
+				else {
 
 
-				cv::resize(image_template, image_template_scaled, cv::Size(), this->m_scaleX, this->m_scaleY);
+
+					// 在这儿再裁一下，因为有边框干扰		
+
+					/*int w = image_template_scaled.rows;
+					int h = image_template_scaled.cols;
+					float s = this->m_chessClip;
+					cv::Rect crect(w * s, h * s, w * (1 - 2 * s), h * (1 - 2 * s));
+					image_template_scaled = image_template_scaled(crect);*/
 
 
-				// 在这儿再裁一下，因为有边框干扰		
+					QString fFile = this->getFindPath() + findName;
+					cv::Mat image_template = cv::imread(fFile.toStdString());   // 模板图
 
-				int w = image_template_scaled.rows;
-				int h = image_template_scaled.cols;
-				float s = this->m_chessClip;
-				cv::Rect crect(w * s, h * s, w * (1 - 2 * s), h * (1 - 2 * s));
-				image_template_scaled = image_template_scaled(crect);
+					// 要处理成HSV mask 格式
 
-				this->m_MatHash.insert(findName, image_template_scaled);
+					cv::Mat imgHSV;
+					cv::cvtColor(image_template, imgHSV, cv::COLOR_BGR2HSV);
+
+
+					if (sWhich == SearchWhichCap::eBlack) {
+						cv::inRange(imgHSV, cv::Scalar(iLowHblack, iLowSblack, iLowVblack), cv::Scalar(iHighHblack, iHighSblack, iHighVblack), image_template_chess_pre); //Threshold the image
+					}
+					else {
+						cv::inRange(imgHSV, cv::Scalar(iLowHred, iLowSred, iLowVred), cv::Scalar(iHighHred, iHighSred, iHighVred), image_template_chess_pre); //Threshold the image
+					}
+					// this->m_MatHash.insert(findName, image_template2); 后面正确的插入
+					//tmpSize = image_template2.cols * image_template2.rows;
+
+					// 金棋子
+					fFile = this->getFindPath() + "/0/golden/" + findName;
+					image_template = cv::imread(fFile.toStdString());   // 模板图
+					cv::cvtColor(image_template, imgHSV, cv::COLOR_BGR2HSV);
+
+					if (sWhich == SearchWhichCap::eBlack) {
+						cv::inRange(imgHSV, cv::Scalar(iLowHblack, iLowSblack, iLowVblack), cv::Scalar(iHighHblack, iHighSblack, iHighVblack), image_template_chess_gold); //Threshold the image
+					}
+					else {
+						cv::inRange(imgHSV, cv::Scalar(iLowHred, iLowSred, iLowVred), cv::Scalar(iHighHred, iHighSred, iHighVred), image_template_chess_gold); //Threshold the image
+					}
+
+				}
 			}
-
-
-			//QString fFile = this->getFindPath() + findName;
-			//cv::Mat image_template = cv::imread(fFile.toStdString());   // 模板图
-			//cv::resize(image_template, image_template_scaled, cv::Size(), this->scaleX, this->scaleY);
-
 		}
 		catch (...) {
 			//qWarning("searchImage 2 %s 出错了！", findName);
 			return false;
 		}
+
+		
+		//cv::imshow("templ", m_image_black);
+		//cv::imshow("img", m_image_source);
+		//cv::imshow("matched", image_template2);
+		//cv::waitKey();
+		
 
 //#define TM_CCOEFF
 #ifdef TM_CCOEFF
@@ -927,90 +1455,165 @@ namespace Chess {
 //通常,随着从简单的测量(平方差)到更复杂的测量(相关系数),我们可获得越来越准确的匹配(同时也意味着越来越大的计算代价). /
 //最好的办法是对所有这些设置多做一些测试实验,以便为自己的应用选择同时兼顾速度和精度的最佳方案.//
 
-		cv::Mat image_matched;
-		try {
-			// CV_TM_SQDIFF
-			cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
-			//cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_CCOEFF_NORMED);
-		}
-		catch (...) {
-			qWarning("searchImage 3 %s 出错了！", findName);
-			return false;
-		}
+		for (int i = 0; i < 2; i++) {
 
-#if 0
-		cv::imshow("templ", image_template_scaled);
-		cv::imshow("img", m_image_source);
-		cv::imshow("matched", image_matched);
-		//cv::waitKey();
-#endif
-		try {
+			cv::Mat image_matched;
+			try {
+				if (sWhich == SearchWhichCap::eMain) {
 
-			if (threshold == 1.0f) {
-				threshold = this->m_precision;
-			}
-			res.clear();  // 清空数组
-
-			bool Isfind = false;
-
-			while (true) {
-				cv::Point minLoc, maxLoc;
-				double minVal, maxVal;
-
-				//寻找最佳匹配位置
-				cv::minMaxLoc(image_matched, &minVal, &maxVal, &minLoc, &maxLoc);
-
-
-				////double matchVal = minVal / (image_template_scaled.cols * image_template_scaled.rows);
-				//threshold = 0.90;
-				double matchThres = maxVal * (1 - threshold);
-
-				if (minVal < matchThres) {
-
-					Isfind = true;
-
-					cv::Point chessP;
-
-					chessP.x = minLoc.x + image_template_scaled.cols / 2;
-					chessP.y = minLoc.y + image_template_scaled.rows / 2;
-
-					if (isShow) {
-						//cv::Mat image_color;
-						//cv::cvtColor(image_source, image_color, cv::CV_BGR2GRAY);
-						cv::circle(m_image_source,
-							chessP, //cv::Point(imgX, imgY),
-							image_template_scaled.rows,
-							cv::Scalar(0, 255, 255),
-							2,
-							8,
-							0);
-
-						cv::imshow("target", m_image_source);
-						cv::imshow("templ", image_template_scaled);
+					if (i == 1) {
+						return false;
 					}
 
-					res.append(chessP);
+					// CV_TM_SQDIFF
+					cv::matchTemplate(m_image_source, image_template_main, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
 
-					cv::Rect rc; // = cv::Rect(minLoc, cv::Size(10, 10));
-					//cv::imshow("m1", image_matched);
-					cv::floodFill(image_matched, minLoc, cv::Scalar(maxVal), &rc, cv::Scalar(minVal), cv::Scalar(minVal));
-					//cv::imshow("m2", image_matched);
-					//cv::waitKey();
+					
+				}
+				else if (bIsInHash == true) {
+					if (i == 1) {
+						return false;
+					}
+					if (sWhich == SearchWhichCap::eBlack) {
+						cv::matchTemplate(m_image_black, image_template_chess, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+					}
+					else {
+						cv::matchTemplate(m_image_red, image_template_chess, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+					}
 				}
 				else {
-					break;
+					if (sWhich == SearchWhichCap::eBlack) {
+						if (i == 0) {
+							cv::matchTemplate(m_image_black, image_template_chess_pre, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						}
+						else {
+							cv::matchTemplate(m_image_black, image_template_chess_gold, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						}
+					}
+					else {
+						if (i == 0) {
+							cv::matchTemplate(m_image_red, image_template_chess_pre, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						}
+						else {
+							cv::matchTemplate(m_image_red, image_template_chess_gold, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						}
+					}
 				}
-
+				//cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_CCOEFF_NORMED);  image_template_chess
+			}
+			catch (...) {
+				qWarning("searchImage 3 %s 出错了！", findName);
+				return false;
 			}
 
+#if 0
+			cv::imshow("m_image_source", m_image_source);
+			//cv::imshow("templ", image_template2);
+			cv::imshow("m_image_black", m_image_red);
+			cv::imshow("matched", image_matched);
+			cv::waitKey();
 #endif
-			return Isfind;
-		}
-		catch (...) {
-			//qWarning("searchImage 5 %s 出错了！", findName);
-			return false;
+			try {
+
+				if (threshold == 1.0f) {
+					threshold = this->m_precision_chess;
+				}
+				res.clear();  // 清空数组
+
+				bool Isfind = false;
+
+				while (true) {
+					cv::Point minLoc, maxLoc;
+					double minVal, maxVal;
+
+					//寻找最佳匹配位置
+					cv::minMaxLoc(image_matched, &minVal, &maxVal, &minLoc, &maxLoc);
+
+
+					//double matchVal = minVal / tmpSize;  // 去掉模板大小对匹配精度的影响
+					//threshold = 0.90;
+					double matchThres = maxVal * (1 - threshold);
+
+					if (minVal < matchThres) {
+
+						Isfind = true;
+
+						cv::Point chessP;
+
+						if (sWhich == SearchWhichCap::eMain) {
+							chessP.x = minLoc.x + image_template_main.cols / 2;
+							chessP.y = minLoc.y + image_template_main.rows / 2;
+						}
+						else {							
+							if (bIsInHash == true) {
+								chessP.x = minLoc.x + image_template_chess.cols / 2;
+								chessP.y = minLoc.y + image_template_chess.rows / 2;
+							}
+							else if (i == 0) {
+								chessP.x = minLoc.x + image_template_chess_pre.cols / 2;
+								chessP.y = minLoc.y + image_template_chess_pre.rows / 2;
+							}
+							else {
+								chessP.x = minLoc.x + image_template_chess_gold.cols / 2;
+								chessP.y = minLoc.y + image_template_chess_gold.rows / 2;
+							}
+						}
+
+						if (isShow) {
+							//cv::Mat image_color;
+							//cv::cvtColor(image_source, image_color, cv::CV_BGR2GRAY);
+							cv::circle(m_image_source,
+								chessP, //cv::Point(imgX, imgY),
+								40,
+								cv::Scalar(0, 255, 255),
+								2,
+								8,
+								0);
+
+							cv::imshow("target", m_image_source);
+							//cv::imshow("templ", image_template);
+						}
+
+						res.append(chessP);
+
+						//cv::Rect rc; // = cv::Rect(minLoc, cv::Size(10, 10));
+						//cv::imshow("m1", image_matched);
+						//cv::floodFill(image_matched, minLoc, cv::Scalar(maxVal), &rc, cv::Scalar(minVal * 0.5), cv::Scalar(minVal * 0.5));
+
+
+
+						cv::circle(image_matched, minLoc, 10, cv::Scalar(maxVal), -1);
+
+						//cv::imshow("m2", image_matched);
+						//cv::waitKey();
+					}
+					else {
+						break;
+					}
+
+				}
+
+#endif
+				//cv::waitKey();
+
+				if (bIsInHash == false) {
+					if (i == 0) {
+						this->m_MatHash.insert(findName, image_template_chess_pre);
+					}
+					else {
+						this->m_MatHash.insert(findName, image_template_chess_gold);
+					}
+				}
+
+				return Isfind;
+			}
+			catch (...) {
+				//qWarning("searchImage 5 %s 出错了！", findName);
+				return false;
+			}
 		}
 
+		return false;
 		
 	}
 
@@ -1057,7 +1660,8 @@ namespace Chess {
 
 	}
 
-	bool Capture::CaptureOneNotry(QString fname, HWND hw, int sleepTimeMS, QString path)
+	// 截图并拆分成红黑二个
+	bool Capture::CaptureOneNotry(HWND hw, int sleepTimeMS, bool isHSV)
 	{
 
 		try {
@@ -1069,9 +1673,9 @@ namespace Chess {
 			this->m_capPixmap = screen->grabWindow(WId(hw));
 
 			//fname = "tmp2.png";
-			if (fname != nullptr) {
-				this->m_capPixmap.save(path + fname, "PNG");
-			}
+			//if (fname != nullptr) {
+			//	this->m_capPixmap.save(path + fname, "PNG");
+			//}
 
 			//QString cname = this->get_window_class(hw);
 
@@ -1081,21 +1685,58 @@ namespace Chess {
 			m_image_source = cv::Mat(mat.rows, mat.cols, CV_8UC3);
 			int from_to[] = { 0,0,  1,1,  2,2 };
 			cv::mixChannels(&mat, 1, &m_image_source, 1, from_to, 3);
-			*/
+			*/			
 
-			this->m_image_source = QPixmapToCvMat(this->m_capPixmap, true);
+			if (m_isAutoClick) {
+				m_image_source_all = QPixmapToCvMat(this->m_capPixmap, true);
+				m_image_source = m_image_source_all;
+			}
+			else {
+				this->m_image_source = QPixmapToCvMat(this->m_capPixmap, true);
+			}
 
 			if (this->m_Ready_LXset) {  // 当前的联线信息OK了
 
 				//this->m_LxInfo.m_dx
 
-				cv::Rect crect(0, 0, m_LxInfo.offx + m_LxInfo.m_dx * 8.8, m_LxInfo.offy + m_LxInfo.m_dx * 9.8);
+				cv::Rect crect(0, 0, m_LxInfo.offx + m_LxInfo.m_dx * 8.8, m_LxInfo.offy + m_LxInfo.m_dx * 9.8);			
+
 				m_image_source = m_image_source(crect);
 
 				//cv::imshow("templ", m_image_source);
 				//cv::waitKey();
 			}
 
+			// 拆分红黑二个图
+			//cv::Mat m_image_red;      // 红方棋子
+			//cv::Mat m_image_black;    // 黑方棋子
+			if (isHSV) {
+				cv::Mat imgHSV;
+				cv::cvtColor(m_image_source, imgHSV, cv::COLOR_BGR2HSV);
+
+				cv::inRange(imgHSV, cv::Scalar(iLowHred, iLowSred, iLowVred), cv::Scalar(iHighHred, iHighSred, iHighVred), m_image_red); //Threshold the image
+				cv::inRange(imgHSV, cv::Scalar(iLowHblack, iLowSblack, iLowVblack), cv::Scalar(iHighHblack, iHighSblack, iHighVblack), m_image_black); //Threshold the image
+			}
+
+			//cv::Mat hsv_channels_red[3];
+			//cv::Mat hsv_red;
+			//cv::inRange(imgHSV, cv::Scalar(iLowHred, iLowSred, iLowVred), cv::Scalar(iHighHred, iHighSred, iHighVred), hsv_red); //Threshold the image
+			//cv::split(hsv_red, hsv_channels_red);
+			//m_image_red = hsv_channels_red[2];
+
+
+			//cv::split(hsv_red, hsv_channels_red);
+			//m_image_red = hsv_channels_red[2];
+
+			//cv::inRange(imgHSV, cv::Scalar(iLowHblack, iLowSblack, iLowVblack), cv::Scalar(iHighHblack, iHighSblack, iHighVblack), m_image_black); //Threshold the image
+
+			/*
+			cv::imshow("m_image_red", m_image_red); //show the thresholded image
+			cv::imshow("m_image_black", m_image_black); //show the original image
+			cv::waitKey();
+			*/
+					
+			
 			// isDisplay	
 			//if (this->displayCapture) {
 			//	GOB::DisplayImage(this->capPixmap, this->isZoom);
@@ -1103,7 +1744,7 @@ namespace Chess {
 
 		}
 		catch (...) {
-			qWarning("截图出错了， %s", path + fname);
+			//qWarning("截图出错了， %s", path + fname);
 			return false;
 		}
 		return  true;
@@ -1226,11 +1867,11 @@ namespace Chess {
 		return retStr;
 	}
 
-	bool Capture::SearchOnChessList(HWND hwnd, QString chess, QVector<cv::Point>& res, bool isCap)
+	bool Capture::SearchOnChessList(HWND hwnd, QString chess, QVector<cv::Point>& res, SearchWhichCap sWhich, bool isCap)
 	{
 		QString chessFile = m_LxInfo.m_PieceCatlog + "/" + chess;  // 黑车
 
-		return searchImage(hwnd, chessFile, res, nullptr, isCap);
+		return searchChess(hwnd, chessFile, res, sWhich, isCap);
 	}
 
 	bool Capture::isChessBoardWindow(HWND hwnd, stLxBoard* pieceList, bool onlyBche)
@@ -1244,28 +1885,28 @@ namespace Chess {
 		//QString title = this->get_window_title(hwnd);
 		if (wc == this->m_LxInfo.m_class) {
 
-
+			// 得找到32个圆				
 			if (onlyBche) {
 				//QString rk = m_LxInfo.m_PieceCatlog + "/br.png";  // 黑车
 				//if (!searchImage(hwnd, rk, pieceList->BCheList, nullptr, true)) {
 
-				if (!SearchOnChessList(hwnd, "br.png", pieceList->BCheList, true)) {
+				if (!SearchOnChessList(hwnd, "br.png", pieceList->BCheList, SearchWhichCap::eBlack,true)) {
 					return false;
 				}
 				//if (pieceList->BCheList.count() >= 1) {
 				//	int a = 0;
 				//}
-				if (pieceList->BCheList.count() >= 2) {
+				if (pieceList->BCheList.count() == 2) {
 					return true;
 				}
 			}
 			else {  // 得判断双方有将
 
-				if (!SearchOnChessList(hwnd, "bk.png", pieceList->BKingList, true)) {
+				if (!SearchOnChessList(hwnd, "bk.png", pieceList->BKingList, SearchWhichCap::eBlack, true)) {
 					return false;
 				}
 
-				if (!SearchOnChessList(hwnd, "rk.png", pieceList->RKingList)) {
+				if (!SearchOnChessList(hwnd, "rk.png", pieceList->RKingList,SearchWhichCap::eRed)) {
 					return false;
 				}
 
@@ -1275,6 +1916,42 @@ namespace Chess {
 			}
 		}
 
+		return false;
+	}
+
+	bool Capture::isFindAutoWin()
+	{
+		HWND hw = first_window();
+		while (hw != nullptr)
+		{
+			//if (hw == (HWND)0x00791730) {
+			//	//this->m_hwnd = hw;
+
+			//	//this->m_connectedBoard_OK = true;
+
+			//	//return true;
+			//	int a = 0;
+			//}
+			//else {
+			//	hw = next_window(hw);
+			//	continue;
+			//}
+
+			QString wc = this->get_window_class(hw);
+			//if (wc == "Qt5QWindowIcon") {   // 去了自己的窗口
+			//	continue;
+			//}
+
+			//QString title = this->get_window_title(hwnd);
+			if (wc == this->m_LxInfo.m_class) {
+
+				this->m_hwnd = hw;		
+
+				return true;
+			}
+
+			hw = next_window(hw);
+		}
 		return false;
 	}
 

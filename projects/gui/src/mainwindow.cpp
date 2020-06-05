@@ -84,12 +84,9 @@ MainWindow::MainWindow(ChessGame* game)
 	  m_closing(false),
 	  m_readyToClose(false),
 	  m_firstTabAutoCloseEnabled(true),
-	m_myClosePreTab(false),
-	m_onPlayRedToggled(false),
-	m_onPlayBlackToggled(false),
-	m_onLinkRedToggled(false),
-	m_onLinkBlackToggled(false),
-	m_pcap(nullptr)
+	m_myClosePreTab(false),  
+	m_pcap(nullptr),
+	m_autoClickCap(nullptr)
 {
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setDockNestingEnabled(true);
@@ -389,7 +386,7 @@ void MainWindow::createToolBars()
 	this->tbtnEnginePlayRed->setCheckable(true);
 	this->tbtnEnginePlayRed->setObjectName(QStringLiteral("EnginePlayRed"));
 	QIcon iconEnginePlayRed;
-	iconEnginePlayRed.addFile(QStringLiteral(":/icon/computer_84314.png"), QSize(), QIcon::Normal, QIcon::Off);
+	iconEnginePlayRed.addFile(QStringLiteral(":/icon/com_red.png"), QSize(), QIcon::Normal, QIcon::Off);
 	this->tbtnEnginePlayRed->setIcon(iconEnginePlayRed);
 	this->tbtnEnginePlayRed->setToolTip("电脑执红走棋");
 	this->mainToolbar->addWidget(this->tbtnEnginePlayRed);
@@ -400,7 +397,7 @@ void MainWindow::createToolBars()
 	this->tbtnEnginePlayBlack->setCheckable(true);
 	this->tbtnEnginePlayBlack->setObjectName(QStringLiteral("EnginePlayBlack"));
 	QIcon iconEnginePlayBlack;
-	iconEnginePlayBlack.addFile(QStringLiteral(":/icon/computer_123003.png"), QSize(), QIcon::Normal, QIcon::Off);
+	iconEnginePlayBlack.addFile(QStringLiteral(":/icon/com_blue.png"), QSize(), QIcon::Normal, QIcon::Off);
 	this->tbtnEnginePlayBlack->setIcon(iconEnginePlayBlack);
 	this->tbtnEnginePlayBlack->setToolTip("电脑执黑走棋");
 	this->mainToolbar->addWidget(this->tbtnEnginePlayBlack);
@@ -415,7 +412,7 @@ void MainWindow::createToolBars()
 	this->actEngineStop->setIcon(iconEngineStop);
 	this->actEngineStop->setText("立即出步");
     this->actEngineStop->setToolTip("让引擎立即出步");
-	this->mainToolbar->addAction(this->actEngineStop);
+	//this->mainToolbar->addAction(this->actEngineStop);
 
 	// 连接其它棋盘，红方走棋
 	this->tbtnLinkChessBoardRed = new QToolButton(this);
@@ -445,6 +442,19 @@ void MainWindow::createToolBars()
 	this->tbtnLinkChessBoardBlack->setToolTip("连接其它棋盘, 我方执黑");
 	this->mainToolbar->addWidget(this->tbtnLinkChessBoardBlack);
 	connect(this->tbtnLinkChessBoardBlack, SIGNAL(toggled(bool)), this, SLOT(onLinkBlackToggled(bool)));
+
+	// 全自动连接其它棋盘
+	this->tbtnLinkAuto = new QToolButton(this);
+	this->tbtnLinkAuto->setCheckable(true);
+	this->tbtnLinkAuto->setObjectName(QStringLiteral("LinkChessBoardAuto"));
+	QIcon iconLinkChessBoardAuto;
+	iconLinkChessBoardAuto.addFile(QStringLiteral(":/icon/fullautolink.png"),
+		QSize(), QIcon::Normal, QIcon::Off);
+	this->tbtnLinkAuto->setIcon(iconLinkChessBoardAuto);
+	this->tbtnLinkAuto->setText("全自动连线");
+	this->tbtnLinkAuto->setToolTip("全自动连接其它棋盘");
+	this->mainToolbar->addWidget(this->tbtnLinkAuto);
+	connect(this->tbtnLinkAuto, SIGNAL(toggled(bool)), this, SLOT(onLinkAutomaticToggled(bool)));
 
 
 
@@ -650,6 +660,10 @@ void MainWindow::addGame(ChessGame* game)
 
 void MainWindow::removeGame(int index)
 {
+	//if (index == -1) {
+	//	return;
+	//}
+	
 	Q_ASSERT(index != -1);
 
 	m_tabs.removeAt(index);
@@ -664,6 +678,11 @@ void MainWindow::destroyGame(ChessGame* game)
 	Q_ASSERT(game != nullptr);
 
 	int index = tabIndex(game);
+
+	//if (index == -1) {
+	//	return;
+	//}
+
 	Q_ASSERT(index != -1);
 	TabData tab = m_tabs.at(index);
 
@@ -1512,21 +1531,43 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 		QMessageBox::warning(this, msg.title, msg.text);
 		break;
 	case stCaptureMsg::eMove:
-		//msg.pGame->PlayerMakeBookMove(msg.m);
-		//m_game->PlayerMakeBookMove(msg.m);
+		// 判断走步是不是合法
+		if (m_gameViewer->isMoveValid(msg.m) == false) {
+			return;   
+		}
 		m_gameViewer->viewLinkMove(msg.m);
 		break;
 	case stCaptureMsg::eSetFen: 
 	{
-		//msg.pGame->stop(false);
-		//msg.pGame->board()->setFenString(msg.text);                  // 一共二个board ChessGame, GameViewer
-		//this->m_gameViewer->viewPreviousMove2(msg.pGame->board());
-
 		QString fen = msg.text;
+		if (this->tbtnLinkAuto->isChecked()) {
 
-		//QString fen = "2bakab2/9/9/8R/pnpNP4/3r5/c3c4/1C2B2C1/4A4/2BAK4 w - - 0 1";
+			if (m_pcap == nullptr)
+				m_pcap = new Chess::Capture(this);
 
-		if (m_onLinkRedToggled || m_onLinkBlackToggled) {  // 红方连线走棋
+			while (m_pcap->m_isRuning) {
+				m_pcap->on_stop();
+				this->wait(500);
+				m_game->stop();
+			}
+			this->wait(1);
+
+			if (fen.contains("w -", Qt::CaseSensitive)) {
+				//m_onLinkRedToggled = true;
+				this->tbtnLinkChessBoardRed->setChecked(true);
+				this->tbtnLinkChessBoardBlack->setChecked(false);
+			}
+			else {
+				this->tbtnLinkChessBoardRed->setChecked(false);
+				this->tbtnLinkChessBoardBlack->setChecked(true);
+			}			
+
+			m_pcap->m_noSendInitFen = true;
+			m_pcap->on_start();
+
+		}
+
+		if (this->tbtnLinkChessBoardRed->isChecked() || this->tbtnLinkChessBoardBlack->isChecked()) {  // 红方连线走棋
 			bool ok = true;
 
 			// 得到当前的设置
@@ -1619,8 +1660,8 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 			//bool isBlackCPU = (side == Chess::Side::Black);
 
 			PlayerBuilder* builders[2] = {
-				mainCreatePlayerBuilder(Chess::Side::White, m_onLinkRedToggled),
-				mainCreatePlayerBuilder(Chess::Side::Black, m_onLinkBlackToggled)
+				mainCreatePlayerBuilder(Chess::Side::White, this->tbtnLinkChessBoardRed->isChecked()),
+				mainCreatePlayerBuilder(Chess::Side::Black, this->tbtnLinkChessBoardBlack->isChecked())
 			};
 
 			//Chess::Side sss = game->board()->sideToMove();
@@ -1711,23 +1752,34 @@ PlayerBuilder* MainWindow::mainCreatePlayerBuilder(Chess::Side side, bool isCPU)
 // 红方电脑思考按钮
 void MainWindow::onPlayRedToggled(bool checked) {
 
-	m_onPlayRedToggled = checked;	
+	
+	
+	// 禁止其它按钮
+	tbtnLinkChessBoardRed->setDisabled(checked);
+	tbtnLinkChessBoardBlack->setDisabled(checked);
+	tbtnLinkAuto->setDisabled(checked);
 
-	this->onPlayWhich(checked);  //  , Chess::Side::White);
+	this->onPlayWhich();  //  , Chess::Side::White);	
+
 }
 
 // 黑方电脑思考按钮
 void MainWindow::onPlayBlackToggled(bool checked) {
 
-	m_onPlayBlackToggled = checked;
+	
+	
+	// 禁止其它按钮
+	tbtnLinkChessBoardRed->setDisabled(checked);
+	tbtnLinkChessBoardBlack->setDisabled(checked);
+	tbtnLinkAuto->setDisabled(checked);
 
-	this->onPlayWhich(checked); // , Chess::Side::Black);
+	this->onPlayWhich(); // , Chess::Side::Black);
 }
 
-void MainWindow::onPlayWhich(bool checked) //, Chess::Side side)
+void MainWindow::onPlayWhich() //, Chess::Side side)
 {
-	(void)checked;
-	if (m_onPlayRedToggled || m_onPlayBlackToggled) {
+	//(void)checked;
+	if (this->tbtnEnginePlayRed->isChecked() || this->tbtnEnginePlayBlack->isChecked()) {
 
 		
 		//EngineConfiguration config = CuteChessApplication::instance()->engineManager()->engineAt(0);
@@ -1835,8 +1887,8 @@ void MainWindow::onPlayWhich(bool checked) //, Chess::Side side)
 			//bool isBlackCPU = (side == Chess::Side::Black);
 
 			PlayerBuilder* builders[2] = {
-				mainCreatePlayerBuilder(Chess::Side::White, m_onPlayRedToggled),
-				mainCreatePlayerBuilder(Chess::Side::Black, m_onPlayBlackToggled)
+				mainCreatePlayerBuilder(Chess::Side::White, this->tbtnEnginePlayRed->isChecked()),
+				mainCreatePlayerBuilder(Chess::Side::Black, this->tbtnEnginePlayBlack->isChecked())
 			};
 
 
@@ -1880,15 +1932,43 @@ void MainWindow::onPlayWhich(bool checked) //, Chess::Side side)
 
 void MainWindow::onLinkRedToggled(bool checked)
 {
-	m_onLinkRedToggled = checked;
+	if (tbtnLinkAuto->isChecked()) return;  
+	
+	tbtnEnginePlayRed->setDisabled(checked);
+	tbtnEnginePlayBlack->setDisabled(checked);
+	tbtnLinkChessBoardBlack->setDisabled(checked);
+	tbtnLinkAuto->setDisabled(checked);
 
 	this->onLinkWhich(checked);  //  , Chess::Side::White);
 }
 void MainWindow::onLinkBlackToggled(bool checked)
 {
-	m_onLinkBlackToggled = checked;
+	if (tbtnLinkAuto->isChecked()) return;  
+	
+	tbtnEnginePlayRed->setDisabled(checked);
+	tbtnEnginePlayBlack->setDisabled(checked);
+	tbtnLinkChessBoardRed->setDisabled(checked);
+	tbtnLinkAuto->setDisabled(checked);
 
 	this->onLinkWhich(checked);  //  , Chess::Side::White);
+}
+
+void MainWindow::onLinkAutomaticToggled(bool checked)
+{
+	tbtnEnginePlayRed->setDisabled(checked);
+	tbtnEnginePlayBlack->setDisabled(checked);
+	tbtnLinkChessBoardRed->setDisabled(checked);
+	tbtnLinkChessBoardBlack->setDisabled(checked);
+	
+	if (checked) {
+		if (m_autoClickCap == nullptr)
+			m_autoClickCap = new Chess::Capture(this,true);
+
+		m_autoClickCap->on_start();
+	}
+	else {
+		m_autoClickCap->on_stop();		
+	}
 }
 
 void MainWindow::onLinkWhich(bool checked)

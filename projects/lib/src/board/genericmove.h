@@ -49,6 +49,8 @@ class LIB_EXPORT GenericMove
 		/*! Returns true if this is a null move. */
 		bool isNull() const;
 
+		void setNull();
+
 		/*! The source square. */
 		Square sourceSquare() const;
 		/*! The target square. */

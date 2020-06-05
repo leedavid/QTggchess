@@ -101,12 +101,25 @@ void BoardScene::setBoard(Chess::Board* board)
 	//this->setba
 }
 
-void BoardScene::LinkMove(const Chess::GenericMove& move) // , const Chess::Side& side)
-{
-	emit humanMove(move, m_board->sideToMove());
+void BoardScene::LinkMove(const Chess::GenericMove& lmove) // , const Chess::Side& side)
+{	
+	//Chess::Move move = m_board->moveFromGenericMove(lmove);				// 
+
+	//if (m_board->isLegalMove(move) == false) {
+	//	return;
+	//}
+	
+	emit humanMove(lmove, m_board->sideToMove());
 
 	m_highlightPiece = nullptr;
 	m_squares->clearHighlights();
+}
+
+bool BoardScene::isMoveValid(const Chess::GenericMove& lmove)
+{
+	Chess::Move move = m_board->moveFromGenericMove(lmove);
+	
+	return m_board->isLegalMove(move);
 }
 
 void BoardScene::populate()

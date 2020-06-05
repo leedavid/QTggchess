@@ -147,6 +147,12 @@ void GameViewer::viewLinkMove(const Chess::GenericMove& move)
 	m_boardScene->LinkMove(move);
 }
 
+bool GameViewer::isMoveValid(const Chess::GenericMove& move)
+{
+	
+	return m_boardScene->isMoveValid(move);
+}
+
 void GameViewer::viewPreviousMove2(Chess::Board* orgBoard)
 {
 	//orgBoard->initialize();

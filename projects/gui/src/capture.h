@@ -31,6 +31,12 @@ struct stCaptureMsg {
 
 namespace Chess {
 
+	enum SearchWhichCap {
+		eMain = 1,
+		eRed,
+		eBlack
+	};
+
 	enum ChinesePieceType
 	{
 		eNoPice = 0,
@@ -116,9 +122,27 @@ namespace Chess {
 
 	public:
 
-		explicit Capture(QObject* parent = nullptr);
+		explicit Capture(QObject* parent = nullptr, bool isAuto = false);
 		//Capture(float precision, bool UseAdb = false, int sleepMs = 200, float scX = 1.0f, float scY = 1.0f);
 		~Capture();
+
+		bool m_isRuning;
+		bool m_noSendInitFen;                // 已发送初始局面了
+		
+
+		//Chess::Move GetMoveFromBoard();
+
+		void on_start();
+		void on_stop();
+		void on_pause();
+
+	private:
+
+		void wait(int msec) {
+			QTime dieTime = QTime::currentTime().addMSecs(msec);
+			while (QTime::currentTime() < dieTime)
+				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+		}
 
 		// 得到连线的信息
 		bool GetLxInfo(QString catlog);
@@ -129,13 +153,10 @@ namespace Chess {
 
 		bool Board2Move(Chess::GenericMove& m);
 
-		//Chess::Move GetMoveFromBoard();
+		bool SearchAndClick(QString findName, bool isCap, QString sub_catlog = nullptr, HWND hw = nullptr, float threshold = 1.0f);
 
-		void on_start();
-		void on_stop();
-		void on_pause();
-
-	private:
+		bool searchImage(QString findName, bool isCap, QString sub_catlog, float threshold = 1.0f);
+		bool searchImage(QString findName, bool isCap, QString sub_catlog, int& imgX, int& imgY, float threshold);
 
 		stCaptureMsg m_msg;
 		void SendMessageToMain(const QString title, const QString msg);
@@ -154,19 +175,22 @@ namespace Chess {
 		bool  SaveAllPiecePicture();  // 得到所有的棋子信息
 		bool  SaveOnePiecePic(int x, int y, QString chessName);
 
-		bool captureOne(QString fname = nullptr, HWND hw = nullptr, bool disp = true, int sleepTimeMs = 0,
-			QString path = nullptr);
+		bool captureOne(HWND hw = nullptr, bool isTransHSV = true, int sleepTimeMs = 0);
 
-		bool searchImage(QString findName, bool isCap = false, QString mainName = nullptr, HWND hw = nullptr);
-		bool searchImage(HWND hw, QString findName, QVector<cv::Point>& res, QString mainName = nullptr, bool isCap = false,
+		bool searchChess(QString findName, bool isCap = false, SearchWhichCap sWhich = SearchWhichCap::eMain, HWND hw = nullptr);
+		bool searchChess(HWND hw, QString findName, QVector<cv::Point>& res, SearchWhichCap sWhich, bool isCap = false,
 			float threshold = 1.0f, bool isShow = false);
 
 		bool char2key(WCHAR ch, LONG& vk_key);
 		void AdbSendText(QString st, bool enter = true);
 
+		bool searchCountours(HWND hw, QString findName, bool isCap);
+
+		bool getKingInfo(HWND hw, QString findName, bool isCap);
+
 		cv::Mat QImage_to_cvMat(const QImage& image, bool inCloneImageData = false);   // 转换格式
 
-		bool CaptureOneNotry(QString fname, HWND hw, int sleepTimeMS, QString path);
+		bool CaptureOneNotry(HWND hw, int sleepTimeMS, bool isTransHSV = true);
 
 
 
@@ -177,6 +201,7 @@ namespace Chess {
 		QString get_window_class(HWND hwnd);
 
 		bool isChessBoardWindow(HWND hwnd, stLxBoard* pieceList, bool onlyBche);  // 是不是象棋窗口
+		bool isFindAutoWin();
 
 		QString getPicturePath();
 		QString getFindPath();
@@ -184,7 +209,7 @@ namespace Chess {
 
 		void initBoard();
 
-		bool SearchOnChessList(HWND hwnd, QString chess, QVector<cv::Point>& res, bool IsCap = false);
+		bool SearchOnChessList(HWND hwnd, QString chess, QVector<cv::Point>& res, SearchWhichCap sWhich, bool IsCap = false);
 
 		//将QImage转化为Mat
 		cv::Mat QImageToCvMat(const QImage& inImage, bool inCloneImageData = true);
@@ -192,11 +217,7 @@ namespace Chess {
 
 		void winLeftClick(HWND hwnd, int x, int y);
 
-		void wait(int msec) {
-			QTime dieTime = QTime::currentTime().addMSecs(msec);
-			while (QTime::currentTime() < dieTime)
-				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-		}
+		
 
 
 	private:
@@ -204,6 +225,7 @@ namespace Chess {
 		Chess::Side m_side;
 
 		bool m_flip;                      // 棋盘是不是翻转了
+		bool m_isAutoClick;               // 是不是自动连线处理
 
 		cLXinfo m_LxInfo;
 		stLxBoard m_LxBoard[2];
@@ -213,21 +235,43 @@ namespace Chess {
 		bool m_connectedBoard_OK;         // 已连接了
 
 		bool bMustStop;
-		bool bSendInitFen;                // 已发送初始局面了
+		bool m_bSendInitFen;                // 已发送初始局面了
 
 
 		int m_sleepTimeMs;   // 截图定时
-		float m_precision;   // 匹配精度
+		float m_precision_auto;   // 匹配精度-图片识别
+		float m_precision_chess;  // 匹配精度-棋子识别
 		bool m_UseAdb;
 		HWND m_hwnd;
 		bool m_chessWinOK;  // 棋谱窗口关闭了	
 		float m_scaleX;
 		float m_scaleY;
-		float m_chessClip;   // 把棋子的边裁剪一些
+		//float m_chessClip;   // 把棋子的边裁剪一些
 
 		QHash<QString, cv::Mat> m_MatHash;
 		QPixmap m_capPixmap;      // 保存的临时抓图
 		cv::Mat m_image_source;   // 转换好的主图
+		cv::Mat m_image_source_all; 
+		cv::Mat m_image_red;      // 红方棋子
+		cv::Mat m_image_black;    // 黑方棋子
+
+		int iLowHred = 0;
+		int iHighHred = 9;
+
+		int iLowSred = 63;
+		int iHighSred = 243;
+
+		int iLowVred = 121;
+		int iHighVred = 255;
+
+		int iLowHblack = 0;
+		int iHighHblack = 51;
+
+		int iLowSblack = 0;
+		int iHighSblack = 90;
+
+		int iLowVblack = 0;
+		int iHighVblack = 140;
 
 		
 		//Chess::Board* m_board_second;

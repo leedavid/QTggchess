@@ -54,6 +54,8 @@ class GameViewer : public QWidget
 
 		void viewLinkMove(const Chess::GenericMove& move);
 
+		bool isMoveValid(const Chess::GenericMove& move);
+
 		//void copyBoard(Chess::Board* orgBoard);   // 把棋子复制过来
 
 		void viewPreviousMove2(Chess::Board* orgBoard);

@@ -58,6 +58,11 @@ bool GenericMove::isNull() const
 	return !(validSource && m_targetSquare.isValid());
 }
 
+void GenericMove::setNull() {
+	m_sourceSquare.setFile(-1);
+	m_targetSquare.setFile(-1);
+}
+
 Square GenericMove::sourceSquare() const
 {
 	return m_sourceSquare;

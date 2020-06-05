@@ -26,5 +26,8 @@
         <file>icon/computer_84314.png</file>
         <file>icon/computer_123003.png</file>
         <file>icon/RedLink.png</file>
+        <file>icon/com_blue.png</file>
+        <file>icon/com_red.png</file>
+        <file>icon/fullautolink.png</file>
     </qresource>
 </RCC>

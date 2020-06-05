@@ -64,6 +64,8 @@ class MainWindow : public QMainWindow
 		virtual ~MainWindow();
 		QString windowListTitle() const;
 
+		bool m_isRuning; 
+
 		//TestThread* t;
 
 	public slots:
@@ -111,15 +113,14 @@ class MainWindow : public QMainWindow
 		void onLXchessboardStop();
 
 		PlayerBuilder* mainCreatePlayerBuilder(Chess::Side side, bool isCPU) const;
-		//EngineConfiguration m_engineConfig[2];
-
 		
 		void onPlayRedToggled(bool checked);	// 电脑执红	
 		void onPlayBlackToggled(bool checked);  // 电脑执黑
-		void onPlayWhich(bool checked); // , Chess::Side side);
+		void onPlayWhich(); // , Chess::Side side);
 
 		void onLinkRedToggled(bool checked); // 电脑执红连线
 		void onLinkBlackToggled(bool checked); // 电脑执红连线
+		void onLinkAutomaticToggled(bool checked);        
 		void onLinkWhich(bool checked);
 
 	private:
@@ -166,6 +167,8 @@ class MainWindow : public QMainWindow
 		QToolButton* tbtnEnginePlayBlack;   // 引擎执黑
 		QToolButton* tbtnLinkChessBoardRed;      // 连接其它棋盘，红方电脑 
 		QToolButton* tbtnLinkChessBoardBlack;    // 连接其它棋盘，黑方电脑
+
+		QToolButton* tbtnLinkAuto;           // 全自动连接其它棋盘
 
 		//QAction* actEngineThink;      // 让引擎思考
 		QAction* actEngineStop;       // 让引擎停止思考，立即出步
@@ -220,12 +223,15 @@ class MainWindow : public QMainWindow
 
 		bool m_firstTabAutoCloseEnabled;
 		bool m_myClosePreTab;
-		bool m_onPlayRedToggled;
-		bool m_onPlayBlackToggled;
-		bool m_onLinkRedToggled;
-		bool m_onLinkBlackToggled;
 
-		Chess::Capture* m_pcap;  // 一个界面只有一个
+		Chess::Capture* m_pcap;            // 一个界面只有一个
+		Chess::Capture* m_autoClickCap;    // 全自动挂机	
+
+		void wait(int msec) {
+			QTime dieTime = QTime::currentTime().addMSecs(msec);
+			while (QTime::currentTime() < dieTime)
+				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+		}
 };
 
 #endif // MAINWINDOW_H
