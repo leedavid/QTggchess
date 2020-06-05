@@ -760,7 +760,7 @@ namespace Chess {
 				else {
 					//m_bSendInitFen = false;
 				}
-				wait(500);
+				wait(500);  
 			}
 		}
 		else {

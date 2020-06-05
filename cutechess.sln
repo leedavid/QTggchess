@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.61
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cutechess", "projects\lib\cutechess.vcxproj", "{7CFC224B-5466-38F2-AA06-A4110C6E7F08}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cutechess-lib", "projects\lib\cutechess.vcxproj", "{7CFC224B-5466-38F2-AA06-A4110C6E7F08}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cutechess", "projects\gui\cutechess.vcxproj", "{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -29,15 +29,13 @@ Global
 		{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}.Release|x64.ActiveCfg = Release|x64
 		{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}.Release|x64.Build.0 = Release|x64
 		{9BACCAF7-8B86-3D3C-852A-DBDD5E64DC59}.Debug|x64.ActiveCfg = Debug|x64
-		{9BACCAF7-8B86-3D3C-852A-DBDD5E64DC59}.Debug|x64.Build.0 = Debug|x64
 		{9BACCAF7-8B86-3D3C-852A-DBDD5E64DC59}.Release|x64.ActiveCfg = Release|x64
-		{9BACCAF7-8B86-3D3C-852A-DBDD5E64DC59}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = V2019
 		SolutionGuid = {DC8C73E7-0107-4801-9F18-7464352B67D7}
+		Qt5Version = V2019
 	EndGlobalSection
 EndGlobal
