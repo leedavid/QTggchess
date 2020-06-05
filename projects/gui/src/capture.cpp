@@ -720,41 +720,40 @@ namespace Chess {
 				if (GetLxBoardChess(true)) {    // 读到了棋盘信息
 					QString fen = this->m_LxBoard[0].fen;
 
-					//if (m_bSendInitFen == true) {
-						// 如果fen是初始化的fen， 则要等待对方走棋
-						// rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1
-					//if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") {
-					//	m_bSendInitFen = false;						
-					//}
-					//if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1") {
-					//	m_bSendInitFen = false;				
-					//}
 					if (MayBeEnd) {
 						last_send_fen = "";
 						MayBeEnd = false;
 					}
-
 					if (last_send_fen != fen) {
 
 						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") {
-							m_bSendInitFen = false;
+							//m_bSendInitFen = false;
 							// 这个是对方走红，则我们，要等一下
-							last_send_fen = fen;
+							//last_send_fen = fen;
 						}
+						else {
+							// if (fen.contains("w -", Qt::CaseSensitive)) {
+							if (fen.contains("b -", Qt::CaseSensitive)) {
+								if (fen.contains("rnbakabnr/9/1c5c1/p1p1p1p1p", Qt::CaseSensitive)) {
+									m_bSendInitFen = false;
+								}
+							}
+						}
+
+						// 如果我方一个棋子也没有走，对方走子了，则是新棋
+
 						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1") {
 							m_bSendInitFen = false;
 						}
 						if (last_send_fen != fen) {
-							if (m_bSendInitFen == false) {
-								wait(300);
+							if (m_bSendInitFen == false) {								
 								SendFenToMain(fen);
-								
+								wait(300);								
 								m_bSendInitFen = true;
 								last_send_fen = fen;
 							}
 						}
 					}
-
 					last_fen = fen;
 				}
 				else {
@@ -856,16 +855,6 @@ namespace Chess {
 
 		m_isRuning = false;
 	}
-
-	//Chess::Move Capture::GetMoveFromBoard()
-	//{
-	//	//while (true)
-	//	//{
-	//	//	this->GetLxBoardChess();
-	//	//}
-	//	
-	//	return Chess::Move();
-	//}
 
 	// 启动线程
 	void Capture::on_start()
@@ -1508,6 +1497,11 @@ namespace Chess {
 				return false;
 			}
 
+			if (i == 1) {
+				cv::imshow("gold_temp", image_template_chess_gold);
+				cv::waitKey();
+			}
+
 #if 0
 			cv::imshow("m_image_source", m_image_source);
 			//cv::imshow("templ", image_template2);
@@ -1557,7 +1551,7 @@ namespace Chess {
 							}
 							else {
 								chessP.x = minLoc.x + image_template_chess_gold.cols / 2;
-								chessP.y = minLoc.y + image_template_chess_gold.rows / 2;
+								chessP.y = minLoc.y + image_template_chess_gold.rows / 2;								
 							}
 						}
 

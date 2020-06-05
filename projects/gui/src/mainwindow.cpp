@@ -345,7 +345,7 @@ void MainWindow::createToolBars()
 {
 	m_tabBar = new GameTabBar();
 	m_tabBar->setDocumentMode(true);
-	m_tabBar->setTabsClosable(true);
+	m_tabBar->setTabsClosable(true);   
 	m_tabBar->setMovable(false);
 	m_tabBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -379,6 +379,7 @@ void MainWindow::createToolBars()
 	this->mainToolbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //  ToolButtonTextUnderIcon); ToolButtonIconOnly
 	this->mainToolbar->setMovable(true);
 	this->mainToolbar->setAllowedAreas(Qt::TopToolBarArea);
+	this->mainToolbar->setVisible(true);
 	this->addToolBar(Qt::TopToolBarArea, this->mainToolbar);
 
 	// 引擎执红
@@ -1345,6 +1346,8 @@ void MainWindow::pasteFen()
 
 void MainWindow::showAboutDialog()
 {
+	this->mainToolbar->setVisible(true);
+	
 	QString html;
 	html += "<h3>" + QString("佳佳界面 %1")
 		.arg(CuteChessApplication::applicationVersion()) + "</h3>";
@@ -1352,7 +1355,7 @@ void MainWindow::showAboutDialog()
 	html += "<p>" + tr("版本所有 2019-2020 ") + "</p>";
 	html += "<p>" + tr("作者 Lee David") + "</p>";
 	html += "<p>" + tr("感谢您使用佳佳象棋界面") + "</p>";
-	html += "<a href=\"http://www.ggzero.cn\">官方网站</a><br>";
+	html += "<a href=\"http://elo.ggzero.cn\">GGzero训练网站</a><br>";
 	html += "<a href=\"http://bbs.ggzero.cn\">官方论坛</a><br>";
 	html += "<a href=\"https://jq.qq.com/?_wv=1027&k=5FxO79E\">加入QQ群</a><br>";
 	QMessageBox::about(this, tr("关于佳佳界面"), html);
@@ -1759,7 +1762,7 @@ PlayerBuilder* MainWindow::mainCreatePlayerBuilder(Chess::Side side, bool isCPU)
 // 红方电脑思考按钮
 void MainWindow::onPlayRedToggled(bool checked) {
 
-	
+	//this->mainToolbar->setVisible(true);
 	
 	// 禁止其它按钮
 	tbtnLinkChessBoardRed->setDisabled(checked);
@@ -1975,6 +1978,8 @@ void MainWindow::onLinkAutomaticToggled(bool checked)
 	}
 	else {
 		m_autoClickCap->on_stop();		
+		m_pcap->on_stop();
+		m_game->stop();
 	}
 }
 

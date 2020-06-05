@@ -30,6 +30,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <IntermediateDirectory>.obj\</IntermediateDirectory>
     <PrimaryOutput>cutechess</PrimaryOutput>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <PlatformToolset>v142</PlatformToolset>
@@ -109,7 +110,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.2";QT_TESTCASE_BUILDDIR=".";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_CONCURRENT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SQL_LIB;QT_SVG_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.8";QT_TESTCASE_BUILDDIR=".";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_CONCURRENT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SQL_LIB;QT_SVG_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -117,6 +118,8 @@
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>cutechess.lib;$(QTDIR)\lib\Qt5Svg.lib;$(QTDIR)\lib\Qt5PrintSupport.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Concurrent.lib;$(QTDIR)\lib\Qt5Test.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\qtmain.lib;Qt5Core.lib;Qt5Concurrent.lib;opencv_world410.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5Sql.lib;Qt5Svg.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -142,7 +145,7 @@
     <QtMoc>
       <QTDIR>$(QTDIR)</QTDIR>
       <OutputFile>.\.moc\moc_%(Filename).cpp</OutputFile>
-      <Define>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.2";QT_TESTCASE_BUILDDIR=".";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_CONCURRENT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SQL_LIB;QT_SVG_LIB;%(PreprocessorDefinitions)</Define>
+      <Define>UNICODE;_UNICODE;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION="1.1.8";QT_TESTCASE_BUILDDIR=".";QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_CONCURRENT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SQL_LIB;QT_SVG_LIB;%(PreprocessorDefinitions)</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>./.moc/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
