@@ -1237,28 +1237,10 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 		}
 	}
 	break;
-		defalut:
+	default:
+		return;
+	}	
 	return;
-
-	}
-	
-	
-	//if (pieceType == Pawn)
-	//	return generatePawnMoves(square, moves); // clazy:exclude=returning-void-expression
-	//if (pieceType == King)
-	//{
-	//	generateHoppingMoves(square, m_XiangOffsets, moves);
-	//	generateHoppingMoves(square, m_CheOffsets, moves);
-	//	//generateCastlingMoves(moves);
-	//	return;
-	//}
-
-	//if (pieceHasMovement(pieceType, MaMovement))
-	//	generateHoppingMoves(square, m_MaOffsets, moves);
-	//if (pieceHasMovement(pieceType, XiangMovement))
-	//	generateSlidingMoves(square, m_XiangOffsets, moves);
-	//if (pieceHasMovement(pieceType, CheMovement))
-	//	generateSlidingMoves(square, m_CheOffsets, moves);
 }
 
 

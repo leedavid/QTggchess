@@ -702,38 +702,31 @@ namespace Chess {
 
 			while (find) {
 				find = false;
-				QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
-				for (QString file : files) {
 
-					while (true) {   // 主界面不能再返回了
-						if (searchImage("gate.png", true, "0/not/")) {
-							wait(50);
-						}
-						else {
-							break;
-						}
-						if (bMustStop) break;
+				while (true) {   // 主界面不能再返回了
+					if (searchImage("gate.png", true, "0/not/")) {
+						wait(50);
 					}
-
-					if (this->SearchAndClick(file, true)) {
-						find = true;
-						//MayBeEnd = true;
-						for (int i = 0; i < 500; i++) {
-							wait(1);
-							if (bMustStop) break;
-						}
+					else {
+						break;
 					}
 					if (bMustStop) break;
 				}
+
+				QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
+				for (QString file : files) {					
+					if (this->SearchAndClick(file, false)) {  // 这儿不要再截图了
+						find = true;					
+					}
+					wait(100);
+					if (bMustStop) break;
+				}
 			}
-			for(int i = 0;i<2000;i++){
-				wait(1);
-				if (bMustStop) break;
-			}			
+			wait(500);
 		}
 	}
 
-	// 
+	// 连线下棋
 	void Capture::runAutoChess()
 	{
 		this->m_MatHash.clear(); // 清空一下
@@ -843,9 +836,6 @@ namespace Chess {
 
 		// 
 		stLxBoard* pList = &m_LxBoard[index];
-		//if (org) {
-		//	pList = &m_LxBoard[0];
-		//}
 
 		if (!SearchOnChessList(m_hwnd, "bk.png", pList->BKingList, SearchWhichCap::eBlack, true)) {    // 黑将
 			return false;  // 找不到黑将了
@@ -1196,9 +1186,6 @@ namespace Chess {
 
 	bool Capture::searchChess(HWND hw, QString findName, QVector<cv::Point>& res, SearchWhichCap sWhich, bool isCap, float threshold, bool isShow)
 	{
-
-		//searchCountours(hw, findName, mainName, isCap);
-
 		if (isCap) {
 			if (this->captureOne(hw) == false) {
 				qWarning("searchImage 1 %s 出错了！", findName);
@@ -1207,19 +1194,14 @@ namespace Chess {
 		}
 
 		cv::Mat image_template_main;
-		//cv::Mat image_template2;
 
 		cv::Mat image_template_chess; // 棋子有可能有几种
 		bool bIsInHash = false;
-		//cv::Mat image_source;
-		//int tmpSize = 1;
 
 		cv::Mat image_template_chess_pre;  // 棋子有可能有几种
 		cv::Mat image_template_chess_gold; // 棋子有可能有几种
 
 		try {
-
-			//QString hashName = "aff"; // getHashName(findName);
 
 			if (this->m_MatHash.contains(findName)) {              // 保存在缓存中
 				if (sWhich == SearchWhichCap::eMain) {
@@ -1294,112 +1276,17 @@ namespace Chess {
 			return false;
 		}
 
-		
+
 		//cv::imshow("templ", m_image_black);
 		//cv::imshow("img", m_image_source);
 		//cv::imshow("matched", image_template2);
 		//cv::waitKey();
-		
 
-//#define TM_CCOEFF
-#ifdef TM_CCOEFF
+
+
 		//cv::imshow("img", image_source);
 		//cv::imshow("templ", image_template_scaled);
 		//cv::waitKey();
-
-//图像模板匹配
-//一般而言，源图像与模板图像patch尺寸一样的话，可以直接使用上面介绍的图像相似度测量的方法；
-//如果源图像与模板图像尺寸不一样，通常需要进行滑动匹配窗口，扫面个整幅图像获得最好的匹配patch。
-//在OpenCV中对应的函数为：matchTemplate()：函数功能是在输入图像中滑动窗口寻找各个位置与模板图像patch的相似度。相似度的评价标准（匹配方法）有：
-//CV_TM_SQDIFF 平方差匹配法（相似度越高，值越小），
-//CV_TM_CCORR 相关匹配法（采用乘法操作，相似度越高值越大），
-//CV_TM_CCOEFF 相关系数匹配法（1表示最好的匹配，-1表示最差的匹配）。
-//通常,随着从简单的测量(平方差)到更复杂的测量(相关系数),我们可获得越来越准确的匹配(同时也意味着越来越大的计算代价). /
-//最好的办法是对所有这些设置多做一些测试实验,以便为自己的应用选择同时兼顾速度和精度的最佳方案.//
-
-		cv::Mat image_matched;
-		try {
-			// CV_TM_SQDIFF
-			//cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_SQDIFF);
-			cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_CCOEFF_NORMED);
-		}
-		catch (...) {
-			qWarning("searchImage 3 %s 出错了！", findName);
-			return false;
-		}
-
-#if 0
-		cv::imshow("templ", image_template_scaled);
-		cv::imshow("img", m_image_source);
-		cv::imshow("matched", image_matched);
-		cv::waitKey();
-#endif
-
-
-		if (threshold == 1.0f) {
-			threshold = this->m_precision;
-		}
-		res.clear();  // 清空数组
-
-		bool Isfind = false;
-
-		while (true) {
-			cv::Point minLoc, maxLoc;
-			double minVal, maxVal;
-
-			//寻找最佳匹配位置
-			cv::minMaxLoc(image_matched, &minVal, &maxVal, &minLoc, &maxLoc);
-
-			if (maxVal > threshold) {
-
-				Isfind = true;
-
-				cv::Point chessP;
-
-				chessP.x = maxLoc.x + image_template_scaled.cols / 2;
-				chessP.y = maxLoc.y + image_template_scaled.rows / 2;
-
-				if (isShow) {
-					//cv::Mat image_color;
-					//cv::cvtColor(image_source, image_color, cv::CV_BGR2GRAY);
-					cv::circle(m_image_source,
-						chessP, //cv::Point(imgX, imgY),
-						image_template_scaled.rows,
-						cv::Scalar(0, 255, 255),
-						2,
-						8,
-						0);
-
-					cv::imshow("target", m_image_source);
-					cv::imshow("templ", image_template_scaled);
-				}
-
-				res.append(chessP);
-
-				//cv::imshow("m1", image_matched);
-				cv::floodFill(image_matched, maxLoc, cv::Scalar(0));
-				//cv::imshow("m2", image_matched);
-			}
-			else {
-				break;
-			}
-
-		}
-
-#else
-		//cv::imshow("img", image_source);
-		//cv::imshow("templ", image_template_scaled);
-		//cv::waitKey();
-
-//图像模板匹配
-//一般而言，源图像与模板图像patch尺寸一样的话，可以直接使用上面介绍的图像相似度测量的方法；
-//如果源图像与模板图像尺寸不一样，通常需要进行滑动匹配窗口，扫面个整幅图像获得最好的匹配patch。
-//在OpenCV中对应的函数为：matchTemplate()：函数功能是在输入图像中滑动窗口寻找各个位置与模板图像patch的相似度。相似度的评价标准（匹配方法）有：
-//CV_TM_SQDIFF 平方差匹配法（相似度越高，值越小），
-//CV_TM_CCORR 相关匹配法（采用乘法操作，相似度越高值越大），
-//CV_TM_CCOEFF 相关系数匹配法（1表示最好的匹配，-1表示最差的匹配）。
-//通常,随着从简单的测量(平方差)到更复杂的测量(相关系数),我们可获得越来越准确的匹配(同时也意味着越来越大的计算代价). /
-//最好的办法是对所有这些设置多做一些测试实验,以便为自己的应用选择同时兼顾速度和精度的最佳方案.//
 
 		for (int i = 0; i < 2; i++) {
 
@@ -1410,11 +1297,8 @@ namespace Chess {
 					if (i == 1) {
 						return false;
 					}
-
-					// CV_TM_SQDIFF
 					cv::matchTemplate(m_image_source, image_template_main, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
 
-					
 				}
 				else if (bIsInHash == true) {
 					if (i == 1) {
@@ -1444,8 +1328,7 @@ namespace Chess {
 							cv::matchTemplate(m_image_red, image_template_chess_gold, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
 						}
 					}
-				}
-				//cv::matchTemplate(m_image_source, image_template_scaled, image_matched, cv::TM_CCOEFF_NORMED);  image_template_chess
+				}				
 			}
 			catch (...) {
 				qWarning("searchImage 3 %s 出错了！", findName);
@@ -1495,7 +1378,7 @@ namespace Chess {
 							chessP.x = minLoc.x + image_template_main.cols / 2;
 							chessP.y = minLoc.y + image_template_main.rows / 2;
 						}
-						else {							
+						else {
 							if (bIsInHash == true) {
 								chessP.x = minLoc.x + image_template_chess.cols / 2;
 								chessP.y = minLoc.y + image_template_chess.rows / 2;
@@ -1506,7 +1389,7 @@ namespace Chess {
 							}
 							else {
 								chessP.x = minLoc.x + image_template_chess_gold.cols / 2;
-								chessP.y = minLoc.y + image_template_chess_gold.rows / 2;								
+								chessP.y = minLoc.y + image_template_chess_gold.rows / 2;
 							}
 						}
 
@@ -1531,8 +1414,6 @@ namespace Chess {
 						//cv::imshow("m1", image_matched);
 						//cv::floodFill(image_matched, minLoc, cv::Scalar(maxVal), &rc, cv::Scalar(minVal * 0.5), cv::Scalar(minVal * 0.5));
 
-
-
 						cv::circle(image_matched, minLoc, 10, cv::Scalar(maxVal), -1);
 
 						//cv::imshow("m2", image_matched);
@@ -1543,10 +1424,6 @@ namespace Chess {
 					}
 
 				}
-
-#endif
-				//cv::waitKey();
-
 				if (bIsInHash == false) {
 					if (i == 0) {
 						this->m_MatHash.insert(findName, image_template_chess_pre);
@@ -1565,7 +1442,7 @@ namespace Chess {
 		}
 
 		return false;
-		
+
 	}
 
 	cv::Mat Capture::QImage_to_cvMat(const QImage& image, bool inCloneImageData)
@@ -1820,7 +1697,7 @@ namespace Chess {
 
 	bool Capture::SearchOnChessList(HWND hwnd, QString chess, QVector<cv::Point>& res, SearchWhichCap sWhich, bool isCap)
 	{
-		QString chessFile = m_LxInfo.m_PieceCatlog + "/" + chess;  // 黑车
+		QString chessFile = m_LxInfo.m_PieceCatlog + "/" + chess;  // 
 
 		return searchChess(hwnd, chessFile, res, sWhich, isCap);
 	}
