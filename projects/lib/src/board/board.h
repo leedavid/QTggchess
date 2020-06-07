@@ -25,6 +25,7 @@ namespace Chess {
 
 class BoardTransition;
 
+
 /*!
  * \brief An internal chessboard class.
  *
@@ -87,6 +88,11 @@ class LIB_EXPORT Board
 			/*! Shredder FEN notation. */
 			ShredderFen
 		};
+
+		void SetAutoLinkStat(bool isAutolink) {
+			m_bIsAutoLink = isAutolink;
+		};
+		bool GetIsAutoLinkStat() { return m_bIsAutoLink; };
 
 		/*!
 		 * Creates a new Board object.
@@ -151,7 +157,9 @@ class LIB_EXPORT Board
 		bool isInPalace(const Square& square) const;
 
 		// 棋子是否过河
-		bool isOverRiver(const Square& square) const;
+		//bool isOverRiver(const Square& square) const;
+
+		
 
 		/*!
 		 * Returns list of the pieces of \a side in current position.
@@ -549,6 +557,7 @@ class LIB_EXPORT Board
 		QVarLengthArray<Piece> m_squares;
 		QVector<MoveData> m_moveHistory;
 		//QVector<int> m_reserve[2];
+		bool m_bIsAutoLink;   // 是不是自动连线
 };
 
 

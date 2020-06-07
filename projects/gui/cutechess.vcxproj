@@ -350,6 +350,7 @@
     <ClCompile Include="src\boardview\piecechooser.cpp" />
     <ClCompile Include="src\plaintextlog.cpp" />
     <ClCompile Include="3rdparty\qcustomplot\qcustomplot.cpp" />
+    <ClCompile Include="src\random.cpp" />
     <ClCompile Include="src\settingsdlg.cpp" />
     <ClCompile Include="src\stringvalidator.cpp" />
     <ClCompile Include="src\threadedtask.cpp" />
@@ -450,6 +451,7 @@
     </QtMoc>
     <QtMoc Include="src\pgntagsmodel.h">
     </QtMoc>
+    <ClInclude Include="src\mutex.h" />
     <ClInclude Include="src\pgntoken.h" />
     <QtMoc Include="src\boardview\piecechooser.h">
     </QtMoc>
@@ -510,6 +512,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.moc\moc_predefs.h;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='REL|x64'">.moc\moc_predefs.h;%(Outputs)</Outputs>
     </CustomBuild>
+    <ClInclude Include="src\random.h" />
     <ClInclude Include="ui_boardeditor.h" />
     <ClInclude Include="ui_engineconfigdlg.h" />
     <ClInclude Include="ui_enginemanagementwidget.h" />

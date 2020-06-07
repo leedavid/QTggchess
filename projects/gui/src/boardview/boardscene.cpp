@@ -479,7 +479,14 @@ QPropertyAnimation* BoardScene::pieceAnimation(GraphicsPiece* piece,
 	anim->setStartValue(startPoint);
 	anim->setEndValue(endPoint);
 	anim->setEasingCurve(QEasingCurve::InOutQuad);
-	anim->setDuration(30);   //anim->setDuration(300);   BY LGL
+
+	if (m_board->GetIsAutoLinkStat()) {
+		anim->setDuration(0);		
+	}
+	else {
+		anim->setDuration(300);
+	}
+	//anim->setDuration(300);   BY LGL
 
 	piece->setParentItem(nullptr);
 	piece->setPos(startPoint);

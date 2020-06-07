@@ -61,6 +61,9 @@ class LIB_EXPORT WesternBoard : public Board
 		virtual Result result();
 		virtual int reversibleMoveCount() const;
 
+		//bool getIsLink(return m_)
+		
+
 	protected:
 		/*! The king's castling side. */
 		//enum CastlingSide
@@ -229,6 +232,7 @@ class LIB_EXPORT WesternBoard : public Board
 		virtual Move moveFromStringCN(const QString& str);
 
 	private:
+		//bool m_bIsAutoLink;   // 是不是自动连线
 
 		// Data for reversing/unmaking a move
 		struct MoveData
@@ -236,12 +240,10 @@ class LIB_EXPORT WesternBoard : public Board
 			Piece capture;
 			//bool isIncheck;       // 是否被将军
 			//bool isRecap;         // 是否常捉
-			//int enpassantSquare;
-			//int enpassantTarget;
-			//CastlingRights castlingRights;
-			//CastlingSide castlingSide;
 			int reversibleMoveCount;
 		};
+
+		//bool m_bIsLinkChess;     // 是否连线象棋
 		
 		int m_arwidth;
 		int m_sign;

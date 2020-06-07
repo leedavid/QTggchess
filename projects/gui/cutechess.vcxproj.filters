@@ -218,6 +218,9 @@
     <ClCompile Include="BoardEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\random.cpp">
+      <Filter>Source Files\Capture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\autoverticalscroller.h">
@@ -569,6 +572,12 @@
     </ClInclude>
     <ClInclude Include="ui_boardeditor.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\random.h">
+      <Filter>Source Files\Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mutex.h">
+      <Filter>Source Files\Capture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

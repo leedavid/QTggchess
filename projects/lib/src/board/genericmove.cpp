@@ -88,6 +88,18 @@ void GenericMove::setTargetSquare(const Square& square)
 	m_targetSquare = square;
 }
 
+QString GenericMove::moveFenString()
+{
+	//int fx = m_sourceSquare.file();
+	//int fy = 9-m_sourceSquare.rank();
+	//int tx = m_targetSquare.file();
+	//int ty = 9-m_targetSquare.rank();
+
+	//std::string stfrom = 
+	
+	return QString(m_sourceSquare.as_qstring() + m_targetSquare.as_qstring());
+}
+
 //void GenericMove::setPromotion(int pieceType)
 //{
 //	m_promotion = pieceType;

@@ -68,6 +68,8 @@ class LIB_EXPORT Square
 		/*! Sets the rank to \a rank. */
 		void setRank(int rank);
 
+		QString as_qstring();
+
 		//static int getSq(int f, int r);
 
 	private:

@@ -228,6 +228,8 @@ class MainWindow : public QMainWindow
 		Chess::Capture* m_pcap;            // 一个界面只有一个
 		Chess::Capture* m_autoClickCap;    // 全自动挂机	
 
+		bool m_bAutomaticLinking; 
+
 		void wait(int msec) {
 			QTime dieTime = QTime::currentTime().addMSecs(msec);
 			while (QTime::currentTime() < dieTime)

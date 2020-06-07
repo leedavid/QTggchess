@@ -65,6 +65,8 @@ class LIB_EXPORT GenericMove
 		/*! Sets the promotion type to \a pieceType. */
 		//void setPromotion(int pieceType);
 
+		QString moveFenString();
+
 	private:
 		Square m_sourceSquare;
 		Square m_targetSquare;

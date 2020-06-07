@@ -18,7 +18,7 @@ WesternBoard::WesternBoard(WesternZobrist* zobrist)
 	  m_reversibleMoveCount(0),
 	  //m_kingCanCapture(true),
 	  //m_multiDigitNotation(false),
-	  m_zobrist(zobrist)
+	  m_zobrist(zobrist)	
 {
 	setPieceType(Pawn, tr("pawn"), "P"); // , PawnMovement);                    // 兵
 	setPieceType(Ma, tr("knight"), "N"); // , MaMovement);                      // 马
@@ -27,10 +27,6 @@ WesternBoard::WesternBoard(WesternZobrist* zobrist)
 	setPieceType(Che, tr("rook"), "R"); // , CheMovement);                      // 车
 	setPieceType(Pao, tr("pao"), "C"); // , PaoMovement);                       // 炮
 	setPieceType(King, tr("king"), "K"); // , KingMovement);                    // 将
-
-	//m_pawnSteps += {CaptureStep, -1};
-	//m_pawnSteps += {FreeStep, 0};
-	//m_pawnSteps += {CaptureStep, 1};
 }
 
 int WesternBoard::width() const
@@ -1068,7 +1064,7 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 				int targetSquare = sourceSquare + m_RPawnOffsets[i];
 				if (!isValidSquare(chessSquare(targetSquare)))
 					continue;
-	
+
 				if (sourceSquare > 75) { // 兵没有过河
 					if (i != 0)  continue;
 				}
@@ -1116,7 +1112,7 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 				moves.append(Move(sourceSquare, targetSquare));
 		}
 	}
-		break;
+	break;
 	case Shi:
 	{
 		Side opSide = sideToMove().opposite();
@@ -1157,7 +1153,7 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 	}
 	break;
 	case Pao:     // 炮
-	{		
+	{
 		Side side = sideToMove();
 
 		for (int i = 0; i < m_CheOffsets.size(); i++)
@@ -1174,12 +1170,12 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 				targetSquare += offset;
 			}
 			// 吃子步
-			if (!capture.isEmpty()) {				
+			if (!capture.isEmpty()) {
 				while (true) // && capture.isEmpty())
 				{
 					targetSquare += offset;
 					capture = pieceAt(targetSquare);
-					if (capture.isEmpty()) {						
+					if (capture.isEmpty()) {
 						continue;
 					}
 					if (capture.isWall()) {
@@ -1188,7 +1184,7 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 					if (capture.side() != side) {
 						moves.append(Move(sourceSquare, targetSquare));
 						break;
-					}					
+					}
 				}
 			}
 		}
@@ -1241,9 +1237,9 @@ void WesternBoard::generateMovesForPiece(QVarLengthArray<Move>& moves,
 		}
 	}
 	break;
-//defalut: 
-//	return;
-//	
+		defalut:
+	return;
+
 	}
 	
 	
@@ -1398,116 +1394,6 @@ bool WesternBoard::vIsLegalMove(const Move& move)
 
 
 
-//void WesternBoard::generatePawnMoves(int sourceSquare,
-//				     QVarLengthArray<Move>& moves) const
-//{
-//	//int targetSquare;
-//	//Piece capture;
-//	//int step = m_sign * m_arwidth;
-//	//bool isPromotion = pieceAt(sourceSquare - step * 2).isWall();
-//
-//	//// Normal moves, Captures, including en-passant moves
-//	//Side opSide(sideToMove().opposite());
-//
-//	//for (const PawnStep& pStep: m_pawnSteps)
-//	//{
-//	//	targetSquare = sourceSquare + pawnPushOffset(pStep, m_sign);
-//	//	capture = pieceAt(targetSquare);
-//	//	bool isCapture = capture.side() == opSide
-//	//			||  targetSquare == enpassantSquare();
-//	//	bool isNormalStep = capture.isEmpty();
-//
-//	//	if ((isNormalStep && pStep.type == FreeStep)
-//	//	||  (isCapture && pStep.type == CaptureStep))
-//	//	{
-//	//		if (isPromotion)
-//	//			addProm otions(sourceSquare, targetSquare, moves);
-//	//		else
-//	//			moves.append(Move(sourceSquare, targetSquare));
-//
-//	//		// Double step
-//	//		if (isNormalStep
-//	//		&&  m_pawnHasDoubleStep
-//	//		&&  pieceAt(sourceSquare + step * 2).isWall())
-//	//		{
-//	//			targetSquare += pawnPushOffset(pStep, m_sign);
-//	//			capture = pieceAt(targetSquare);
-//	//			if (capture.isEmpty())
-//	//				moves.append(Move(sourceSquare, targetSquare));
-//	//		}
-//	//	}
-//	//}
-//}
-
-//bool WesternBoard::canCastle(CastlingSide castlingSide) const
-//{
-//	Side side = sideToMove();
-//	int rookSq = m_castlingRights.rookSquare[side][castlingSide];
-//	if (rookSq == 0)
-//		return false;
-//
-//	int kingSq = m_kingSquare[side];
-//	int target = m_castleTarget[side][castlingSide];
-//	int left;
-//	int right;
-//	int rtarget;
-//
-//	// Find all the squares involved in the castling
-//	if (castlingSide == QueenSide)
-//	{
-//		rtarget = target + 1;
-//
-//		if (target < rookSq)
-//			left = target;
-//		else
-//			left = rookSq;
-//
-//		if (rtarget > kingSq)
-//			right = rtarget;
-//		else
-//			right = kingSq;
-//	}
-//	else	// Kingside
-//	{
-//		rtarget = target - 1;
-//
-//		if (rtarget < kingSq)
-//			left = rtarget;
-//		else
-//			left = kingSq;
-//
-//		if (target > rookSq)
-//			right = target;
-//		else
-//			right = rookSq;
-//	}
-//
-//	// Make sure that the smallest back rank interval containing the king,
-//	// the castling rook, and their destination squares contains no pieces
-//	// other than the king and the castling rook.
-//	for (int i = left; i <= right; i++)
-//	{
-//		if (i != kingSq && i != rookSq && !pieceAt(i).isEmpty())
-//			return false;
-//	}
-//
-//	return true;
-//}
-
-//void WesternBoard::generateCastlingMoves(QVarLengthArray<Move>& moves) const
-//{
-//	Side side = sideToMove();
-//	int source = m_kingSquare[side];
-//	for (int i = QueenSide; i <= KingSide; i++)
-//	{
-//		if (canCastle(CastlingSide(i)))
-//		{
-//			int target = m_castlingRights.rookSquare[side][i];
-//			moves.append(Move(source, target));
-//		}
-//	}
-//}
-
 int WesternBoard::kingSquare(Side side) const
 {
 	Q_ASSERT(!side.isNull());
@@ -1566,7 +1452,7 @@ Result WesternBoard::result()
 			break;
 		}
 		case Xiang:
-			material++;
+			//material++;
 			break;
 		default:
 			material += 2;
@@ -1579,19 +1465,41 @@ Result WesternBoard::result()
 		return Result(Result::Draw, Side::NoSide, str);
 	}
 
-	// 50 move rule
-	if (m_reversibleMoveCount >= 120)
-	{
-		str = tr("60 步未吃子，判和！");
-		return Result(Result::Draw, Side::NoSide, str);
+	// 如果是连线状态，则暂时不能判断
+	//if(this->m_)
+
+	if (Board::GetIsAutoLinkStat()) {
+		// 50 move rule
+		if (m_reversibleMoveCount >= 160)
+		{
+			str = tr("60 步未吃子，判和！");
+			return Result(Result::Draw, Side::NoSide, str);
+		}
+
+		// 3-fold repetition
+		if (repeatCount() >= 6)
+		{
+			str = tr("循环三步，判和！");
+			return Result(Result::Draw, Side::NoSide, str);
+		}
+	}
+	else {
+		// 50 move rule
+		if (m_reversibleMoveCount >= 120)
+		{
+			str = tr("60 步未吃子，判和！");
+			return Result(Result::Draw, Side::NoSide, str);
+		}
+
+		// 3-fold repetition
+		if (repeatCount() >= 2)
+		{
+			str = tr("循环三步，判和！");
+			return Result(Result::Draw, Side::NoSide, str);
+		}
 	}
 
-	// 3-fold repetition
-	if (repeatCount() >= 2)
-	{
-		str = tr("循环三步，判和！");
-		return Result(Result::Draw, Side::NoSide, str);
-	}
+	
 
 	return Result();
 }

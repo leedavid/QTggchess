@@ -146,6 +146,9 @@ Chess::Board* PgnGame::createBoard() const
 		delete board;
 		return nullptr;
 	}
+	
+	board->SetAutoLinkStat(m_autoLink);
+	
 
 	return board;
 }
@@ -290,6 +293,8 @@ bool PgnGame::write(QTextStream& out, PgnMode mode) const
 	{
 		writeTag(out, "FEN", m_tags["FEN"]);
 		writeTag(out, "SetUp", m_tags["SetUp"]);
+
+		QString fen = m_tags["FEN"];
 	}
 
 	if (mode == Minimal && m_tags.contains("Variant")
@@ -345,6 +350,134 @@ bool PgnGame::write(QTextStream& out, PgnMode mode) const
 	out.flush();
 
 	return (out.status() == QTextStream::Ok);
+}
+
+bool PgnGame::bh54_write(QTextStream& out, PgnMode mode) const
+{
+	if (m_tags.isEmpty())
+		return false;
+
+	const QList< QPair<QString, QString> > tags = this->tags();
+	int maxTags = (mode == Verbose) ? tags.size() : 7;
+	for (int i = 0; i < maxTags; i++)
+		writeTag(out, tags.at(i).first, tags.at(i).second);
+
+	if (mode == Minimal && m_tags.contains("FEN"))
+	{
+		writeTag(out, "FEN", m_tags["FEN"]);
+		writeTag(out, "SetUp", m_tags["SetUp"]);
+
+		QString fen = m_tags["FEN"];
+	}
+
+	if (mode == Minimal && m_tags.contains("Variant")
+		&& variant() != "standard")
+	{
+		writeTag(out, "Variant", m_tags["Variant"]);
+	}
+
+	QString str;
+	int lineLength = 0;
+	//int movenum = 0;
+	//int side = m_startingSide;
+
+	if (m_moves.isEmpty() && !m_initialComment.isEmpty())
+		out << "\n" << "{" << m_initialComment << "}";
+
+	out << "\n";
+
+	for (int i = 0, line=0; i < m_moves.size(); i++, line +=2)
+	{
+		const MoveData& data = m_moves.at(i);
+
+		str.clear();
+		//if (i == 0 && side == Chess::Side::Black)
+		//	str = QString::number(++movenum) + "... ";
+		//else if (side == Chess::Side::White)
+		//	str = QString::number(++movenum) + ". ";
+
+		str = " " + QString::number(line / 2) + ". ";
+		str += data.moveString + " \n";
+
+		if (mode == Verbose && !data.comment.isEmpty()) {
+			//str += QString(" {%1}").arg(data.comment);
+			int score = 0;
+			int time = 0;
+
+			QStringList scoreList = data.comment.split("/"); 
+			if(scoreList.length() >= 2)	{
+				score = int(scoreList[0].toDouble()*100);
+			}
+			str += QString("{score:%1 time:%2}").arg(score).arg(time);
+		}
+
+		out << str << "\n";
+
+		//// Limit the lines to 80 characters
+		//if (lineLength == 0 || lineLength + str.size() >= 80)
+		//{
+		//	out << "\n" << str;
+		//	lineLength = str.size();
+		//}
+		//else
+		//{
+		//	out << " " << str;
+		//	lineLength += str.size() + 1;
+		//}
+
+		//side = !side;
+	}
+
+	str = m_tags.value("Result");
+
+	if (lineLength + str.size() >= 80)
+		out << "\n" << str << "\n\n";
+	else
+		out << " " << str << "\n\n";
+
+	out.flush();
+
+	return (out.status() == QTextStream::Ok);
+}
+
+bool PgnGame::writeOnePgnGame(const QString& filename) const {
+
+	//if (m_tags.isEmpty())
+	//	return false;
+	
+	QFile file(filename);
+	if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+		//QMessageBox::warning(this, tr("错误"), expDir + tr(" 不能新建目录"));
+		return false;
+	}
+	QTextStream out(&file);
+
+	/*
+	QString fen = m_tags["FEN"];
+	if (fen.length() < 20) {
+		fen = "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1";
+	}
+
+	QString str = "fen " + fen + " moves";
+
+	for (int i = 0; i < m_moves.size(); i++){
+		Chess::GenericMove move = m_moves.at(i).move;
+
+		str += " " + move.moveFenString();
+	}
+
+
+	str += "\n\r\n\r" + m_tags.value("Result");
+
+	out << str;
+	out.flush();
+	*/
+
+	bh54_write(out);
+
+	file.close();
+
+	return true;
 }
 
 bool PgnGame::write(const QString& filename, PgnMode mode) const

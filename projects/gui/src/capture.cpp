@@ -707,7 +707,7 @@ namespace Chess {
 
 					while (true) {   // 主界面不能再返回了
 						if (searchImage("gate.png", true, "0/not/")) {
-							wait(1000);
+							wait(50);
 						}
 						else {
 							break;
@@ -718,15 +718,22 @@ namespace Chess {
 					if (this->SearchAndClick(file, true)) {
 						find = true;
 						//MayBeEnd = true;
-						wait(500);
+						for (int i = 0; i < 500; i++) {
+							wait(1);
+							if (bMustStop) break;
+						}
 					}
 					if (bMustStop) break;
 				}
 			}
-			wait(2000);
+			for(int i = 0;i<2000;i++){
+				wait(1);
+				if (bMustStop) break;
+			}			
 		}
 	}
 
+	// 
 	void Capture::runAutoChess()
 	{
 		this->m_MatHash.clear(); // 清空一下
@@ -789,7 +796,10 @@ namespace Chess {
 					this->m_LxBoard[0].fen = this->m_LxBoard[1].fen;
 
 					m_bWeMustSendInitFen = false;
-					wait(2000);
+					for (int i = 0; i < 2000; i++) {
+						wait(1);
+						if (bMustStop) break;
+					}
 				}
 
 
@@ -909,9 +919,8 @@ namespace Chess {
 	}
 
 	Capture::~Capture()
-	{
-		delete this->m_board;
-		//delete this->m_board_second;
+	{			
+		delete this->m_board;		
 	}
 
 	bool Capture::captureOne(HWND hw, bool isTransHSV, int sleepTimeMs)	{

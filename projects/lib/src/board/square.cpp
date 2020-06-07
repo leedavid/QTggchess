@@ -77,4 +77,10 @@ void Square::setRank(int rank)
 	m_rank = rank;
 }
 
+QString Square::as_qstring()
+{
+    std::string s = std::string(1, char('a' + file())) + std::string(1, char('9' - rank()));    
+    return QString::fromStdString(s);
+}
+
 } // namespace Chess

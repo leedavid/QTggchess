@@ -64,6 +64,7 @@
 #include <engineconfiguration.h>
 
 #include "BoardEditor.h"
+#include "random.h"
 
 #include <pgnstream.h>
 #include <pgngameentry.h>
@@ -86,7 +87,8 @@ MainWindow::MainWindow(ChessGame* game)
 	  m_firstTabAutoCloseEnabled(true),
 	m_myClosePreTab(false),  
 	m_pcap(nullptr),
-	m_autoClickCap(nullptr)
+	m_autoClickCap(nullptr),
+	m_bAutomaticLinking(false)
 {
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setDockNestingEnabled(true);
@@ -144,6 +146,14 @@ MainWindow::MainWindow(ChessGame* game)
 
 MainWindow::~MainWindow()
 {
+	while(m_pcap->isRunning()) {
+		m_pcap->on_stop();
+		wait(1);
+	}
+	while(m_autoClickCap->isRunning()) {
+		m_autoClickCap->on_stop();
+		wait(1);
+	}
 }
 
 void MainWindow::createActions()
@@ -691,10 +701,8 @@ void MainWindow::destroyGame(ChessGame* game)
 
 	if (tab.m_tournament == nullptr)
 		game->deleteLater();
-	delete tab.m_pgn;
 
-	// 
-	//delete tab.m_cap;
+	delete tab.m_pgn;
 
 	if (m_tabs.isEmpty())
 		close();
@@ -888,6 +896,11 @@ void MainWindow::closeTab(int index)
 		return;
 	}
 
+	if (m_bAutomaticLinking) {
+		destroyGame(tab.m_game);
+		return;
+	}
+
 	if (tab.m_finished)
 		destroyGame(tab.m_game);
 	else
@@ -988,6 +1001,30 @@ void MainWindow::onGameFinished(ChessGame* game)
 		updateWindowTitle();
 		updateMenus();
 	}
+
+	// 保存fen文件，方便导入学习
+	//static std::string directory =
+	//	CommandLine::BinaryDirectory() + "/data-" + Random::Get().GetString(12);
+	// It's fine if it already exists.
+	//CreateDirectory(directory.c_str());
+
+	if (!game->pgn()->isNull()
+		&& game->pgn()->moves().length() > 12) {  // 至少5步才保存
+
+		QString runPath = QCoreApplication::applicationDirPath();
+		QString expDir = runPath + "/pgngame/";
+
+		QDir* tempDir = new QDir;
+		if (!tempDir->exists(expDir)) {
+			if (!tempDir->mkdir(expDir)) {		
+				QMessageBox::warning(this, tr("错误"), expDir + tr(" 不能新建目录"));
+				return ;
+			}
+		}
+		QString fenFile = expDir + Chess::Random::Get().GetString(12) + ".pgn";		
+		game->pgn()->writeOnePgnGame(fenFile);
+	}
+
 
 	// save game notation of non-tournament games to default PGN file
 	if (!tab.m_tournament
@@ -1532,6 +1569,7 @@ void MainWindow::resignGame()
 				  Q_ARG(Chess::Result, result));
 }
 
+// 连线信息
 void MainWindow::processCapMsg(stCaptureMsg msg)
 {
 	// 得到当前的游戏？不是，应该得到当前的chessgame
@@ -1588,6 +1626,7 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 			const QString variant = "standard"; // s.value("variant").toString();    // 游戏类型
 
 			auto board = Chess::BoardFactory::create(variant);
+			//board->SetAutoLinkStat(true);
 
 			//QString fen = "2bakab2/9/9/8R/pnpNP4/3r5/c3c4/1C2B2C1/4A4/2BAK4 w - - 0 1";
 
@@ -1604,9 +1643,10 @@ void MainWindow::processCapMsg(stCaptureMsg msg)
 			//board->setFenString(fen);
 
 			auto pgn = new PgnGame();
+			pgn->m_autoLink = true;           // 动画延时为0
 			pgn->setSite(QSettings().value("pgn/site").toString());
 			auto game = new ChessGame(board, pgn);
-			game->isLinkBoard = true;
+			game->isLinkBoard = true;        // 不等棋局结束，直接删除
 	
 
 			game->setStartingFen(fen);
@@ -1984,11 +2024,15 @@ void MainWindow::onLinkAutomaticToggled(bool checked)
 			m_game->stop();
 		}
 		m_pcap->on_start();
+
+		m_bAutomaticLinking = true;
 	}
 	else {
 		m_autoClickCap->on_stop();		
 		m_pcap->on_stop();
 		m_game->stop();
+
+		m_bAutomaticLinking = false;
 	}
 }
 

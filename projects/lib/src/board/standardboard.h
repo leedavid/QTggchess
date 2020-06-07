@@ -39,7 +39,7 @@ class LIB_EXPORT StandardBoard : public WesternBoard
 {
 	public:
 		/*! Creates a new StandardBoard object. */
-		StandardBoard();
+		StandardBoard();   // isfalse
 
 		// Inherited from WesternBoard
 		virtual Board* copy() const;

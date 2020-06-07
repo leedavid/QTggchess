@@ -61,7 +61,8 @@ Board::Board(Zobrist* zobrist)
 	  //m_maxPieceSymbolLength(1),
 	  m_key(0),
 	  m_zobrist(zobrist),
-	  m_sharedZobrist(zobrist)
+	  m_sharedZobrist(zobrist),
+	m_bIsAutoLink(false)
 {
 	Q_ASSERT(zobrist != nullptr);
 

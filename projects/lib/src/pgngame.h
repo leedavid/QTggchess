@@ -60,6 +60,8 @@ class LIB_EXPORT PgnGame
 			Verbose
 		};
 
+		bool m_autoLink = false;
+
 		/*! \brief A struct for storing the game's move history. */
 		struct MoveData
 		{
@@ -119,6 +121,8 @@ class LIB_EXPORT PgnGame
 		 * Returns true if successful; otherwise returns false.
 		 */
 		bool write(QTextStream& out, PgnMode mode = Verbose) const;
+
+		bool bh54_write(QTextStream& out, PgnMode mode = Verbose) const;
 		/*!
 		 * Writes the game to a file.
 		 * If the file already exists, the game will be appended
@@ -126,6 +130,8 @@ class LIB_EXPORT PgnGame
 		 *
 		 * Returns true if successful; otherwise returns false.
 		 */
+		bool writeOnePgnGame(const QString& filename) const;
+
 		bool write(const QString& filename, PgnMode mode = Verbose) const;
 		
 		/*!
