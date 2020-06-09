@@ -77,6 +77,19 @@ GraphicsBoard::GraphicsBoard(int files,
 	m_textColor = QApplication::palette().text().color();
 
 	setCacheMode(DeviceCoordinateCache);
+
+	QString picPath = QCoreApplication::applicationDirPath() + "/image/board/board.png";
+	QPixmap pix = QPixmap(picPath);
+	//QSize pixSize = pix.size();
+	//pixSize.scale(QSize( m_rect.width()*2, m_rect.height() * 2), Qt::AspectRatioMode::KeepAspectRatio);
+	//QPixmap scaledPix = pix.scaled(pixSize,
+	//	Qt::KeepAspectRatio,
+	//	Qt::SmoothTransformation
+	//);
+	scaledPix = pix.scaled((m_rect.width() + 20), (m_rect.height() + 20));
+
+
+
 }
 
 GraphicsBoard::~GraphicsBoard()
@@ -105,8 +118,22 @@ void GraphicsBoard::paint(QPainter* painter,
 	Q_UNUSED(widget);
 
 	// »­±³¾°Í¼
-	//QString picPath = QCoreApplication::applicationDirPath() + "/image/backgroud.jpg";	
-	//painter->drawPixmap(m_rect.left()-100,m_rect.top()-100, QPixmap(picPath));
+	//QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
+
+    //QString picPath = QCoreApplication::applicationDirPath() + "/image/backgroud/board.png";	
+	//QPixmap pix = QPixmap(picPath);
+	//QSize pixSize = pix.size();
+	//pixSize.scale(QSize( m_rect.width()*2, m_rect.height() * 2), Qt::AspectRatioMode::KeepAspectRatio);
+	//QPixmap scaledPix = pix.scaled(pixSize,
+	//	Qt::KeepAspectRatio,
+	//	Qt::SmoothTransformation
+	//);
+	//QPixmap scaledPix = pix.scaled(m_rect.width()+125, m_rect.height()+125);
+
+	//pixSize.scale(m_rect.size(), Qt::KeepAspectRatio);
+	//painter->drawPixmap(0, 0, scaledPix);
+
+	painter->drawPixmap(m_rect.left()-10,m_rect.top()-10, scaledPix);
 
 	QRectF rect(m_rect.topLeft(), QSizeF(m_squareSize, m_squareSize));
 	const qreal rLeft = rect.left();

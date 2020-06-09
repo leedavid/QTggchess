@@ -121,6 +121,10 @@ class BoardScene : public QGraphicsScene
 		virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 		virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
+		//void drawBackground(QPainter* painter, const QRectF& rect);
+
+		//virtual void BoardScene::drawBackground(QPainter* painter, const QRectF& rect);
+
 	private slots:
 		void onTransitionFinished();
 		//void onPromotionChosen(const Chess::Piece& promotion);

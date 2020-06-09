@@ -148,6 +148,10 @@ class GraphicsBoard : public QGraphicsItem
 		QVector<GraphicsPiece*> m_squares;
 		QPropertyAnimation* m_highlightAnim;
 		bool m_flipped;
+
+		QPixmap scaledPix; // ∆Â≈ÃÕº
+
+	
 };
 
 #endif // GRAPHICSBOARD_H

@@ -332,7 +332,6 @@
     <ClCompile Include="src\board\westernboard.cpp" />
     <ClCompile Include="src\board\westernzobrist.cpp" />
     <ClCompile Include="src\worker.cpp" />
-    <ClCompile Include="src\xboardengine.cpp" />
     <ClCompile Include="src\board\zobrist.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -423,12 +422,6 @@
     <ClInclude Include="src\board\westernzobrist.h" />
     <QtMoc Include="src\worker.h">
     </QtMoc>
-    <ClInclude Include="src\xboardengine.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\src;.\components\json\src;.\3rdparty\fathom\src;$(QTDIR)\include;.\.moc;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql</IncludePath>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='REL|x64'">.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\src;.\components\json\src;.\3rdparty\fathom\src;$(QTDIR)\include;.\.moc;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql</IncludePath>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\src;.\components\json\src;.\3rdparty\fathom\src;$(QTDIR)\include;.\.moc;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql</IncludePath>
-      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;Z_PREFIX;NDEBUG;QT_NO_DEBUG;QT_CORE_LIB;QT_TESTLIB_LIB;QT_SQL_LIB;%(PreprocessorDefinitions)</Define>
-    </ClInclude>
     <ClInclude Include="src\board\zobrist.h" />
   </ItemGroup>
   <ItemGroup>

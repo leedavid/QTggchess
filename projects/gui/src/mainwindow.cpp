@@ -87,9 +87,11 @@ MainWindow::MainWindow(ChessGame* game)
 	  m_firstTabAutoCloseEnabled(true),
 	m_myClosePreTab(false),  
 	m_pcap(nullptr),
-	m_autoClickCap(nullptr),
-	m_bAutomaticLinking(false)
+	m_autoClickCap(nullptr)
+	//m_bAutomaticLinking(false)
 {
+	
+	
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setDockNestingEnabled(true);
 
@@ -146,13 +148,17 @@ MainWindow::MainWindow(ChessGame* game)
 
 MainWindow::~MainWindow()
 {
-	while(m_pcap->isRunning()) {
-		m_pcap->on_stop();
-		wait(1);
+	if (m_pcap != nullptr) {
+		while (m_pcap->isRunning()) {
+			m_pcap->on_stop();
+			wait(1);
+		}
 	}
-	while(m_autoClickCap->isRunning()) {
-		m_autoClickCap->on_stop();
-		wait(1);
+	if (m_autoClickCap != nullptr) {
+		while (m_autoClickCap->isRunning()) {
+			m_autoClickCap->on_stop();
+			wait(1);
+		}
 	}
 }
 
@@ -690,9 +696,9 @@ void MainWindow::destroyGame(ChessGame* game)
 
 	int index = tabIndex(game);
 
-	//if (index == -1) {
-	//	return;
-	//}
+	if (index == -1) {
+		return;  // by LGL
+	}
 
 	Q_ASSERT(index != -1);
 	TabData tab = m_tabs.at(index);
@@ -896,10 +902,10 @@ void MainWindow::closeTab(int index)
 		return;
 	}
 
-	if (m_bAutomaticLinking) {
-		destroyGame(tab.m_game);
-		return;
-	}
+	//if (m_bAutomaticLinking) {
+	//	destroyGame(tab.m_game);
+	//	return;
+	//}
 
 	if (tab.m_finished)
 		destroyGame(tab.m_game);
@@ -2025,14 +2031,17 @@ void MainWindow::onLinkAutomaticToggled(bool checked)
 		}
 		m_pcap->on_start();
 
-		m_bAutomaticLinking = true;
+		//m_bAutomaticLinking = true;
 	}
 	else {
 		m_autoClickCap->on_stop();		
 		m_pcap->on_stop();
 		m_game->stop();
 
-		m_bAutomaticLinking = false;
+		this->tbtnLinkChessBoardRed->setChecked(false);
+		this->tbtnLinkChessBoardBlack->setChecked(false);
+
+		//m_bAutomaticLinking = false;
 	}
 }
 

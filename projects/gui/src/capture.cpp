@@ -8,11 +8,14 @@
 #include <QGuiApplication>
 #include <QMessagebox>
 #include <board/boardfactory.h>
-
+#include <QMutex>
 #include "mainwindow.h"
 
 namespace Chess {
 
+	// 初始化静态成员
+	QMutex Capture::mutex;
+	bool Capture::m_MayNewGame = false;
 
 	Capture::Capture(QObject* parent, bool isAuto)
 		:QThread(parent),
@@ -24,8 +27,11 @@ namespace Chess {
 	{
 		//MsgBoxThread(par);
 		//this->m_msg.pGame = pGame;
+		//mutex.lock();		
+		//m_MayNewGame = true;
+		//mutex.unlock();
 
-		initBoard();
+		initBoard();	
 
 		connect(this, SIGNAL(CapSendSignal(stCaptureMsg)),
 			parent, SLOT(processCapMsg(stCaptureMsg)));
@@ -33,7 +39,7 @@ namespace Chess {
 
 	void Capture::initBoard()
 	{
-		m_precision_chess = 0.52f;
+		m_precision_chess = 0.58f; // was 0.52
 		m_precision_auto = 0.98f;
 		m_UseAdb = false;
 		m_sleepTimeMs = 20;
@@ -321,7 +327,7 @@ namespace Chess {
 	{
 		if (isCap) {
 			if (this->captureOne(m_hwnd, false) == false) {
-				qWarning("searchImage 1 %s 出错了！", findName);
+				qWarning("searchImage 11 %s 出错了！", findName);
 				return false;
 			}
 		}
@@ -338,7 +344,7 @@ namespace Chess {
 			}
 			else {
 				QString fFile = this->getFindPath() + findName;
-				image_template_main = cv::imread(fFile.toStdString());   // 模板图
+				image_template_main = cv::imread(fFile.toLocal8Bit().toStdString());   // 模板图
 				// 要不要缩放
 				//if (this->m_scaleX != 1.0f) {
 				//	cv::resize(image_template_main, image_template_main, cv::Size(), this->m_scaleX, this->m_scaleY);
@@ -684,52 +690,83 @@ namespace Chess {
 			return;
 		}
 
+		// 点击所有自动目录下的图
+		QStringList nameFilters;
+		nameFilters << "*.png";
+		QString runPath = QCoreApplication::applicationDirPath();
 
 		while (true) {
 			if (bMustStop) break;
+			bool findNewGame = false;
 
-			//------------------------------------------------------------------------
-			// 点击所有自动目录下的图
-			QStringList nameFilters;
-			nameFilters << "*.png";
-
-			QString runPath = QCoreApplication::applicationDirPath();
-			QString dirpath = runPath + "/image/findchess/0/auto/";
-
+			// 1. 发现这些图就等待
+			QString dirpath = runPath + "/image/findchess/0/not/";
 			QDir dir(dirpath);
-
-			bool find = true;
-
-			while (find) {
-				find = false;
-
-				while (true) {   // 主界面不能再返回了
-					if (searchImage("gate.png", true, "0/not/")) {
-						wait(50);
+			QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
+			bool isFind = false;
+			while (true) {
+				bool isCap = true;   // 第一次要读一下图
+				for (QString file : files) {
+					if (searchImage(file, isCap, "0/not/")) {  // 
+						wait(100);
+						isFind = true;
 					}
-					else {
-						break;
-					}
+					isCap = false;
 					if (bMustStop) break;
 				}
-
-				QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
-				for (QString file : files) {					
-					if (this->SearchAndClick(file, false)) {  // 这儿不要再截图了
-						find = true;					
-					}
-					wait(100);
-					if (bMustStop) break;
-				}
+				if (!isFind) break;				
 			}
+			
+			// 2. 对局中发现的，对方求和，我方要说话等
+			dirpath = runPath + "/image/findchess/0/gaming/";
+			dir = QDir(dirpath);
+			files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
+			isFind = false;
+			while (true) {
+				bool isCap = true;   // 第一次要读一下图
+				for (QString file : files) {
+					if (SearchAndClick(file, isCap, "0/gaming/")) {  // 
+						wait(100);
+						isFind = true;
+					}
+					isCap = false;
+					if (bMustStop) break;
+				}
+				if (!isFind) break;
+			}			
+
+			// 3. 可能是新开的棋局		
+			dirpath = runPath + "/image/findchess/0/auto/";
+			dir = QDir(dirpath);
+			files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
+			isFind = false;
+			while (true) {				
+				for (QString file : files) {					
+					if (this->SearchAndClick(file, true)) {  // 这个一直要读
+						findNewGame = true;
+					}
+					wait(500);
+					if (bMustStop) break;
+				}
+				if (!isFind) break;
+			}
+
+			if (findNewGame == true) {
+				Capture::mutex.lock();
+				Capture::m_MayNewGame = true;  // 通知另外一个线程
+				Capture::mutex.unlock();
+			}
+
 			wait(500);
 		}
+
+		bMustStop = false;
 	}
 
 	// 连线下棋
 	void Capture::runAutoChess()
 	{
-		this->m_MatHash.clear(); // 清空一下
+		
 
 		bMustStop = false;
 		m_bWeMustSendInitFen = false;
@@ -752,6 +789,16 @@ namespace Chess {
 
 		this->m_LxBoard[0].fen = "none";
 
+		//this->m_hwnd = HWND(0x004B09F6);
+		//if (!SearchOnChessList(m_hwnd, "br.png", this->m_LxBoard[0].BCheList, SearchWhichCap::eBlack, true)) {
+		//
+		//	int a = 0;
+		//}
+
+
+		QElapsedTimer timeRun;  // 超时定时器
+		timeRun.start();
+		quint64 StartTime = timeRun.elapsed();
 		while (true) {   // 走棋
 
 			if (bMustStop) break;
@@ -759,7 +806,7 @@ namespace Chess {
 			if (GetLxBoardChess(1)) {   // 读出第二个棋盘''
 
 				QString fen = this->m_LxBoard[1].fen;
-				if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") { // 是初始局面
+				if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR b - - 0 1") { // 是初始局面，这个是对方在走第一步
 					wait(m_sleepTimeMs);
 					continue;
 				}
@@ -783,15 +830,26 @@ namespace Chess {
 					QString fen = this->m_LxBoard[1].fen;
 					SendFenToMain(fen);
 
+					StartTime = timeRun.elapsed();   // 发送棋盘后重置一下棋局开始时间
+
 					//this->m_LxBoard[0].b90 = this->m_LxBoard[0].b90;
 					int size = sizeof(this->m_LxBoard[0].b90);
 					memcpy(this->m_LxBoard[0].b90, this->m_LxBoard[1].b90, size);
 					this->m_LxBoard[0].fen = this->m_LxBoard[1].fen;
 
 					m_bWeMustSendInitFen = false;
-					for (int i = 0; i < 2000; i++) {
-						wait(1);
+					for (int i = 0; i < 10; i++) {  // 延时2秒，等待主界面启动引擎
+						wait(100);
 						if (bMustStop) break;
+					}
+				}
+				else {
+					if (Capture::m_MayNewGame) {
+						if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1") {
+							if (((timeRun.elapsed() - StartTime) / 1000.0) > 25.0) {
+								m_bWeMustSendInitFen = true;
+							}
+						}
 					}
 				}
 
@@ -802,7 +860,9 @@ namespace Chess {
 					MoveSendingFen = this->m_LxBoard[1].fen;
 					MoveSendingMove = m;
 
-					this->m_LxBoard[0].fen = MoveSendingFen;      // 保存走子后的fen
+					this->m_LxBoard[0].fen = MoveSendingFen;      // 保存走子后的fen	
+
+					StartTime = timeRun.elapsed();   // 发送棋盘后重置一下棋局开始时间
 				}
 
 				if (this->m_LxBoard[1].fen == MoveSendingFen) {   // 棋盘没有改动
@@ -812,6 +872,15 @@ namespace Chess {
 				}
 			}
 			wait(m_sleepTimeMs);
+
+
+			if (Capture::m_MayNewGame) {
+				Capture::mutex.lock();
+				Capture::m_MayNewGame = false;;
+				Capture::mutex.unlock();
+				this->m_MatHash.clear(); // 清空一下
+			}			
+			
 		}
 		//SendMessageToMain("OK", "你已退出连线！");
 	}
@@ -1193,6 +1262,31 @@ namespace Chess {
 			}
 		}
 
+		//searchCountours(hw, findName, isCap);
+
+		bool Isfind = false;
+		int findNumber = 0;
+
+		/*
+		cv::Mat m_bin;
+		cv::threshold(this->m_image_black, m_bin, 125, 255, cv::THRESH_BINARY);
+
+		cv::imshow("templ", this->m_image_source);
+		cv::imshow("black", this->m_image_black);
+		cv::imshow("img", m_image_source);
+
+		cv::imshow("bin", m_bin);
+
+		cv::waitKey();
+		*/
+
+
+		// threshold(imag, result, 30, 200.0, CV_THRESH_BINARY);
+		
+
+		//cv::imshow("matched", image_template2);
+		//cv::waitKey();
+
 		cv::Mat image_template_main;
 
 		cv::Mat image_template_chess; // 棋子有可能有几种
@@ -1200,6 +1294,7 @@ namespace Chess {
 
 		cv::Mat image_template_chess_pre;  // 棋子有可能有几种
 		cv::Mat image_template_chess_gold; // 棋子有可能有几种
+		//cv::Mat image_template_chess_light; // 棋子有可能有几种
 
 		try {
 
@@ -1217,7 +1312,7 @@ namespace Chess {
 				if (sWhich == SearchWhichCap::eMain) {
 
 					QString fFile = this->getFindPath() + findName;
-					image_template_main = cv::imread(fFile.toStdString());   // 模板图
+					image_template_main = cv::imread(fFile.toLocal8Bit().toStdString());   // 模板图
 
 					// 要不要缩放
 					//if (this->m_scaleX != 1.0f) {
@@ -1239,7 +1334,7 @@ namespace Chess {
 
 
 					QString fFile = this->getFindPath() + findName;
-					cv::Mat image_template = cv::imread(fFile.toStdString());   // 模板图
+					cv::Mat image_template = cv::imread(fFile.toLocal8Bit().toStdString());   // 模板图
 
 					// 要处理成HSV mask 格式
 
@@ -1249,24 +1344,48 @@ namespace Chess {
 
 					if (sWhich == SearchWhichCap::eBlack) {
 						cv::inRange(imgHSV, cv::Scalar(iLowHblack, iLowSblack, iLowVblack), cv::Scalar(iHighHblack, iHighSblack, iHighVblack), image_template_chess_pre); //Threshold the image
+						//cv::threshold(image_template_chess_pre, image_template_chess_pre, 125, 255, cv::THRESH_BINARY);
 					}
 					else {
 						cv::inRange(imgHSV, cv::Scalar(iLowHred, iLowSred, iLowVred), cv::Scalar(iHighHred, iHighSred, iHighVred), image_template_chess_pre); //Threshold the image
+						//cv::threshold(image_template_chess_pre, image_template_chess_pre, 125, 255, cv::THRESH_BINARY);
 					}
 					// this->m_MatHash.insert(findName, image_template2); 后面正确的插入
 					//tmpSize = image_template2.cols * image_template2.rows;
 
 					// 金棋子
 					fFile = this->getFindPath() + "/0/golden/" + findName;
-					image_template = cv::imread(fFile.toStdString());   // 模板图
+					image_template = cv::imread(fFile.toLocal8Bit().toStdString());   // 模板图
 					cv::cvtColor(image_template, imgHSV, cv::COLOR_BGR2HSV);
 
 					if (sWhich == SearchWhichCap::eBlack) {
 						cv::inRange(imgHSV, cv::Scalar(iLowHblack, iLowSblack, iLowVblack), cv::Scalar(iHighHblack, iHighSblack, iHighVblack), image_template_chess_gold); //Threshold the image
+						//cv::threshold(image_template_chess_gold, image_template_chess_gold, 125, 255, cv::THRESH_BINARY);
 					}
 					else {
 						cv::inRange(imgHSV, cv::Scalar(iLowHred, iLowSred, iLowVred), cv::Scalar(iHighHred, iHighSred, iHighVred), image_template_chess_gold); //Threshold the image
+						//cv::threshold(image_template_chess_gold, image_template_chess_gold, 125, 255, cv::THRESH_BINARY);
 					}
+
+					/*
+					// 发光棋子 image_template_chess_light					
+					fFile = this->getFindPath() + "/0/light/" + findName;
+					image_template = cv::imread(fFile.toLocal8Bit().toStdString());   // 模板图
+					cv::cvtColor(image_template, imgHSV, cv::COLOR_BGR2HSV);
+
+					if (sWhich == SearchWhichCap::eBlack) {
+						cv::inRange(imgHSV, cv::Scalar(iLowHblack, iLowSblack, iLowVblack), cv::Scalar(iHighHblack, iHighSblack, iHighVblack), image_template_chess_light); //Threshold the image
+						//cv::threshold(image_template_chess_light, image_template_chess_light, 125, 255, cv::THRESH_BINARY);
+					}
+					else {
+						cv::inRange(imgHSV, cv::Scalar(iLowHred, iLowSred, iLowVred), cv::Scalar(iHighHred, iHighSred, iHighVred), image_template_chess_light); //Threshold the image
+						//cv::threshold(image_template_chess_light, image_template_chess_light, 125, 255, cv::THRESH_BINARY);
+					}
+					*/
+
+					//cv::imshow("pre", image_template_chess_pre);
+					//cv::imshow("gold", image_template_chess_gold);
+					//cv::waitKey();
 
 				}
 			}
@@ -1278,6 +1397,7 @@ namespace Chess {
 
 
 		//cv::imshow("templ", m_image_black);
+		//cv::imshow("templ", m_image_red);
 		//cv::imshow("img", m_image_source);
 		//cv::imshow("matched", image_template2);
 		//cv::waitKey();
@@ -1288,6 +1408,8 @@ namespace Chess {
 		//cv::imshow("templ", image_template_scaled);
 		//cv::waitKey();
 
+		cv::TemplateMatchModes method = cv::TM_SQDIFF_NORMED;  // cv::TM_CCOEFF_NORMED; // cv::TM_SQDIFF_NORMED;
+
 		for (int i = 0; i < 2; i++) {
 
 			cv::Mat image_matched;
@@ -1297,7 +1419,7 @@ namespace Chess {
 					if (i == 1) {
 						return false;
 					}
-					cv::matchTemplate(m_image_source, image_template_main, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+					cv::matchTemplate(m_image_source, image_template_main, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
 
 				}
 				else if (bIsInHash == true) {
@@ -1305,28 +1427,34 @@ namespace Chess {
 						return false;
 					}
 					if (sWhich == SearchWhichCap::eBlack) {
-						cv::matchTemplate(m_image_black, image_template_chess, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						cv::matchTemplate(m_image_black, image_template_chess, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
 					}
 					else {
-						cv::matchTemplate(m_image_red, image_template_chess, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						cv::matchTemplate(m_image_red, image_template_chess, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
 					}
 				}
 				else {
 					if (sWhich == SearchWhichCap::eBlack) {
 						if (i == 0) {
-							cv::matchTemplate(m_image_black, image_template_chess_pre, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+							cv::matchTemplate(m_image_black, image_template_chess_pre, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
 						}
-						else {
-							cv::matchTemplate(m_image_black, image_template_chess_gold, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						else if(i== 1){
+							cv::matchTemplate(m_image_black, image_template_chess_gold, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
 						}
+						//else if (i == 2) {
+						//	cv::matchTemplate(m_image_black, image_template_chess_light, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						//}
 					}
 					else {
 						if (i == 0) {
-							cv::matchTemplate(m_image_red, image_template_chess_pre, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+							cv::matchTemplate(m_image_red, image_template_chess_pre, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
 						}
-						else {
-							cv::matchTemplate(m_image_red, image_template_chess_gold, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						else if (i == 1) {
+							cv::matchTemplate(m_image_red, image_template_chess_gold, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
 						}
+						//else if (i == 2) {
+						//	cv::matchTemplate(m_image_red, image_template_chess_light, image_matched, method); // cv::TM_CCORR); // cv::TM_SQDIFF);
+						//}
 					}
 				}				
 			}
@@ -1335,10 +1463,10 @@ namespace Chess {
 				return false;
 			}
 
-			if (i == 1) {
-				cv::imshow("gold_temp", image_template_chess_gold);
-				cv::waitKey();
-			}
+			//if (i == 1) {
+			//	cv::imshow("gold_temp", image_template_chess_gold);
+			//	cv::waitKey();
+			//}
 
 #if 0
 			cv::imshow("m_image_source", m_image_source);
@@ -1354,7 +1482,7 @@ namespace Chess {
 				}
 				res.clear();  // 清空数组
 
-				bool Isfind = false;
+				
 
 				while (true) {
 					cv::Point minLoc, maxLoc;
@@ -1366,11 +1494,13 @@ namespace Chess {
 
 					//double matchVal = minVal / tmpSize;  // 去掉模板大小对匹配精度的影响
 					//threshold = 0.90;
-					double matchThres = maxVal * (1 - threshold);
-
+					double matchThres = maxVal * (1.0 - threshold);
 					if (minVal < matchThres) {
 
+					//if(maxVal > 0.75){
+
 						Isfind = true;
+						findNumber = i;
 
 						cv::Point chessP;
 
@@ -1387,11 +1517,38 @@ namespace Chess {
 								chessP.x = minLoc.x + image_template_chess_pre.cols / 2;
 								chessP.y = minLoc.y + image_template_chess_pre.rows / 2;
 							}
-							else {
+							else if (i == 1) {
 								chessP.x = minLoc.x + image_template_chess_gold.cols / 2;
 								chessP.y = minLoc.y + image_template_chess_gold.rows / 2;
 							}
+							//else if (i == 2) {
+							//	chessP.x = minLoc.x + image_template_chess_light.cols / 2;
+							//	chessP.y = minLoc.y + image_template_chess_light.rows / 2;
+							//}
 						}
+
+	/*					if (sWhich == SearchWhichCap::eMain) {
+							chessP.x = maxLoc.x + image_template_main.cols / 2;
+							chessP.y = maxLoc.y + image_template_main.rows / 2;
+						}
+						else {
+							if (bIsInHash == true) {
+								chessP.x = maxLoc.x + image_template_chess.cols / 2;
+								chessP.y = maxLoc.y + image_template_chess.rows / 2;
+							}
+							else if (i == 0) {
+								chessP.x = maxLoc.x + image_template_chess_pre.cols / 2;
+								chessP.y = maxLoc.y + image_template_chess_pre.rows / 2;
+							}
+							else if (i == 1) {
+								chessP.x = maxLoc.x + image_template_chess_gold.cols / 2;
+								chessP.y = maxLoc.y + image_template_chess_gold.rows / 2;
+							}
+							else if (i == 2) {
+								chessP.x = maxLoc.x + image_template_chess_light.cols / 2;
+								chessP.y = maxLoc.y + image_template_chess_light.rows / 2;
+							}
+						}*/
 
 						if (isShow) {
 							//cv::Mat image_color;
@@ -1416,6 +1573,8 @@ namespace Chess {
 
 						cv::circle(image_matched, minLoc, 10, cv::Scalar(maxVal), -1);
 
+						//cv::circle(image_matched, maxLoc, 10, cv::Scalar(minVal), -1);
+
 						//cv::imshow("m2", image_matched);
 						//cv::waitKey();
 					}
@@ -1424,22 +1583,27 @@ namespace Chess {
 					}
 
 				}
-				if (bIsInHash == false) {
-					if (i == 0) {
-						this->m_MatHash.insert(findName, image_template_chess_pre);
-					}
-					else {
-						this->m_MatHash.insert(findName, image_template_chess_gold);
-					}
-				}
-
-				return Isfind;
 			}
 			catch (...) {
 				//qWarning("searchImage 5 %s 出错了！", findName);
 				return false;
 			}
-		}
+
+			if (Isfind) {
+				if (bIsInHash == false) {
+					if (findNumber == 0) {
+						this->m_MatHash.insert(findName, image_template_chess_pre);
+					}
+					else if (findNumber == 1) {
+						this->m_MatHash.insert(findName, image_template_chess_gold);
+					}
+					//else if (findNumber == 2) {
+					//	this->m_MatHash.insert(findName, image_template_chess_light);
+					//}
+				}
+				return true;
+			}
+		}		
 
 		return false;
 
@@ -1513,7 +1677,11 @@ namespace Chess {
 			m_image_source = cv::Mat(mat.rows, mat.cols, CV_8UC3);
 			int from_to[] = { 0,0,  1,1,  2,2 };
 			cv::mixChannels(&mat, 1, &m_image_source, 1, from_to, 3);
-			*/			
+			*/		
+
+			if (this->m_capPixmap.width() < 100) {
+				return false;
+			}
 
 			if (m_isAutoClick) {
 				m_image_source_all = QPixmapToCvMat(this->m_capPixmap, true);
@@ -1523,6 +1691,7 @@ namespace Chess {
 				this->m_image_source = QPixmapToCvMat(this->m_capPixmap, true);
 			}
 
+			
 			if (this->m_Ready_LXset) {  // 当前的联线信息OK了
 
 				//this->m_LxInfo.m_dx
@@ -1544,6 +1713,10 @@ namespace Chess {
 
 				cv::inRange(imgHSV, cv::Scalar(iLowHred, iLowSred, iLowVred), cv::Scalar(iHighHred, iHighSred, iHighVred), m_image_red); //Threshold the image
 				cv::inRange(imgHSV, cv::Scalar(iLowHblack, iLowSblack, iLowVblack), cv::Scalar(iHighHblack, iHighSblack, iHighVblack), m_image_black); //Threshold the image
+
+				// 二值化处理
+				//cv::threshold(m_image_red, m_image_red, 125, 255, cv::THRESH_BINARY);
+				//cv::threshold(m_image_black, m_image_black, 125, 255, cv::THRESH_BINARY);
 			}
 
 			//cv::Mat hsv_channels_red[3];
@@ -1711,7 +1884,8 @@ namespace Chess {
 		}
 
 		//QString title = this->get_window_title(hwnd);
-		if (wc == this->m_LxInfo.m_class) {
+
+		if (wc == this->m_LxInfo.m_class) {	
 
 			// 得找到32个圆				
 			if (onlyBche) {
@@ -1738,7 +1912,7 @@ namespace Chess {
 					return false;
 				}
 
-				if (pieceList->RKingList.count() >= 1 && pieceList->BKingList.count() >= 1) {
+				if (pieceList->RKingList.count() == 1 && pieceList->BKingList.count() == 1) {
 					return true;  // 兵河把将当时间方了！！
 				}
 			}

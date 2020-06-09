@@ -27,6 +27,7 @@
 #include <QGraphicsPolygonItem>
 #include <QGraphicsTextItem>
 #include <QSettings>
+#include <QPainter>
 #include <algorithm>
 #include <board/board.h>
 #include "graphicsboard.h"
@@ -94,12 +95,31 @@ void BoardScene::setBoard(Chess::Board* board)
 
 	//QString pic = QCoreApplication::applicationDirPath() + "/image/backgroud.jpg";
 
-	QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
+	//QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
 	//QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
 	//QString pic = QCoreApplication::applicationDirPath() + "/image/gif.jpg";
+
+	QString pic = QCoreApplication::applicationDirPath() + "/image/backgroud/bg.png";
+	//QGraphicsPixmapItem* bgItem = new QGraphicsPixmapItem(QPixmap(pic));
+	//this->addItem(bgItem);
+
+
+
 	this->setBackgroundBrush(QPixmap(pic));
 	//this->setba
+	//this->setba
 }
+
+//void BoardScene::drawBackground(QPainter* painter, const QRectF& rect){
+//	QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
+//	//painter->drawImage()
+//	//painter->
+//
+//	QGraphicsPixmapItem* bgItem = new QGraphicsPixmapItem(QPixmap(pic));
+//	this->addItem(bgItem);
+//
+//	painter->
+//}
 
 void BoardScene::LinkMove(const Chess::GenericMove& lmove) // , const Chess::Side& side)
 {	
@@ -322,6 +342,27 @@ void BoardScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 	QGraphicsScene::mouseReleaseEvent(event);
 }
+
+//void BoardScene::drawBackground(QPainter* painter, const QRectF& rect)
+//{
+//	int a = 0;
+//
+//	QString picPath = QCoreApplication::applicationDirPath() + "/image/backgroud/board.png";	
+//   QPixmap pix = QPixmap(picPath);
+//   QSize pixSize = pix.size();
+//   pixSize.scale(QSize(rect.width(), rect.height()), Qt::AspectRatioMode::KeepAspectRatioByExpanding);    // :KeepAspectRatio);
+//   QPixmap scaledPix = pix.scaled(pixSize,
+//	   Qt::AspectRatioMode::KeepAspectRatioByExpanding,
+//   	Qt::SmoothTransformation
+//   );
+//   //QPixmap scaledPix = pix.scaled(m_rect.width()+125, m_rect.height()+125);
+//
+//   //pixSize.scale(m_rect.size(), Qt::KeepAspectRatio);
+//   //painter->drawPixmap(0, 0, scaledPix);
+//
+//   painter->drawPixmap(-(rect.width()/2),-(rect.height()/2), scaledPix);
+//
+//}
 
 void BoardScene::onTransitionFinished()
 {

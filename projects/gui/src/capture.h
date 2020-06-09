@@ -7,6 +7,7 @@
 #include <QProcess>
 #include <Qthread>
 #include <QMessagebox>
+#include <QMutex>
 
 #include <opencv2/opencv.hpp>
 #include <board/board.h>
@@ -125,6 +126,9 @@ namespace Chess {
 
 	public:
 
+		static QMutex mutex;
+		static bool m_MayNewGame;
+
 		explicit Capture(QObject* parent = nullptr, bool isAuto = false);
 		//Capture(float precision, bool UseAdb = false, int sleepMs = 200, float scX = 1.0f, float scY = 1.0f);
 		~Capture();
@@ -228,6 +232,8 @@ namespace Chess {
 
 	private:
 
+		
+
 		MainWindow* pMain;
 
 		Chess::Side m_side;
@@ -264,12 +270,12 @@ namespace Chess {
 		cv::Mat m_image_black;    // ºÚ·½Æå×Ó
 
 		int iLowHred = 0;
-		int iHighHred = 9;
+		int iHighHred = 10;
 
-		int iLowSred = 63;
-		int iHighSred = 243;
+		int iLowSred = 77;
+		int iHighSred = 255;
 
-		int iLowVred = 121;
+		int iLowVred = 95;
 		int iHighVred = 255;
 
 		int iLowHblack = 0;

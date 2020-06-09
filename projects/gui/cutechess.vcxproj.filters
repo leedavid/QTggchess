@@ -60,6 +60,12 @@
     <Filter Include="Source Files\Capture">
       <UniqueIdentifier>{0a43746d-b949-4428-8fc1-d011279c6363}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Dlg">
+      <UniqueIdentifier>{97928255-d447-425c-bad8-8d38b91df54b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EditBoard">
+      <UniqueIdentifier>{015aafee-21fa-4eb8-b2e4-a63e5d8d78db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\autoverticalscroller.cpp">
@@ -101,12 +107,6 @@
     <ClCompile Include="src\movetoken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\newgamedlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\newtournamentdialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\pathlineedit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -119,9 +119,6 @@
     <ClCompile Include="3rdparty\qcustomplot\qcustomplot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\settingsdlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\stringvalidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -129,15 +126,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tilelayout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\timecontroldlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tournamentresultsdlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tournamentsettingswidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="3rdparty\modeltest\modeltest.cpp">
@@ -215,11 +203,29 @@
     <ClCompile Include="src\boardview\BasicBoardScene.cpp">
       <Filter>Source Files\board_display</Filter>
     </ClCompile>
-    <ClCompile Include="BoardEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\random.cpp">
       <Filter>Source Files\Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\newgamedlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\settingsdlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\newtournamentdialog.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\timecontroldlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tournamentresultsdlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tournamentsettingswidget.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardEditor.cpp">
+      <Filter>Source Files\EditBoard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,7 +392,7 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="BoardEditor.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\EditBoard</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

@@ -169,9 +169,6 @@
     <ClCompile Include="src\board\westernzobrist.cpp">
       <Filter>Source Files\board</Filter>
     </ClCompile>
-    <ClCompile Include="src\xboardengine.cpp">
-      <Filter>Source Files\board</Filter>
-    </ClCompile>
     <ClCompile Include="src\board\zobrist.cpp">
       <Filter>Source Files\board</Filter>
     </ClCompile>
@@ -461,9 +458,6 @@
     </ClInclude>
     <ClInclude Include="databasemanager.h">
       <Filter>Source Files\Sqlite</Filter>
-    </ClInclude>
-    <ClInclude Include="src\xboardengine.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -44,6 +44,8 @@
 #include "pgnimporter.h"
 #include "gamewall.h"
 
+#include <QTextCodec>
+
 
 #ifndef Q_OS_WIN32
 #	include <sys/types.h>
@@ -63,6 +65,8 @@ CuteChessApplication::CuteChessApplication(int& argc, char* argv[])
 	  m_initialWindowCreated(false)
 {
 	Mersenne::initialize(QTime(0,0,0).msecsTo(QTime::currentTime()));
+
+	//QTextCodec::setCodecForLocale(QTextCodec::
 
 	// Set the application icon
 	QIcon icon;

@@ -367,10 +367,11 @@ QString Board::moveString(const Move& move, MoveNotation notation)
 Move Board::moveFromEnglishString(const QString& istr)
 {
 	QString str(istr);
-	str.remove(QRegExp("[x=+#!?]"));
+	//str.remove(QRegExp("[x=+#!?]"));
 	int len = str.length();
-	if (len < 4)
+	if (len < 4) {
 		return Move();
+	}
 
 	//Piece promotion;
 	//int drop = str.indexOf('@');
@@ -413,12 +414,17 @@ Move Board::moveFromString(const QString& str)
 	//Move move = moveFromSanString(str);
 	//if (move.isNull())
 	//{
-	Move move;
-	move = moveFromEnglishString(str);
-	if (!isLegalMove(move))
+	try {
+		Move move;
+		move = moveFromEnglishString(str);
+		if (!isLegalMove(move))
+			return Move();
+		//}
+		return move;
+	}
+	catch (...) {
 		return Move();
-	//}
-	return move;
+	}
 }
 
 
@@ -709,6 +715,7 @@ void Board::reset()
 
 void Board::makeMove(const Move& move, BoardTransition* transition)
 {
+	
 	Q_ASSERT(!m_side.isNull());
 	Q_ASSERT(!move.isNull());
 
@@ -923,10 +930,19 @@ bool Board::vIsLegalMove(const Move& move)
 
 		repcount = this->repeatCount();
 
-		if (repcount >= 2) {  // 二次重复，要判断是不是犯规了
-			Board* newB = this->copy();
-			isBan = newB->vIsBan(move);
-			delete newB;
+		if (Board::GetIsAutoLinkStat()) {
+			if (repcount >= 10) {  // 二次重复，要判断是不是犯规了
+				Board* newB = this->copy();
+				isBan = newB->vIsBan(move);
+				delete newB;
+			}
+		}
+		else {
+			if (repcount >= 4) {  // 二次重复，要判断是不是犯规了
+				Board* newB = this->copy();
+				isBan = newB->vIsBan(move);
+				delete newB;
+			}
 		}
 	}
 

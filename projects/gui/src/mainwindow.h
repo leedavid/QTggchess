@@ -25,7 +25,7 @@
 #include <board/side.h>
 
 #include <humanbuilder.h>
-
+#include <QMutex>
 
 #include "capture.h"
 //#include "TestThread.h"
@@ -64,7 +64,8 @@ class MainWindow : public QMainWindow
 		virtual ~MainWindow();
 		QString windowListTitle() const;
 
-		bool m_isRuning; 
+		
+		//bool m_bLinkMayNewGame; 
 		bool isMoveValid(const Chess::GenericMove& move);
 
 		//TestThread* t;
@@ -228,7 +229,7 @@ class MainWindow : public QMainWindow
 		Chess::Capture* m_pcap;            // 一个界面只有一个
 		Chess::Capture* m_autoClickCap;    // 全自动挂机	
 
-		bool m_bAutomaticLinking; 
+		//bool m_bAutomaticLinking; 
 
 		void wait(int msec) {
 			QTime dieTime = QTime::currentTime().addMSecs(msec);
