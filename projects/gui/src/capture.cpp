@@ -327,7 +327,7 @@ namespace Chess {
 	{
 		if (isCap) {
 			if (this->captureOne(m_hwnd, false) == false) {
-				qWarning("searchImage 11 %s 出错了！", findName);
+				qWarning("searchImage 11 %s 出错了！", qUtf8Printable(findName));
 				return false;
 			}
 		}
@@ -368,7 +368,7 @@ namespace Chess {
 			cv::matchTemplate(m_image_source_all, image_template_main, image_matched, cv::TM_SQDIFF_NORMED); // cv::TM_CCORR); // cv::TM_SQDIFF);
 		}
 		catch (...) {
-			qWarning("searchImage 3 %s 出错了！", findName);
+			qWarning("searchImage 3 %s 出错了！", qUtf8Printable(findName));
 			return false;
 		}
 
@@ -1257,7 +1257,7 @@ namespace Chess {
 	{
 		if (isCap) {
 			if (this->captureOne(hw) == false) {
-				qWarning("searchImage 1 %s 出错了！", findName);
+				qWarning("searchImage 1 %s 出错了！", qUtf8Printable(findName));
 				return false;
 			}
 		}
@@ -1459,7 +1459,7 @@ namespace Chess {
 				}				
 			}
 			catch (...) {
-				qWarning("searchImage 3 %s 出错了！", findName);
+				qWarning("searchImage 3 %s 出错了！", qUtf8Printable(findName));
 				return false;
 			}
 
@@ -1585,7 +1585,7 @@ namespace Chess {
 				}
 			}
 			catch (...) {
-				//qWarning("searchImage 5 %s 出错了！", findName);
+				qWarning("searchImage 5 %s 出错了！", qUtf8Printable(findName));
 				return false;
 			}
 

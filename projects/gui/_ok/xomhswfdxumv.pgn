@@ -1,0 +1,128 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.09"]
+[Round "?"]
+[White "keers"]
+[Black "ggzero"]
+[Result "*"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/4C2C1/9/RNBAKABNR b - - 0 1"]
+[GameDuration "00:06:21"]
+[GameEndTime "2020-06-09T23:41:30.433 中国标准时间"]
+[GameStartTime "2020-06-09T23:35:08.865 中国标准时间"]
+[PlyCount "55"]
+[SetUp "1"]
+[Termination "unterminated"]
+[TimeControl "400/180+1"]
+
+ 0. 马２进３ 
+{score:100 time:0}
+ 1. 兵七进一 
+{score:0 time:0}
+ 2. 车１平２ 
+{score:100 time:0}
+ 3. 马八进七 
+{score:0 time:0}
+ 4. 卒７进１ 
+{score:100 time:0}
+ 5. 车九平八 
+{score:0 time:0}
+ 6. 马８进７ 
+{score:100 time:0}
+ 7. 马二进一 
+{score:0 time:0}
+ 8. 卒９进１ 
+{score:100 time:0}
+ 9. 炮二平四 
+{score:0 time:0}
+ 10. 炮２进２ 
+{score:200 time:0}
+ 11. 车一进一 
+{score:0 time:0}
+ 12. 卒９进１ 
+{score:200 time:0}
+ 13. 兵三进一 
+{score:0 time:0}
+ 14. 卒７进１ 
+{score:17 time:0}
+ 15. 车一平三 
+{score:0 time:0}
+ 16. 卒９平８ 
+{score:90 time:0}
+ 17. 炮四平三 
+{score:0 time:0}
+ 18. 马７进８ 
+{score:165 time:0}
+ 19. 炮三平二 
+{score:0 time:0}
+ 20. 炮８平７ 
+{score:337 time:0}
+ 21. 炮五平三 
+{score:0 time:0}
+ 22. 炮７进５ 
+{score:379 time:0}
+ 23. 炮二进三 
+{score:0 time:0}
+ 24. 炮２平７ 
+{score:426 time:0}
+ 25. 车八进九 
+{score:0 time:0}
+ 26. 前炮进２ 
+{score:516 time:0}
+ 27. 仕四进五 
+{score:0 time:0}
+ 28. 马３退２ 
+{score:566 time:0}
+ 29. 车三平二 
+{score:0 time:0}
+ 30. 车９进６ 
+{score:728 time:0}
+ 31. 马一退二 
+{score:0 time:0}
+ 32. 象３进５ 
+{score:759 time:0}
+ 33. 相七进五 
+{score:0 time:0}
+ 34. 前炮退３ 
+{score:841 time:0}
+ 35. 相五进三 
+{score:0 time:0}
+ 36. 卒８平７ 
+{score:1021 time:0}
+ 37. 马二进四 
+{score:0 time:0}
+ 38. 马２进４ 
+{score:1002 time:0}
+ 39. 马四进三 
+{score:0 time:0}
+ 40. 卒７进１ 
+{score:1116 time:0}
+ 41. 炮二进四 
+{score:0 time:0}
+ 42. 卒７平６ 
+{score:1317 time:0}
+ 43. 车二进六 
+{score:0 time:0}
+ 44. 炮７平５ 
+{score:1530 time:0}
+ 45. 帅五平四 
+{score:0 time:0}
+ 46. 车９进３ 
+{score:0 time:0}
+ 47. 帅四进一 
+{score:0 time:0}
+ 48. 炮５平６ 
+{score:0 time:0}
+ 49. 仕五进四 
+{score:0 time:0}
+ 50. 车９退１ 
+{score:0 time:0}
+ 51. 帅四退一 
+{score:0 time:0}
+ 52. 卒６进１ 
+{score:0 time:0}
+ 53. 帅四平五 
+{score:0 time:0}
+ 54. 炮６平５ 
+{score:0 time:0}
+ *
+

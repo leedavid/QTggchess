@@ -163,7 +163,7 @@ Options:
 
 Engine options:
 
-  conf=NAME		Use an engine with the name NAME from Cute Chess'
+  conf=NAME		Use an engine with the name NAME from GGzero Chess'
 			engines.json configuration file.
   name=NAME		Set the name to NAME
   cmd=COMMAND		Set the command to COMMAND

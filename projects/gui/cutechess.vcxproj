@@ -307,6 +307,7 @@
   <ItemGroup>
     <ClCompile Include="3rdparty\modeltest\modeltest.cpp" />
     <ClCompile Include="BoardEditor.cpp" />
+    <ClCompile Include="logstream.cpp" />
     <ClCompile Include="src\autoverticalscroller.cpp" />
     <ClCompile Include="src\boardview\BasicBoardScene.cpp" />
     <ClCompile Include="src\boardview\boardscene.cpp" />
@@ -410,6 +411,7 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\..\lib\src;.\3rdparty\qcustomplot;.\3rdparty\modeltest;$(QTDIR)\include;.\.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtSvg</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;LIB_EXPORT=;CUTECHESS_VERSION=1.1.2;QT_TESTCASE_BUILDDIR=.;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_CONCURRENT_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SQL_LIB;QT_SVG_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
+    <ClInclude Include="logstream.h" />
     <ClInclude Include="res\icons\resource.h" />
     <QtMoc Include="src\boardview\BasicBoardScene.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\..\lib\src;.\3rdparty\qcustomplot;.\3rdparty\modeltest;$(QTDIR)\include;.\.moc;C:\VulkanSDK\1.0.51.0\include;$(QTDIR)\mkspecs\win32-msvc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtSvg</IncludePath>

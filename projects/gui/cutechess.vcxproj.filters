@@ -66,6 +66,9 @@
     <Filter Include="Source Files\EditBoard">
       <UniqueIdentifier>{015aafee-21fa-4eb8-b2e4-a63e5d8d78db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Log">
+      <UniqueIdentifier>{e47a4da9-747c-4739-9eac-82537949a333}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\autoverticalscroller.cpp">
@@ -226,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="BoardEditor.cpp">
       <Filter>Source Files\EditBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="logstream.cpp">
+      <Filter>Source Files\Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -584,6 +590,9 @@
     </ClInclude>
     <ClInclude Include="src\mutex.h">
       <Filter>Source Files\Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="logstream.h">
+      <Filter>Source Files\Log</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

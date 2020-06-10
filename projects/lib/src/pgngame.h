@@ -1,18 +1,18 @@
 /*
-    This file is part of Cute Chess.
+    This file is part of GGzero Chess.
 
-    Cute Chess is free software: you can redistribute it and/or modify
+    GGzero Chess is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Cute Chess is distributed in the hope that it will be useful,
+    GGzero Chess is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Cute Chess.  If not, see <http://www.gnu.org/licenses/>.
+    along with GGzero Chess.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef PGNGAME_H
@@ -41,7 +41,7 @@ namespace Chess { class Board; }
  * Specification: http://www.very-best.de/pgn-spec.htm
  *
  * PgnGame is a middle format between text-based PGN games and games
- * played by Cute Chess. PgnGame objects are used for converting played
+ * played by GGzero Chess. PgnGame objects are used for converting played
  * games to PGN format, importing PGN data to opening books, analyzing
  * previous games on a graphical board, etc.
  *
