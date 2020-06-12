@@ -1,0 +1,124 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.11"]
+[Round "?"]
+[White "ggzero"]
+[Black "keers"]
+[Result "*"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1"]
+[GameDuration "00:06:06"]
+[GameEndTime "2020-06-11T00:26:29.320 中国标准时间"]
+[GameStartTime "2020-06-11T00:20:22.997 中国标准时间"]
+[PlyCount "53"]
+[SetUp "1"]
+[Termination "unterminated"]
+[TimeControl "400/180+1"]
+
+ 0. 炮八平五 
+{score:8 time:0}
+ 1. 马２进３ 
+{score:0 time:0}
+ 2. 马八进七 
+{score:9 time:0}
+ 3. 炮２进４ 
+{score:0 time:0}
+ 4. 马二进三 
+{score:200 time:0}
+ 5. 卒３进１ 
+{score:0 time:0}
+ 6. 兵三进一 
+{score:200 time:0}
+ 7. 象３进５ 
+{score:0 time:0}
+ 8. 车一进一 
+{score:23 time:0}
+ 9. 士４进５ 
+{score:0 time:0}
+ 10. 车一平四 
+{score:39 time:0}
+ 11. 马８进９ 
+{score:0 time:0}
+ 12. 车四进三 
+{score:41 time:0}
+ 13. 车１平２ 
+{score:0 time:0}
+ 14. 车九平八 
+{score:36 time:0}
+ 15. 炮８平６ 
+{score:0 time:0}
+ 16. 兵七进一 
+{score:48 time:0}
+ 17. 卒３进１ 
+{score:0 time:0}
+ 18. 车四平七 
+{score:48 time:0}
+ 19. 车９平８ 
+{score:0 time:0}
+ 20. 炮二平一 
+{score:51 time:0}
+ 21. 车８进４ 
+{score:0 time:0}
+ 22. 马七进六 
+{score:56 time:0}
+ 23. 卒９进１ 
+{score:0 time:0}
+ 24. 马六进五 
+{score:57 time:0}
+ 25. 马３进５ 
+{score:0 time:0}
+ 26. 炮五进四 
+{score:81 time:0}
+ 27. 车８平４ 
+{score:0 time:0}
+ 28. 马三进四 
+{score:88 time:0}
+ 29. 车４退１ 
+{score:0 time:0}
+ 30. 炮一进三 
+{score:86 time:0}
+ 31. 马９进８ 
+{score:0 time:0}
+ 32. 兵三进一 
+{score:99 time:0}
+ 33. 卒７进１ 
+{score:0 time:0}
+ 34. 炮一进一 
+{score:219 time:0}
+ 35. 车４平５ 
+{score:0 time:0}
+ 36. 马四进五 
+{score:891 time:0}
+ 37. 卒１进１ 
+{score:0 time:0}
+ 38. 相七进五 
+{score:1189 time:0}
+ 39. 马８进９ 
+{score:0 time:0}
+ 40. 仕六进五 
+{score:1237 time:0}
+ 41. 马９进７ 
+{score:0 time:0}
+ 42. 马五进三 
+{score:1048 time:0}
+ 43. 马７退５ 
+{score:0 time:0}
+ 44. 车七退一 
+{score:1903 time:0}
+ 45. 炮２进２ 
+{score:0 time:0}
+ 46. 车七平五 
+{score:2894 time:0}
+ 47. 炮６进６ 
+{score:0 time:0}
+ 48. 炮一进三 
+{score:2564 time:0}
+ 49. 车２进２ 
+{score:0 time:0}
+ 50. 马三退四 
+{score:2594 time:0}
+ 51. 车２平４ 
+{score:0 time:0}
+ 52. 马四进五 
+{score:3302 time:0}
+ *
+

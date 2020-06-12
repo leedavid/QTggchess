@@ -1,0 +1,132 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.10"]
+[Round "?"]
+[White "keers"]
+[Black "ggzero"]
+[Result "*"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5CN/9/RNBAKAB1R b - - 0 1"]
+[GameDuration "00:01:57"]
+[GameEndTime "2020-06-10T23:16:35.156 中国标准时间"]
+[GameStartTime "2020-06-10T23:14:38.024 中国标准时间"]
+[PlyCount "57"]
+[SetUp "1"]
+[Termination "unterminated"]
+[TimeControl "400/180+1"]
+
+ 0. 炮２平５ 
+{score:100 time:0}
+ 1. 炮八平五 
+{score:0 time:0}
+ 2. 马２进３ 
+{score:100 time:0}
+ 3. 马八进七 
+{score:0 time:0}
+ 4. 车１平２ 
+{score:100 time:0}
+ 5. 车九进一 
+{score:0 time:0}
+ 6. 马８进９ 
+{score:100 time:0}
+ 7. 兵一进一 
+{score:0 time:0}
+ 8. 车２进６ 
+{score:100 time:0}
+ 9. 兵七进一 
+{score:0 time:0}
+ 10. 车２平３ 
+{score:100 time:0}
+ 11. 车九平六 
+{score:0 time:0}
+ 12. 车９进１ 
+{score:200 time:0}
+ 13. 车一进一 
+{score:0 time:0}
+ 14. 车９平６ 
+{score:200 time:0}
+ 15. 车一平四 
+{score:0 time:0}
+ 16. 车６进７ 
+{score:200 time:0}
+ 17. 车六平四 
+{score:0 time:0}
+ 18. 车３退１ 
+{score:200 time:0}
+ 19. 车四进七 
+{score:0 time:0}
+ 20. 士４进５ 
+{score:200 time:0}
+ 21. 炮五平三 
+{score:0 time:0}
+ 22. 炮５平４ 
+{score:200 time:0}
+ 23. 相七进五 
+{score:0 time:0}
+ 24. 车３平９ 
+{score:200 time:0}
+ 25. 炮二进二 
+{score:0 time:0}
+ 26. 象３进５ 
+{score:200 time:0}
+ 27. 炮二平三 
+{score:0 time:0}
+ 28. 炮８平７ 
+{score:200 time:0}
+ 29. 前炮平五 
+{score:0 time:0}
+ 30. 炮７平６ 
+{score:200 time:0}
+ 31. 兵三进一 
+{score:0 time:0}
+ 32. 车９退１ 
+{score:200 time:0}
+ 33. 炮五进三 
+{score:0 time:0}
+ 34. 将５平４ 
+{score:200 time:0}
+ 35. 炮五平一 
+{score:0 time:0}
+ 36. 象７进９ 
+{score:200 time:0}
+ 37. 车四平二 
+{score:0 time:0}
+ 38. 卒３进１ 
+{score:200 time:0}
+ 39. 炮三进四 
+{score:0 time:0}
+ 40. 炮６平７ 
+{score:200 time:0}
+ 41. 车二平三 
+{score:0 time:0}
+ 42. 炮７平５ 
+{score:200 time:0}
+ 43. 车三平二 
+{score:0 time:0}
+ 44. 炮５平７ 
+{score:200 time:0}
+ 45. 车二平三 
+{score:0 time:0}
+ 46. 炮７平５ 
+{score:200 time:0}
+ 47. 车三平二 
+{score:0 time:0}
+ 48. 炮５平７ 
+{score:200 time:0}
+ 49. 车二平三 
+{score:0 time:0}
+ 50. 炮７平５ 
+{score:200 time:0}
+ 51. 车三平二 
+{score:0 time:0}
+ 52. 炮５平７ 
+{score:200 time:0}
+ 53. 车二平三 
+{score:0 time:0}
+ 54. 炮７平５ 
+{score:200 time:0}
+ 55. 车三平二 
+{score:0 time:0}
+ 56. 炮５平７ 
+{score:200 time:0}
+ *
+

@@ -1,0 +1,84 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.12"]
+[Round "?"]
+[White "ggzero"]
+[Black "keers"]
+[Result "*"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1"]
+[GameDuration "00:03:23"]
+[GameEndTime "2020-06-12T04:55:54.561 中国标准时间"]
+[GameStartTime "2020-06-12T04:52:31.424 中国标准时间"]
+[PlyCount "33"]
+[SetUp "1"]
+[Termination "unterminated"]
+[TimeControl "400/180+1"]
+
+ 0. 相三进五 
+{score:0 time:0}
+ 1. 炮２平５ 
+{score:0 time:0}
+ 2. 马八进七 
+{score:0 time:0}
+ 3. 马２进３ 
+{score:0 time:0}
+ 4. 兵七进一 
+{score:0 time:0}
+ 5. 车１进１ 
+{score:0 time:0}
+ 6. 马二进三 
+{score:200 time:0}
+ 7. 卒７进１ 
+{score:0 time:0}
+ 8. 车九平八 
+{score:200 time:0}
+ 9. 车１平４ 
+{score:0 time:0}
+ 10. 仕四进五 
+{score:200 time:0}
+ 11. 马８进９ 
+{score:0 time:0}
+ 12. 炮二进四 
+{score:57 time:0}
+ 13. 卒５进１ 
+{score:0 time:0}
+ 14. 车一平四 
+{score:66 time:0}
+ 15. 车４进２ 
+{score:0 time:0}
+ 16. 炮二退一 
+{score:89 time:0}
+ 17. 卒５进１ 
+{score:0 time:0}
+ 18. 炮八进四 
+{score:109 time:0}
+ 19. 卒３进１ 
+{score:0 time:0}
+ 20. 炮二平七 
+{score:104 time:0}
+ 21. 马３进４ 
+{score:0 time:0}
+ 22. 炮八进三 
+{score:120 time:0}
+ 23. 卒５进１ 
+{score:0 time:0}
+ 24. 马三进五 
+{score:236 time:0}
+ 25. 马４进５ 
+{score:0 time:0}
+ 26. 马七进五 
+{score:306 time:0}
+ 27. 车９平８ 
+{score:0 time:0}
+ 28. 车八进八 
+{score:425 time:0}
+ 29. 炮８进７ 
+{score:0 time:0}
+ 30. 车四进八 
+{score:610 time:0}
+ 31. 炮８平９ 
+{score:0 time:0}
+ 32. 炮七平五 
+{score:0 time:0}
+ *
+

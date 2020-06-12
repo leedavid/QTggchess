@@ -1,0 +1,389 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.10"]
+[Round "?"]
+[White "ggzero"]
+[Black "keers"]
+[Result "1/2-1/2"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1"]
+[GameDuration "00:08:37"]
+[GameEndTime "2020-06-10T22:42:25.001 中国标准时间"]
+[GameStartTime "2020-06-10T22:33:47.300 中国标准时间"]
+[PlyCount "186"]
+[SetUp "1"]
+[TimeControl "400/180+1"]
+
+ 0. 炮八平五 
+{score:8 time:0}
+ 1. 马２进３ 
+{score:0 time:0}
+ 2. 马八进七 
+{score:9 time:0}
+ 3. 车１平２ 
+{score:0 time:0}
+ 4. 车九平八 
+{score:10 time:0}
+ 5. 卒３进１ 
+{score:0 time:0}
+ 6. 车八进六 
+{score:9 time:0}
+ 7. 马８进７ 
+{score:0 time:0}
+ 8. 兵三进一 
+{score:10 time:0}
+ 9. 炮２平１ 
+{score:0 time:0}
+ 10. 车八平七 
+{score:11 time:0}
+ 11. 炮１退１ 
+{score:0 time:0}
+ 12. 马二进三 
+{score:11 time:0}
+ 13. 士６进５ 
+{score:0 time:0}
+ 14. 炮二平一 
+{score:9 time:0}
+ 15. 车９平８ 
+{score:0 time:0}
+ 16. 车一平二 
+{score:9 time:0}
+ 17. 炮１平３ 
+{score:0 time:0}
+ 18. 车七平六 
+{score:10 time:0}
+ 19. 马３进２ 
+{score:0 time:0}
+ 20. 炮五进四 
+{score:11 time:0}
+ 21. 马７进５ 
+{score:0 time:0}
+ 22. 车六平五 
+{score:12 time:0}
+ 23. 炮３进５ 
+{score:0 time:0}
+ 24. 马七退五 
+{score:13 time:0}
+ 25. 卒３进１ 
+{score:0 time:0}
+ 26. 车二进五 
+{score:22 time:0}
+ 27. 马２进４ 
+{score:0 time:0}
+ 28. 车五退二 
+{score:5 time:0}
+ 29. 车２进８ 
+{score:0 time:0}
+ 30. 炮一退一 
+{score:4 time:0}
+ 31. 车２退１ 
+{score:0 time:0}
+ 32. 相七进五 
+{score:4 time:0}
+ 33. 马４进５ 
+{score:0 time:0}
+ 34. 相三进五 
+{score:0 time:0}
+ 35. 车２平５ 
+{score:0 time:0}
+ 36. 车五平七 
+{score:-1 time:0}
+ 37. 炮８平２ 
+{score:0 time:0}
+ 38. 车二平八 
+{score:-3 time:0}
+ 39. 炮２平５ 
+{score:0 time:0}
+ 40. 车七退一 
+{score:-2 time:0}
+ 41. 车５平７ 
+{score:0 time:0}
+ 42. 车八平五 
+{score:-3 time:0}
+ 43. 车７平５ 
+{score:0 time:0}
+ 44. 炮一进五 
+{score:-1 time:0}
+ 45. 车８进６ 
+{score:0 time:0}
+ 46. 车七进六 
+{score:3 time:0}
+ 47. 车５退１ 
+{score:0 time:0}
+ 48. 车五退二 
+{score:-3 time:0}
+ 49. 车８平５ 
+{score:0 time:0}
+ 50. 车七退三 
+{score:-2 time:0}
+ 51. 车５平９ 
+{score:0 time:0}
+ 52. 马五进三 
+{score:-3 time:0}
+ 53. 车９退３ 
+{score:0 time:0}
+ 54. 马三进四 
+{score:-4 time:0}
+ 55. 车９进３ 
+{score:0 time:0}
+ 56. 马四进六 
+{score:0 time:0}
+ 57. 车９平５ 
+{score:0 time:0}
+ 58. 仕四进五 
+{score:-1 time:0}
+ 59. 车５平１ 
+{score:0 time:0}
+ 60. 马六进五 
+{score:-3 time:0}
+ 61. 象７进５ 
+{score:0 time:0}
+ 62. 车七平三 
+{score:-2 time:0}
+ 63. 车１进３ 
+{score:0 time:0}
+ 64. 兵三进一 
+{score:1 time:0}
+ 65. 象５进７ 
+{score:0 time:0}
+ 66. 仕五退四 
+{score:9 time:0}
+ 67. 象７退５ 
+{score:0 time:0}
+ 68. 车三平一 
+{score:10 time:0}
+ 69. 士５进４ 
+{score:0 time:0}
+ 70. 车一退三 
+{score:11 time:0}
+ 71. 士４进５ 
+{score:0 time:0}
+ 72. 车一进六 
+{score:17 time:0}
+ 73. 士５退６ 
+{score:0 time:0}
+ 74. 车一退七 
+{score:16 time:0}
+ 75. 士６进５ 
+{score:0 time:0}
+ 76. 车一平三 
+{score:16 time:0}
+ 77. 士５退６ 
+{score:0 time:0}
+ 78. 车三进一 
+{score:17 time:0}
+ 79. 士６进５ 
+{score:0 time:0}
+ 80. 车三进三 
+{score:16 time:0}
+ 81. 士５退６ 
+{score:0 time:0}
+ 82. 车三退四 
+{score:16 time:0}
+ 83. 士６进５ 
+{score:0 time:0}
+ 84. 车三进一 
+{score:16 time:0}
+ 85. 士５退６ 
+{score:0 time:0}
+ 86. 车三平二 
+{score:16 time:0}
+ 87. 士６进５ 
+{score:0 time:0}
+ 88. 车二进六 
+{score:17 time:0}
+ 89. 士５退６ 
+{score:0 time:0}
+ 90. 车二退七 
+{score:16 time:0}
+ 91. 士６进５ 
+{score:0 time:0}
+ 92. 车二平一 
+{score:15 time:0}
+ 93. 士５退６ 
+{score:0 time:0}
+ 94. 车一平四 
+{score:16 time:0}
+ 95. 士６进５ 
+{score:0 time:0}
+ 96. 车四平二 
+{score:15 time:0}
+ 97. 士５退６ 
+{score:0 time:0}
+ 98. 车二进四 
+{score:16 time:0}
+ 99. 士６进５ 
+{score:0 time:0}
+ 100. 车二平八 
+{score:16 time:0}
+ 101. 士５退６ 
+{score:0 time:0}
+ 102. 车八平一 
+{score:16 time:0}
+ 103. 士６进５ 
+{score:0 time:0}
+ 104. 仕四进五 
+{score:17 time:0}
+ 105. 象５退３ 
+{score:0 time:0}
+ 106. 仕五进六 
+{score:22 time:0}
+ 107. 象３进５ 
+{score:0 time:0}
+ 108. 车一平八 
+{score:14 time:0}
+ 109. 士５退６ 
+{score:0 time:0}
+ 110. 车八平三 
+{score:14 time:0}
+ 111. 士６进５ 
+{score:0 time:0}
+ 112. 仕六退五 
+{score:17 time:0}
+ 113. 象５退３ 
+{score:0 time:0}
+ 114. 车三平五 
+{score:23 time:0}
+ 115. 象３进１ 
+{score:0 time:0}
+ 116. 车五退一 
+{score:28 time:0}
+ 117. 象１退３ 
+{score:0 time:0}
+ 118. 车五退二 
+{score:25 time:0}
+ 119. 象３进１ 
+{score:0 time:0}
+ 120. 仕五退四 
+{score:28 time:0}
+ 121. 象１退３ 
+{score:0 time:0}
+ 122. 车五平四 
+{score:24 time:0}
+ 123. 卒１进１ 
+{score:0 time:0}
+ 124. 车四平一 
+{score:20 time:0}
+ 125. 象３进５ 
+{score:0 time:0}
+ 126. 车一进六 
+{score:13 time:0}
+ 127. 士５退６ 
+{score:0 time:0}
+ 128. 车一退七 
+{score:12 time:0}
+ 129. 士６进５ 
+{score:0 time:0}
+ 130. 车一进一 
+{score:13 time:0}
+ 131. 士５进６ 
+{score:0 time:0}
+ 132. 车一平八 
+{score:17 time:0}
+ 133. 士６退５ 
+{score:0 time:0}
+ 134. 车八平六 
+{score:13 time:0}
+ 135. 象５退７ 
+{score:0 time:0}
+ 136. 车六平七 
+{score:12 time:0}
+ 137. 象７进５ 
+{score:0 time:0}
+ 138. 车七平二 
+{score:12 time:0}
+ 139. 士５进６ 
+{score:0 time:0}
+ 140. 车二平三 
+{score:16 time:0}
+ 141. 士６退５ 
+{score:0 time:0}
+ 142. 车三进一 
+{score:12 time:0}
+ 143. 士５进６ 
+{score:0 time:0}
+ 144. 车三退二 
+{score:17 time:0}
+ 145. 士６退５ 
+{score:0 time:0}
+ 146. 车三平一 
+{score:13 time:0}
+ 147. 士５进６ 
+{score:0 time:0}
+ 148. 车一平八 
+{score:17 time:0}
+ 149. 士６退５ 
+{score:0 time:0}
+ 150. 车八平六 
+{score:12 time:0}
+ 151. 象５退７ 
+{score:0 time:0}
+ 152. 车六平七 
+{score:12 time:0}
+ 153. 象７进５ 
+{score:0 time:0}
+ 154. 车七平四 
+{score:12 time:0}
+ 155. 象５退３ 
+{score:0 time:0}
+ 156. 车四平五 
+{score:19 time:0}
+ 157. 象３进１ 
+{score:0 time:0}
+ 158. 车五平三 
+{score:28 time:0}
+ 159. 将５平６ 
+{score:0 time:0}
+ 160. 车三平四 
+{score:28 time:0}
+ 161. 将６平５ 
+{score:0 time:0}
+ 162. 车四平一 
+{score:28 time:0}
+ 163. 将５平６ 
+{score:0 time:0}
+ 164. 车一平三 
+{score:22 time:0}
+ 165. 士５进６ 
+{score:0 time:0}
+ 166. 仕四进五 
+{score:21 time:0}
+ 167. 士６退５ 
+{score:0 time:0}
+ 168. 车三进一 
+{score:28 time:0}
+ 169. 士５进６ 
+{score:0 time:0}
+ 170. 车三平七 
+{score:23 time:0}
+ 171. 卒１进１ 
+{score:0 time:0}
+ 172. 车七平八 
+{score:21 time:0}
+ 173. 士６退５ 
+{score:0 time:0}
+ 174. 车八进三 
+{score:25 time:0}
+ 175. 士５进６ 
+{score:0 time:0}
+ 176. 帅五平四 
+{score:22 time:0}
+ 177. 士４退５ 
+{score:0 time:0}
+ 178. 车八平六 
+{score:20 time:0}
+ 179. 士５进４ 
+{score:0 time:0}
+ 180. 车六平七 
+{score:21 time:0}
+ 181. 象１退３ 
+{score:0 time:0}
+ 182. 车七平八 
+{score:18 time:0}
+ 183. 象３进１ 
+{score:0 time:0}
+ 184. 帅四平五 
+{score:21 time:0}
+ 185. 士６退５ 
+{score:0 time:0}
+ 1/2-1/2
+

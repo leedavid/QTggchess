@@ -1,0 +1,157 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.10"]
+[Round "?"]
+[White "keers"]
+[Black "ggzero"]
+[Result "1/2-1/2"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C2C4/9/RNBAKABNR b - - 0 1"]
+[GameDuration "00:04:57"]
+[GameEndTime "2020-06-10T23:21:34.533 中国标准时间"]
+[GameStartTime "2020-06-10T23:16:37.048 中国标准时间"]
+[PlyCount "70"]
+[SetUp "1"]
+[TimeControl "400/180+1"]
+
+ 0. 马８进７ 
+{score:100 time:0}
+ 1. 兵三进一 
+{score:0 time:0}
+ 2. 车９平８ 
+{score:100 time:0}
+ 3. 马二进三 
+{score:0 time:0}
+ 4. 卒３进１ 
+{score:100 time:0}
+ 5. 车一平二 
+{score:0 time:0}
+ 6. 马２进３ 
+{score:100 time:0}
+ 7. 马八进九 
+{score:0 time:0}
+ 8. 卒１进１ 
+{score:100 time:0}
+ 9. 炮八进四 
+{score:0 time:0}
+ 10. 象７进５ 
+{score:100 time:0}
+ 11. 炮八平三 
+{score:0 time:0}
+ 12. 车１平２ 
+{score:100 time:0}
+ 13. 车九进一 
+{score:0 time:0}
+ 14. 士６进５ 
+{score:100 time:0}
+ 15. 车九平四 
+{score:0 time:0}
+ 16. 炮８进４ 
+{score:200 time:0}
+ 17. 车四进三 
+{score:0 time:0}
+ 18. 车８进３ 
+{score:-27 time:0}
+ 19. 兵三进一 
+{score:0 time:0}
+ 20. 象５进７ 
+{score:-12 time:0}
+ 21. 车四平三 
+{score:0 time:0}
+ 22. 象７退５ 
+{score:-5 time:0}
+ 23. 马三进二 
+{score:0 time:0}
+ 24. 炮８平６ 
+{score:-6 time:0}
+ 25. 炮五平二 
+{score:0 time:0}
+ 26. 炮６平８ 
+{score:-7 time:0}
+ 27. 炮二平五 
+{score:0 time:0}
+ 28. 炮８平６ 
+{score:0 time:0}
+ 29. 炮五平二 
+{score:0 time:0}
+ 30. 炮６平８ 
+{score:0 time:0}
+ 31. 炮二平五 
+{score:0 time:0}
+ 32. 炮８平６ 
+{score:0 time:0}
+ 33. 炮五平二 
+{score:0 time:0}
+ 34. 炮６平８ 
+{score:0 time:0}
+ 35. 炮二平八 
+{score:0 time:0}
+ 36. 炮２平１ 
+{score:-1 time:0}
+ 37. 炮八平三 
+{score:0 time:0}
+ 38. 炮８平６ 
+{score:0 time:0}
+ 39. 后炮平二 
+{score:0 time:0}
+ 40. 炮６平８ 
+{score:0 time:0}
+ 41. 炮二平三 
+{score:0 time:0}
+ 42. 炮８平６ 
+{score:0 time:0}
+ 43. 后炮平二 
+{score:0 time:0}
+ 44. 炮６平８ 
+{score:0 time:0}
+ 45. 炮二平三 
+{score:0 time:0}
+ 46. 炮８平６ 
+{score:0 time:0}
+ 47. 车三平六 
+{score:0 time:0}
+ 48. 炮６平７ 
+{score:0 time:0}
+ 49. 后炮平二 
+{score:0 time:0}
+ 50. 炮７平８ 
+{score:0 time:0}
+ 51. 炮二平五 
+{score:0 time:0}
+ 52. 炮８平７ 
+{score:1 time:0}
+ 53. 炮五平二 
+{score:0 time:0}
+ 54. 炮７平８ 
+{score:0 time:0}
+ 55. 炮二平三 
+{score:0 time:0}
+ 56. 炮８平７ 
+{score:0 time:0}
+ 57. 后炮平二 
+{score:0 time:0}
+ 58. 炮７平８ 
+{score:0 time:0}
+ 59. 炮二平三 
+{score:0 time:0}
+ 60. 炮８平７ 
+{score:0 time:0}
+ 61. 后炮平二 
+{score:0 time:0}
+ 62. 炮７平８ 
+{score:0 time:0}
+ 63. 炮二平三 
+{score:0 time:0}
+ 64. 炮８平７ 
+{score:0 time:0}
+ 65. 后炮平二 
+{score:0 time:0}
+ 66. 炮７平８ 
+{score:0 time:0}
+ 67. 炮二平三 
+{score:0 time:0}
+ 68. 炮８平７ 
+{score:0 time:0}
+ 69. 后炮平二 
+{score:0 time:0}
+ 1/2-1/2
+

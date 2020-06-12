@@ -1,0 +1,137 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.12"]
+[Round "?"]
+[White "keers"]
+[Black "ggzero"]
+[Result "1/2-1/2"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/4C2C1/9/RNBAKABNR b - - 0 1"]
+[GameDuration "00:03:57"]
+[GameEndTime "2020-06-12T07:22:10.606 中国标准时间"]
+[GameStartTime "2020-06-12T07:18:13.068 中国标准时间"]
+[PlyCount "60"]
+[SetUp "1"]
+[TimeControl "400/180+1"]
+
+ 0. 马２进３ 
+{score:100 time:0}
+ 1. 马八进七 
+{score:0 time:0}
+ 2. 卒３进１ 
+{score:100 time:0}
+ 3. 车九平八 
+{score:0 time:0}
+ 4. 车１平２ 
+{score:100 time:0}
+ 5. 车八进六 
+{score:0 time:0}
+ 6. 马８进７ 
+{score:100 time:0}
+ 7. 兵三进一 
+{score:0 time:0}
+ 8. 炮２平１ 
+{score:100 time:0}
+ 9. 车八平七 
+{score:0 time:0}
+ 10. 炮１退１ 
+{score:100 time:0}
+ 11. 马二进三 
+{score:0 time:0}
+ 12. 炮１平３ 
+{score:100 time:0}
+ 13. 车七平六 
+{score:0 time:0}
+ 14. 士６进５ 
+{score:100 time:0}
+ 15. 马三进四 
+{score:0 time:0}
+ 16. 车２进５ 
+{score:100 time:0}
+ 17. 炮二进二 
+{score:0 time:0}
+ 18. 象７进５ 
+{score:100 time:0}
+ 19. 炮五平四 
+{score:0 time:0}
+ 20. 卒７进１ 
+{score:100 time:0}
+ 21. 相三进五 
+{score:0 time:0}
+ 22. 卒７进１ 
+{score:200 time:0}
+ 23. 兵七进一 
+{score:0 time:0}
+ 24. 车２退１ 
+{score:200 time:0}
+ 25. 相五进三 
+{score:0 time:0}
+ 26. 卒３进１ 
+{score:200 time:0}
+ 27. 相三退五 
+{score:0 time:0}
+ 28. 象５进７ 
+{score:100 time:0}
+ 29. 炮二平七 
+{score:0 time:0}
+ 30. 炮８进１ 
+{score:100 time:0}
+ 31. 车六进二 
+{score:0 time:0}
+ 32. 炮３进４ 
+{score:100 time:0}
+ 33. 相五进七 
+{score:0 time:0}
+ 34. 马７进６ 
+{score:100 time:0}
+ 35. 车一平三 
+{score:0 time:0}
+ 36. 象７退５ 
+{score:7 time:0}
+ 37. 车三进六 
+{score:0 time:0}
+ 38. 炮８进６ 
+{score:5 time:0}
+ 39. 车三退六 
+{score:0 time:0}
+ 40. 炮８退８ 
+{score:6 time:0}
+ 41. 车三进八 
+{score:0 time:0}
+ 42. 炮８进８ 
+{score:37 time:0}
+ 43. 车三退八 
+{score:0 time:0}
+ 44. 炮８退８ 
+{score:12799 time:0}
+ 45. 车三进八 
+{score:0 time:0}
+ 46. 炮８进８ 
+{score:12799 time:0}
+ 47. 车三退八 
+{score:0 time:0}
+ 48. 炮８退８ 
+{score:12799 time:0}
+ 49. 车三进八 
+{score:0 time:0}
+ 50. 炮８进８ 
+{score:12799 time:0}
+ 51. 车三退八 
+{score:0 time:0}
+ 52. 炮８退８ 
+{score:12799 time:0}
+ 53. 车三进八 
+{score:0 time:0}
+ 54. 炮８进８ 
+{score:12799 time:0}
+ 55. 车三退八 
+{score:0 time:0}
+ 56. 炮８退８ 
+{score:12799 time:0}
+ 57. 车三进八 
+{score:0 time:0}
+ 58. 炮８进８ 
+{score:12799 time:0}
+ 59. 车三退八 
+{score:0 time:0}
+ 1/2-1/2
+

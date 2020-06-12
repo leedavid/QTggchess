@@ -39,7 +39,7 @@ namespace Chess {
 
 	void Capture::initBoard()
 	{
-		m_precision_chess = 0.58f; // was 0.52
+		m_precision_chess = 0.57f; // was 0.52
 		m_precision_auto = 0.98f;
 		m_UseAdb = false;
 		m_sleepTimeMs = 20;
@@ -178,26 +178,6 @@ namespace Chess {
 		int tx = move.targetSquare().file();
 		int ty = move.targetSquare().rank();
 
-		// 发送走步
-		//int fx = 7;
-		//int fy = 0;
-		//int tx = 6;
-		//int ty = 2;
-
-
-
-		//m_hwnd = (HWND)0x0052140E;
-
-		//ShowWindow(m_hwnd, SW_RESTORE);
-		//SetForegroundWindow(m_hwnd);
-
-		//for (ffx = 5; ffx < 300; ffx += 5) {
-		//	for (ffy = 5; ffy < 400; ffy += 5) {
-		//		winLeftClick(m_hwnd, ffx, ffy);
-		//		wait(1);
-		//	}
-		//}
-
 		int from = (9 - fy) * 9 + fx;
 		int to = (9 - ty) * 9 + tx;
 		ChinesePieceType piece = this->m_LxBoard[0].b90[from];
@@ -237,14 +217,6 @@ namespace Chess {
 		wait(5);
 		winLeftClick(m_hwnd, ttx, tty);
 
-
-		//m_side = Chess::Side::NoSide;
-
-
-		//wait(20);
-
-		//winLeftClick(m_hwnd, 0, 0);
-		//int a = 0;
 	}
 
 	bool Capture::GetLxInfo(QString catlog)  // 只要查到有没有车就行了
@@ -703,9 +675,10 @@ namespace Chess {
 			QString dirpath = runPath + "/image/findchess/0/not/";
 			QDir dir(dirpath);
 			QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
-			bool isFind = false;
+			
 			while (true) {
 				bool isCap = true;   // 第一次要读一下图
+				bool isFind = false;
 				for (QString file : files) {
 					if (searchImage(file, isCap, "0/not/")) {  // 
 						wait(100);
@@ -720,10 +693,10 @@ namespace Chess {
 			// 2. 对局中发现的，对方求和，我方要说话等
 			dirpath = runPath + "/image/findchess/0/gaming/";
 			dir = QDir(dirpath);
-			files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
-			isFind = false;
+			files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);			
 			while (true) {
 				bool isCap = true;   // 第一次要读一下图
+				bool isFind = false;
 				for (QString file : files) {
 					if (SearchAndClick(file, isCap, "0/gaming/")) {  // 
 						wait(100);
@@ -738,14 +711,15 @@ namespace Chess {
 			// 3. 可能是新开的棋局		
 			dirpath = runPath + "/image/findchess/0/auto/";
 			dir = QDir(dirpath);
-			files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
-			isFind = false;
-			while (true) {				
+			files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);	
+			while (true) {		
+				bool isFind = false;
 				for (QString file : files) {					
 					if (this->SearchAndClick(file, true)) {  // 这个一直要读
 						findNewGame = true;
+						isFind = true;
 					}
-					wait(500);
+					wait(300);
 					if (bMustStop) break;
 				}
 				if (!isFind) break;

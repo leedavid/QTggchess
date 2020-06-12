@@ -1,0 +1,144 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.10"]
+[Round "?"]
+[White "ggzero"]
+[Black "keers"]
+[Result "*"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1"]
+[GameDuration "00:07:17"]
+[GameEndTime "2020-06-10T16:35:06.584 中国标准时间"]
+[GameStartTime "2020-06-10T16:27:49.327 中国标准时间"]
+[PlyCount "63"]
+[SetUp "1"]
+[Termination "unterminated"]
+[TimeControl "400/180+1"]
+
+ 0. 炮八平五 
+{score:0 time:0}
+ 1. 马２进３ 
+{score:0 time:0}
+ 2. 马八进七 
+{score:0 time:0}
+ 3. 卒３进１ 
+{score:0 time:0}
+ 4. 车九平八 
+{score:0 time:0}
+ 5. 车１平２ 
+{score:0 time:0}
+ 6. 车八进四 
+{score:0 time:0}
+ 7. 马８进７ 
+{score:0 time:0}
+ 8. 兵三进一 
+{score:0 time:0}
+ 9. 车９进１ 
+{score:0 time:0}
+ 10. 炮二平三 
+{score:100 time:0}
+ 11. 象７进５ 
+{score:0 time:0}
+ 12. 马二进一 
+{score:100 time:0}
+ 13. 炮８进２ 
+{score:0 time:0}
+ 14. 车八进二 
+{score:100 time:0}
+ 15. 马３进４ 
+{score:0 time:0}
+ 16. 车一平二 
+{score:-1 time:0}
+ 17. 炮８平５ 
+{score:0 time:0}
+ 18. 炮五进三 
+{score:27 time:0}
+ 19. 卒５进１ 
+{score:0 time:0}
+ 20. 车八平三 
+{score:28 time:0}
+ 21. 车９平４ 
+{score:0 time:0}
+ 22. 兵三进一 
+{score:53 time:0}
+ 23. 马４进３ 
+{score:0 time:0}
+ 24. 马一进三 
+{score:90 time:0}
+ 25. 车４进４ 
+{score:0 time:0}
+ 26. 兵三平四 
+{score:155 time:0}
+ 27. 士４进５ 
+{score:0 time:0}
+ 28. 车三平八 
+{score:293 time:0}
+ 29. 马７退９ 
+{score:0 time:0}
+ 30. 兵四平五 
+{score:417 time:0}
+ 31. 卒３进１ 
+{score:0 time:0}
+ 32. 车二进八 
+{score:557 time:0}
+ 33. 车４平６ 
+{score:0 time:0}
+ 34. 马三进四 
+{score:565 time:0}
+ 35. 车６平７ 
+{score:0 time:0}
+ 36. 炮三进一 
+{score:766 time:0}
+ 37. 炮２退１ 
+{score:0 time:0}
+ 38. 车二退三 
+{score:886 time:0}
+ 39. 马９退７ 
+{score:0 time:0}
+ 40. 相三进五 
+{score:876 time:0}
+ 41. 车７平４ 
+{score:0 time:0}
+ 42. 前兵进一 
+{score:1068 time:0}
+ 43. 车４进２ 
+{score:0 time:0}
+ 44. 前兵进一 
+{score:936 time:0}
+ 45. 马３进５ 
+{score:0 time:0}
+ 46. 相七进五 
+{score:1289 time:0}
+ 47. 车４平５ 
+{score:0 time:0}
+ 48. 马七退五 
+{score:993 time:0}
+ 49. 车５平４ 
+{score:0 time:0}
+ 50. 马五进四 
+{score:1543 time:0}
+ 51. 象３进５ 
+{score:0 time:0}
+ 52. 前马进五 
+{score:1509 time:0}
+ 53. 马７进６ 
+{score:0 time:0}
+ 54. 马四进五 
+{score:1638 time:0}
+ 55. 将５平４ 
+{score:0 time:0}
+ 56. 后马进四 
+{score:12791 time:0}
+ 57. 车４进２ 
+{score:0 time:0}
+ 58. 帅五进一 
+{score:0 time:0}
+ 59. 车４退１ 
+{score:0 time:0}
+ 60. 帅五退一 
+{score:0 time:0}
+ 61. 车４平７ 
+{score:0 time:0}
+ 62. 车二平六 
+{score:0 time:0}
+ *
+
