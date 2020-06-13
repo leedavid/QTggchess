@@ -2024,14 +2024,12 @@ void MainWindow::onLinkAutomaticToggled(bool checked)
 		if (m_pcap == nullptr)
 			m_pcap = new Chess::Capture(this);
 
-		while (m_pcap->m_isRuning) {
+		while (m_pcap->isRunning()) {
 			m_pcap->on_stop();
 			this->wait(1);
 			m_game->stop();
 		}
-		m_pcap->on_start();
-
-		//m_bAutomaticLinking = true;
+		m_pcap->on_start();	
 	}
 	else {
 		m_autoClickCap->on_stop();		

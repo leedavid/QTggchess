@@ -1,5 +1,6 @@
 #pragma once
 
+#include "linkboard.h"
 
 #include <Windows.h>
 #include <QString>
@@ -9,13 +10,11 @@
 #include <QMessagebox>
 #include <QMutex>
 
-#include <opencv2/opencv.hpp>
-#include <board/board.h>
-#include <board/boardfactory.h>
+
 #include <chessgame.h>
 
 //#include "mainwindow.h"
-class MainWindow;
+//class MainWindow;
 
 struct stCaptureMsg {
 
@@ -41,25 +40,23 @@ namespace Chess {
 		eBlack
 	};
 
-	enum ChinesePieceType
-	{
-		eNoPice = 0,
-		eBPawn,	//!< Pawn
-		eBXiang,		//!< Knight
-		eBShi,		//!< Bishop
-		eBPao,		//!< Rook
-		eBMa,		    //!< Ma
-		eBChe,		//!< Queen
-		eBKing,		//!< King
 
-		eRPawn,	    //!< Pawn
-		eRXiang,		//!< Knight
-		eRShi,		//!< Bishop
-		eRPao,		//!< Rook
-		eRMa,		    //!< Ma
-		eRChe,		//!< Queen
-		eRKing		//!< King
+	struct cLXinfo {
+		QString m_LX_name;                 // 连线的名称
+		QString m_ParentKeyword;           // 父窗口关键词
+		QString m_Parentclass;             // 父窗口类
+		QString m_titleKeyword;            // 窗口关键词
+		QString m_class;                   // 窗口类
+		QString m_PieceCatlog;             // 棋子的图片目录
+		float m_offx;					   // 棋盘原点x
+		float m_offy;                      // 棋盘原点y
+
+		float m_dx;                        // 棋盘格宽
+		float m_dy;                        // 棋盘格高	
+
+		bool m_isAdb;                      // 是否手机adb连接
 	};
+	
 
 	class Capture : public QThread
 	{
@@ -84,44 +81,9 @@ namespace Chess {
 
 		void run() Q_DECL_OVERRIDE;
 
-		struct cLXinfo {
+		
 
-		public:
-			//cLXinfo();
-			//~cLXinfo();
-		public:
-			QString m_LX_name;                 // 连线的名称
-			QString m_titleKeyword;            // 窗口关键词
-			QString m_class;                   // 窗口类
-			QString m_PieceCatlog;             // 棋子的图片目录
-			float offx;						   // 棋盘原点x
-			float offy;                        // 棋盘原点y
-
-			float m_dx;                         // 棋盘格宽
-			float m_dy;                         // 棋盘格高			
-		};
-
-		struct stLxBoard {
-			QVector<cv::Point> RCheList;		// 红车
-			QVector<cv::Point> RMaList;			// 红马
-			QVector<cv::Point> RPaoList;		// 红炮
-			QVector<cv::Point> RShiList;		// 红仕
-			QVector<cv::Point> RXiangList;		// 红相
-			QVector<cv::Point> RKingList;		// 红将
-			QVector<cv::Point> RPawnList;		// 红兵
-
-			QVector<cv::Point> BCheList;		// 黑车
-			QVector<cv::Point> BMaList;			// 黑马
-			QVector<cv::Point> BPaoList;		// 黑炮
-			QVector<cv::Point> BShiList;		// 黑仕
-			QVector<cv::Point> BXiangList;		// 黑相
-			QVector<cv::Point> BKingList;		// 黑将
-			QVector<cv::Point> BPawnList;		// 黑兵
-
-			ChinesePieceType b90[90];
-		    Side side;
-			QString fen;
-		};
+		
 
 
 	public:
@@ -133,7 +95,7 @@ namespace Chess {
 		//Capture(float precision, bool UseAdb = false, int sleepMs = 200, float scX = 1.0f, float scY = 1.0f);
 		~Capture();
 
-		bool m_isRuning;
+		//bool m_isRuning;
 		bool m_bMainGetFenAlready;                // 已发送初始局面了
 		
 
@@ -145,14 +107,18 @@ namespace Chess {
 
 	private:
 
+		LinkBoard* m_linkBoard;
+
+		LinkWhich m_Chess;
+
 		void runAutoClip();
 		void runAutoChess();
 
-		void wait(int msec) {
-			QTime dieTime = QTime::currentTime().addMSecs(msec);
-			while (QTime::currentTime() < dieTime)
-				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-		}
+		//void mywait(int msec) {
+		//	QTime dieTime = QTime::currentTime().addMSecs(msec);
+		//	while (QTime::currentTime() < dieTime)
+		//		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+		//}
 
 		// 得到连线的信息
 		bool GetLxInfo(QString catlog);
@@ -175,7 +141,7 @@ namespace Chess {
 
 		//QString GetFenLxBoard(bool isOrg = true);
 
-		QChar Qpiece_to_char(int chess);
+		QChar Qpiece_to_char(ChinesePieceType chess);
 		bool isSolutionReady(); // 方案是不是OK了
 
 		int getB90(cv::Point p);
@@ -232,7 +198,7 @@ namespace Chess {
 
 	private:
 
-		
+		volatile bool bMustStop;
 
 		MainWindow* pMain;
 
@@ -243,12 +209,12 @@ namespace Chess {
 
 		cLXinfo m_LxInfo;
 		stLxBoard m_LxBoard[2];
-		Chess::Board *m_board;
+		//Chess::Board *m_board;
 
 		bool m_Ready_LXset;               // 已有连线设置信息了
 		bool m_connectedBoard_OK;         // 已连接了
 
-		bool bMustStop;
+		
 		bool m_bWeMustSendInitFen;                // 已发送初始局面了
 
 
@@ -262,13 +228,13 @@ namespace Chess {
 		float m_scaleY;
 		//float m_chessClip;   // 把棋子的边裁剪一些
 
-		QHash<QString, cv::Mat> m_MatHash;
-		QPixmap m_capPixmap;      // 保存的临时抓图
-		cv::Mat m_image_source;   // 转换好的主图
-		cv::Mat m_image_source_all; 
-		cv::Mat m_image_red;      // 红方棋子
-		cv::Mat m_image_black;    // 黑方棋子
-
+		QHash<QString, cv::Mat> m_MatHash;    // 棋子模板
+		QPixmap m_capPixmap;                  // 保存的临时抓图
+		cv::Mat m_image_source;               // 转换好的主图，只有棋盘
+		cv::Mat m_image_source_all;           // 整个图，方便按钮
+		cv::Mat m_image_red;                  // 红方棋子
+		cv::Mat m_image_black;                // 黑方棋子
+		
 		int iLowHred = 0;
 		int iHighHred = 10;
 
@@ -290,8 +256,8 @@ namespace Chess {
 		
 		//Chess::Board* m_board_second;
 
-		const static int validWinW = 500;
-		const static int validWinH = 500;
+		const static int validWinW = 300;
+		const static int validWinH = 400;
 
 	};
 

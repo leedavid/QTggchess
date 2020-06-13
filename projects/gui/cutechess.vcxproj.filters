@@ -230,8 +230,11 @@
     <ClCompile Include="BoardEditor.cpp">
       <Filter>Source Files\EditBoard</Filter>
     </ClCompile>
-    <ClCompile Include="logstream.cpp">
+    <ClCompile Include="src\logstream.cpp">
       <Filter>Source Files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\linkboard.cpp">
+      <Filter>Source Files\Capture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -593,6 +596,9 @@
     </ClInclude>
     <ClInclude Include="logstream.h">
       <Filter>Source Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\linkboard.h">
+      <Filter>Source Files\Capture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

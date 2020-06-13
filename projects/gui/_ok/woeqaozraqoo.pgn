@@ -1,0 +1,128 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.12"]
+[Round "?"]
+[White "ggzero"]
+[Black "keers"]
+[Result "*"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1"]
+[GameDuration "00:07:28"]
+[GameEndTime "2020-06-12T23:05:26.896 中国标准时间"]
+[GameStartTime "2020-06-12T22:57:58.233 中国标准时间"]
+[PlyCount "55"]
+[SetUp "1"]
+[Termination "unterminated"]
+[TimeControl "400/180+1"]
+
+ 0. 兵三进一 
+{score:0 time:0}
+ 1. 炮８平７ 
+{score:0 time:0}
+ 2. 仕四进五 
+{score:0 time:0}
+ 3. 炮２平５ 
+{score:0 time:0}
+ 4. 马八进七 
+{score:0 time:0}
+ 5. 马８进９ 
+{score:0 time:0}
+ 6. 马二进三 
+{score:13 time:0}
+ 7. 车９平８ 
+{score:0 time:0}
+ 8. 马三进四 
+{score:23 time:0}
+ 9. 马２进３ 
+{score:0 time:0}
+ 10. 车九平八 
+{score:0 time:0}
+ 11. 卒３进１ 
+{score:0 time:0}
+ 12. 炮二平五 
+{score:0 time:0}
+ 13. 车８进４ 
+{score:0 time:0}
+ 14. 马四进五 
+{score:37 time:0}
+ 15. 马３进５ 
+{score:0 time:0}
+ 16. 炮五进四 
+{score:56 time:0}
+ 17. 士６进５ 
+{score:0 time:0}
+ 18. 炮八进三 
+{score:63 time:0}
+ 19. 车８进３ 
+{score:0 time:0}
+ 20. 相三进五 
+{score:101 time:0}
+ 21. 车１平２ 
+{score:0 time:0}
+ 22. 炮八进三 
+{score:109 time:0}
+ 23. 炮７平６ 
+{score:0 time:0}
+ 24. 车一平四 
+{score:157 time:0}
+ 25. 将５平６ 
+{score:0 time:0}
+ 26. 炮五平七 
+{score:189 time:0}
+ 27. 炮５进５ 
+{score:0 time:0}
+ 28. 相七进五 
+{score:446 time:0}
+ 29. 象７进５ 
+{score:0 time:0}
+ 30. 炮七进一 
+{score:844 time:0}
+ 31. 将６平５ 
+{score:0 time:0}
+ 32. 炮七平四 
+{score:965 time:0}
+ 33. 士５进６ 
+{score:0 time:0}
+ 34. 车四进七 
+{score:961 time:0}
+ 35. 马９退８ 
+{score:0 time:0}
+ 36. 兵五进一 
+{score:883 time:0}
+ 37. 士４进５ 
+{score:0 time:0}
+ 38. 车四退四 
+{score:1124 time:0}
+ 39. 车８平５ 
+{score:0 time:0}
+ 40. 马七进五 
+{score:1291 time:0}
+ 41. 车５平８ 
+{score:0 time:0}
+ 42. 兵五进一 
+{score:1543 time:0}
+ 43. 卒９进１ 
+{score:0 time:0}
+ 44. 马五进六 
+{score:2093 time:0}
+ 45. 车８进２ 
+{score:0 time:0}
+ 46. 仕五退四 
+{score:1928 time:0}
+ 47. 车８退５ 
+{score:0 time:0}
+ 48. 马六进七 
+{score:2270 time:0}
+ 49. 车８平５ 
+{score:0 time:0}
+ 50. 仕四进五 
+{score:2440 time:0}
+ 51. 车２平１ 
+{score:0 time:0}
+ 52. 炮八进一 
+{score:2398 time:0}
+ 53. 象３进１ 
+{score:0 time:0}
+ 54. 炮八平二 
+{score:4358 time:0}
+ *
+

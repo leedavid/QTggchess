@@ -307,7 +307,6 @@
   <ItemGroup>
     <ClCompile Include="3rdparty\modeltest\modeltest.cpp" />
     <ClCompile Include="BoardEditor.cpp" />
-    <ClCompile Include="logstream.cpp" />
     <ClCompile Include="src\autoverticalscroller.cpp" />
     <ClCompile Include="src\boardview\BasicBoardScene.cpp" />
     <ClCompile Include="src\boardview\boardscene.cpp" />
@@ -333,6 +332,8 @@
     <ClCompile Include="src\boardview\graphicspiece.cpp" />
     <ClCompile Include="src\boardview\graphicspiecereserve.cpp" />
     <ClCompile Include="src\importprogressdlg.cpp" />
+    <ClCompile Include="src\linkboard.cpp" />
+    <ClCompile Include="src\logstream.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mainwindow.cpp" />
     <ClCompile Include="src\movecommenttoken.cpp" />
@@ -432,6 +433,7 @@
     <QtMoc Include="3rdparty\modeltest\modeltest.h">
     </QtMoc>
     <QtMoc Include="src\capture.h" />
+    <ClInclude Include="src\linkboard.h" />
     <ClInclude Include="src\movecommenttoken.h" />
     <QtMoc Include="src\movelist.h">
     </QtMoc>
