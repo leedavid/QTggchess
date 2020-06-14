@@ -39,6 +39,8 @@ class GameWall : public QWidget
 		void addGame(ChessGame* game);
 		void removeGame(ChessGame* game);
 
+        //void showContextMenu(const QPoint& pos);
+
 	private:
 		GameWallWidget* getFreeWidget();
 

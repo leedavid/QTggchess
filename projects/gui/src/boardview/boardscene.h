@@ -79,7 +79,13 @@ class BoardScene : public QGraphicsScene
 
 		bool isMoveValid(const Chess::GenericMove& move);
 
+		
+
 	public slots:
+
+		void OnchangeBoardPicture();
+		void OnChangeBackGround();
+
 		/*!
 		 * Clears the scene, creates a new board, and populates
 		 * it with chess pieces.
@@ -114,12 +120,18 @@ class BoardScene : public QGraphicsScene
 		 */
 		void humanMove(const Chess::GenericMove& move,
 			       const Chess::Side& side);
+		void MouseRightClicked(QGraphicsSceneContextMenuEvent* event);
+
 
 	protected:
 		// Inherited from QGraphicsScene
 		virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 		virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 		virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+
+		virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
+
+		//virtual void contextMenuEvent()
 
 		//void drawBackground(QPainter* painter, const QRectF& rect);
 
@@ -137,6 +149,8 @@ class BoardScene : public QGraphicsScene
 			Forward,
 			Backward
 		};
+
+		void SetBackground();
 
 		QPointF squarePos(const Chess::Square& square) const;
 		GraphicsPiece* pieceAt(const QPointF& pos) const;

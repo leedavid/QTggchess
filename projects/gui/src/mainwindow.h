@@ -24,7 +24,7 @@
 #include <QToolbutton>
 #include <QCombobox>
 #include <board/side.h>
-
+#include <QGraphicsScene>
 #include <humanbuilder.h>
 #include <QMutex>
 
@@ -99,6 +99,7 @@ class MainWindow : public QMainWindow
 		void onGameStartFailed(ChessGame* game);
 		void onGameFinished(ChessGame* game);
 		void editMoveComment(int ply, const QString& comment);
+		void onMouseRightClicked(QGraphicsSceneContextMenuEvent* event);
 		void copyFen();
 		void pasteFen();
 		//void msgFen(QString fen);              // 这个是临时的
@@ -128,6 +129,10 @@ class MainWindow : public QMainWindow
 		void onLinkWhich(bool checked);
 
 		void onLinkBoardCombox(const QString&);
+
+		//void onChangeBoardPicAct();
+
+		//void showContextMenu(const QPoint& pos);
 
 	private:
 		struct TabData
@@ -174,7 +179,8 @@ class MainWindow : public QMainWindow
 		QToolButton* tbtnLinkChessBoardRed;      // 连接其它棋盘，红方电脑 
 		QToolButton* tbtnLinkChessBoardBlack;    // 连接其它棋盘，黑方电脑
 
-		QComboBox* cbtnLinkBoard;            // 连线的棋盘
+		QComboBox* cbtnLinkBoard;             // 连线的棋盘
+		QComboBox* cbtnLinkEngine;            // 连线的引擎
 
 		QToolButton* tbtnLinkAuto;           // 全自动连接其它棋盘
 
@@ -216,6 +222,11 @@ class MainWindow : public QMainWindow
 		QAction* m_aboutAct;
 		QAction* m_showSettingsAct;
 
+		QAction* m_changeBoardPicAct;         // 改变棋盘图片
+		QAction* m_changeBoardBackGroundAct;  // 改变背景
+
+		//QAction* m_showSettingsAct;
+
 		PlainTextLog* m_engineDebugLog;
 
 		EvalHistory* m_evalHistory;
@@ -242,6 +253,8 @@ class MainWindow : public QMainWindow
 			while (QTime::currentTime() < dieTime)
 				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 		}
+
+		OpeningBook* GetOpeningBook(int& depth) const;
 };
 
 #endif // MAINWINDOW_H

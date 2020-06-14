@@ -17,14 +17,17 @@
 
 #pragma execution_character_set("utf-8")
 
+#include <board/square.h>
+#include "graphicspiece.h"
+
 #include "graphicsboard.h"
 #include <QApplication>
 #include <QMargins>
 #include <QPainter>
 #include <QPalette>
 #include <QPropertyAnimation>
-#include <board/square.h>
-#include "graphicspiece.h"
+#include <QSettings>
+#include <QDir>
 
 namespace {
 
@@ -78,7 +81,16 @@ GraphicsBoard::GraphicsBoard(int files,
 
 	setCacheMode(DeviceCoordinateCache);
 
-	QString picPath = QCoreApplication::applicationDirPath() + "/image/board/board.png";
+	this->getBoardPic();
+}
+
+void GraphicsBoard::getBoardPic()
+{
+	QString file = QSettings().value("ui/board_pic").toString();
+	if (file == nullptr) {
+		file = "board.png";
+	}
+	QString picPath = QCoreApplication::applicationDirPath() + "/image/board/" + file;
 	QPixmap pix = QPixmap(picPath);
 	//QSize pixSize = pix.size();
 	//pixSize.scale(QSize( m_rect.width()*2, m_rect.height() * 2), Qt::AspectRatioMode::KeepAspectRatio);
@@ -87,9 +99,39 @@ GraphicsBoard::GraphicsBoard(int files,
 	//	Qt::SmoothTransformation
 	//);
 	scaledPix = pix.scaled((m_rect.width() + 20), (m_rect.height() + 20));
+}
 
+void GraphicsBoard::changeBoardPicture()
+{
+	// 得到所有的文件
+	QStringList nameFilters;
+	nameFilters << "*.png";
+	QString dirpath = QCoreApplication::applicationDirPath() + "/image/board/";
+	QDir dir = QDir(dirpath);
+	QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
 
+	QString prefile = QSettings().value("ui/board_pic").toString();
+	if (prefile == nullptr) {
+		prefile = "board.png";
+	}
+	int num = 0;
+	for (QString file : files) {
+		if (prefile == file) {
+			break;
+		}
+		num++;
+	}
+	num++;
 
+	if (num >= files.length()) {
+		num = 0;
+	}
+	prefile = files[num];
+	QSettings().setValue("ui/board_pic", prefile);
+
+	getBoardPic();
+
+	this->update();
 }
 
 GraphicsBoard::~GraphicsBoard()
@@ -441,6 +483,8 @@ void GraphicsBoard::movePiece(const Chess::Square& source,
 	setSquare(target, piece);
 }
 
+
+
 int GraphicsBoard::squareIndex(const Chess::Square& square) const
 {
 	if (!square.isValid())
@@ -507,3 +551,5 @@ void GraphicsBoard::setFlipped(bool flipped)
 	m_flipped = flipped;
 	update();
 }
+
+

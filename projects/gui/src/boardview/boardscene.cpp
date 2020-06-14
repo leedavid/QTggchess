@@ -28,12 +28,16 @@
 #include <QGraphicsTextItem>
 #include <QSettings>
 #include <QPainter>
+#include <QDir>
+
 #include <algorithm>
 #include <board/board.h>
 #include "graphicsboard.h"
 #include "graphicspiecereserve.h"
 #include "graphicspiece.h"
 #include "piecechooser.h"
+
+#include "../gameviewer.h"
 
 namespace {
 
@@ -99,16 +103,57 @@ void BoardScene::setBoard(Chess::Board* board)
 	//QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
 	//QString pic = QCoreApplication::applicationDirPath() + "/image/gif.jpg";
 
-	QString pic = QCoreApplication::applicationDirPath() + "/image/backgroud/bg.png";
-	//QGraphicsPixmapItem* bgItem = new QGraphicsPixmapItem(QPixmap(pic));
-	//this->addItem(bgItem);
+	//QString pic = QCoreApplication::applicationDirPath() + "/image/backgroud/bg.png";
+	//this->setBackgroundBrush(QPixmap(pic));
 
-
-
-	this->setBackgroundBrush(QPixmap(pic));
+	SetBackground();
 	//this->setba
 	//this->setba
 }
+
+void BoardScene::OnChangeBackGround()
+{
+	// 得到所有的文件
+	QStringList nameFilters;
+	nameFilters << "*.png";
+	QString dirpath = QCoreApplication::applicationDirPath() + "/image/backgroud/";
+	QDir dir = QDir(dirpath);
+	QStringList files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
+
+	QString prefile = QSettings().value("ui/board_backgroud").toString();
+	if (prefile == nullptr) {
+		prefile = "bg.png";
+	}
+
+	int num = 0;
+	for (QString file : files) {
+		if (prefile == file) {
+			break;
+		}
+		num++;
+	}
+	num++;
+	if (num >= files.length()) {
+		num = 0;
+	}
+	prefile = files[num];
+	QSettings().setValue("ui/board_backgroud", prefile);
+
+
+	SetBackground();
+	this->update();
+}
+
+void BoardScene::SetBackground()
+{
+	QString file = QSettings().value("ui/board_backgroud").toString();
+	if (file == nullptr) {
+		file = "bg.png";
+	}
+	QString pic = QCoreApplication::applicationDirPath() + "/image/backgroud/" + file;
+	this->setBackgroundBrush(QPixmap(pic));
+}
+
 
 //void BoardScene::drawBackground(QPainter* painter, const QRectF& rect){
 //	QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
@@ -133,6 +178,8 @@ void BoardScene::LinkMove(const Chess::GenericMove& lmove) // , const Chess::Sid
 
 	m_highlightPiece = nullptr;
 	m_squares->clearHighlights();
+
+	//this->update();
 }
 
 bool BoardScene::isMoveValid(const Chess::GenericMove& lmove)
@@ -140,6 +187,13 @@ bool BoardScene::isMoveValid(const Chess::GenericMove& lmove)
 	Chess::Move move = m_board->moveFromGenericMove(lmove);
 	
 	return m_board->isLegalMove(move);
+}
+
+
+
+void BoardScene::OnchangeBoardPicture()
+{
+	this->m_squares->changeBoardPicture();
 }
 
 void BoardScene::populate()
@@ -340,7 +394,17 @@ void BoardScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 		tryMove(piece, targetPos);
 	}
 
+	//QGraphicsScene::contextMenuEvent()
+
 	QGraphicsScene::mouseReleaseEvent(event);
+}
+
+void BoardScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+{
+	//
+	emit MouseRightClicked(event);
+	
+	QGraphicsScene::contextMenuEvent(event);
 }
 
 //void BoardScene::drawBackground(QPainter* painter, const QRectF& rect)
@@ -474,6 +538,7 @@ void BoardScene::onGameFinished(ChessGame* game, Chess::Result result)
 
 	group->start(QAbstractAnimation::DeleteWhenStopped);
 }
+
 
 QPointF BoardScene::squarePos(const Chess::Square& square) const
 {

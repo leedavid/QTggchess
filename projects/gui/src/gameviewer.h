@@ -19,6 +19,7 @@
 #ifndef GAMEVIEWER_H
 #define GAMEVIEWER_H
 
+#include <QGraphicsScene>
 #include <QWidget>
 #include <QVector>
 #include <QPointer>
@@ -60,11 +61,15 @@ class GameViewer : public QWidget
 
 		void viewPreviousMove2(Chess::Board* orgBoard);
 
+		
+
 	public slots:
 		void viewMove(int index, bool keyLeft = false);
 
 	signals:
 		void moveSelected(int moveNumber);
+		//void MouseRightClicked(QGraphicsSceneContextMenuEvent* event);
+
 
 	private slots:
 		void viewFirstMoveClicked();

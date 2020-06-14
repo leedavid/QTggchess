@@ -59,6 +59,9 @@ GameWallWidget::GameWallWidget(QWidget* parent)
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 
 	setLayout(mainLayout);
+
+	//this->setContextMenuPolicy(Qt::CustomContextMenu);  // ÓÒ¼ü²Ëµ¥
+	//connect(this, SIGNAL(customContextMenuRequested), this, SLOT(showContextMenu));
 }
 
 GameWallWidget::~GameWallWidget()
@@ -172,5 +175,10 @@ void GameWall::removeGame(ChessGame* game)
 		return;
 	m_gamesToRemove.append(m_games.take(game));
 }
+
+//void GameWall::showContextMenu(const QPoint& pos)
+//{
+//	int a = 0;
+//}
 
 #include "gamewall.moc"

@@ -134,7 +134,12 @@ class GraphicsBoard : public QGraphicsItem
 		/*! Sets board flipping to \a flipped. */
 		void setFlipped(bool flipped);
 
+		void changeBoardPicture();
+
 	private:
+
+		void getBoardPic();
+
 		int squareIndex(const Chess::Square& square) const;
 
 		int m_files;

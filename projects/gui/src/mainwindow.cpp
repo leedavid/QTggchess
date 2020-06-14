@@ -18,6 +18,8 @@
 #pragma execution_character_set("utf-8")
 
 #include "mainwindow.h"
+#include "openingbook.h"
+#include "polyglotbook.h"
 
 #include <QAction>
 #include <QHBoxLayout>
@@ -92,6 +94,7 @@ MainWindow::MainWindow(ChessGame* game)
 	//m_bAutomaticLinking(false)
 {
 	
+	//this->setContextMenuPolicy(Qt::CustomContextMenu);  // 右键菜单
 	
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setDockNestingEnabled(true);
@@ -139,9 +142,14 @@ MainWindow::MainWindow(ChessGame* game)
 	connect(m_gameViewer, SIGNAL(moveSelected(int)),
 		m_moveList, SLOT(selectMove(int)));
 
+	connect(m_gameViewer->boardScene(), SIGNAL(MouseRightClicked(QGraphicsSceneContextMenuEvent*)),
+		this, SLOT(onMouseRightClicked(QGraphicsSceneContextMenuEvent*)));
+
 	connect(CuteChessApplication::instance()->gameManager(),
 		SIGNAL(finished()), this, SLOT(onGameManagerFinished()),
 		Qt::QueuedConnection);
+
+	//connect(this, SIGNAL(customContextMenuRequested), this, SLOT(showContextMenu));
 
 	readSettings();
 	addGame(game);
@@ -203,6 +211,10 @@ void MainWindow::createActions()
 	m_adjudicateWhiteWinAct = new QAction(tr("判定红胜"), this);
 	m_adjudicateBlackWinAct = new QAction(tr("判定黑胜"), this);
 
+	m_changeBoardPicAct = new QAction(tr("更换棋盘图片"), this);
+
+	m_changeBoardBackGroundAct = new QAction(tr("更换背景"), this);
+
 	m_resignGameAct = new QAction(tr("认输"), this);
 
 	m_quitGameAct = new QAction(tr("&退出"), this);
@@ -243,6 +255,10 @@ void MainWindow::createActions()
 
 	m_aboutAct = new QAction(tr("&关于佳佳界面..."), this);
 	m_aboutAct->setMenuRole(QAction::AboutRole);
+
+	//this->m_gameViewer->boardScene()->changeBoardPicture();
+	connect(m_changeBoardPicAct, SIGNAL(triggered()), this->m_gameViewer->boardScene(), SLOT(OnchangeBoardPicture()));
+	connect(m_changeBoardBackGroundAct, SIGNAL(triggered()), this->m_gameViewer->boardScene(), SLOT(OnChangeBackGround()));
 
 	connect(m_editBoardAct, SIGNAL(triggered()), this, SLOT(editBoard()));
 	connect(m_newGameAct, SIGNAL(triggered()), this, SLOT(newGame()));
@@ -496,6 +512,28 @@ void MainWindow::createToolBars()
 
 	int sel = QSettings().value("ui/linkboard_curSel").toInt();
 	this->cbtnLinkBoard->setCurrentIndex(sel);
+	
+
+	QWidget* empty2 = new QWidget();
+	empty2->setFixedSize(10, 20);
+	this->mainToolbar->addWidget(empty2);
+
+	//cbtnLinkEngine
+	this->cbtnLinkEngine = new QComboBox(this);
+	this->cbtnLinkEngine->setObjectName(QStringLiteral("cbtnLinkEngine"));
+	this->cbtnLinkEngine->setToolTip("选择连线的引擎");
+
+	//
+	EngineManager* m_engineManager =
+		CuteChessApplication::instance()->engineManager();
+	QSet<QString> qset = m_engineManager->engineNames();
+	for (auto v : qset) {
+		this->cbtnLinkEngine->addItem(v);
+	}
+	this->mainToolbar->addWidget(this->cbtnLinkEngine);
+
+	sel = QSettings().value("ui/linkboard_curEngine").toInt();
+	this->cbtnLinkEngine->setCurrentIndex(sel);
 
 
 	//QSettings().setValue("ui/linkboard", true);
@@ -654,6 +692,10 @@ void MainWindow::writeSettings()
 
 	int sel = this->cbtnLinkBoard->currentIndex();
 	QSettings().setValue("ui/linkboard_curSel", sel);
+
+	sel = this->cbtnLinkEngine->currentIndex();
+	QSettings().setValue("ui/linkboard_curEngine", sel);
+	
 }
 
 void MainWindow::addGame(ChessGame* game)
@@ -1323,6 +1365,33 @@ void MainWindow::editMoveComment(int ply, const QString& comment)
 	}
 }
 
+void MainWindow::onMouseRightClicked(QGraphicsSceneContextMenuEvent* event)
+{
+	(void)event;
+
+	QMenu mymenu;
+	mymenu.addAction(m_newGameAct);
+	mymenu.addAction(m_saveGameAct);
+
+	mymenu.addSeparator();
+
+	mymenu.addAction(m_copyFenAct);
+	mymenu.addAction(m_pasteFenAct);
+
+	mymenu.addSeparator();
+
+	mymenu.addAction(m_changeBoardPicAct);	
+	mymenu.addAction(m_changeBoardBackGroundAct);
+
+	mymenu.addSeparator();
+	
+	//mymenu.addAction(tbtnLinkAuto->defaultAction());
+
+	mymenu.exec(QCursor::pos());
+	
+	//m_viewMenu->addAction(moveListDock->toggleViewAction());
+}
+
 void MainWindow::copyFen()
 {
 	QClipboard* cb = CuteChessApplication::clipboard();
@@ -1589,6 +1658,42 @@ void MainWindow::adjudicateGame(Chess::Side winner)
 				  Q_ARG(Chess::Result, result));
 }
 
+OpeningBook* MainWindow::GetOpeningBook(int& depth) const
+{
+	//connect(ui->m_polyglotFileEdit, &QLineEdit::textChanged,
+			//	[=](const QString& file)
+			//	{
+			//		QSettings().setValue("games/opening_book/file", file);
+			//	});
+			//connect(ui->m_polyglotDepthSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+			//	[=](int depth)
+			//	{
+			//		QSettings().setValue("games/opening_book/depth", depth);
+			//	});
+
+	QString file = QSettings().value("games/opening_book/file").toString();
+	if (file.isEmpty())
+		return nullptr;
+	auto mode = OpeningBook::BookRandom;
+
+	bool bestM = QSettings().value("games/opening_book/disk_access").toBool();
+	if (bestM) {
+		mode = OpeningBook::BookBest;
+	}
+
+	depth = QSettings().value("games/opening_book/depth").toInt();
+
+	auto book = new PolyglotBook(mode);
+
+	if (!book->read(file))
+	{
+		delete book;
+		return nullptr;
+	}
+
+	return book;
+}
+
 void MainWindow::resignGame()
 {
 	if (m_game.isNull() || m_game->isFinished())
@@ -1715,6 +1820,21 @@ void MainWindow::processCapMsg(Chess::stCaptureMsg msg)
 			//}
 
 
+			//connect(ui->m_polyglotFileEdit, &QLineEdit::textChanged,
+			//	[=](const QString& file)
+			//	{
+			//		QSettings().setValue("games/opening_book/file", file);
+			//	});
+			//connect(ui->m_polyglotDepthSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+			//	[=](int depth)
+			//	{
+			//		QSettings().setValue("games/opening_book/depth", depth);
+			//	});
+
+		  // QString 
+
+			int depth;
+			auto book = this->GetOpeningBook(depth);
 
 			//auto book = ui->m_gameSettings->openingBook();           // 开局库
 			//if (book)
@@ -1729,6 +1849,15 @@ void MainWindow::processCapMsg(Chess::stCaptureMsg msg)
 			//			game->setOpeningBook(book, side, depth);
 			//	}
 			//}
+
+			if (book) {
+				if (this->tbtnLinkChessBoardRed->isChecked()) {
+					game->setOpeningBook(book, Chess::Side::White, depth);
+				}
+				if (this->tbtnLinkChessBoardBlack->isChecked()) {
+					game->setOpeningBook(book, Chess::Side::Black, depth);
+				}
+			}
 
 			s.endGroup();   // 
 
@@ -1822,7 +1951,9 @@ PlayerBuilder* MainWindow::mainCreatePlayerBuilder(Chess::Side side, bool isCPU)
 		//auto config =  m_engineConfig[side];
 		
 		EngineManager* engineManager = CuteChessApplication::instance()->engineManager();
-		auto config = engineManager->engineAt(0);
+
+		int sel = this->cbtnLinkEngine->currentIndex();   // 引擎选择
+		auto config = engineManager->engineAt(sel);
 
 		QSettings s;
 		s.beginGroup("games");
@@ -1979,6 +2110,33 @@ void MainWindow::onPlayWhich() //, Chess::Side side)
 			//bool isWhiteCPU = (side == Chess::Side::White);
 			//bool isBlackCPU = (side == Chess::Side::Black);
 
+			int depth;
+			auto book = this->GetOpeningBook(depth);
+
+			//auto book = ui->m_gameSettings->openingBook();           // 开局库
+			//if (book)
+			//{
+			//	int depth = ui->m_gameSettings->bookDepth();
+			//	game->setBookOwnership(true);
+
+			//	for (int i = 0; i < 2; i++)
+			//	{
+			//		auto side = Chess::Side::Type(i);
+			//		if (playerType(side) == CPU)
+			//			game->setOpeningBook(book, side, depth);
+			//	}
+			//}
+
+			if (book) {
+				if (this->tbtnEnginePlayRed->isChecked()) {
+					game->setOpeningBook(book, Chess::Side::White, depth);
+				}
+				if (this->tbtnEnginePlayBlack->isChecked()) {
+					game->setOpeningBook(book, Chess::Side::Black, depth);
+				}
+			}
+
+
 			PlayerBuilder* builders[2] = {
 				mainCreatePlayerBuilder(Chess::Side::White, this->tbtnEnginePlayRed->isChecked()),
 				mainCreatePlayerBuilder(Chess::Side::Black, this->tbtnEnginePlayBlack->isChecked())
@@ -2102,6 +2260,15 @@ void MainWindow::onLinkBoardCombox(const QString& txt)
 		this->m_autoClickCap->SetCatlogName(txt);
 	}
 }
+//void MainWindow::onChangeBoardPicAct()
+//{
+//	this->m_gameViewer->boardScene()->changeBoardPicture();
+//}
+/*
+void MainWindow::showContextMenu(const QPoint& pos)
+{
+	int a = 0;
+}*/
 
 
 void MainWindow::addDefaultWindowMenu()
