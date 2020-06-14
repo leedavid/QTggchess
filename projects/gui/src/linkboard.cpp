@@ -34,7 +34,7 @@ void LinkBoard::initBoard()
 		m_precision_chess = 0.57f; // was 0.52
 		m_precision_auto = 0.98f;
 		m_UseAdb = false;
-		m_sleepTimeMs = 20;
+		m_sleepTimeMs = 50;
 		m_scaleX = 1.0f;
 		m_scaleY = 1.0f;
 
@@ -93,10 +93,10 @@ void LinkBoard::initBoard()
 		m_iHighVblack = 140;
 	}
 	else if (m_catName == "王者象棋") {   // 王者象棋
-		m_precision_chess = 0.45f; // was 0.52
+		m_precision_chess = 0.42f; // was 0.52
 		m_precision_auto = 0.98f;
 		m_UseAdb = false;
-		m_sleepTimeMs = 20;
+		m_sleepTimeMs = 50;
 		m_scaleX = 1.0f;
 		m_scaleY = 1.0f;
 
@@ -124,9 +124,9 @@ void LinkBoard::initBoard()
 
 		m_offx_che = 43.0f;
 		m_offy_che = 148.0f;
-		m_dx = 50.0f;
-		m_dy = 50.0f;
-
+		m_dx = 50.5f;
+		m_dy = 50.5f;
+	
 		this->m_Ready_LXset = false;
 
 		//this->m_LxInfo.m_PieceCatlog = "1";
@@ -138,9 +138,9 @@ void LinkBoard::initBoard()
 
 
 		m_iLowHred = 0;
-		m_iHighHred = 10;
+		m_iHighHred = 11;
 
-		m_iLowSred = 77;
+		m_iLowSred = 85;
 		m_iHighSred = 255;
 
 		m_iLowVred = 95;
@@ -150,11 +150,12 @@ void LinkBoard::initBoard()
 		m_iHighHblack = 179;
 
 		m_iLowSblack = 0;
-		m_iHighSblack = 139;
+		m_iHighSblack = 255;
 
 		m_iLowVblack = 0;
-		m_iHighVblack = 131;
+		m_iHighVblack = 118;
 	}
+	this->m_MatHash.clear();
 	CalImageRect();
 }
 
@@ -178,7 +179,11 @@ void LinkBoard::runAutoChess()
 	this->m_Ready_LXset = true;      // 连线信息OK
 
 	if (this->m_Ready_LXset == false) {
-		this->GetLxInfo(this->m_catName);
+		
+		this->GetLxInfo(this->m_catName, false);   // 不保存棋子
+
+		//this->GetLxInfo(this->m_catName, true);  // 保存棋子
+
 		if (this->m_Ready_LXset == false) {
 			m_pCap->SendMessageToMain("出错啦 01", "连线方案还没有准备好！");
 			return;
@@ -386,7 +391,7 @@ void LinkBoard::runAutoClip()
 			LinkBoard::mutex.unlock();
 		}
 
-		wait(500);
+		wait(1000);
 	}
 }
 
@@ -438,26 +443,48 @@ void LinkBoard::ProcessBoardMove(const Chess::GenericMove& move)
 	winLeftClick(m_hwnd, ttx, tty);
 }
 
+void LinkBoard::SetCatlogName(QString catName)
+{
+	this->m_catName = catName;
+	this->initBoard();
+}
+
 bool LinkBoard::CalImageRect()
 {
 	
-	this->m_offx_board = m_offx_che - m_dx / 2 - 2;
-	this->m_offy_board = m_offy_che - m_dy / 2 - 2;
-	if (m_offx_board < 0) m_offx_board = 0;
-	if (m_offy_board < 0) m_offy_board = 0;
+	//if (m_flip == false) {
+		this->m_offx_board = m_offx_che - m_dx / 2 - 2;
+		this->m_offy_board = m_offy_che - m_dy / 2 - 2;
+		if (m_offx_board < 0) m_offx_board = 0;
+		if (m_offy_board < 0) m_offy_board = 0;
 
-	int w = m_offx_che + m_dx * 8.7;
-	//if (w > m_image_source.cols) {
-	//	w = m_image_source.cols;
+		int w = m_offx_che + m_dx * 8.7;
+		//if (w > m_image_source.cols) {
+		//	w = m_image_source.cols;
+		//}
+		int h = m_offy_che + m_dy * 9.7;
+		//if (h > m_image_source.rows) {
+		//	h = m_image_source.rows;
+		//}
+
+		//cv::Rect crect(ox, oy, w - ox, h - oy);
+
+		this->m_crect = cv::Rect(m_offx_board, m_offy_board, w - m_offx_board, h - m_offy_board);
 	//}
-	int h = m_offy_che + m_dy * 9.7;
-	//if (h > m_image_source.rows) {
-	//	h = m_image_source.rows;
+	//else {
+	//	this->m_offx_board = m_offx_che - m_dx / 2 - 2;
+	//	this->m_offy_board = m_offy_che - m_dy / 2 - 2;
+	//	if (m_offx_board < 0) m_offx_board = 0;
+	//	if (m_offy_board < 0) m_offy_board = 0;
+
+	//	int w = m_offx_che + m_dx * 8.7;
+	//	//if (w > m_image_source.cols) {
+	//	//	w = m_image_source.cols;
+	//	//}
+	//	int h = m_offy_che + m_dy * 9.7;
+
+	//	this->m_crect = cv::Rect(m_offx_board, m_offy_board - m_dy * 9.0, w - m_offx_board, h - m_offy_board);
 	//}
-
-	//cv::Rect crect(ox, oy, w - ox, h - oy);
-
-	this->m_crect = cv::Rect(m_offx_board, m_offy_board, w - m_offx_board, h - m_offy_board);
 
 	//m_offx_che -= m_offx_board;
 	//m_offy_che -= m_offy_board;
@@ -484,9 +511,13 @@ bool LinkBoard::GetLxBoardChess(int index)
 		return false;  // 找不到黑将了
 	}
 
+	//cv::imshow("ff", this->m_image_source);
+	//cv::waitKey();
+
 	if (!searchChess(m_hwnd, "rk.png", pList->RKingList, Side::White)) {    // 红将
 		return false; // 找不到红将了
 	}
+	
 
 	searchChess(m_hwnd, "br.png", pList->BCheList, Side::Black);     // 黑车
 	searchChess(m_hwnd, "bn.png", pList->BMaList, Side::Black);      // 黑马
@@ -517,7 +548,7 @@ bool LinkBoard::GetLxInfo(QString catlog, bool saveChess)
 		//this->m_connectedBoard_OK = true;
 		return false;
 	}
-	this->m_Ready_LXset = true;
+	//this->m_Ready_LXset = true;
 
 	cv::Point Bche0;
 	cv::Point Bche1;
@@ -535,23 +566,30 @@ bool LinkBoard::GetLxInfo(QString catlog, bool saveChess)
 	m_offx_che = Bche0.x;
 	m_offy_che = Bche0.y;
 
-	m_dx = (Bche1.x - Bche0.x) / 8;
+	m_dx = (Bche1.x - Bche0.x) / 8.0f;
 	m_dy = m_dx;
 
 	if (m_dx < 10) return false;
 
 	m_class = this->get_window_class(this->m_hwnd);
-	m_titleKeyword = this->get_window_title(this->m_hwnd);
-
-	// 把棋盘搞小一些啊，
-
-	this->CalImageRect();
+	m_titleKeyword = this->get_window_title(this->m_hwnd);	
 
 	m_Ready_LXset = true;
+
+	// 如果黑车的Y大于一半
+	//int y = this->m_image_source.rows;
+	//if (m_offy_che > y / 2) {
+	//	this->m_flip = true;
+	//}
+
+	// 把棋盘搞小一些啊，
+	//this->CalImageRect();
+
+	this->CalImageRect();
 	
 	if (saveChess) {
 		this->SaveAllPiecePicture();
-	}
+	}	
 	
 	return true;
 }
@@ -560,7 +598,7 @@ bool LinkBoard::GetLxInfo(QString catlog, bool saveChess)
 void LinkBoard::Find_window2(HWND parent, int level) {
 	HWND child = NULL;
 	TCHAR buf[MAX_PATH];
-	DWORD pid = 0, tid = 0;
+	//DWORD pid = 0, tid = 0;
 
 	do {
 		child = FindWindowEx(parent, child, NULL, NULL);
@@ -727,13 +765,6 @@ bool LinkBoard::Board2Move(GenericMove& m)
 		int from = fy * 9 + fx;
 		int to = ty * 9 + tx;
 
-
-		//if (m_flip) {
-		//	from = (9 - fy) * 9 + (8-fx);
-		//	to = (9 - ty) * 9 + (8-tx);
-		//}
-
-
 		if (from != to) {
 
 			ChinesePieceType piece = pre_board[from];
@@ -752,38 +783,20 @@ bool LinkBoard::Board2Move(GenericMove& m)
 				return false;
 			}
 
-			//if (m_flip) {
-			//	fx = 8 - fx;
-			//	fy = 9 - fy;
-			//	tx = 8 - tx;
-			//	ty = 9 - ty;
-			//}
-
 			Square from_square = Square(fx, 9 - fy);
 			Square to_square = Square(tx, 9 - ty);
-
 
 			m = GenericMove(from_square, to_square);
 
 			if (m_pMain->isMoveValid(m) == true) {
-				// 走子
-				this->m_LxBoard[0].b90[from] = ChinesePieceType::eNoPice;
-				this->m_LxBoard[0].b90[to] = piece;
 
-
-
-				//m = 0x331e;
-
-				//int source = sq
-
-				//Square(int file, int rank);
-				//
-				//GenericMove gmove;
-				//gmove.
-				//
-				//m = Move(from, to);
-				return true;
-
+				if (m == m_preMove) {   // 二次确认
+					// 走子
+					this->m_LxBoard[0].b90[from] = ChinesePieceType::eNoPice;
+					this->m_LxBoard[0].b90[to] = piece;
+					return true;
+				}	
+				m_preMove = m; 
 			}
 
 		}
@@ -900,28 +913,58 @@ bool LinkBoard::SaveAllPiecePicture(QString subCat)
 
 	// 再读一下
 	if (!searchChess(this->m_hwnd, "br.png", m_LxBoard[0].BCheList, Side::Black, true)) {
+
+		//cv::imshow("dffff", this->m_image_source);
+		//cv::waitKey();
+
 		return false;
 	}
 
-	// Bche
-	SaveOnePiecePic(0, 0, "br.png",subCat);
-	SaveOnePiecePic(1, 0, "bn.png",subCat);
-	SaveOnePiecePic(2, 0, "bb.png",subCat);
-	SaveOnePiecePic(3, 0, "ba.png",subCat);
-	SaveOnePiecePic(4, 0, "bk.png",subCat);
-								 
-	SaveOnePiecePic(1, 2, "bc.png",subCat);
-	SaveOnePiecePic(0, 3, "bp.png",subCat);
-								  
-	// 红车						
-	SaveOnePiecePic(0, 9, "rr.png",subCat);
-	SaveOnePiecePic(1, 9, "rn.png",subCat);
-	SaveOnePiecePic(2, 9, "rb.png",subCat);
-	SaveOnePiecePic(3, 9, "ra.png",subCat);
-	SaveOnePiecePic(4, 9, "rk.png",subCat);
-								 
-	SaveOnePiecePic(1, 7, "rc.png",subCat);  // 红炮
-	SaveOnePiecePic(0, 6, "rp.png",subCat);
+	//cv::imshow("dffff", this->m_image_source);
+	//cv::waitKey();
+
+	if (this->m_flip == false) {
+
+		// Bche
+		SaveOnePiecePic(0, 0, "br.png", subCat);
+		SaveOnePiecePic(1, 0, "bn.png", subCat);
+		SaveOnePiecePic(2, 0, "bb.png", subCat);
+		SaveOnePiecePic(3, 0, "ba.png", subCat);
+		SaveOnePiecePic(4, 0, "bk.png", subCat);
+
+		SaveOnePiecePic(1, 2, "bc.png", subCat);
+		SaveOnePiecePic(0, 3, "bp.png", subCat);
+
+		// 红车						
+		SaveOnePiecePic(0, 9, "rr.png", subCat);
+		SaveOnePiecePic(1, 9, "rn.png", subCat);
+		SaveOnePiecePic(2, 9, "rb.png", subCat);
+		SaveOnePiecePic(3, 9, "ra.png", subCat);
+		SaveOnePiecePic(4, 9, "rk.png", subCat);
+
+		SaveOnePiecePic(1, 7, "rc.png", subCat);  // 红炮
+		SaveOnePiecePic(0, 6, "rp.png", subCat);
+	}
+	//else {
+	//	SaveOnePiecePic(0, 0, "rr.png", subCat);
+	//	SaveOnePiecePic(1, 0, "rn.png", subCat);
+	//	SaveOnePiecePic(2, 0, "rb.png", subCat);
+	//	SaveOnePiecePic(3, 0, "ra.png", subCat);
+	//	SaveOnePiecePic(4, 0, "rk.png", subCat);
+
+	//	SaveOnePiecePic(1, 2, "rc.png", subCat);
+	//	SaveOnePiecePic(0, 3, "rp.png", subCat);
+
+	//	// 红车						
+	//	SaveOnePiecePic(0, 9, "br.png", subCat);
+	//	SaveOnePiecePic(1, 9, "bn.png", subCat);
+	//	SaveOnePiecePic(2, 9, "bb.png", subCat);
+	//	SaveOnePiecePic(3, 9, "ba.png", subCat);
+	//	SaveOnePiecePic(4, 9, "bk.png", subCat);
+
+	//	SaveOnePiecePic(1, 7, "bc.png", subCat);  // 红炮
+	//	SaveOnePiecePic(0, 6, "bp.png", subCat);
+	//}
 
 	return true;
 }
@@ -935,10 +978,10 @@ bool LinkBoard::SaveOnePiecePic(int x, int y, QString chessName, QString subCat)
 		QString runPath = QCoreApplication::applicationDirPath();
 		QString picFile = runPath + "/image/linkboard/" + this->m_catName + "/chess/" + subCat + "/" + chessName;
 
-		int pieceSize = int(m_dx * 0.8f);
+		int pieceSize = int(m_dx * 0.50f);
 		QRect rect(
-			(m_offx_che - m_offx_board) - pieceSize / 2 + x * m_dx,
-			(m_offy_che - m_offy_board) - pieceSize / 2 + y * m_dx,
+			(m_offx_che) - pieceSize / 2 + x * m_dx,
+			(m_offy_che) - pieceSize / 2 + y * m_dx,
 			pieceSize, pieceSize);
 		QPixmap cropped = this->m_capPixmap.copy(rect);
 		cropped.save(picFile, "PNG");   // 黑车
@@ -950,13 +993,22 @@ bool LinkBoard::SaveOnePiecePic(int x, int y, QString chessName, QString subCat)
 }
 
 
-
 void LinkBoard::winLeftClick(HWND hwnd, int x, int y, int off_x, int off_y)
 {
 	LONG temp = MAKELONG(x+off_x, y+off_y);
 	::SendMessage(hwnd, WM_LBUTTONDOWN, 0, temp);
 	wait(1);
 	::SendMessage(hwnd, WM_LBUTTONUP, 0, temp);
+}
+
+void LinkBoard::wait(int msec)
+{
+	
+		//QTime dieTime = QTime::currentTime().addMSecs(msec);
+		//while (QTime::currentTime() < dieTime)
+		//	QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+		this->m_pCap->msleep(msec);
+	
 }
 
 bool LinkBoard::SearchAndClick(QString findName, bool isCap, QString sub_catlog, HWND hw, float threshold)
@@ -1349,10 +1401,7 @@ bool LinkBoard::searchChess(HWND hw, QString findName, QVector<cv::Point>& res, 
 		}
 	}
 
-	//cv::imshow("m_image_source", m_image_source);
-	//cv::imshow("templ", image_template2);
-	//cv::waitKey();
-
+	//searchCountours(hw, "ff", true);
 
 	bool Isfind = false;
 	bool bIsInHash = false;
@@ -1408,6 +1457,17 @@ bool LinkBoard::searchChess(HWND hw, QString findName, QVector<cv::Point>& res, 
 		for (cv::Mat m : template_chess) {
 			cv::Mat image_matched;
 			cv::matchTemplate(this->m_imgage_SHV[side], m, image_matched, method);
+
+
+#if 0
+			cv::imshow("m_image_source", m_image_source);
+			cv::imshow("black", m_imgage_SHV[1]);
+			cv::imshow("red", m_imgage_SHV[0]);
+			cv::imshow("m", m);
+			//cv::imshow("templ", image_template2);
+			cv::waitKey();  //m_imgage_SHV[side]
+#endif
+
 
 #if 0
 			cv::imshow("m_image_source", m_image_source);

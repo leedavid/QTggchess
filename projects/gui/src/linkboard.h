@@ -103,6 +103,8 @@ namespace Chess {
 		
 		void ProcessBoardMove(const Chess::GenericMove& move);
 
+		void SetCatlogName(QString catName);
+
 	private:
 
 		void runAutoChess();
@@ -134,6 +136,9 @@ namespace Chess {
 		float m_offx_board;                    // 
 		float m_offy_board;                    // 棋盘原点，因为图像切小了
 		cv::Rect m_crect;
+
+		//int moveTime = 0;
+		GenericMove m_preMove; 
 
 		float m_dx;                        // 棋盘格宽
 		float m_dy;                        // 棋盘格高	
@@ -206,11 +211,7 @@ namespace Chess {
 
 		void initBoard();
 		void winLeftClick(HWND hwnd, int x, int y, int off_x = 0, int off_y = 0);
-		void wait(int msec) {
-			QTime dieTime = QTime::currentTime().addMSecs(msec);
-			while (QTime::currentTime() < dieTime)
-				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-		}
+		void wait(int msec);
 
 		bool SearchAndClick(QString findName, bool isCap, QString sub_catlog = nullptr, HWND hw = nullptr, float threshold = 1.0f);
 

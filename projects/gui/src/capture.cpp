@@ -18,12 +18,12 @@ namespace Chess {
 	//QMutex Capture::mutex;
 	//bool Capture::m_MayNewGame = false;
 
-	Capture::Capture(QObject* parent, bool isAuto)
+	Capture::Capture(QObject* parent, QString catName, bool isAuto)
 		:QThread(parent),
 		pMain((MainWindow*)(parent))
 	{
 		//m_linkBoard = new LinkBoard(pMain, this, "天天象棋", isAuto);
-		m_linkBoard = new LinkBoard(pMain, this, "王者象棋", isAuto);
+		m_linkBoard = new LinkBoard(pMain, this, catName, isAuto);
 
 		connect(this, SIGNAL(CapSendSignal(stCaptureMsg)),
 			parent, SLOT(processCapMsg(stCaptureMsg)));

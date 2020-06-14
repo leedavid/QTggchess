@@ -21,7 +21,8 @@
 
 #include <QMainWindow>
 #include <QPointer>
-#include <qtoolbutton.h>
+#include <QToolbutton>
+#include <QCombobox>
 #include <board/side.h>
 
 #include <humanbuilder.h>
@@ -126,6 +127,8 @@ class MainWindow : public QMainWindow
 		void onLinkAutomaticToggled(bool checked);        
 		void onLinkWhich(bool checked);
 
+		void onLinkBoardCombox(const QString&);
+
 	private:
 		struct TabData
 		{
@@ -170,6 +173,8 @@ class MainWindow : public QMainWindow
 		QToolButton* tbtnEnginePlayBlack;   // 引擎执黑
 		QToolButton* tbtnLinkChessBoardRed;      // 连接其它棋盘，红方电脑 
 		QToolButton* tbtnLinkChessBoardBlack;    // 连接其它棋盘，黑方电脑
+
+		QComboBox* cbtnLinkBoard;            // 连线的棋盘
 
 		QToolButton* tbtnLinkAuto;           // 全自动连接其它棋盘
 

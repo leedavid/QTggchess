@@ -36,6 +36,7 @@
 #include <QDesktopWidget>
 #include <qtoolbutton.h>
 
+
 #include <board/boardfactory.h>
 #include <chessgame.h>
 #include <timecontrol.h>
@@ -474,6 +475,36 @@ void MainWindow::createToolBars()
 	connect(this->tbtnLinkAuto, SIGNAL(toggled(bool)), this, SLOT(onLinkAutomaticToggled(bool)));
 
 
+	QWidget* empty = new QWidget();
+	empty->setFixedSize(10, 20);
+	this->mainToolbar->addWidget(empty);
+
+	//QComboBox* cbtnLinkBoard;            // 连线的棋盘
+	this->cbtnLinkBoard = new QComboBox(this);
+	this->cbtnLinkBoard->setObjectName(QStringLiteral("cbtnLinkBoard"));
+	this->cbtnLinkBoard->setToolTip("改变连线方案");
+	QStringList strList;
+	//strList << "天天象棋" << "王者象棋" ;
+	strList << "王者象棋" << "天天象棋";
+	this->cbtnLinkBoard->addItems(strList);
+	connect(this->cbtnLinkBoard, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onLinkBoardCombox(const QString&)));
+	this->mainToolbar->addWidget(this->cbtnLinkBoard);
+
+	
+	//int sel = this->cbtnLinkBoard->currentIndex();
+	//QSettings().setValue("ui/linkboard_curSel", sel);
+
+	int sel = QSettings().value("ui/linkboard_curSel").toInt();
+	this->cbtnLinkBoard->setCurrentIndex(sel);
+
+
+	//QSettings().setValue("ui/linkboard", true);
+
+	//bool b = QSettings().value("ui/linkboard").toBool();
+
+	//int a = 0;
+
+	//http://c.biancheng.net/view/1849.html
 
 	//QAction* actLinkChessBoardRed;      // 连接其它棋盘
 	//QAction* actLinkChessBoardBlack;    // 连接其它棋盘
@@ -620,6 +651,9 @@ void MainWindow::writeSettings()
 
 	s.endGroup();
 	s.endGroup();
+
+	int sel = this->cbtnLinkBoard->currentIndex();
+	QSettings().setValue("ui/linkboard_curSel", sel);
 }
 
 void MainWindow::addGame(ChessGame* game)
@@ -1761,8 +1795,11 @@ void MainWindow::processCapMsg(Chess::stCaptureMsg msg)
 }
 
 void MainWindow::onLXchessboardStart(){
+
+	QString catName = this->cbtnLinkBoard->currentText();
+
 	if(m_pcap==nullptr)
-		m_pcap = new Chess::Capture(this);
+		m_pcap = new Chess::Capture(this, catName);
 
 	m_pcap->on_start();
 }
@@ -2015,14 +2052,17 @@ void MainWindow::onLinkAutomaticToggled(bool checked)
 	tbtnEnginePlayBlack->setDisabled(checked);
 	tbtnLinkChessBoardRed->setDisabled(checked);
 	tbtnLinkChessBoardBlack->setDisabled(checked);
+
+	//
+	QString catName = this->cbtnLinkBoard->currentText();
 	
 	if (checked) {
 		if (m_autoClickCap == nullptr)
-			m_autoClickCap = new Chess::Capture(this,true);
+			m_autoClickCap = new Chess::Capture(this,catName,true);
 		m_autoClickCap->on_start();
 
 		if (m_pcap == nullptr)
-			m_pcap = new Chess::Capture(this);
+			m_pcap = new Chess::Capture(this, catName);
 
 		while (m_pcap->isRunning()) {
 			m_pcap->on_stop();
@@ -2050,6 +2090,16 @@ void MainWindow::onLinkWhich(bool checked)
 	}
 	else {
 		onLXchessboardStop();
+	}
+}
+
+void MainWindow::onLinkBoardCombox(const QString& txt)
+{
+	if (this->m_pcap != nullptr) {
+		this->m_pcap->SetCatlogName(txt);
+	}
+	if (this->m_autoClickCap != nullptr) {
+		this->m_autoClickCap->SetCatlogName(txt);
 	}
 }
 

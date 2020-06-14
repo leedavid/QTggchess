@@ -77,7 +77,7 @@ namespace Chess {
 		//static QMutex mutex;
 		//static bool m_MayNewGame;
 
-		explicit Capture(QObject* parent = nullptr, bool isAuto = false);
+		explicit Capture(QObject* parent, QString catName, bool isAuto = false);
 		//Capture(float precision, bool UseAdb = false, int sleepMs = 200, float scX = 1.0f, float scY = 1.0f);
 		~Capture();
 
@@ -86,6 +86,8 @@ namespace Chess {
 		
 
 		//Chess::Move GetMoveFromBoard();
+
+		void SetCatlogName(QString catName) { this->m_linkBoard->SetCatlogName(catName); };
 
 		void on_start();
 		void on_stop();
