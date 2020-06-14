@@ -1616,7 +1616,7 @@ void MainWindow::processCapMsg(Chess::stCaptureMsg msg)
 				this->tbtnLinkChessBoardBlack->setChecked(true);
 			}			
 
-			m_pcap->m_bMainGetFenAlready = true;
+			//m_pcap->m_bMainGetFenAlready = true;
 			//m_pcap->on_start();
 
 		}

@@ -127,8 +127,13 @@ namespace Chess {
 		QString m_titleKeyword;            // 窗口关键词
 		QString m_class;                   // 窗口类
 		QString m_PieceCatlog;             // 棋子的图片目录
-		float m_offx;					   // 棋盘原点x
-		float m_offy;                      // 棋盘原点y
+
+		
+		float m_offx_che;					   // 棋盘 车 原点x
+		float m_offy_che;                      // 棋盘 车 原点y
+		float m_offx_board;                    // 
+		float m_offy_board;                    // 棋盘原点，因为图像切小了
+		cv::Rect m_crect;
 
 		float m_dx;                        // 棋盘格宽
 		float m_dy;                        // 棋盘格高	
@@ -177,11 +182,18 @@ namespace Chess {
 		int m_iLowVblack = 0;
 		int m_iHighVblack = 131;
 
+		//bool m_findChild = false;
+
 	private:
 
+		bool CalImageRect();
+
 		bool GetLxBoardChess(int index);
-		bool GetLxInfo(QString catlog);
+		bool GetLxInfo(QString catlog, bool saveChess = false);
 		bool getChessboardHwnd(bool onlyBChe = false, bool getChess = true);        // 得到棋盘句柄
+
+		bool isFindChild(HWND hw);
+		void Find_window2(HWND parent, int level);
 
 		bool Board2Move(Chess::GenericMove& m);
 		bool GetFen(stLxBoard* pList);

@@ -28,6 +28,136 @@ LinkBoard::LinkBoard(MainWindow* pMain, Capture* pCap, QString catName, bool isA
 	this->initBoard();   
 }
 
+void LinkBoard::initBoard()
+{
+	if (m_catName == "天天象棋") {        // 天天象棋
+		m_precision_chess = 0.57f; // was 0.52
+		m_precision_auto = 0.98f;
+		m_UseAdb = false;
+		m_sleepTimeMs = 20;
+		m_scaleX = 1.0f;
+		m_scaleY = 1.0f;
+
+		m_Ready_LXset = false;
+		m_chessWinOK = false;
+
+		//m_chessClip = 0.25f;
+
+		//this->m_board = BoardFactory::create("standard");
+		//this->m_board_second = BoardFactory::create("standard");
+		//m_board->reset();
+		//m_board_second->reset();
+
+
+		//this->m_LxInfo.m_LX_name = "兵河五四小棋盘";
+		m_ParentKeyword = "中国象棋2017";           // 父窗口关键词
+		m_Parentclass = "QQChess";             // 父窗口类
+		m_titleKeyword = ""; // "BHGUI(test) - 新棋局";
+		m_class = ""; // "Afx:00400000:b:00010003:00000006:0A1D05FB";
+
+		//this->m_LxInfo.offx = 29.0f;
+		//this->m_LxInfo.offy = 138.0f;
+		//this->m_LxInfo.m_dx = 28.0f;
+		//this->m_LxInfo.m_dy = 28.0f;
+
+		m_offx_che = 73.0f;
+		m_offy_che = 175.0f;
+		m_dx = 68.0f;
+		m_dy = 68.0f;
+
+		this->m_Ready_LXset = false;
+
+		//this->m_LxInfo.m_PieceCatlog = "0";
+		//this->m_connectedBoard_OK = false;  // 
+
+		m_side = Side::NoSide;
+
+		m_flip = false;
+
+		m_iLowHred = 0;
+		m_iHighHred = 10;
+
+		m_iLowSred = 77;
+		m_iHighSred = 255;
+
+		m_iLowVred = 95;
+		m_iHighVred = 255;
+
+		m_iLowHblack = 0;
+		m_iHighHblack = 51;
+
+		m_iLowSblack = 0;
+		m_iHighSblack = 90;
+
+		m_iLowVblack = 0;
+		m_iHighVblack = 140;
+	}
+	else if (m_catName == "王者象棋") {   // 王者象棋
+		m_precision_chess = 0.45f; // was 0.52
+		m_precision_auto = 0.98f;
+		m_UseAdb = false;
+		m_sleepTimeMs = 20;
+		m_scaleX = 1.0f;
+		m_scaleY = 1.0f;
+
+		m_Ready_LXset = false;
+		m_chessWinOK = false;
+
+		//m_chessClip = 0.25f;
+
+		//this->m_board = BoardFactory::create("standard");
+		//this->m_board_second = BoardFactory::create("standard");
+		//m_board->reset();
+		//m_board_second->reset();
+
+		m_ParentKeyword = "王者象棋";         // 父窗口关键词
+		m_Parentclass = "#32770";             // 父窗口类
+
+		//this->m_LxInfo.m_LX_name = "兵河五四小棋盘";
+		m_titleKeyword = "Chrome Legacy Window"; // "BHGUI(test) - 新棋局";
+		m_class = "Chrome_RenderWidgetHostHWND"; // "Afx:00400000:b:00010003:00000006:0A1D05FB";
+
+		//this->m_LxInfo.offx = 29.0f;
+		//this->m_LxInfo.offy = 138.0f;
+		//this->m_LxInfo.m_dx = 28.0f;
+		//this->m_LxInfo.m_dy = 28.0f;
+
+		m_offx_che = 43.0f;
+		m_offy_che = 148.0f;
+		m_dx = 50.0f;
+		m_dy = 50.0f;
+
+		this->m_Ready_LXset = false;
+
+		//this->m_LxInfo.m_PieceCatlog = "1";
+		//this->m_connectedBoard_OK = false;  // 
+
+		m_side = Side::NoSide;
+
+		m_flip = false;
+
+
+		m_iLowHred = 0;
+		m_iHighHred = 10;
+
+		m_iLowSred = 77;
+		m_iHighSred = 255;
+
+		m_iLowVred = 95;
+		m_iHighVred = 255;
+
+		m_iLowHblack = 0;
+		m_iHighHblack = 179;
+
+		m_iLowSblack = 0;
+		m_iHighSblack = 139;
+
+		m_iLowVblack = 0;
+		m_iHighVblack = 131;
+	}
+	CalImageRect();
+}
+
 void LinkBoard::run()
 {
 	if (m_isAutoClick) {
@@ -43,13 +173,21 @@ void LinkBoard::runAutoChess()
 	
 	this->bMustStop = false;
 	bool bWeMustSendInitFen = false;
+	this->m_hwnd = nullptr; 
 
-	this->m_Ready_LXset = false;      // 连线信息OK
+	this->m_Ready_LXset = true;      // 连线信息OK
 
 	if (this->m_Ready_LXset == false) {
 		this->GetLxInfo(this->m_catName);
 		if (this->m_Ready_LXset == false) {
-			m_pCap->SendMessageToMain("出错啦", "连线方案还没有准备好！");
+			m_pCap->SendMessageToMain("出错啦 01", "连线方案还没有准备好！");
+			return;
+		}
+	}
+
+	if (this->m_hwnd == nullptr) {  // 得到棋盘句柄
+		if (!getChessboardHwnd(false, false)) {
+			m_pCap->SendMessageToMain("出错啦 02", "连线方案还没有准备好！");
 			return;
 		}
 	}
@@ -64,6 +202,22 @@ void LinkBoard::runAutoChess()
 
 	while (true) {
 		if (bMustStop) break;
+
+		//try {
+		//	cv::imshow("source", this->m_image_source);
+		//	//cv::imshow("all", this->m_image_source_all);
+		//	if (!m_isAutoClick) {
+		//		cv::imshow("red", this->m_imgage_SHV[0]);
+		//		cv::imshow("black", this->m_imgage_SHV[1]);
+		//	}
+		//	cv::waitKey();
+		//}
+		//catch (...) {
+
+		//}
+
+		//cv::imshow("source", this->m_image_source);
+		//cv::waitKey();
 
 		if (GetLxBoardChess(1)) {   // 读出第二个棋盘''
 
@@ -106,7 +260,7 @@ void LinkBoard::runAutoChess()
 				}
 			}
 			else {
-				if (Capture::m_MayNewGame) {
+				if (LinkBoard::m_MayNewGame) {
 					if (fen == "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1") {
 						if (((timeRun.elapsed() - StartTime) / 1000.0) > 25.0) {
 							bWeMustSendInitFen = true;
@@ -159,7 +313,7 @@ void LinkBoard::runAutoClip()
 	//}
 
 	if (getChessboardHwnd(false,false) == false) {
-		m_pCap->SendMessageToMain("出错啦", "没有找到天天象棋界面！");
+		m_pCap->SendMessageToMain("出错啦 20", "没有找到象棋界面！");
 		return;
 	}
 
@@ -184,7 +338,7 @@ void LinkBoard::runAutoClip()
 					findNewGame = true;
 					isFind = true;
 				}
-				wait(300);
+				wait(100);
 				isCap = false;
 				if (bMustStop) break;
 			}
@@ -227,9 +381,9 @@ void LinkBoard::runAutoClip()
 		
 
 		if (findNewGame == true) {
-			Capture::mutex.lock();
-			Capture::m_MayNewGame = true;  // 通知另外一个线程
-			Capture::mutex.unlock();
+			LinkBoard::mutex.lock();
+			LinkBoard::m_MayNewGame = true;  // 通知另外一个线程
+			LinkBoard::mutex.unlock();
 		}
 
 		wait(500);
@@ -270,11 +424,11 @@ void LinkBoard::ProcessBoardMove(const Chess::GenericMove& move)
 
 	//cLXinfo* pInfo = &this->m_LxInfo;
 
-	int ffx = m_offx + fx * m_dx;
-	int ffy = m_offy + (9 - fy) * m_dy;
+	int ffx = m_offx_che + fx * m_dx;
+	int ffy = m_offy_che + (9 - fy) * m_dy;
 
-	int ttx = m_offx + tx * m_dx;
-	int tty = m_offy + (9 - ty) * m_dy;
+	int ttx = m_offx_che + tx * m_dx;
+	int tty = m_offy_che + (9 - ty) * m_dy;
 
 	this->m_LxBoard[0].b90[from] = ChinesePieceType::eNoPice;
 	this->m_LxBoard[0].b90[to] = piece;
@@ -284,10 +438,37 @@ void LinkBoard::ProcessBoardMove(const Chess::GenericMove& move)
 	winLeftClick(m_hwnd, ttx, tty);
 }
 
+bool LinkBoard::CalImageRect()
+{
+	
+	this->m_offx_board = m_offx_che - m_dx / 2 - 2;
+	this->m_offy_board = m_offy_che - m_dy / 2 - 2;
+	if (m_offx_board < 0) m_offx_board = 0;
+	if (m_offy_board < 0) m_offy_board = 0;
+
+	int w = m_offx_che + m_dx * 8.7;
+	//if (w > m_image_source.cols) {
+	//	w = m_image_source.cols;
+	//}
+	int h = m_offy_che + m_dy * 9.7;
+	//if (h > m_image_source.rows) {
+	//	h = m_image_source.rows;
+	//}
+
+	//cv::Rect crect(ox, oy, w - ox, h - oy);
+
+	this->m_crect = cv::Rect(m_offx_board, m_offy_board, w - m_offx_board, h - m_offy_board);
+
+	//m_offx_che -= m_offx_board;
+	//m_offy_che -= m_offy_board;
+
+	return true;
+}
+
 bool LinkBoard::GetLxBoardChess(int index)
 {
-	if (this->m_Ready_LXset == false)
-		this->GetLxInfo(this->m_catName);
+	//if (this->m_Ready_LXset == false)
+	//	this->GetLxInfo(this->m_catName);
 
 	if (this->m_Ready_LXset == false) return false;
 
@@ -325,26 +506,89 @@ bool LinkBoard::GetLxBoardChess(int index)
 	return GetFen(pList);
 }
 
-bool LinkBoard::GetLxInfo(QString catlog)
+bool LinkBoard::GetLxInfo(QString catlog, bool saveChess)
 {
-	this->m_Ready_LXset = false;
+	
+	if (this->m_Ready_LXset) return true;
+
 	//stLxBoard* pPieceList = &m_LxBoard[0];
 
-	if (getChessboardHwnd(true)) {
-		this->m_Ready_LXset = true;
+	if (!getChessboardHwnd(true, true)) {		
 		//this->m_connectedBoard_OK = true;
-		return true;
+		return false;
+	}
+	this->m_Ready_LXset = true;
+
+	cv::Point Bche0;
+	cv::Point Bche1;
+
+	stLxBoard* pPieceList = &m_LxBoard[0];
+	if (pPieceList->BCheList[0].x < pPieceList->BCheList[1].x) {
+		Bche0 = pPieceList->BCheList[0];
+		Bche1 = pPieceList->BCheList[1];
+	}
+	else {
+		Bche1 = pPieceList->BCheList[0];
+		Bche0 = pPieceList->BCheList[1];
+	}
+
+	m_offx_che = Bche0.x;
+	m_offy_che = Bche0.y;
+
+	m_dx = (Bche1.x - Bche0.x) / 8;
+	m_dy = m_dx;
+
+	if (m_dx < 10) return false;
+
+	m_class = this->get_window_class(this->m_hwnd);
+	m_titleKeyword = this->get_window_title(this->m_hwnd);
+
+	// 把棋盘搞小一些啊，
+
+	this->CalImageRect();
+
+	m_Ready_LXset = true;
+	
+	if (saveChess) {
+		this->SaveAllPiecePicture();
 	}
 	
-	return false;
+	return true;
+}
+
+
+void LinkBoard::Find_window2(HWND parent, int level) {
+	HWND child = NULL;
+	TCHAR buf[MAX_PATH];
+	DWORD pid = 0, tid = 0;
+
+	do {
+		child = FindWindowEx(parent, child, NULL, NULL);
+		int ret = GetWindowText(child, buf, MAX_PATH);
+		buf[ret] = 0;
+		//tid = GetWindowThreadProcessId(child, &pid);
+		//for (int i = 0; i < level; ++i)
+		//	_tprintf(L"\t");
+		//_tprintf(L"%s ,  pid:%d, tid:%d\n", buf, pid, tid);
+
+		isFindChild(child);
+		if (this->m_hwnd) return;
+
+		if (child)
+			Find_window2(child, level + 1);
+	} while (child);
+
 }
 
 // 根据车的图，得到棋盘句柄
 bool LinkBoard::getChessboardHwnd(bool onlyBChe, bool getChess)
 {
+#if 1
+	
 	LPCWSTR pClass = NULL;
-	LPCWSTR pCaption = NULL;
-
+	LPCWSTR pCaption = NULL;	
+	this->m_hwnd = nullptr;
+	
 	//if(m_Parentclass != "")
 	if (m_Parentclass != "") {
 		pClass = reinterpret_cast <LPCWSTR>(m_Parentclass.data());
@@ -362,6 +606,28 @@ bool LinkBoard::getChessboardHwnd(bool onlyBChe, bool getChess)
 	pCaption = NULL;
 
 	if (m_class != "" || m_titleKeyword != "") {
+
+		// 查找子窗口
+		HWND child = NULL;
+		do {
+			//查找 Explore 下的一个窗口,如果能找到则根据 Explore 下的child 继续找
+			child = FindWindowEx(hParent, child, NULL, NULL);
+			//int ret = GetWindowText(child, buf, MAX_PATH);
+			//buf[ret] = 0;
+			//tid = GetWindowThreadProcessId(child, &pid);
+			//_tprintf(L"%s ,  pid:%d, tid:%d\n", buf, pid, tid);
+			
+			isFindChild(child);
+			if (this->m_hwnd) break;
+
+			//遍历子窗口们
+			if (child)
+				Find_window2(child, 1);
+		} while (child);
+
+
+		/*
+
 		if (m_class != "") {
 			pClass = reinterpret_cast <LPCWSTR>(m_class.data());
 		}
@@ -374,12 +640,21 @@ bool LinkBoard::getChessboardHwnd(bool onlyBChe, bool getChess)
 			return false;
 		}
 		this->m_hwnd = hSub;
+		*/
 	}
 	else {
 		this->m_hwnd = hParent;
 	}
+#else	
+	this->m_hwnd = (HWND)0x001A105E; // (HWND)0x0000000000970E0E;
+#endif
+
+	if (this->m_hwnd == nullptr) return false;
+
 
 	if (!getChess) return true;
+
+	
 
 	// 再确认一下，是不是有二个黑车
 	if (onlyBChe) {
@@ -403,6 +678,19 @@ bool LinkBoard::getChessboardHwnd(bool onlyBChe, bool getChess)
 			return true;  // 兵河把将当时间方了！！
 		}
 	}	
+	return false;
+}
+
+bool LinkBoard::isFindChild(HWND hw)
+{
+	QString wc = this->get_window_class(hw);
+	QString wt = this->get_window_title(hw);
+
+	if (wc == this->m_class && wt == this->m_titleKeyword) {
+		this->m_hwnd = hw;		
+		return true;
+	}
+
 	return false;
 }
 
@@ -581,8 +869,10 @@ bool LinkBoard::fillB90(ChinesePieceType b90[], QVector<cv::Point>& plist, Chine
 
 int LinkBoard::getB90(cv::Point p)
 {
-	int dx = (int)((p.x - m_offx) / m_dx + 0.5f);
-	int dy = (int)((p.y - m_offy) / m_dy + 0.5f);
+	assert(this->m_Ready_LXset == true);
+	
+	int dx = (int)((p.x - (m_offx_che - m_offx_board)) / m_dx + 0.5f);
+	int dy = (int)((p.y - (m_offy_che - m_offy_board)) / m_dy + 0.5f);
 
 	if (m_flip) {
 		dy = 9 - dy;
@@ -606,6 +896,11 @@ bool LinkBoard::SaveAllPiecePicture(QString subCat)
 {
 	if (subCat == nullptr) {
 		subCat = "0";                     // 第一种棋子
+	}
+
+	// 再读一下
+	if (!searchChess(this->m_hwnd, "br.png", m_LxBoard[0].BCheList, Side::Black, true)) {
+		return false;
 	}
 
 	// Bche
@@ -633,6 +928,8 @@ bool LinkBoard::SaveAllPiecePicture(QString subCat)
 
 bool LinkBoard::SaveOnePiecePic(int x, int y, QString chessName, QString subCat)
 {
+	
+	assert(m_Ready_LXset == true);	
 	// 得到全目录
 	try {
 		QString runPath = QCoreApplication::applicationDirPath();
@@ -640,8 +937,8 @@ bool LinkBoard::SaveOnePiecePic(int x, int y, QString chessName, QString subCat)
 
 		int pieceSize = int(m_dx * 0.8f);
 		QRect rect(
-			m_offx - pieceSize / 2 + x * m_dx,
-			m_offy - pieceSize / 2 + y * m_dx,
+			(m_offx_che - m_offx_board) - pieceSize / 2 + x * m_dx,
+			(m_offy_che - m_offy_board) - pieceSize / 2 + y * m_dx,
 			pieceSize, pieceSize);
 		QPixmap cropped = this->m_capPixmap.copy(rect);
 		cropped.save(picFile, "PNG");   // 黑车
@@ -652,135 +949,7 @@ bool LinkBoard::SaveOnePiecePic(int x, int y, QString chessName, QString subCat)
 	return true;
 }
 
-void LinkBoard::initBoard()
-{
-	if (m_catName == "天天象棋") {        // 天天象棋
-		m_precision_chess = 0.57f; // was 0.52
-		m_precision_auto = 0.98f;
-		m_UseAdb = false;
-		m_sleepTimeMs = 20;
-		m_scaleX = 1.0f;
-		m_scaleY = 1.0f;
 
-		m_Ready_LXset = false;
-		m_chessWinOK = false;
-
-		//m_chessClip = 0.25f;
-
-		//this->m_board = BoardFactory::create("standard");
-		//this->m_board_second = BoardFactory::create("standard");
-		//m_board->reset();
-		//m_board_second->reset();
-
-
-		//this->m_LxInfo.m_LX_name = "兵河五四小棋盘";
-		m_ParentKeyword = "中国象棋2017";           // 父窗口关键词
-	    m_Parentclass = "QQChess";             // 父窗口类
-		m_titleKeyword = ""; // "BHGUI(test) - 新棋局";
-		m_class = ""; // "Afx:00400000:b:00010003:00000006:0A1D05FB";
-
-		//this->m_LxInfo.offx = 29.0f;
-		//this->m_LxInfo.offy = 138.0f;
-		//this->m_LxInfo.m_dx = 28.0f;
-		//this->m_LxInfo.m_dy = 28.0f;
-
-		m_offx = 73.0f;
-		m_offy = 175.0f;
-		m_dx = 68.0f;
-		m_dy = 68.0f;
-
-		this->m_Ready_LXset = false;
-
-		//this->m_LxInfo.m_PieceCatlog = "0";
-		//this->m_connectedBoard_OK = false;  // 
-
-		m_side = Side::NoSide;
-
-		m_flip = false;
-
-		m_iLowHred = 0;
-		m_iHighHred = 10;
-		
-		m_iLowSred = 77;
-		m_iHighSred = 255;
-		
-		m_iLowVred = 95;
-		m_iHighVred = 255;
-	
-		m_iLowHblack = 0;
-		m_iHighHblack = 51;
-		
-		m_iLowSblack = 0;
-		m_iHighSblack = 90;
-		
-		m_iLowVblack = 0;
-		m_iHighVblack = 140;
-	}
-	else if (m_catName == "王者象棋") {   // 王者象棋
-		m_precision_chess = 0.57f; // was 0.52
-		m_precision_auto = 0.98f;
-		m_UseAdb = false;
-		m_sleepTimeMs = 20;
-		m_scaleX = 1.0f;
-		m_scaleY = 1.0f;
-
-		m_Ready_LXset = false;
-		m_chessWinOK = false;
-
-		//m_chessClip = 0.25f;
-
-		//this->m_board = BoardFactory::create("standard");
-		//this->m_board_second = BoardFactory::create("standard");
-		//m_board->reset();
-		//m_board_second->reset();
-
-		m_ParentKeyword = "王者象棋";                 // 父窗口关键词
-		m_Parentclass = "#32770 (对话框)";             // 父窗口类
-
-		//this->m_LxInfo.m_LX_name = "兵河五四小棋盘";
-		m_titleKeyword = "Chrome Legacy Window"; // "BHGUI(test) - 新棋局";
-		m_class = "Chrome_RenderWidgetHostHWND"; // "Afx:00400000:b:00010003:00000006:0A1D05FB";
-
-		//this->m_LxInfo.offx = 29.0f;
-		//this->m_LxInfo.offy = 138.0f;
-		//this->m_LxInfo.m_dx = 28.0f;
-		//this->m_LxInfo.m_dy = 28.0f;
-
-		m_offx = 37.0f;
-		m_offy = 41.0f;
-		m_dx = 50.0f;
-		m_dy = 50.0f;
-
-		this->m_Ready_LXset = false;
-
-		//this->m_LxInfo.m_PieceCatlog = "1";
-		//this->m_connectedBoard_OK = false;  // 
-
-		m_side = Side::NoSide;
-
-		m_flip = false;
-
-
-		m_iLowHred = 0;
-		m_iHighHred = 10;
-
-		m_iLowSred = 77;
-		m_iHighSred = 255;
-
-		m_iLowVred = 95;
-		m_iHighVred = 255;
-
-		m_iLowHblack = 0;
-		m_iHighHblack = 179;
-
-		m_iLowSblack = 0;
-		m_iHighSblack = 139;
-
-		m_iLowVblack = 0;
-		m_iHighVblack = 131;
-	}
-
-}
 
 void LinkBoard::winLeftClick(HWND hwnd, int x, int y, int off_x, int off_y)
 {
@@ -1077,40 +1246,66 @@ bool LinkBoard::CaptureOneNotry(HWND hw, int sleepTimeMS, bool isTransHSV)
 
 		if (m_isAutoClick) {
 			m_image_source_all = QPixmapToCvMat(this->m_capPixmap, true);
-			m_image_source = m_image_source_all;
+			//m_image_source = m_image_source_all;
 		}
 		else {
 			this->m_image_source = QPixmapToCvMat(this->m_capPixmap, true);
-		}
 
+			if (this->m_Ready_LXset) {  // 当前的联线信息OK了
 
-		if (this->m_Ready_LXset) {  // 当前的联线信息OK了
+				//this->m_LxInfo.m_dx
 
-			//this->m_LxInfo.m_dx
+#if 0
+				cv::imshow("templ2", m_image_source);
 
-			cv::Rect crect(0, 0, m_offx + m_dx * 9, m_offy + m_dx * 10);
+				
 
-			m_image_source = m_image_source(crect);
+				//int ox = m_offx_che - m_dx/2 - 2;
+				//int oy = m_offy_che - m_dy/2 - 2;
+				//if (ox < 0) ox = 0;
+				//if (oy < 0) oy = 0;
 
-			//cv::imshow("templ", m_image_source);
-			//cv::waitKey();
-		}
+				//int w = m_offx_che + m_dx * 8.7;
+				//if (w > m_image_source.cols) {
+				//	w = m_image_source.cols;
+				//}
+				//int h = m_offy_che + m_dy * 9.7;
+				//if (h > m_image_source.rows) {
+				//	h = m_image_source.rows;
+				//}
 
-		// 拆分红黑二个图
-		//cv::Mat m_image_red;      // 红方棋子
-		//cv::Mat m_image_black;    // 黑方棋子
-		if (isTransHSV) {
-			cv::Mat imgHSV;
-			cv::cvtColor(m_image_source, imgHSV, cv::COLOR_BGR2HSV);
+				//cv::Rect crect(ox, oy, w-ox, h-oy);
 
-			cv::inRange(imgHSV, cv::Scalar(m_iLowHred, m_iLowSred, m_iLowVred),
-				cv::Scalar(m_iHighHred, m_iHighSred, m_iHighVred), m_imgage_SHV[Side::White]); //Threshold the image
-			cv::inRange(imgHSV, cv::Scalar(m_iLowHblack, m_iLowSblack, m_iLowVblack),
-				cv::Scalar(m_iHighHblack, m_iHighSblack, m_iHighVblack), m_imgage_SHV[Side::Black]); //Threshold the image
+				m_image_source = m_image_source(m_crect);
 
-			// 二值化处理
-			//cv::threshold(m_image_red, m_image_red, 125, 255, cv::THRESH_BINARY);
-			//cv::threshold(m_image_black, m_image_black, 125, 255, cv::THRESH_BINARY);
+				//cv::imshow("templ", m_image_source);
+				//cv::waitKey();
+				cv::imshow("source", this->m_image_source);
+				cv::waitKey();
+#else
+				m_image_source = m_image_source(m_crect);
+#endif
+			}
+
+			// 拆分红黑二个图
+			//cv::Mat m_image_red;      // 红方棋子
+			//cv::Mat m_image_black;    // 黑方棋子
+			if (isTransHSV) {
+				cv::Mat imgHSV;
+				cv::cvtColor(m_image_source, imgHSV, cv::COLOR_BGR2HSV);
+
+				cv::inRange(imgHSV, cv::Scalar(m_iLowHred, m_iLowSred, m_iLowVred),
+					cv::Scalar(m_iHighHred, m_iHighSred, m_iHighVred), m_imgage_SHV[Side::White]); //Threshold the image
+				cv::inRange(imgHSV, cv::Scalar(m_iLowHblack, m_iLowSblack, m_iLowVblack),
+					cv::Scalar(m_iHighHblack, m_iHighSblack, m_iHighVblack), m_imgage_SHV[Side::Black]); //Threshold the image
+
+				// 二值化处理
+				//cv::threshold(m_image_red, m_image_red, 125, 255, cv::THRESH_BINARY);
+				//cv::threshold(m_image_black, m_image_black, 125, 255, cv::THRESH_BINARY);
+				//cv::imshow("white", m_imgage_SHV[Side::White]);
+				//cv::imshow("black", m_imgage_SHV[Side::Black]);
+				//cv::waitKey();
+			}
 		}
 
 		//cv::Mat hsv_channels_red[3];
@@ -1153,6 +1348,12 @@ bool LinkBoard::searchChess(HWND hw, QString findName, QVector<cv::Point>& res, 
 			return false;
 		}
 	}
+
+	//cv::imshow("m_image_source", m_image_source);
+	//cv::imshow("templ", image_template2);
+	//cv::waitKey();
+
+
 	bool Isfind = false;
 	bool bIsInHash = false;
 
@@ -1293,22 +1494,7 @@ bool LinkBoard::searchChess(HWND hw, QString findName, QVector<cv::Point>& res, 
 	return false;
 }
 
-//bool LinkBoard::SearchOnChessList(HWND hwnd, QString chess, QVector<cv::Point>& res, bool IsCap)
-//{
-//	//if (isCap) {
-//	//	if (this->captureOne(hw) == false) {
-//	//		qWarning("searchImage 1 %s 出错了！", qUtf8Printable(findName));
-//	//		return false;
-//	//	}
-//	//}
-//
-//
-//
-//
-//	return false;
-//
-//	
-//}
+
 
 cv::Mat LinkBoard::QImageToCvMat(const QImage& inImage, bool inCloneImageData)
 {
