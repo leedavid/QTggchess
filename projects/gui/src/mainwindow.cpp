@@ -1576,22 +1576,22 @@ void MainWindow::resignGame()
 }
 
 // 连线信息
-void MainWindow::processCapMsg(stCaptureMsg msg)
+void MainWindow::processCapMsg(Chess::stCaptureMsg msg)
 {
 	// 得到当前的游戏？不是，应该得到当前的chessgame
 	
 	switch (msg.mType) {
-	case stCaptureMsg::eText:
+	case Chess::stCaptureMsg::eText:
 		QMessageBox::warning(this, msg.title, msg.text);
 		break;
-	case stCaptureMsg::eMove:
+	case Chess::stCaptureMsg::eMove:
 		// 判断走步是不是合法
 		if (isMoveValid(msg.m) == false) {  // 防止重复输入走步
 			return;   
 		}
 		m_gameViewer->viewLinkMove(msg.m);
 		break;
-	case stCaptureMsg::eSetFen: 
+	case Chess::stCaptureMsg::eSetFen:
 	{
 		QString fen = msg.text;
 		if (this->tbtnLinkAuto->isChecked()) {

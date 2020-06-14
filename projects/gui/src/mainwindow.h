@@ -28,6 +28,7 @@
 #include <QMutex>
 
 #include "capture.h"
+#include "linkboard.h"
 //#include "TestThread.h"
 
 namespace Chess {
@@ -108,7 +109,7 @@ class MainWindow : public QMainWindow
 		void adjudicateBlackWin();
 		void resignGame();
 
-		void processCapMsg(stCaptureMsg msg);
+		void processCapMsg(Chess::stCaptureMsg msg);
 
 		// ﬂBœﬂ∆Â≈Ã
 		void onLXchessboardStart();

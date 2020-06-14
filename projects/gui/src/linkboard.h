@@ -1,4 +1,5 @@
 #pragma once
+#include <chessgame.h>
 
 #include <opencv2/opencv.hpp>
 #include <board/board.h>
@@ -8,12 +9,33 @@
 #include <Qthread>
 #include <Windows.h>
 #include <QPixmap>
+#include <QMutex>
 
-#include <chessgame.h>
+
 
 class MainWindow;
 
+
 namespace Chess {
+
+	class Capture;
+
+	struct stCaptureMsg {
+
+		enum eCapMsg {
+			eMove,				// 走步
+			eSetFen,			// 设置fen
+			eText				// 提示信息
+		};
+
+		eCapMsg mType;
+		//Chess::Move m;
+		Chess::GenericMove m;
+		QString title;
+		QString text;
+		//ChessGame* pGame;
+	};
+	Q_DECLARE_METATYPE(stCaptureMsg)
 
 	enum class LinkWhich {
 		TianTian = 0,     // 天天平台
@@ -68,23 +90,36 @@ namespace Chess {
 	class LinkBoard
 	{
 
+		static QMutex mutex;
+		static volatile bool m_MayNewGame;
+
 	public:
-		LinkBoard(MainWindow* pMain, QString catName);
+		LinkBoard(MainWindow* pMain, Capture* pCap, QString catName, bool isAuto);
 		void setStop(bool s) {
 			this->bMustStop = s;
 		};
 		// 读取棋盘
-		void runAutoChess();
+		void run();
+		
+		void ProcessBoardMove(const Chess::GenericMove& move);
 
 	private:
+
+		void runAutoChess();
+		void runAutoClip();
 
 		volatile bool bMustStop;           // 马上停止
 
 		MainWindow* m_pMain;
+		Capture* m_pCap; 
+
+
+
 		HWND m_parentHwnd;                 // 棋盘父窗口
 		HWND m_hwnd;                       // 可响应鼠标走棋的窗口
 
 		QString m_catName;                 // 这个就是连线的名称
+		bool m_isAutoClick;                // 
 
 		//QString m_LX_name;                 // 连线的名称
 		QString m_ParentKeyword;           // 父窗口关键词
@@ -109,7 +144,7 @@ namespace Chess {
 
 		bool m_Ready_LXset = false;
 		bool m_chessWinOK = false;
-		bool m_connectedBoard_OK = false; 
+		//bool m_connectedBoard_OK = false; 
 
 		QHash<QString, cv::Mat> m_MatHash;    // 棋子模板
 		QPixmap m_capPixmap;                  // 保存的临时抓图
@@ -118,7 +153,7 @@ namespace Chess {
 		//cv::Mat m_image_red;                  // 红方棋子
 		//cv::Mat m_image_black;                // 黑方棋子
 		cv::Mat m_imgage_SHV[2];              // 红黑
-		bool m_isAutoClick;                   // 是不是自动连线处理
+		//bool m_isAutoClick;                   // 是不是自动连线处理
 
 		bool m_flip;                       // 棋盘翻转
 		Chess::Side m_side;                // 走子方
@@ -144,8 +179,9 @@ namespace Chess {
 
 	private:
 
+		bool GetLxBoardChess(int index);
 		bool GetLxInfo(QString catlog);
-		bool getChessboardHwnd(bool onlyBChe);        // 得到棋盘句柄
+		bool getChessboardHwnd(bool onlyBChe = false, bool getChess = true);        // 得到棋盘句柄
 
 		bool Board2Move(Chess::GenericMove& m);
 		bool GetFen(stLxBoard* pList);
@@ -189,3 +225,8 @@ namespace Chess {
 	};
 
 }
+
+
+
+// https://blog.csdn.net/x356982611/article/details/54292930
+// 有命名空间， Q_DECLARE_METATYPE() 宏应该放在命名空间外面

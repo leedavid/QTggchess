@@ -31,7 +31,7 @@ namespace Chess {
 		//m_MayNewGame = true;
 		//mutex.unlock();
 
-		m_linkBoard = new LinkBoard(pMain, "天天象棋");
+		m_linkBoard = new LinkBoard(pMain, this, "天天象棋", isAuto);
 
 		this->m_Chess = LinkWhich::KingChess; 
 
@@ -240,6 +240,9 @@ namespace Chess {
 
 	// 根据引擎发来的棋步，点击棋盘
 	void Capture::ProcessBoardMove(const Chess::GenericMove& move) {
+
+		this->m_linkBoard->ProcessBoardMove(move);
+		/*
 		int fx = move.sourceSquare().file();
 		int fy = move.sourceSquare().rank();
 
@@ -284,6 +287,7 @@ namespace Chess {
 		winLeftClick(m_hwnd, ffx, ffy);
 		wait(5);
 		winLeftClick(m_hwnd, ttx, tty);
+		*/
 
 	}
 
@@ -458,10 +462,11 @@ namespace Chess {
 		return false;
 }
 
-	
-
+	//stCaptureMsg m_msg;      // 是不是可能放在
+	//stCaptureMsg m_msg;      // 是不是可能放在
 	void Capture::SendMessageToMain(const QString title, const QString msg)
 	{
+		stCaptureMsg m_msg;      // 是不是可能放在
 		m_msg.mType = stCaptureMsg::eText;
 		m_msg.text = title;
 		m_msg.title = msg;
@@ -470,6 +475,7 @@ namespace Chess {
 
 	void Capture::SendMoveToMain(const Chess::GenericMove m)
 	{
+		stCaptureMsg m_msg;      // 是不是可能放在
 		m_msg.mType = stCaptureMsg::eMove;
 		m_msg.m = m;
 		emit CapSendSignal(m_msg);
@@ -477,6 +483,7 @@ namespace Chess {
 
 	void Capture::SendFenToMain(const QString fen)
 	{
+		stCaptureMsg m_msg;      // 是不是可能放在
 		m_msg.mType = stCaptureMsg::eSetFen;
 		m_msg.text = fen;
 		emit CapSendSignal(m_msg);
@@ -696,13 +703,20 @@ namespace Chess {
 
 		//m_isRuning = true;
 
-		if (m_isAutoClick) {
-			this->runAutoClip();
-		}
-		else {
-			//this->runAutoChess();
-			this->m_linkBoard->runAutoChess();
-		}	
+		//while (true)
+		//{
+		//	this->SendMessageToMain("aff", "asfafd");
+		//	msleep(1000);
+		//}
+		this->m_linkBoard->run();
+
+		//if (m_isAutoClick) {
+		//	this->runAutoClip();
+		//}
+		//else {
+		//	//this->runAutoChess();
+		//	this->m_linkBoard->runAutoChess();
+		//}	
 
 		//m_isRuning = false;
 	}
@@ -716,6 +730,11 @@ namespace Chess {
 	void Capture::on_stop()
 	{
 		bMustStop = true;
+		this->m_linkBoard->setStop(true);
+	}
+
+	void Capture::on_pause()
+	{
 	}
 
 	// 自动开始点击图片
@@ -855,7 +874,6 @@ namespace Chess {
 
 		QString MoveSendingFen;
 		Chess::GenericMove MoveSendingMove;
-
 		this->m_LxBoard[0].fen = "none";
 
 		//this->m_hwnd = HWND(0x004B09F6);

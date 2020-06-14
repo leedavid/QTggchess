@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
 	qRegisterMetaType<Chess::Result>("Chess::Result");
 	qRegisterMetaType<MoveEvaluation>("MoveEvaluation");
 
-	qRegisterMetaType<stCaptureMsg>("stCaptureMsg");
+	qRegisterMetaType<Chess::stCaptureMsg>("Chess::stCaptureMsg");
 
 	QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 

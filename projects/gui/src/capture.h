@@ -16,21 +16,7 @@
 //#include "mainwindow.h"
 //class MainWindow;
 
-struct stCaptureMsg {
 
-	enum eCapMsg {
-		eMove,				// 走步
-		eSetFen,			// 设置fen
-		eText				// 提示信息
-	};
-
-	eCapMsg mType;
-	//Chess::Move m;
-	Chess::GenericMove m;
-	QString title;
-	QString text;
-	//ChessGame* pGame;
-};
 
 namespace Chess {
 
@@ -105,6 +91,11 @@ namespace Chess {
 		void on_stop();
 		void on_pause();
 
+		//stCaptureMsg m_msg;      // 是不是可能放在
+		void SendMessageToMain(const QString title, const QString msg);
+		void SendMoveToMain(const Chess::GenericMove m);
+		void SendFenToMain(const QString fen);
+
 	private:
 
 		LinkBoard* m_linkBoard;
@@ -134,10 +125,7 @@ namespace Chess {
 		bool searchImage(QString findName, bool isCap, QString sub_catlog, float threshold = 1.0f);
 		bool searchImage(QString findName, bool isCap, QString sub_catlog, int& imgX, int& imgY, float threshold);
 
-		stCaptureMsg m_msg;
-		void SendMessageToMain(const QString title, const QString msg);
-		void SendMoveToMain(const Chess::GenericMove m);
-		void SendFenToMain(const QString fen);
+		
 
 		//QString GetFenLxBoard(bool isOrg = true);
 
