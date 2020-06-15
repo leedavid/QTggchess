@@ -92,7 +92,7 @@ namespace Chess {
 	{
 		while (isRunning()) {
 			on_stop();
-			wait(10);
+			wait(1);
 		}
 		delete m_linkBoard;
 		//delete this->m_board;		

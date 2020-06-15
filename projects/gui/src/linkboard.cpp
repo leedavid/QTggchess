@@ -10,6 +10,7 @@
 #include <board/boardfactory.h>
 #include <QMutex>
 
+
 #include "mainwindow.h"
 #include "capture.h"
 
@@ -30,6 +31,7 @@ LinkBoard::LinkBoard(MainWindow* pMain, Capture* pCap, QString catName, bool isA
 
 void LinkBoard::initBoard()
 {
+#if 0
 	if (m_catName == "天天象棋") {        // 天天象棋
 		m_precision_chess = 0.57f; // was 0.52
 		m_precision_auto = 0.98f;
@@ -38,8 +40,8 @@ void LinkBoard::initBoard()
 		m_scaleX = 1.0f;
 		m_scaleY = 1.0f;
 
-		m_Ready_LXset = false;
-		m_chessWinOK = false;
+		//m_Ready_LXset = false;
+		////m_chessWinOK = false;
 
 		//m_chessClip = 0.25f;
 
@@ -100,8 +102,8 @@ void LinkBoard::initBoard()
 		m_scaleX = 1.0f;
 		m_scaleY = 1.0f;
 
-		m_Ready_LXset = false;
-		m_chessWinOK = false;
+		//m_Ready_LXset = false;
+		//m_chessWinOK = false;
 
 		//m_chessClip = 0.25f;
 
@@ -155,8 +157,16 @@ void LinkBoard::initBoard()
 		m_iLowVblack = 0;
 		m_iHighVblack = 118;
 	}
-	this->m_MatHash.clear();
+	this->saveToCatlog();
+
+#endif		
+
+	this->readFromCatlog();
 	CalImageRect();
+	m_Ready_LXset = false;
+	m_side = Side::NoSide;
+	m_flip = false;
+
 }
 
 void LinkBoard::run()
@@ -167,6 +177,49 @@ void LinkBoard::run()
 	else {
 		this->runAutoChess();  
 	}
+}
+
+bool LinkBoard::readFromCatlog(QString cat)
+{
+	
+	if (cat == nullptr) {
+		cat = m_catName;
+	}
+	try {
+		QString fileName = QCoreApplication::applicationDirPath() + "/image/linkboard/" + cat + "/linkinfo.data";
+		QFile file(fileName);
+		if (!file.open(QIODevice::ReadOnly)) {
+			return false;
+		}
+		QDataStream output(&file);
+		output >> (*this);
+		file.close();
+	}
+	catch (...) {
+		return false;
+	}
+	return true;
+}
+
+bool LinkBoard::saveToCatlog(QString cat)
+{
+	if (cat == nullptr) {
+		cat = m_catName;
+	}
+	try {
+		QString fileName = QCoreApplication::applicationDirPath() + "/image/linkboard/" + cat + "/linkinfo.data";
+		QFile file(fileName);
+		if (!file.open(QIODevice::WriteOnly)) {
+			return false;
+		}
+		QDataStream input(&file);
+		input << (*this);
+		file.close();
+	}
+	catch (...) {
+		return false;
+	}
+	return true;
 }
 
 void LinkBoard::runAutoChess()
@@ -439,7 +492,7 @@ void LinkBoard::ProcessBoardMove(const Chess::GenericMove& move)
 	this->m_LxBoard[0].b90[to] = piece;
 
 	winLeftClick(m_hwnd, ffx, ffy);
-	wait(1);
+	//wait(1);
 	winLeftClick(m_hwnd, ttx, tty);
 }
 
@@ -997,7 +1050,7 @@ void LinkBoard::winLeftClick(HWND hwnd, int x, int y, int off_x, int off_y)
 {
 	LONG temp = MAKELONG(x+off_x, y+off_y);
 	::SendMessage(hwnd, WM_LBUTTONDOWN, 0, temp);
-	wait(1);
+	//wait(1);
 	::SendMessage(hwnd, WM_LBUTTONUP, 0, temp);
 }
 
@@ -1654,6 +1707,77 @@ QString LinkBoard::get_window_class(HWND hwnd)
 		retStr = QString::fromWCharArray(temp);
 	}
 	return retStr;
+}
+
+// https://www.wandouip.com/t5i217503/	
+QDataStream& operator<<(QDataStream& input, const LinkBoard& board)
+{
+	// TODO: 在此处插入 return 语句
+	input 
+		//<< board.m_catName
+		<< board.m_ParentKeyword
+		<< board.m_Parentclass
+		<< board.m_titleKeyword
+		<< board.m_class
+		<< board.m_offx_che
+		<< board.m_offy_che
+		<< board.m_dx
+		<< board.m_dy
+		<< board.m_UseAdb
+		<< board.m_precision_chess
+		<< board.m_precision_auto
+		<< board.m_sleepTimeMs
+		<< board.m_scaleX
+		<< board.m_scaleY
+		<< board.m_iLowHred
+		<< board.m_iHighHred
+		<< board.m_iLowSred
+		<< board.m_iHighSred
+		<< board.m_iLowVred
+		<< board.m_iHighVred
+		<< board.m_iLowHblack
+		<< board.m_iHighHblack
+		<< board.m_iLowSblack
+		<< board.m_iHighSblack
+		<< board.m_iLowVblack
+		<< board.m_iHighVblack;
+
+	return input;
+}
+
+QDataStream& operator>>(QDataStream& output, LinkBoard& board)
+{
+	// TODO: 在此处插入 return 语句
+	output 
+		//>> board.m_catName
+		>> board.m_ParentKeyword
+		>> board.m_Parentclass
+		>> board.m_titleKeyword
+		>> board.m_class
+		>> board.m_offx_che
+		>> board.m_offy_che
+		>> board.m_dx
+		>> board.m_dy
+		>> board.m_UseAdb
+		>> board.m_precision_chess
+		>> board.m_precision_auto
+		>> board.m_sleepTimeMs
+		>> board.m_scaleX
+		>> board.m_scaleY
+		>> board.m_iLowHred
+		>> board.m_iHighHred
+		>> board.m_iLowSred
+		>> board.m_iHighSred
+		>> board.m_iLowVred
+		>> board.m_iHighVred
+		>> board.m_iLowHblack
+		>> board.m_iHighHblack
+		>> board.m_iLowSblack
+		>> board.m_iHighSblack
+		>> board.m_iLowVblack
+		>> board.m_iHighVblack;
+
+	return output;
 }
 
 }

@@ -1,0 +1,128 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.15"]
+[Round "?"]
+[White "keers"]
+[Black "ggzero"]
+[Result "*"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C2C4/9/RNBAKABNR b - - 0 1"]
+[GameDuration "00:07:49"]
+[GameEndTime "2020-06-15T19:36:22.576 中国标准时间"]
+[GameStartTime "2020-06-15T19:28:32.822 中国标准时间"]
+[PlyCount "55"]
+[SetUp "1"]
+[Termination "unterminated"]
+[TimeControl "400/180+1"]
+
+ 0. 马８进７ 
+{score:0 time:0}
+ 1. 马二进三 
+{score:0 time:0}
+ 2. 卒７进１ 
+{score:100 time:0}
+ 3. 车一进一 
+{score:0 time:0}
+ 4. 马２进３ 
+{score:100 time:0}
+ 5. 兵五进一 
+{score:0 time:0}
+ 6. 炮８进２ 
+{score:200 time:0}
+ 7. 车一平六 
+{score:0 time:0}
+ 8. 车９平８ 
+{score:0 time:0}
+ 9. 车六进七 
+{score:0 time:0}
+ 10. 卒３进１ 
+{score:11 time:0}
+ 11. 马八进七 
+{score:0 time:0}
+ 12. 士６进５ 
+{score:17 time:0}
+ 13. 车九进一 
+{score:0 time:0}
+ 14. 马３进４ 
+{score:200 time:0}
+ 15. 车九平四 
+{score:0 time:0}
+ 16. 马４进３ 
+{score:200 time:0}
+ 17. 车六退五 
+{score:0 time:0}
+ 18. 炮２平３ 
+{score:41 time:0}
+ 19. 车四进五 
+{score:0 time:0}
+ 20. 车１平２ 
+{score:86 time:0}
+ 21. 车四平三 
+{score:0 time:0}
+ 22. 象７进５ 
+{score:118 time:0}
+ 23. 兵三进一 
+{score:0 time:0}
+ 24. 卒７进１ 
+{score:127 time:0}
+ 25. 兵五进一 
+{score:0 time:0}
+ 26. 卒５进１ 
+{score:130 time:0}
+ 27. 车六进五 
+{score:0 time:0}
+ 28. 马３退５ 
+{score:236 time:0}
+ 29. 马三进五 
+{score:0 time:0}
+ 30. 卒７进１ 
+{score:434 time:0}
+ 31. 车三平四 
+{score:0 time:0}
+ 32. 车８平６ 
+{score:556 time:0}
+ 33. 车四平七 
+{score:0 time:0}
+ 34. 炮３平４ 
+{score:546 time:0}
+ 35. 马五进三 
+{score:0 time:0}
+ 36. 炮８退３ 
+{score:613 time:0}
+ 37. 车六退一 
+{score:0 time:0}
+ 38. 士５进４ 
+{score:646 time:0}
+ 39. 仕六进五 
+{score:0 time:0}
+ 40. 车６进５ 
+{score:690 time:0}
+ 41. 马三进四 
+{score:0 time:0}
+ 42. 车２进６ 
+{score:722 time:0}
+ 43. 马四进六 
+{score:0 time:0}
+ 44. 将５平６ 
+{score:697 time:0}
+ 45. 车七平二 
+{score:0 time:0}
+ 46. 车２平３ 
+{score:877 time:0}
+ 47. 炮五平四 
+{score:0 time:0}
+ 48. 炮８平６ 
+{score:1046 time:0}
+ 49. 车二退二 
+{score:0 time:0}
+ 50. 车６退１ 
+{score:1339 time:0}
+ 51. 马六退五 
+{score:0 time:0}
+ 52. 炮６进６ 
+{score:2598 time:0}
+ 53. 车二平五 
+{score:0 time:0}
+ 54. 炮６平２ 
+{score:3786 time:0}
+ *
+

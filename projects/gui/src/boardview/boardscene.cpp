@@ -89,26 +89,7 @@ void BoardScene::setBoard(Chess::Board* board)
 	m_moveArrows = nullptr;
 	m_board = board;
 
-	//this->setBackgroundBrush(Qt::green); bg.png
-
-	//this->setBackgroundBrush(QColor(0xf6, 0xf5, 0xf0));  // 纸质书的感觉'
-
-	//this->setBackgroundBrush(QColor(0x70, 0x80, 0x90));  // 纸质书的感觉
-
-	//this->setBackgroundBrush(QColor(0x33, 0x6e, 0x7b));  // 纸质书的感觉
-
-	//QString pic = QCoreApplication::applicationDirPath() + "/image/backgroud.jpg";
-
-	//QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
-	//QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
-	//QString pic = QCoreApplication::applicationDirPath() + "/image/gif.jpg";
-
-	//QString pic = QCoreApplication::applicationDirPath() + "/image/backgroud/bg.png";
-	//this->setBackgroundBrush(QPixmap(pic));
-
 	SetBackground();
-	//this->setba
-	//this->setba
 }
 
 void BoardScene::OnChangeBackGround()

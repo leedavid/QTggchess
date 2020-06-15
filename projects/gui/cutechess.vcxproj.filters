@@ -95,16 +95,7 @@
     <ClCompile Include="src\gametabbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\movecommenttoken.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\movelist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\movenumbertoken.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\movetoken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\pathlineedit.cpp">
@@ -238,6 +229,15 @@
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files\mainWin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movecommenttoken.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movetoken.cpp">
+      <Filter>Source Files\PGN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movelist.cpp">
+      <Filter>Source Files\PGN</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

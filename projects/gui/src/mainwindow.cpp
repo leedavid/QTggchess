@@ -170,6 +170,8 @@ MainWindow::~MainWindow()
 			wait(1);
 		}
 	}
+	delete m_pcap;
+	delete m_autoClickCap;
 }
 
 void MainWindow::createActions()
@@ -527,10 +529,15 @@ void MainWindow::createToolBars()
 	//
 	EngineManager* m_engineManager =
 		CuteChessApplication::instance()->engineManager();
-	QSet<QString> qset = m_engineManager->engineNames();
-	for (auto v : qset) {
-		this->cbtnLinkEngine->addItem(v);
+
+	for (int i = 0; i < m_engineManager->engineCount(); i++) {
+		this->cbtnLinkEngine->addItem(m_engineManager->engineAt(i).name());
 	}
+
+	//QSet<QString> qset = m_engineManager->engineNames();
+	//for (auto v : qset) {
+	//	this->cbtnLinkEngine->addItem(v);
+	//}
 	this->mainToolbar->addWidget(this->cbtnLinkEngine);
 
 	sel = QSettings().value("ui/linkboard_curEngine").toInt();
@@ -1450,50 +1457,6 @@ void MainWindow::pasteFen()
 		new HumanBuilder(CuteChessApplication::userName()));
 }
 
-//void MainWindow::msgFen(QString fen)
-//{
-//	//auto cb = CuteChessApplication::clipboard();
-//	//if (cb->text().isEmpty())
-//	//	return;
-//
-//	//QString fen = cb->text().trimmed();
-//	QStringList stFList = fen.split("fen");		// by LGL
-//	if (stFList.length() > 1) {
-//		fen = stFList[1].trimmed();
-//	}
-//
-//	QString variant = m_game.isNull() || m_game->board() == nullptr ?
-//		"standard" : m_game->board()->variant();
-//
-//	auto board = Chess::BoardFactory::create(variant);
-//	if (!board->setFenString(fen))
-//	{
-//		QMessageBox msgBox(QMessageBox::Critical,
-//			tr("FEN error"),
-//			tr("Invalid FEN string for the \"%1\" variant:")
-//			.arg(variant),
-//			QMessageBox::Ok, this);
-//		msgBox.setInformativeText(fen);
-//		msgBox.exec();
-//
-//		delete board;
-//		return;
-//	}
-//
-//	//board->legalMoves();
-//
-//	auto game = new ChessGame(board, new PgnGame());
-//	game->setTimeControl(TimeControl("inf"));
-//	game->setStartingFen(fen);
-//	game->pause();
-//
-//	connect(game, &ChessGame::initialized, this, &MainWindow::addGame);
-//	connect(game, &ChessGame::startFailed, this, &MainWindow::onGameStartFailed);
-//
-//	CuteChessApplication::instance()->gameManager()->newGame(game,
-//		new HumanBuilder(CuteChessApplication::userName()),
-//		new HumanBuilder(CuteChessApplication::userName()));
-//}
 
 void MainWindow::showAboutDialog()
 {
@@ -1509,10 +1472,8 @@ void MainWindow::showAboutDialog()
 	html += "<a href=\"http://elo.ggzero.cn\">GGzero训练网站</a><br>";
 	html += "<a href=\"http://bbs.ggzero.cn\">官方论坛</a><br>";
 	html += "<a href=\"https://jq.qq.com/?_wv=1027&k=5FxO79E\">加入QQ群</a><br>";
-	QMessageBox::about(this, tr("关于佳佳界面"), html);
-
-
-	// https://jq.qq.com/?_wv=1027&k=5FxO79E
+	QMessageBox::about(this, tr("佳佳界面"), html);
+	
 }
 
 // 
@@ -1663,19 +1624,8 @@ void MainWindow::adjudicateGame(Chess::Side winner)
 				  Q_ARG(Chess::Result, result));
 }
 
-OpeningBook* MainWindow::GetOpeningBook(int& depth) const
+OpeningBook* MainWindow::GetOpeningBook(int& depth) const   // 得到开局库的信息
 {
-	//connect(ui->m_polyglotFileEdit, &QLineEdit::textChanged,
-			//	[=](const QString& file)
-			//	{
-			//		QSettings().setValue("games/opening_book/file", file);
-			//	});
-			//connect(ui->m_polyglotDepthSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-			//	[=](int depth)
-			//	{
-			//		QSettings().setValue("games/opening_book/depth", depth);
-			//	});
-
 	QString file = QSettings().value("games/opening_book/file").toString();
 	if (file.isEmpty())
 		return nullptr;

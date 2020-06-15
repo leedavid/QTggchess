@@ -10,6 +10,7 @@
 #include <Windows.h>
 #include <QPixmap>
 #include <QMutex>
+#include <QDataStream>
 
 
 
@@ -21,19 +22,15 @@ namespace Chess {
 	class Capture;
 
 	struct stCaptureMsg {
-
 		enum eCapMsg {
 			eMove,				// 走步
 			eSetFen,			// 设置fen
 			eText				// 提示信息
 		};
-
-		eCapMsg mType;
-		//Chess::Move m;
+		eCapMsg mType;	
 		Chess::GenericMove m;
 		QString title;
-		QString text;
-		//ChessGame* pGame;
+		QString text;		
 	};
 	Q_DECLARE_METATYPE(stCaptureMsg)
 
@@ -46,21 +43,21 @@ namespace Chess {
 	enum class ChinesePieceType
 	{
 		eNoPice = 0,
-		eBPawn,	//!< Pawn
+		eBPawn,			//!< Pawn
 		eBXiang,		//!< Knight
-		eBShi,		//!< Bishop
-		eBPao,		//!< Rook
+		eBShi,			//!< Bishop
+		eBPao,			//!< Rook
 		eBMa,		    //!< Ma
-		eBChe,		//!< Queen
-		eBKing,		//!< King
+		eBChe,			//!< Queen
+		eBKing,			//!< King
 
-		eRPawn,	    //!< Pawn
+		eRPawn,			//!< Pawn
 		eRXiang,		//!< Knight
-		eRShi,		//!< Bishop
-		eRPao,		//!< Rook
+		eRShi,			//!< Bishop
+		eRPao,			//!< Rook
 		eRMa,		    //!< Ma
-		eRChe,		//!< Queen
-		eRKing		//!< King
+		eRChe,			//!< Queen
+		eRKing			//!< King
 	};
 
 	struct stLxBoard {
@@ -106,9 +103,7 @@ namespace Chess {
 		void SetCatlogName(QString catName);
 
 	private:
-
-		void runAutoChess();
-		void runAutoClip();
+		
 
 		volatile bool bMustStop;           // 马上停止
 
@@ -122,14 +117,11 @@ namespace Chess {
 
 		QString m_catName;                 // 这个就是连线的名称
 		bool m_isAutoClick;                // 
-
-		//QString m_LX_name;                 // 连线的名称
+			
 		QString m_ParentKeyword;           // 父窗口关键词
 		QString m_Parentclass;             // 父窗口类
 		QString m_titleKeyword;            // 窗口关键词
 		QString m_class;                   // 窗口类
-		QString m_PieceCatlog;             // 棋子的图片目录
-
 		
 		float m_offx_che;					   // 棋盘 车 原点x
 		float m_offy_che;                      // 棋盘 车 原点y
@@ -137,7 +129,6 @@ namespace Chess {
 		float m_offy_board;                    // 棋盘原点，因为图像切小了
 		cv::Rect m_crect;
 
-		//int moveTime = 0;
 		GenericMove m_preMove; 
 
 		float m_dx;                        // 棋盘格宽
@@ -153,17 +144,13 @@ namespace Chess {
 		int m_scaleY = 1.0f;               // 
 
 		bool m_Ready_LXset = false;
-		bool m_chessWinOK = false;
-		//bool m_connectedBoard_OK = false; 
+
 
 		QHash<QString, cv::Mat> m_MatHash;    // 棋子模板
 		QPixmap m_capPixmap;                  // 保存的临时抓图
 		cv::Mat m_image_source;               // 转换好的主图，只有棋盘
 		cv::Mat m_image_source_all;           // 整个图，方便按钮
-		//cv::Mat m_image_red;                  // 红方棋子
-		//cv::Mat m_image_black;                // 黑方棋子
 		cv::Mat m_imgage_SHV[2];              // 红黑
-		//bool m_isAutoClick;                   // 是不是自动连线处理
 
 		bool m_flip;                       // 棋盘翻转
 		Chess::Side m_side;                // 走子方
@@ -187,9 +174,15 @@ namespace Chess {
 		int m_iLowVblack = 0;
 		int m_iHighVblack = 131;
 
-		//bool m_findChild = false;
-
 	private:
+			
+		friend QDataStream& operator<<(QDataStream& input, const LinkBoard& board);  // 序列化		
+		friend QDataStream& operator>>(QDataStream& output, LinkBoard& board);  // 反序列化
+		bool readFromCatlog(QString cat = nullptr);
+		bool saveToCatlog(QString cat = nullptr);
+
+		void runAutoChess();
+		void runAutoClip();
 
 		bool CalImageRect();
 
