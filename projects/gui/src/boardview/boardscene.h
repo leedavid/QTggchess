@@ -120,7 +120,7 @@ class BoardScene : public QGraphicsScene
 		 */
 		void humanMove(const Chess::GenericMove& move,
 			       const Chess::Side& side);
-		void MouseRightClicked(QGraphicsSceneContextMenuEvent* event);
+		void MouseRightClicked(/*QGraphicsSceneContextMenuEvent* event*/);
 
 
 	protected:

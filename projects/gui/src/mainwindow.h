@@ -99,7 +99,7 @@ class MainWindow : public QMainWindow
 		void onGameStartFailed(ChessGame* game);
 		void onGameFinished(ChessGame* game);
 		void editMoveComment(int ply, const QString& comment);
-		void onMouseRightClicked(QGraphicsSceneContextMenuEvent* event);
+		void onMouseRightClicked(/*QGraphicsSceneContextMenuEvent* event*/);
 		void copyFen();
 		void pasteFen();
 		//void msgFen(QString fen);              // 这个是临时的

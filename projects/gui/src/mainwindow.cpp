@@ -135,15 +135,16 @@ MainWindow::MainWindow(ChessGame* game)
 	// 状态栏
 	statusBar()->showMessage("http://www.ggzero.cn");
 
-	connect(m_moveList, SIGNAL(moveClicked(int,bool)),			// 点击棋谱走步
+	connect(m_moveList, SIGNAL(moveClicked(int,bool)),			     // 点击棋谱走步
 	        m_gameViewer, SLOT(viewMove(int,bool)));
-	connect(m_moveList, SIGNAL(commentClicked(int, QString)),
+	connect(m_moveList, SIGNAL(commentClicked(int, QString)),        // 点击棋步说明
 		this, SLOT(editMoveComment(int, QString)));
 	connect(m_gameViewer, SIGNAL(moveSelected(int)),
 		m_moveList, SLOT(selectMove(int)));
 
-	connect(m_gameViewer->boardScene(), SIGNAL(MouseRightClicked(QGraphicsSceneContextMenuEvent*)),
-		this, SLOT(onMouseRightClicked(QGraphicsSceneContextMenuEvent*)));
+	connect(m_gameViewer->boardScene(), SIGNAL(MouseRightClicked()),
+		this, SLOT(onMouseRightClicked()));   // 棋盘右键菜单
+
 
 	connect(CuteChessApplication::instance()->gameManager(),
 		SIGNAL(finished()), this, SLOT(onGameManagerFinished()),
@@ -1369,9 +1370,9 @@ void MainWindow::editMoveComment(int ply, const QString& comment)
 	}
 }
 
-void MainWindow::onMouseRightClicked(QGraphicsSceneContextMenuEvent* event)
+void MainWindow::onMouseRightClicked(/*QGraphicsSceneContextMenuEvent* event*/)
 {
-	(void)event;
+	
 
 	QMenu mymenu;
 	mymenu.addAction(m_newGameAct);

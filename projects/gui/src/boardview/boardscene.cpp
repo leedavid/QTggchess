@@ -402,7 +402,7 @@ void BoardScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 void BoardScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
 	//
-	emit MouseRightClicked(event);
+	emit MouseRightClicked();
 	
 	QGraphicsScene::contextMenuEvent(event);
 }
