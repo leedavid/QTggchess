@@ -69,6 +69,9 @@
     <Filter Include="Source Files\Log">
       <UniqueIdentifier>{e47a4da9-747c-4739-9eac-82537949a333}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\mainWin">
+      <UniqueIdentifier>{b8c3939f-c170-489a-a83b-e0d4fe947234}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\autoverticalscroller.cpp">
@@ -90,12 +93,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gametabbar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\movecommenttoken.cpp">
@@ -236,6 +233,12 @@
     <ClCompile Include="src\linkboard.cpp">
       <Filter>Source Files\Capture</Filter>
     </ClCompile>
+    <ClCompile Include="src\mainwindow.cpp">
+      <Filter>Source Files\mainWin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files\mainWin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\autoverticalscroller.h">
@@ -311,9 +314,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <QtMoc Include="src\importprogressdlg.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="3rdparty\modeltest\modeltest.h">
@@ -402,6 +402,9 @@
     </QtMoc>
     <QtMoc Include="BoardEditor.h">
       <Filter>Source Files\EditBoard</Filter>
+    </QtMoc>
+    <QtMoc Include="src\mainwindow.h">
+      <Filter>Source Files\mainWin</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

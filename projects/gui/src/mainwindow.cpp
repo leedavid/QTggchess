@@ -629,6 +629,10 @@ void MainWindow::createDockWindows()
 	blackEvalDock->setWidget(m_evalWidgets[Chess::Side::Black]);
 	addDockWidget(Qt::RightDockWidgetArea, blackEvalDock);
 
+	m_whiteEvalDock = whiteEvalDock;
+	m_blackEvalDock = blackEvalDock;
+
+
 	// Move list
 	QDockWidget* moveListDock = new QDockWidget(tr("ÆåÆ×"), this);
 	moveListDock->setObjectName("MoveListDock");
@@ -1883,6 +1887,20 @@ void MainWindow::processCapMsg(Chess::stCaptureMsg msg)
 				mainCreatePlayerBuilder(Chess::Side::Black, this->tbtnLinkChessBoardBlack->isChecked())
 			};
 
+			//EvalWidget* m_evalWidgets[2];
+			if (this->tbtnLinkChessBoardRed->isChecked()) {
+				m_whiteEvalDock->show();
+				m_blackEvalDock->hide();
+			}
+			if (this->tbtnLinkChessBoardBlack->isChecked()) {
+				m_blackEvalDock->show();
+				m_whiteEvalDock->hide();
+			}
+			
+
+			// 
+			////this->m_w
+
 			//Chess::Side sss = game->board()->sideToMove();
 
 			//if (builders[game->board()->sideToMove()]->isHuman())
@@ -2137,6 +2155,17 @@ void MainWindow::onPlayWhich() //, Chess::Side side)
 			}
 
 
+			//EvalWidget* m_evalWidgets[2];
+			if (this->tbtnEnginePlayRed->isChecked()) {
+				m_whiteEvalDock->show();
+				m_blackEvalDock->hide();
+			}
+			if (this->tbtnEnginePlayBlack->isChecked()) {
+				m_blackEvalDock->show();
+				m_whiteEvalDock->hide();
+			}
+
+
 			PlayerBuilder* builders[2] = {
 				mainCreatePlayerBuilder(Chess::Side::White, this->tbtnEnginePlayRed->isChecked()),
 				mainCreatePlayerBuilder(Chess::Side::Black, this->tbtnEnginePlayBlack->isChecked())
@@ -2230,9 +2259,12 @@ void MainWindow::onLinkAutomaticToggled(bool checked)
 		m_pcap->on_start();	
 	}
 	else {
-		m_autoClickCap->on_stop();		
-		m_pcap->on_stop();
-		m_game->stop();
+
+		while (m_pcap->isRunning()) {
+			m_autoClickCap->on_stop();
+			m_pcap->on_stop();
+			m_game->stop();
+		}
 
 		this->tbtnLinkChessBoardRed->setChecked(false);
 		this->tbtnLinkChessBoardBlack->setChecked(false);

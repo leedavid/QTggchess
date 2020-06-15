@@ -206,7 +206,7 @@ void LinkBoard::runAutoChess()
 	quint64 StartTime = timeRun.elapsed();
 
 	while (true) {
-		if (bMustStop) break;
+		if (bMustStop) return;
 
 		//try {
 		//	cv::imshow("source", this->m_image_source);
@@ -261,7 +261,7 @@ void LinkBoard::runAutoChess()
 				bWeMustSendInitFen = false;
 				for (int i = 0; i < 10; i++) {  // 延时2秒，等待主界面启动引擎
 					wait(100);
-					if (bMustStop) break;
+					if (bMustStop) return;
 				}
 			}
 			else {
@@ -328,7 +328,7 @@ void LinkBoard::runAutoClip()
 	QString runPath = QCoreApplication::applicationDirPath() + "/image/linkboard/" + this->m_catName;
 
 	while (true) {
-		if (bMustStop) break;
+		if (bMustStop) return;
 		bool findNewGame = false;
 
 		// 3. 可能是新开的棋局		
@@ -345,7 +345,7 @@ void LinkBoard::runAutoClip()
 				}
 				wait(100);
 				isCap = false;
-				if (bMustStop) break;
+				if (bMustStop) return;
 			}
 			if (!isFind) break;
 		}
@@ -362,7 +362,7 @@ void LinkBoard::runAutoClip()
 					wait(100);
 					isFind = true;
 				}			
-				if (bMustStop) break;
+				if (bMustStop) return;
 			}
 			if (!isFind) break;
 		}
@@ -378,7 +378,7 @@ void LinkBoard::runAutoClip()
 					wait(100);
 					isFind = true;
 				}			
-				if (bMustStop) break;
+				if (bMustStop) return;
 			}
 			if (!isFind) break;
 		}

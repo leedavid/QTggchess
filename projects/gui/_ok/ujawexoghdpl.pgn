@@ -1,0 +1,43 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.15"]
+[Round "?"]
+[White "keers"]
+[Black "NewGG"]
+[Result "0-1"]
+[FEN "3akab2/9/4n4/9/P8/9/P1R6/4r1p2/4A4/4KA3 b - - 0 1"]
+[GameDuration "00:00:38"]
+[GameEndTime "2020-06-15T01:22:48.057 中国标准时间"]
+[GameStartTime "2020-06-15T01:22:09.578 中国标准时间"]
+[PlyCount "13"]
+[SetUp "1"]
+[TimeControl "400/180+1"]
+
+ 0. 卒７进１ 
+{score:11000 time:0}
+ 1. 车七平三 
+{score:0 time:0}
+ 2. 卒７平６ 
+{score:12000 time:0}
+ 3. 车三平四 
+{score:0 time:0}
+ 4. 马５进４ 
+{score:12000 time:0}
+ 5. 车四退二 
+{score:0 time:0}
+ 6. 车５平１ 
+{score:0 time:0}
+ 7. 帅五平六 
+{score:0 time:0}
+ 8. 车１进２ 
+{score:0 time:0}
+ 9. 帅六进一 
+{score:0 time:0}
+ 10. 马４进３ 
+
+ 11. 帅六进一 
+{score:0 time:0}
+ 12. 车１退２ 
+{score:0 time:0}
+ 0-1
+

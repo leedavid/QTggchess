@@ -1,0 +1,169 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.15"]
+[Round "?"]
+[White "ggzero"]
+[Black "keers"]
+[Result "1/2-1/2"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1"]
+[GameDuration "00:05:35"]
+[GameEndTime "2020-06-15T06:03:46.676 中国标准时间"]
+[GameStartTime "2020-06-15T05:58:10.997 中国标准时间"]
+[PlyCount "76"]
+[SetUp "1"]
+[TimeControl "400/180+1"]
+
+ 0. 马八进七 
+{score:0 time:0}
+ 1. 卒３进１ 
+{score:0 time:0}
+ 2. 炮二平五 
+{score:4 time:0}
+ 3. 马８进７ 
+{score:0 time:0}
+ 4. 马二进三 
+{score:4 time:0}
+ 5. 车９平８ 
+{score:0 time:0}
+ 6. 车一平二 
+{score:3 time:0}
+ 7. 马２进３ 
+{score:0 time:0}
+ 8. 车二进四 
+{score:8 time:0}
+ 9. 炮８平９ 
+{score:0 time:0}
+ 10. 车二进五 
+{score:8 time:0}
+ 11. 马７退８ 
+{score:0 time:0}
+ 12. 兵三进一 
+{score:9 time:0}
+ 13. 象３进５ 
+{score:0 time:0}
+ 14. 炮八进四 
+{score:9 time:0}
+ 15. 士４进５ 
+{score:0 time:0}
+ 16. 炮八平三 
+{score:9 time:0}
+ 17. 车１平２ 
+{score:0 time:0}
+ 18. 马三进四 
+{score:9 time:0}
+ 19. 炮９进４ 
+{score:0 time:0}
+ 20. 马四进五 
+{score:4 time:0}
+ 21. 炮９平３ 
+{score:0 time:0}
+ 22. 车九平八 
+{score:8 time:0}
+ 23. 卒３进１ 
+{score:0 time:0}
+ 24. 兵五进一 
+{score:12 time:0}
+ 25. 马３进５ 
+{score:0 time:0}
+ 26. 炮五进四 
+{score:6 time:0}
+ 27. 炮２进３ 
+{score:0 time:0}
+ 28. 相七进五 
+{score:-12 time:0}
+ 29. 炮２平５ 
+{score:0 time:0}
+ 30. 仕六进五 
+{score:-13 time:0}
+ 31. 车２进９ 
+{score:0 time:0}
+ 32. 马七退八 
+{score:-14 time:0}
+ 33. 卒３平４ 
+{score:0 time:0}
+ 34. 马八进六 
+{score:-6 time:0}
+ 35. 炮３平４ 
+{score:0 time:0}
+ 36. 炮五平一 
+{score:-7 time:0}
+ 37. 卒１进１ 
+{score:0 time:0}
+ 38. 马六进七 
+{score:-3 time:0}
+ 39. 马８进７ 
+{score:0 time:0}
+ 40. 炮一平二 
+{score:-2 time:0}
+ 41. 卒４平３ 
+{score:0 time:0}
+ 42. 马七退六 
+{score:-3 time:0}
+ 43. 象７进９ 
+{score:0 time:0}
+ 44. 炮二退三 
+{score:-3 time:0}
+ 45. 马７进５ 
+{score:0 time:0}
+ 46. 炮二平五 
+{score:-2 time:0}
+ 47. 马５进３ 
+{score:0 time:0}
+ 48. 炮五进四 
+{score:0 time:0}
+ 49. 将５平４ 
+{score:0 time:0}
+ 50. 炮五退二 
+{score:-1 time:0}
+ 51. 卒３平４ 
+{score:0 time:0}
+ 52. 炮五平九 
+{score:-1 time:0}
+ 53. 马３进２ 
+{score:0 time:0}
+ 54. 兵九进一 
+{score:-1 time:0}
+ 55. 马２进４ 
+{score:0 time:0}
+ 56. 帅五平六 
+{score:4 time:0}
+ 57. 马４进２ 
+{score:0 time:0}
+ 58. 帅六平五 
+{score:0 time:0}
+ 59. 马２退４ 
+{score:0 time:0}
+ 60. 帅五平六 
+{score:0 time:0}
+ 61. 马４进２ 
+{score:0 time:0}
+ 62. 帅六平五 
+{score:-28 time:0}
+ 63. 马２退４ 
+{score:0 time:0}
+ 64. 帅五平六 
+{score:0 time:0}
+ 65. 马４进２ 
+{score:0 time:0}
+ 66. 帅六平五 
+{score:-28 time:0}
+ 67. 马２退４ 
+{score:0 time:0}
+ 68. 帅五平六 
+{score:0 time:0}
+ 69. 马４进２ 
+{score:0 time:0}
+ 70. 帅六平五 
+{score:-28 time:0}
+ 71. 马２退４ 
+{score:0 time:0}
+ 72. 帅五平六 
+{score:0 time:0}
+ 73. 马４进２ 
+{score:0 time:0}
+ 74. 帅六平五 
+{score:-28 time:0}
+ 75. 马２退４ 
+{score:0 time:0}
+ 1/2-1/2
+

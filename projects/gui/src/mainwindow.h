@@ -232,6 +232,18 @@ class MainWindow : public QMainWindow
 		EvalHistory* m_evalHistory;
 		EvalWidget* m_evalWidgets[2];
 
+		QDockWidget* m_whiteEvalDock;
+		QDockWidget* m_blackEvalDock;
+
+		//auto whiteEvalDock = new QDockWidget(tr("红方评分"), this);
+		//whiteEvalDock->setObjectName("WhiteEvalDock");
+		//whiteEvalDock->setWidget(m_evalWidgets[Chess::Side::White]);
+		//addDockWidget(Qt::RightDockWidgetArea, whiteEvalDock);
+		//auto blackEvalDock = new QDockWidget(tr("黑方评分"), this);
+		//blackEvalDock->setObjectName("BlackEvalDock");
+		//blackEvalDock->setWidget(m_evalWidgets[Chess::Side::Black]);
+		//addDockWidget(Qt::RightDockWidgetArea, blackEvalDock);
+
 		QPointer<ChessGame> m_game;
 		QPointer<ChessPlayer> m_players[2];
 		QList<TabData> m_tabs;

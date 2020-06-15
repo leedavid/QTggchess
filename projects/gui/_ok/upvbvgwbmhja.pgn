@@ -1,0 +1,131 @@
+[Event "?"]
+[Site "本地"]
+[Date "2020.06.15"]
+[Round "?"]
+[White "ggzero"]
+[Black "keers"]
+[Result "1-0"]
+[FEN "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1"]
+[GameDuration "00:06:12"]
+[GameEndTime "2020-06-15T04:48:20.863 中国标准时间"]
+[GameStartTime "2020-06-15T04:42:08.802 中国标准时间"]
+[PlyCount "57"]
+[SetUp "1"]
+[TimeControl "400/180+1"]
+
+ 0. 兵三进一 
+{score:0 time:0}
+ 1. 炮２平６ 
+{score:0 time:0}
+ 2. 马八进七 
+{score:200 time:0}
+ 3. 马２进３ 
+{score:0 time:0}
+ 4. 车九平八 
+{score:200 time:0}
+ 5. 车１进１ 
+{score:0 time:0}
+ 6. 马二进三 
+{score:200 time:0}
+ 7. 车１平４ 
+{score:0 time:0}
+ 8. 炮八平九 
+{score:200 time:0}
+ 9. 车４进３ 
+{score:0 time:0}
+ 10. 车八进四 
+{score:200 time:0}
+ 11. 象７进５ 
+{score:0 time:0}
+ 12. 马三进四 
+{score:37 time:0}
+ 13. 车４平３ 
+{score:0 time:0}
+ 14. 炮二平四 
+{score:48 time:0}
+ 15. 炮６进５ 
+{score:0 time:0}
+ 16. 炮九平四 
+{score:46 time:0}
+ 17. 卒７进１ 
+{score:0 time:0}
+ 18. 车一平二 
+{score:134 time:0}
+ 19. 炮８平７ 
+{score:0 time:0}
+ 20. 相三进五 
+{score:150 time:0}
+ 21. 卒７进１ 
+{score:0 time:0}
+ 22. 相五进三 
+{score:153 time:0}
+ 23. 车３平７ 
+{score:0 time:0}
+ 24. 相七进五 
+{score:160 time:0}
+ 25. 车７平５ 
+{score:0 time:0}
+ 26. 车二进八 
+{score:324 time:0}
+ 27. 士６进５ 
+{score:0 time:0}
+ 28. 炮四平二 
+{score:353 time:0}
+ 29. 车５平６ 
+{score:0 time:0}
+ 30. 炮二进七 
+{score:390 time:0}
+ 31. 炮７平６ 
+{score:0 time:0}
+ 32. 仕六进五 
+{score:434 time:0}
+ 33. 卒３进１ 
+{score:0 time:0}
+ 34. 马四退三 
+{score:486 time:0}
+ 35. 车６进２ 
+{score:0 time:0}
+ 36. 兵七进一 
+{score:533 time:0}
+ 37. 车６平７ 
+{score:0 time:0}
+ 38. 兵七进一 
+{score:554 time:0}
+ 39. 象５进３ 
+{score:0 time:0}
+ 40. 马三退一 
+{score:611 time:0}
+ 41. 卒９进１ 
+{score:0 time:0}
+ 42. 马七进六 
+{score:492 time:0}
+ 43. 车７平５ 
+{score:0 time:0}
+ 44. 马六进四 
+{score:444 time:0}
+ 45. 车５平９ 
+{score:0 time:0}
+ 46. 马一进二 
+{score:624 time:0}
+ 47. 后车进３ 
+{score:0 time:0}
+ 48. 马四进六 
+{score:1048 time:0}
+ 49. 后车平６ 
+{score:0 time:0}
+ 50. 炮二平一 
+{score:1502 time:0}
+ 51. 车６平９ 
+{score:0 time:0}
+ 52. 车二进一 
+{score:2250 time:0}
+ 53. 士５退６ 
+{score:0 time:0}
+ 54. 马二进三 
+{score:2558 time:0}
+ 55. 后车退３ 
+{score:0 time:0}
+ 56. 马三进四 
+{score:0 time:0}
+ 1-0
+
