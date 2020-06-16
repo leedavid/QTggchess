@@ -77,6 +77,8 @@ qtc-gdbmacros/
 *.pdb
 *.exp
 
+*.pgn
+
 # object files
 *.o
 

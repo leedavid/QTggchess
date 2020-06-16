@@ -396,8 +396,10 @@ void LinkBoard::runAutoClip()
 					findNewGame = true;
 					isFind = true;
 				}
-				wait(100);
-				isCap = false;
+				else {
+					isCap = false;
+				}
+				wait(100);				
 				if (bMustStop) return;
 			}
 			if (!isFind) break;
@@ -409,12 +411,16 @@ void LinkBoard::runAutoClip()
 		files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
 
 		while (true) {		
+			bool isCap = true;   // 第一次要读一下图
 			bool isFind = false;
 			for (QString file : files) {
-				if (searchImage(file, false, "/not/")) {  // 
+				if (searchImage(file, isCap, "/not/")) {  // 
 					wait(100);
 					isFind = true;
-				}			
+				}		
+				else {
+					isCap = false;
+				}
 				if (bMustStop) return;
 			}
 			if (!isFind) break;
@@ -425,12 +431,16 @@ void LinkBoard::runAutoClip()
 		dir = QDir(dirpath);
 		files = dir.entryList(nameFilters, QDir::Files | QDir::Readable, QDir::Name);
 		while (true) {	
+			bool isCap = true;   // 第一次要读一下图
 			bool isFind = false;
 			for (QString file : files) {
-				if (SearchAndClick(file, false, "/gaming/")) {  // 
+				if (SearchAndClick(file, isCap, "/gaming/")) {  // 
 					wait(100);
 					isFind = true;
-				}			
+				}		
+				else {
+					isCap = false;
+				}
 				if (bMustStop) return;
 			}
 			if (!isFind) break;
