@@ -30,6 +30,7 @@
 
 #include "capture.h"
 #include "linkboard.h"
+#include "translatingslider.h"
 //#include "TestThread.h"
 
 namespace Chess {
@@ -130,9 +131,10 @@ class MainWindow : public QMainWindow
 
 		void onLinkBoardCombox(const QString&);
 
-		//void onChangeBoardPicAct();
-
-		//void showContextMenu(const QPoint& pos);
+		/** Value for Move Interval is changed */
+		void slotMoveIntervalChanged(int);
+		/** Value for Move Interval Slider is changed */
+		void slotSetSliderText(int value = -1);
 
 	private:
 		struct TabData
@@ -254,6 +256,9 @@ class MainWindow : public QMainWindow
 		QLabel* m_status3;
 		QComboBox* cbtnLinkBoard;             // 连线的棋盘
 		QComboBox* cbtnLinkEngine;            // 连线的引擎
+
+		QPointer<Chess::TranslatingSlider> m_sliderSpeed;
+		QLabel* m_sliderText;
 
 		// 状态栏 ---------------------------------------------------------------------------
 

@@ -72,6 +72,9 @@
     <Filter Include="Source Files\mainWin">
       <UniqueIdentifier>{b8c3939f-c170-489a-a83b-e0d4fe947234}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\mainWin\状态栏">
+      <UniqueIdentifier>{ad95ae2b-df23-40a1-925b-84f5ad260403}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\autoverticalscroller.cpp">
@@ -239,6 +242,9 @@
     <ClCompile Include="src\movelist.cpp">
       <Filter>Source Files\PGN</Filter>
     </ClCompile>
+    <ClCompile Include="src\translatingslider.cpp">
+      <Filter>Source Files\mainWin\状态栏</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\autoverticalscroller.h">
@@ -405,6 +411,9 @@
     </QtMoc>
     <QtMoc Include="src\mainwindow.h">
       <Filter>Source Files\mainWin</Filter>
+    </QtMoc>
+    <QtMoc Include="src\translatingslider.h">
+      <Filter>Source Files\mainWin\状态栏</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

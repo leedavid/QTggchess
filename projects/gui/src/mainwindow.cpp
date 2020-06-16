@@ -86,17 +86,17 @@ MainWindow::TabData::TabData(ChessGame* game, Tournament* tournament)
 
 MainWindow::MainWindow(ChessGame* game)
 	: m_game(nullptr),
-	  m_closing(false),
-	  m_readyToClose(false),
-	  m_firstTabAutoCloseEnabled(true),
-	m_myClosePreTab(false),  
+	m_closing(false),
+	m_readyToClose(false),
+	m_firstTabAutoCloseEnabled(true),
+	m_myClosePreTab(false),
 	m_pcap(nullptr),
 	m_autoClickCap(nullptr)
 	//m_bAutomaticLinking(false)
 {
-	
+
 	//this->setContextMenuPolicy(Qt::CustomContextMenu);  // 右键菜单
-	
+
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setDockNestingEnabled(true);
 
@@ -110,9 +110,9 @@ MainWindow::MainWindow(ChessGame* game)
 
 	m_moveList = new MoveList(this);
 	m_tagsModel = new PgnTagsModel(this);
-	#ifdef QT_DEBUG
+#ifdef QT_DEBUG
 	new ModelTest(m_tagsModel, this);
-	#endif
+#endif
 
 	m_evalHistory = new EvalHistory(this);					// 历史曲线窗口
 	m_evalWidgets[0] = new EvalWidget(this);				// PV 路径窗口
@@ -147,6 +147,11 @@ MainWindow::MainWindow(ChessGame* game)
 	statusBar()->addPermanentWidget(m_status3, 1);
 	m_status3->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 
+	m_status2->setText("Knowledge is power.");
+
+	//m_sliderText->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	m_status3->setText("www.ggzero.cn");
+
 	//statusBar()->addPermanentWidget(cbtnLinkBoard);
 	//statusBar()->addPermanentWidget(cbtnLinkEngine);
 
@@ -166,10 +171,6 @@ MainWindow::MainWindow(ChessGame* game)
 	//this->mainToolbar->addWidget(this->cbtnLinkBoard);
 
 	statusBar()->addPermanentWidget(this->cbtnLinkBoard);
-
-
-	//int sel = this->cbtnLinkBoard->currentIndex();
-	//QSettings().setValue("ui/linkboard_curSel", sel);
 
 	int sel = QSettings().value("ui/linkboard_curSel").toInt();
 	this->cbtnLinkBoard->setCurrentIndex(sel);
@@ -191,18 +192,45 @@ MainWindow::MainWindow(ChessGame* game)
 	for (int i = 0; i < m_engineManager->engineCount(); i++) {
 		this->cbtnLinkEngine->addItem(m_engineManager->engineAt(i).name());
 	}
-
-	//QSet<QString> qset = m_engineManager->engineNames();
-	//for (auto v : qset) {
-	//	this->cbtnLinkEngine->addItem(v);
-	//}
-	//this->mainToolbar->addWidget(this->cbtnLinkEngine);
 	statusBar()->addPermanentWidget(this->cbtnLinkEngine);
 
 	sel = QSettings().value("ui/linkboard_curEngine").toInt();
 	this->cbtnLinkEngine->setCurrentIndex(sel);
 
+	m_sliderSpeed = new Chess::TranslatingSlider(this);
+	m_sliderSpeed->setToolTip("即时调整引擎运算时间限制");
+	m_sliderSpeed->setMultiplier(1000);
+	m_sliderSpeed->setMultiplier2(10000);
+	m_sliderSpeed->setMultiplier3(60000);
+	m_sliderSpeed->setOrientation(Qt::Horizontal);
+	m_sliderSpeed->setMinimum(0);  // O = Infinite
+	m_sliderSpeed->setStart2(30);  // Step 10s after 30s
+	m_sliderSpeed->setStart3(57);  // Step 60s after 5min
+	m_sliderSpeed->setMaximum(97); // 45 Minutes
+	//m_sliderSpeed->setTranslatedValue(QSettings().value("/Board/AutoPlayerInterval").toInt());
+	m_sliderSpeed->setTranslatedValue(0);
+	m_sliderSpeed->setTickInterval(1);
+	m_sliderSpeed->setTickPosition(QSlider::NoTicks);
+	m_sliderSpeed->setSingleStep(1);
+	m_sliderSpeed->setPageStep(1);
+	m_sliderSpeed->setMinimumWidth(120); // 87 + some pixel for overlapping slider
+	m_sliderSpeed->setMaximumWidth(400); // Arbitrary limit - not really needed
 
+	//connect(m_sliderSpeed, SIGNAL(translatedValueChanged(int)), SLOT(slotMoveIntervalChanged(int)));
+	statusBar()->addPermanentWidget(m_sliderSpeed);
+	m_sliderText = new QLabel(this);
+	m_sliderText->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	slotSetSliderText(0);
+	m_sliderText->setFixedWidth(m_sliderText->sizeHint().width());
+	statusBar()->addPermanentWidget(m_sliderText);
+	connect(m_sliderSpeed, SIGNAL(translatedValueChanged(int)), this, SLOT(slotSetSliderText()));
+
+	slotSetSliderText();
+
+	statusBar()->setFixedHeight(statusBar()->height());
+	statusBar()->setSizeGripEnabled(true);
+
+	//-----------------------------------------------------------------------------------------------------------------
 
 	connect(m_moveList, SIGNAL(moveClicked(int,bool)),			     // 点击棋谱走步
 	        m_gameViewer, SLOT(viewMove(int,bool)));
@@ -2313,6 +2341,41 @@ void MainWindow::onLinkBoardCombox(const QString& txt)
 	}
 	if (this->m_autoClickCap != nullptr) {
 		this->m_autoClickCap->SetCatlogName(txt);
+	}
+}
+
+void MainWindow::slotMoveIntervalChanged(int)
+{
+}
+
+void MainWindow::slotSetSliderText(int interval)
+{
+	if (interval < 0)
+	{
+		//if (m_comboEngine->currentIndex() == 0)
+		//{
+			interval = m_sliderSpeed->translatedValue();
+		//}
+		//else
+		//{
+		//	interval = m_sliderSpeed->value();
+		//}
+	}
+	if (!interval)
+	{
+		m_sliderText->setText(QString("0s/") + tr("无限"));
+	}
+	else
+	{
+		//if (m_comboEngine->currentIndex() == 0)
+		//{
+			QTime t = QTime::fromMSecsSinceStartOfDay(interval);
+			m_sliderText->setText(t.toString("mm:ss"));
+		//}
+		//else
+		//{
+		//	m_sliderText->setText(QString::number(interval));
+		//}
 	}
 }
 
