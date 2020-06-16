@@ -179,8 +179,7 @@ class MainWindow : public QMainWindow
 		QToolButton* tbtnLinkChessBoardRed;      // 连接其它棋盘，红方电脑 
 		QToolButton* tbtnLinkChessBoardBlack;    // 连接其它棋盘，黑方电脑
 
-		QComboBox* cbtnLinkBoard;             // 连线的棋盘
-		QComboBox* cbtnLinkEngine;            // 连线的引擎
+		
 
 		QToolButton* tbtnLinkAuto;           // 全自动连接其它棋盘
 
@@ -235,15 +234,6 @@ class MainWindow : public QMainWindow
 		QDockWidget* m_whiteEvalDock;
 		QDockWidget* m_blackEvalDock;
 
-		//auto whiteEvalDock = new QDockWidget(tr("红方评分"), this);
-		//whiteEvalDock->setObjectName("WhiteEvalDock");
-		//whiteEvalDock->setWidget(m_evalWidgets[Chess::Side::White]);
-		//addDockWidget(Qt::RightDockWidgetArea, whiteEvalDock);
-		//auto blackEvalDock = new QDockWidget(tr("黑方评分"), this);
-		//blackEvalDock->setObjectName("BlackEvalDock");
-		//blackEvalDock->setWidget(m_evalWidgets[Chess::Side::Black]);
-		//addDockWidget(Qt::RightDockWidgetArea, blackEvalDock);
-
 		QPointer<ChessGame> m_game;
 		QPointer<ChessPlayer> m_players[2];
 		QList<TabData> m_tabs;
@@ -258,12 +248,23 @@ class MainWindow : public QMainWindow
 		Chess::Capture* m_pcap;            // 一个界面只有一个
 		Chess::Capture* m_autoClickCap;    // 全自动挂机	
 
+		// 状态栏 ---------------------------------------------------------------------------
+		QLabel* m_status1;
+		QLabel* m_status2;
+		QLabel* m_status3;
+		QComboBox* cbtnLinkBoard;             // 连线的棋盘
+		QComboBox* cbtnLinkEngine;            // 连线的引擎
+
+		// 状态栏 ---------------------------------------------------------------------------
+
+
 		//bool m_bAutomaticLinking; 
 
 		void wait(int msec) {
+			//this->sleep
 			QTime dieTime = QTime::currentTime().addMSecs(msec);
 			while (QTime::currentTime() < dieTime)
-				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+				QCoreApplication::processEvents(QEventLoop::AllEvents, 100);			
 		}
 
 		OpeningBook* GetOpeningBook(int& depth) const;

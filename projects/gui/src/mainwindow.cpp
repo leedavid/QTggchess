@@ -37,6 +37,7 @@
 #include <QSettings>
 #include <QDesktopWidget>
 #include <qtoolbutton.h>
+#include <QLabel>
 
 
 #include <board/boardfactory.h>
@@ -133,7 +134,75 @@ MainWindow::MainWindow(ChessGame* game)
 	createDockWindows();
 
 	// 状态栏
-	statusBar()->showMessage("http://www.ggzero.cn");
+	//statusBar()->showMessage("http://www.ggzero.cn");
+	m_status1 = new QLabel();
+	statusBar()->addPermanentWidget(m_status1, 1);
+	m_status1->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+
+	m_status2 = new QLabel();
+	statusBar()->addPermanentWidget(m_status2, 1);
+	m_status2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+
+	m_status3 = new QLabel();
+	statusBar()->addPermanentWidget(m_status3, 1);
+	m_status3->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+
+	//statusBar()->addPermanentWidget(cbtnLinkBoard);
+	//statusBar()->addPermanentWidget(cbtnLinkEngine);
+
+	//QWidget* empty = new QWidget();
+	//empty->setFixedSize(10, 20);
+	//this->mainToolbar->addWidget(empty);
+
+	//QComboBox* cbtnLinkBoard;            // 连线的棋盘
+	this->cbtnLinkBoard = new QComboBox(this);
+	this->cbtnLinkBoard->setObjectName(QStringLiteral("cbtnLinkBoard"));
+	this->cbtnLinkBoard->setToolTip("改变连线方案");
+	QStringList strList;
+	//strList << "天天象棋" << "王者象棋" ;
+	strList << "王者象棋" << "天天象棋";
+	this->cbtnLinkBoard->addItems(strList);
+	connect(this->cbtnLinkBoard, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onLinkBoardCombox(const QString&)));
+	//this->mainToolbar->addWidget(this->cbtnLinkBoard);
+
+	statusBar()->addPermanentWidget(this->cbtnLinkBoard);
+
+
+	//int sel = this->cbtnLinkBoard->currentIndex();
+	//QSettings().setValue("ui/linkboard_curSel", sel);
+
+	int sel = QSettings().value("ui/linkboard_curSel").toInt();
+	this->cbtnLinkBoard->setCurrentIndex(sel);
+
+
+	//QWidget* empty2 = new QWidget();
+	//empty2->setFixedSize(10, 20);
+	//this->mainToolbar->addWidget(empty2);
+
+	//cbtnLinkEngine
+	this->cbtnLinkEngine = new QComboBox(this);
+	this->cbtnLinkEngine->setObjectName(QStringLiteral("cbtnLinkEngine"));
+	this->cbtnLinkEngine->setToolTip("选择连线的引擎");
+
+	//
+	EngineManager* m_engineManager =
+		CuteChessApplication::instance()->engineManager();
+
+	for (int i = 0; i < m_engineManager->engineCount(); i++) {
+		this->cbtnLinkEngine->addItem(m_engineManager->engineAt(i).name());
+	}
+
+	//QSet<QString> qset = m_engineManager->engineNames();
+	//for (auto v : qset) {
+	//	this->cbtnLinkEngine->addItem(v);
+	//}
+	//this->mainToolbar->addWidget(this->cbtnLinkEngine);
+	statusBar()->addPermanentWidget(this->cbtnLinkEngine);
+
+	sel = QSettings().value("ui/linkboard_curEngine").toInt();
+	this->cbtnLinkEngine->setCurrentIndex(sel);
+
+
 
 	connect(m_moveList, SIGNAL(moveClicked(int,bool)),			     // 点击棋谱走步
 	        m_gameViewer, SLOT(viewMove(int,bool)));
@@ -493,6 +562,7 @@ void MainWindow::createToolBars()
 	this->mainToolbar->addWidget(this->tbtnLinkAuto);
 	connect(this->tbtnLinkAuto, SIGNAL(toggled(bool)), this, SLOT(onLinkAutomaticToggled(bool)));
 
+	/*
 
 	QWidget* empty = new QWidget();
 	empty->setFixedSize(10, 20);
@@ -542,6 +612,8 @@ void MainWindow::createToolBars()
 
 	sel = QSettings().value("ui/linkboard_curEngine").toInt();
 	this->cbtnLinkEngine->setCurrentIndex(sel);
+
+	*/
 
 
 	//QSettings().setValue("ui/linkboard", true);
@@ -2243,16 +2315,6 @@ void MainWindow::onLinkBoardCombox(const QString& txt)
 		this->m_autoClickCap->SetCatlogName(txt);
 	}
 }
-//void MainWindow::onChangeBoardPicAct()
-//{
-//	this->m_gameViewer->boardScene()->changeBoardPicture();
-//}
-/*
-void MainWindow::showContextMenu(const QPoint& pos)
-{
-	int a = 0;
-}*/
-
 
 void MainWindow::addDefaultWindowMenu()
 {
