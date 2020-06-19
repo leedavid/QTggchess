@@ -26,7 +26,7 @@ namespace Chess {
 		m_linkBoard = new LinkBoard(pMain, this, catName, isAuto);
 
 		connect(this, SIGNAL(CapSendSignal(stCaptureMsg)),
-			parent, SLOT(processCapMsg(stCaptureMsg)));
+			parent, SLOT(slotProcessCapMsg(stCaptureMsg)));
 	}
 
 

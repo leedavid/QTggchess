@@ -132,104 +132,7 @@ MainWindow::MainWindow(ChessGame* game)
 	createMenus();
 	createToolBars();
 	createDockWindows();
-
-	// 状态栏
-	//statusBar()->showMessage("http://www.ggzero.cn");
-	m_status1 = new QLabel();
-	statusBar()->addPermanentWidget(m_status1, 1);
-	m_status1->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-
-	m_status2 = new QLabel();
-	statusBar()->addPermanentWidget(m_status2, 1);
-	m_status2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-
-	m_status3 = new QLabel();
-	statusBar()->addPermanentWidget(m_status3, 1);
-	m_status3->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-
-	m_status2->setText("Knowledge is power.");
-
-	//m_sliderText->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-	m_status3->setText("www.ggzero.cn");
-
-	//statusBar()->addPermanentWidget(cbtnLinkBoard);
-	//statusBar()->addPermanentWidget(cbtnLinkEngine);
-
-	//QWidget* empty = new QWidget();
-	//empty->setFixedSize(10, 20);
-	//this->mainToolbar->addWidget(empty);
-
-	//QComboBox* cbtnLinkBoard;            // 连线的棋盘
-	this->cbtnLinkBoard = new QComboBox(this);
-	this->cbtnLinkBoard->setObjectName(QStringLiteral("cbtnLinkBoard"));
-	this->cbtnLinkBoard->setToolTip("改变连线方案");
-	QStringList strList;
-	//strList << "天天象棋" << "王者象棋" ;
-	strList << "王者象棋" << "天天象棋";
-	this->cbtnLinkBoard->addItems(strList);
-	connect(this->cbtnLinkBoard, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onLinkBoardCombox(const QString&)));
-	//this->mainToolbar->addWidget(this->cbtnLinkBoard);
-
-	statusBar()->addPermanentWidget(this->cbtnLinkBoard);
-
-	int sel = QSettings().value("ui/linkboard_curSel").toInt();
-	this->cbtnLinkBoard->setCurrentIndex(sel);
-
-
-	//QWidget* empty2 = new QWidget();
-	//empty2->setFixedSize(10, 20);
-	//this->mainToolbar->addWidget(empty2);
-
-	//cbtnLinkEngine
-	this->cbtnLinkEngine = new QComboBox(this);
-	this->cbtnLinkEngine->setObjectName(QStringLiteral("cbtnLinkEngine"));
-	this->cbtnLinkEngine->setToolTip("选择连线的引擎");
-
-	//
-	EngineManager* m_engineManager =
-		CuteChessApplication::instance()->engineManager();
-
-	for (int i = 0; i < m_engineManager->engineCount(); i++) {
-		this->cbtnLinkEngine->addItem(m_engineManager->engineAt(i).name());
-	}
-	statusBar()->addPermanentWidget(this->cbtnLinkEngine);
-
-	sel = QSettings().value("ui/linkboard_curEngine").toInt();
-	this->cbtnLinkEngine->setCurrentIndex(sel);
-
-	m_sliderSpeed = new Chess::TranslatingSlider(this);
-	m_sliderSpeed->setToolTip("即时调整引擎运算时间限制");
-	m_sliderSpeed->setMultiplier(1000);
-	m_sliderSpeed->setMultiplier2(10000);
-	m_sliderSpeed->setMultiplier3(60000);
-	m_sliderSpeed->setOrientation(Qt::Horizontal);
-	m_sliderSpeed->setMinimum(0);  // O = Infinite
-	m_sliderSpeed->setStart2(30);  // Step 10s after 30s
-	m_sliderSpeed->setStart3(57);  // Step 60s after 5min
-	m_sliderSpeed->setMaximum(97); // 45 Minutes
-	//m_sliderSpeed->setTranslatedValue(QSettings().value("/Board/AutoPlayerInterval").toInt());
-	m_sliderSpeed->setTranslatedValue(0);
-	m_sliderSpeed->setTickInterval(1);
-	m_sliderSpeed->setTickPosition(QSlider::NoTicks);
-	m_sliderSpeed->setSingleStep(1);
-	m_sliderSpeed->setPageStep(1);
-	m_sliderSpeed->setMinimumWidth(120); // 87 + some pixel for overlapping slider
-	m_sliderSpeed->setMaximumWidth(400); // Arbitrary limit - not really needed
-
-	//connect(m_sliderSpeed, SIGNAL(translatedValueChanged(int)), SLOT(slotMoveIntervalChanged(int)));
-	statusBar()->addPermanentWidget(m_sliderSpeed);
-	m_sliderText = new QLabel(this);
-	m_sliderText->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-	slotSetSliderText(0);
-	m_sliderText->setFixedWidth(m_sliderText->sizeHint().width());
-	statusBar()->addPermanentWidget(m_sliderText);
-	connect(m_sliderSpeed, SIGNAL(translatedValueChanged(int)), this, SLOT(slotSetSliderText()));
-
-	slotSetSliderText();
-
-	statusBar()->setFixedHeight(statusBar()->height());
-	statusBar()->setSizeGripEnabled(true);
-
+	
 	//-----------------------------------------------------------------------------------------------------------------
 
 	connect(m_moveList, SIGNAL(moveClicked(int,bool)),			     // 点击棋谱走步
@@ -247,10 +150,10 @@ MainWindow::MainWindow(ChessGame* game)
 		SIGNAL(finished()), this, SLOT(onGameManagerFinished()),
 		Qt::QueuedConnection);
 
-	//connect(this, SIGNAL(customContextMenuRequested), this, SLOT(showContextMenu));
-
 	readSettings();
 	addGame(game);
+
+	createStatus();
 }
 
 MainWindow::~MainWindow()
@@ -360,10 +263,10 @@ void MainWindow::createActions()
 	connect(m_changeBoardPicAct, SIGNAL(triggered()), this->m_gameViewer->boardScene(), SLOT(OnchangeBoardPicture()));
 	connect(m_changeBoardBackGroundAct, SIGNAL(triggered()), this->m_gameViewer->boardScene(), SLOT(OnChangeBackGround()));
 
-	connect(m_editBoardAct, SIGNAL(triggered()), this, SLOT(editBoard()));
-	connect(m_newGameAct, SIGNAL(triggered()), this, SLOT(newGame()));
+	connect(m_editBoardAct, SIGNAL(triggered()), this, SLOT(slotEditBoard()));
+	connect(m_newGameAct, SIGNAL(triggered()), this, SLOT(slotNewGame()));
 	
-	connect(m_openPgnAct, SIGNAL(triggered()), this, SLOT(OpenPgnGame()));
+	connect(m_openPgnAct, SIGNAL(triggered()), this, SLOT(slotOpenPgnGame()));
 
 	connect(m_copyFenAct, SIGNAL(triggered()), this, SLOT(copyFen()));
 	connect(m_pasteFenAct, SIGNAL(triggered()), this, SLOT(pasteFen()));
@@ -389,19 +292,19 @@ void MainWindow::createActions()
 
 	auto app = CuteChessApplication::instance();
 
-	connect(m_saveGameAct, SIGNAL(triggered()), this, SLOT(save()));
+	connect(m_saveGameAct, SIGNAL(triggered()), this, SLOT(slotSave()));
 	connect(m_saveGameAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
-	connect(m_adjudicateDrawAct, SIGNAL(triggered()), this, SLOT(adjudicateDraw()));
-	connect(m_adjudicateWhiteWinAct, SIGNAL(triggered()), this, SLOT(adjudicateWhiteWin()));
-	connect(m_adjudicateBlackWinAct, SIGNAL(triggered()), this, SLOT(adjudicateBlackWin()));
+	connect(m_adjudicateDrawAct, SIGNAL(triggered()), this, SLOT(slotAdjudicateDraw()));
+	connect(m_adjudicateWhiteWinAct, SIGNAL(triggered()), this, SLOT(slotAdjudicateWhiteWin()));
+	connect(m_adjudicateBlackWinAct, SIGNAL(triggered()), this, SLOT(slotAdjudicateBlackWin()));
 
-	connect(m_resignGameAct, SIGNAL(triggered()), this, SLOT(resignGame()));
+	connect(m_resignGameAct, SIGNAL(triggered()), this, SLOT(slotResignGame()));
 
 	connect(m_quitGameAct, &QAction::triggered,
 		app, &CuteChessApplication::onQuitAction);
 
-	connect(m_newTournamentAct, SIGNAL(triggered()), this, SLOT(newTournament()));
+	connect(m_newTournamentAct, SIGNAL(triggered()), this, SLOT(slotNewTournament()));
 
 	connect(m_minimizeAct, &QAction::triggered, this, [=]()
 	{
@@ -536,6 +439,11 @@ void MainWindow::createToolBars()
 	this->tbtnEnginePlayBlack->setToolTip("电脑执黑走棋");
 	this->mainToolbar->addWidget(this->tbtnEnginePlayBlack);
 	connect(this->tbtnEnginePlayBlack, SIGNAL(toggled(bool)), this, SLOT(onPlayBlackToggled(bool)));
+
+	QWidget* empty2 = new QWidget();
+	empty2->setFixedSize(6, 20);
+	empty2->setStyleSheet(QString::fromUtf8("border:1px solid red"));
+	this->mainToolbar->addWidget(empty2);
 
 	// 让引擎立即出步
 	this->actEngineStop = new QAction(this);
@@ -772,6 +680,124 @@ void MainWindow::createDockWindows()
 	m_viewMenu->addAction(blackEvalDock->toggleViewAction());
 }
 
+void MainWindow::createStatus()
+{
+	// 状态栏--------------------------------------------------------------------------------------------	
+	m_status1 = new QLabel();
+	statusBar()->addPermanentWidget(m_status1, 1);
+	m_status1->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+
+	m_status2 = new QLabel();
+	statusBar()->addPermanentWidget(m_status2, 1);
+	m_status2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+
+	m_status3 = new QLabel();
+	statusBar()->addPermanentWidget(m_status3, 1);
+	m_status3->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+
+	m_status1->setText(preverb());
+	m_status2->setText(preverb());
+
+	//m_sliderText->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	m_status3->setText(QString("www.ggzero.cn ver: ") + CUTECHESS_VERSION);
+
+	//statusBar()->addPermanentWidget(cbtnLinkBoard);
+	//statusBar()->addPermanentWidget(cbtnLinkEngine);
+
+	//QWidget* empty = new QWidget();
+	//empty->setFixedSize(10, 20);
+	//this->mainToolbar->addWidget(empty);
+
+	//QComboBox* cbtnLinkBoard;            // 连线的棋盘
+	this->cbtnLinkBoard = new QComboBox(this);
+	this->cbtnLinkBoard->setObjectName(QStringLiteral("cbtnLinkBoard"));
+	this->cbtnLinkBoard->setToolTip("改变连线方案");
+	QStringList strList;
+	//strList << "天天象棋" << "王者象棋" ;
+	// 得到所有的连线目录
+	{
+		QString filePath = QCoreApplication::applicationDirPath() + "/image/linkboard/";
+		QDir dir(filePath);
+		if (dir.exists()) {
+
+			dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot); // | QDir::Files | QDir::NoDotAndDotDot);
+			//文件夹优先
+			dir.setSorting(QDir::DirsFirst);
+			//QFileInfoList list = dir.entryInfoList();
+			QStringList files = dir.entryList();
+			for (QString file : files) {
+				strList << file;
+			}
+		}
+	}
+	//strList << "王者象棋" << "天天象棋";
+	this->cbtnLinkBoard->addItems(strList);
+	connect(this->cbtnLinkBoard, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onLinkBoardCombox(const QString&)));
+	//this->mainToolbar->addWidget(this->cbtnLinkBoard);
+
+	statusBar()->addPermanentWidget(this->cbtnLinkBoard);
+
+	int sel = QSettings().value("ui/linkboard_curSel").toInt();
+	this->cbtnLinkBoard->setCurrentIndex(sel);
+
+
+	//QWidget* empty2 = new QWidget();
+	//empty2->setFixedSize(10, 20);
+	//this->mainToolbar->addWidget(empty2);
+
+	//cbtnLinkEngine
+	this->cbtnLinkEngine = new QComboBox(this);
+	this->cbtnLinkEngine->setObjectName(QStringLiteral("cbtnLinkEngine"));
+	this->cbtnLinkEngine->setToolTip("选择连线的引擎");
+
+	//
+	EngineManager* m_engineManager =
+		CuteChessApplication::instance()->engineManager();
+
+	for (int i = 0; i < m_engineManager->engineCount(); i++) {
+		this->cbtnLinkEngine->addItem(m_engineManager->engineAt(i).name());
+	}
+	statusBar()->addPermanentWidget(this->cbtnLinkEngine);
+
+	sel = QSettings().value("ui/linkboard_curEngine").toInt();
+	this->cbtnLinkEngine->setCurrentIndex(sel);
+
+	m_sliderSpeed = new Chess::TranslatingSlider(this);
+	m_sliderSpeed->setToolTip("即时调整引擎运算时间");
+	m_sliderSpeed->setMultiplier(1000);
+	m_sliderSpeed->setMultiplier2(10000);
+	m_sliderSpeed->setMultiplier3(60000);
+	m_sliderSpeed->setOrientation(Qt::Horizontal);
+	m_sliderSpeed->setMinimum(0);  // O = Infinite
+	m_sliderSpeed->setStart2(30);  // Step 10s after 30s
+	m_sliderSpeed->setStart3(57);  // Step 60s after 5min
+	m_sliderSpeed->setMaximum(97); // 45 Minutes
+	//m_sliderSpeed->setTranslatedValue(QSettings().value("/Board/AutoPlayerInterval").toInt());
+	m_sliderSpeed->setTranslatedValue(0);
+	m_sliderSpeed->setTickInterval(1);
+	m_sliderSpeed->setTickPosition(QSlider::NoTicks);
+	m_sliderSpeed->setSingleStep(1);
+	m_sliderSpeed->setPageStep(1);
+	m_sliderSpeed->setMinimumWidth(120); // 87 + some pixel for overlapping slider
+	m_sliderSpeed->setMaximumWidth(400); // Arbitrary limit - not really needed
+
+	//connect(m_sliderSpeed, SIGNAL(translatedValueChanged(int)), SLOT(slotMoveIntervalChanged(int)));
+	statusBar()->addPermanentWidget(m_sliderSpeed);
+	m_sliderText = new QLabel(this);
+	m_sliderText->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	slotSetSliderText(0);
+	m_sliderText->setFixedWidth(m_sliderText->sizeHint().width());
+	statusBar()->addPermanentWidget(m_sliderText);
+	connect(m_sliderSpeed, SIGNAL(translatedValueChanged(int)), this, SLOT(slotSetSliderText()));
+
+	slotSetSliderText();
+
+	statusBar()->setFixedHeight(statusBar()->height());
+	statusBar()->setSizeGripEnabled(true);
+
+	//connect(m_sliderSpeed, SIGNAL(translatedValueChanged(int)), m_game, SLOT(onAdjustTimePerMove(int)));
+}
+
 void MainWindow::readSettings()
 {
 	// https://blog.csdn.net/liang19890820/article/details/50513695
@@ -847,20 +873,27 @@ void MainWindow::addGame(ChessGame* game)
 		if (QSettings().value("ui/close_unused_initial_tab", true).toBool()
 		&&  !m_tabs[0].m_game.isNull()
 		&&  m_tabs[0].m_game.data()->moves().isEmpty())
-			closeTab(0);
+			slotCloseTab(0);
 
 		m_firstTabAutoCloseEnabled = false;
 		//m_myClosePreTab = true;
 	}
 	else {
 		if (m_myClosePreTab) {
-			closeTab(0);
+			slotCloseTab(0);
 			m_myClosePreTab = false;
 		}
 	}
 
 	if (m_tabs.size() >= 2)
 		m_tabBar->parentWidget()->show();
+
+	// 
+	if (m_sliderSpeed != nullptr) {
+		m_sliderSpeed->setValue(0);
+		connect(m_sliderSpeed, SIGNAL(translatedValueChanged(int)), game, SLOT(onAdjustTimePerMove(int)));
+	}
+	
 }
 
 void MainWindow::removeGame(int index)
@@ -878,7 +911,7 @@ void MainWindow::removeGame(int index)
 		m_tabBar->parentWidget()->hide();
 }
 
-void MainWindow::destroyGame(ChessGame* game)
+void MainWindow::slotDestroyGame(ChessGame* game)
 {
 	Q_ASSERT(game != nullptr);
 
@@ -970,8 +1003,8 @@ void MainWindow::setCurrentGame(const TabData& gameData)
 
 		m_tagsModel->setTags(gameData.m_pgn->tags());
 
-		updateWindowTitle();
-		updateMenus();
+		slotUpdateWindowTitle();
+		slotUpdateMenus();
 
 		for (auto evalWidget : m_evalWidgets)
 			evalWidget->setPlayer(nullptr);
@@ -1018,8 +1051,8 @@ void MainWindow::setCurrentGame(const TabData& gameData)
 	if (m_game->boardShouldBeFlipped())
 		m_gameViewer->boardScene()->flip();
 
-	updateMenus();
-	updateWindowTitle();
+	slotUpdateMenus();
+	slotUpdateWindowTitle();
 	unlockCurrentGame();
 }
 
@@ -1072,10 +1105,10 @@ void MainWindow::onTabCloseRequested(int index)
 			return;
 	}
 
-	closeTab(index);
+	slotCloseTab(index);
 }
 
-void MainWindow::closeTab(int index)
+void MainWindow::slotCloseTab(int index)
 {
 	const TabData& tab = m_tabs.at(index);
 
@@ -1096,21 +1129,21 @@ void MainWindow::closeTab(int index)
 	//}
 
 	if (tab.m_finished)
-		destroyGame(tab.m_game);
+		slotDestroyGame(tab.m_game);
 	else
 	{
 		connect(tab.m_game, SIGNAL(finished(ChessGame*)),
-			this, SLOT(destroyGame(ChessGame*)));
+			this, SLOT(slotDestroyGame(ChessGame*)));
 		QMetaObject::invokeMethod(tab.m_game, "stop", Qt::QueuedConnection);
 	}
 }
 
 void MainWindow::closeCurrentGame()
 {
-	closeTab(m_tabBar->currentIndex());
+	slotCloseTab(m_tabBar->currentIndex());
 }
 
-void MainWindow::editBoard() {
+void MainWindow::slotEditBoard() {
 	BoardEditorDlg dlgEditBoard(m_tabs.at(m_tabBar->currentIndex()).m_game->board(), this);
 	if (dlgEditBoard.exec() != QDialog::Accepted)
 		return;
@@ -1138,7 +1171,7 @@ void MainWindow::editBoard() {
 		new HumanBuilder(CuteChessApplication::userName()));
 }
 
-void MainWindow::newGame()  // 新建一局游戏
+void MainWindow::slotNewGame()  // 新建一局游戏
 {
 	EngineManager* engineManager = CuteChessApplication::instance()->engineManager();
 	NewGameDialog dlg(engineManager, this);
@@ -1192,8 +1225,8 @@ void MainWindow::onGameFinished(ChessGame* game)
 		// so we can't touch the game object any more.
 		if (tab.m_tournament)
 			m_game = nullptr;
-		updateWindowTitle();
-		updateMenus();
+		slotUpdateWindowTitle();
+		slotUpdateMenus();
 	}
 
 	// 保存fen文件，方便导入学习
@@ -1235,7 +1268,7 @@ void MainWindow::onGameFinished(ChessGame* game)
 	}
 }
 
-void MainWindow::OpenPgnGame()
+void MainWindow::slotOpenPgnGame()
 {
 	
 	QString filePGN = QFileDialog::getOpenFileName(this,
@@ -1285,7 +1318,7 @@ void MainWindow::OpenPgnGame()
 		new HumanBuilder(CuteChessApplication::userName()));
 }
 
-void MainWindow::newTournament()
+void MainWindow::slotNewTournament()
 {
 	NewTournamentDialog dlg(CuteChessApplication::instance()->engineManager(), this);
 	if (dlg.exec() != QDialog::Accepted)
@@ -1338,7 +1371,7 @@ void MainWindow::onTournamentFinished()
 
 	if (m_closing)
 	{
-		closeAllGames();
+		slotCloseAllGames();
 		return;
 	}
 
@@ -1370,7 +1403,7 @@ void MainWindow::onWindowMenuAboutToShow()
 		MainWindow* gameWindow = gameWindows.at(i);
 
 		QAction* showWindowAction = m_windowMenu->addAction(
-			gameWindow->windowListTitle(), this, SLOT(showGameWindow()));
+			gameWindow->windowListTitle(), this, SLOT(slotShowGameWindow()));
 		showWindowAction->setData(i);
 		showWindowAction->setCheckable(true);
 
@@ -1379,13 +1412,13 @@ void MainWindow::onWindowMenuAboutToShow()
 	}
 }
 
-void MainWindow::showGameWindow()
+void MainWindow::slotShowGameWindow()
 {
 	if (QAction* action = qobject_cast<QAction*>(sender()))
 		CuteChessApplication::instance()->showGameWindow(action->data().toInt());
 }
 
-void MainWindow::updateWindowTitle()
+void MainWindow::slotUpdateWindowTitle()
 {
 	// setWindowTitle() requires "[*]" (see docs)
 	const TabData& gameData(m_tabs.at(m_tabBar->currentIndex()));
@@ -1408,8 +1441,6 @@ bool MainWindow::isMoveValid(const Chess::GenericMove& move){
 	return m_gameViewer->isMoveValid(move);
 }
 	
-
-
 
 QString MainWindow::genericTitle(const TabData& gameData) const
 {
@@ -1436,7 +1467,7 @@ QString MainWindow::genericTitle(const TabData& gameData) const
 		       .arg(white, black, result.toShortString());
 }
 
-void MainWindow::updateMenus()
+void MainWindow::slotUpdateMenus()
 {
 	QPointer<ChessPlayer> white = m_players[Chess::Side::White];
 	QPointer<ChessPlayer> black = m_players[Chess::Side::Black];
@@ -1477,10 +1508,9 @@ void MainWindow::editMoveComment(int ply, const QString& comment)
 	}
 }
 
+// 棋盘上右键菜单
 void MainWindow::onMouseRightClicked(/*QGraphicsSceneContextMenuEvent* event*/)
 {
-	
-
 	QMenu mymenu;
 	mymenu.addAction(m_newGameAct);
 	mymenu.addAction(m_saveGameAct);
@@ -1557,7 +1587,7 @@ void MainWindow::pasteFen()
 		new HumanBuilder(CuteChessApplication::userName()));
 }
 
-
+// 关于菜单
 void MainWindow::showAboutDialog()
 {
 	this->mainToolbar->setVisible(true);
@@ -1572,8 +1602,7 @@ void MainWindow::showAboutDialog()
 	html += "<a href=\"http://elo.ggzero.cn\">GGzero训练网站</a><br>";
 	html += "<a href=\"http://bbs.ggzero.cn\">官方论坛</a><br>";
 	html += "<a href=\"https://jq.qq.com/?_wv=1027&k=5FxO79E\">加入QQ群</a><br>";
-	QMessageBox::about(this, tr("佳佳界面"), html);
-	
+	QMessageBox::about(this, tr("佳佳界面"), html);	
 }
 
 // 
@@ -1589,7 +1618,7 @@ void MainWindow::unlockCurrentGame()
 		m_game->unlockThread();
 }
 
-bool MainWindow::save()
+bool MainWindow::slotSave()
 {
 	if (m_currentFile.isEmpty())
 		return saveAs();
@@ -1646,13 +1675,13 @@ void MainWindow::onGameManagerFinished()
 	close();
 }
 
-void MainWindow::closeAllGames()
+void MainWindow::slotCloseAllGames()
 {
 	auto app = CuteChessApplication::instance();
 	app->closeDialogs();
 
 	for (int i = m_tabs.size() - 1; i >= 0; i--)
-		closeTab(i);
+		slotCloseTab(i);
 
 	if (m_tabs.isEmpty())
 		app->gameManager()->finish();
@@ -1673,7 +1702,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 		if (m_stopTournamentAct->isEnabled())
 			m_stopTournamentAct->trigger();
 		else
-			closeAllGames();
+			slotCloseAllGames();
 	}
 
 	event->ignore();
@@ -1689,24 +1718,24 @@ bool MainWindow::askToSave()
 				QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 
 		if (result == QMessageBox::Save)
-			return save();
+			return slotSave();
 		else if (result == QMessageBox::Cancel)
 			return false;
 	}
 	return true;
 }
 
-void MainWindow::adjudicateDraw()
+void MainWindow::slotAdjudicateDraw()
 {
 	adjudicateGame(Chess::Side::NoSide);
 }
 
-void MainWindow::adjudicateWhiteWin()
+void MainWindow::slotAdjudicateWhiteWin()
 {
 	adjudicateGame(Chess::Side::White);
 }
 
-void MainWindow::adjudicateBlackWin()
+void MainWindow::slotAdjudicateBlackWin()
 {
 	adjudicateGame(Chess::Side::Black);
 }
@@ -1749,7 +1778,58 @@ OpeningBook* MainWindow::GetOpeningBook(int& depth) const   // 得到开局库的信息
 	return book;
 }
 
-void MainWindow::resignGame()
+QString MainWindow::preverb()
+{
+	static QList<QString> list;
+	static bool init = false;
+	if (init == false) {
+		list << "Less is more."
+			<< "Where there is s will，there is a way."
+			<< "No pains，no gains."
+			<< "Time and tide wait for no man."
+			<< "Strike while the iron is hot."
+			<< "It‘s never too late to mend."
+			<< "There is no smoke without fire."
+			<< "We never know the worth of water till the well is dry."
+			<< "Seeing is believing."
+			<< "Well begun is half done."
+			<< "Time flies never to be recalled."
+			<< "When in Rome, do as Roman do."
+			<< "He laughs best who laughs last."
+			<< "Haste makes waste."
+			<< "No weal without woe."
+			<< "Absence sharpens love, presence strengthens it."
+			<< "Pain past is pleasure."
+			<< "A burden of one's choice is not felt."
+			<< "Adversity leads to prosperity."
+			<< "A faithful friend is hard to find."
+			<< "A friend is easier lost than found."
+			<< "A friend without faults will never be found."
+			<< "A good book is a good friend."
+			<< "A good fame is better than a good face."
+			<< "A hedge between keeps friendship green."
+			<< "A little body often harbors a great soul."
+			<< "All rivers run into sea."
+			<< "All that ends well is well."
+			<< "All that glitters is not gold."
+			<< "A man becomes learned by asking questions."
+			<< "A man is known by his friends."
+			<< "A merry heart goes all the way."
+			<< "A miss is as good as a mile."
+			<< "An hour in the morning is worth two in the evening."
+			<< "A still tongue makes a wise head."
+			<< "A word spoken is past recalling."
+			<< "Beauty lies in the love‘s eyes."
+			<< "Between friends all is common."
+			<< "Cannot see the wood for the trees."
+			<< "Care and diligence bring luck.";
+
+		init = true;
+	}
+	return list[Chess::Random::Get().GetInt(0, list.length() - 1)];
+}
+
+void MainWindow::slotResignGame()
 {
 	if (m_game.isNull() || m_game->isFinished())
 		return;
@@ -1770,7 +1850,7 @@ void MainWindow::resignGame()
 }
 
 // 连线信息
-void MainWindow::processCapMsg(Chess::stCaptureMsg msg)
+void MainWindow::slotProcessCapMsg(Chess::stCaptureMsg msg)
 {
 	// 得到当前的游戏？不是，应该得到当前的chessgame
 	
@@ -1927,7 +2007,7 @@ void MainWindow::processCapMsg(Chess::stCaptureMsg msg)
 
 			//auto game = this->m_game;
 
-			game->isGetSetting = true;    // 棋局已设置好了
+			//game->isGetSetting = true;    // 棋局已设置好了
 
 
 			//bool isWhiteCPU = (side == Chess::Side::White);
@@ -2173,7 +2253,7 @@ void MainWindow::onPlayWhich() //, Chess::Side side)
 
 			//auto game = this->m_game;
 
-			game->isGetSetting = true;    // 棋局已设置好了
+			//game->isGetSetting = true;    // 棋局已设置好了
 
 
 			//bool isWhiteCPU = (side == Chess::Side::White);

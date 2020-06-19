@@ -81,20 +81,20 @@ class MainWindow : public QMainWindow
 		void closeCurrentGame();
 
 	private slots:
-		void editBoard();
-		void newGame();
-		void OpenPgnGame();
-		void newTournament();
+		void slotEditBoard();
+		void slotNewGame();
+		void slotOpenPgnGame();
+		void slotNewTournament();
 		void onWindowMenuAboutToShow();
-		void showGameWindow();
-		void updateWindowTitle();
-		void updateMenus();
-		bool save();
+		void slotShowGameWindow();
+		void slotUpdateWindowTitle();
+		void slotUpdateMenus();
+		bool slotSave();
 		bool saveAs();
 		void onTabChanged(int index);
 		void onTabCloseRequested(int index);
-		void closeTab(int index);
-		void destroyGame(ChessGame* game);
+		void slotCloseTab(int index);
+		void slotDestroyGame(ChessGame* game);
 		void onTournamentFinished();
 		void onGameManagerFinished();
 		void onGameStartFailed(ChessGame* game);
@@ -106,13 +106,13 @@ class MainWindow : public QMainWindow
 		//void msgFen(QString fen);              // 这个是临时的
 		void copyPgn();
 		void showAboutDialog();
-		void closeAllGames();
-		void adjudicateDraw();
-		void adjudicateWhiteWin();
-		void adjudicateBlackWin();
-		void resignGame();
+		void slotCloseAllGames();
+		void slotAdjudicateDraw();
+		void slotAdjudicateWhiteWin();
+		void slotAdjudicateBlackWin();
+		void slotResignGame();
 
-		void processCapMsg(Chess::stCaptureMsg msg);
+		void slotProcessCapMsg(Chess::stCaptureMsg msg);
 
 		// 連线棋盘
 		void onLXchessboardStart();
@@ -145,14 +145,14 @@ class MainWindow : public QMainWindow
 			QPointer<ChessGame> m_game;
 			PgnGame* m_pgn;
 			Tournament* m_tournament;
-			bool m_finished;
-			//Chess::Capture* m_cap; 
+			bool m_finished;			
 		};
 
 		void createActions();
 		void createMenus();
 		void createToolBars();
 		void createDockWindows();
+		void createStatus();             // 状态栏
 		void readSettings();
 		void writeSettings();
 		QString genericTitle(const TabData& gameData) const;
@@ -185,10 +185,10 @@ class MainWindow : public QMainWindow
 
 		QToolButton* tbtnLinkAuto;           // 全自动连接其它棋盘
 
-		//QAction* actEngineThink;      // 让引擎思考
-		QAction* actEngineStop;       // 让引擎停止思考，立即出步
-		QAction* actEngineAnalyze;    // 让引擎分析
-		QAction* actEngineSetting;    // 引擎设置参数
+		//QAction* actEngineThink;			// 让引擎思考
+		QAction* actEngineStop;				// 让引擎停止思考，立即出步
+		QAction* actEngineAnalyze;			// 让引擎分析
+		QAction* actEngineSetting;			// 引擎设置参数
 
 
 		GameTabBar* m_tabBar;		    
@@ -273,6 +273,7 @@ class MainWindow : public QMainWindow
 		}
 
 		OpeningBook* GetOpeningBook(int& depth) const;
+		QString preverb();      // 谚语
 };
 
 #endif // MAINWINDOW_H

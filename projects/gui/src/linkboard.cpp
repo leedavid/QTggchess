@@ -32,7 +32,7 @@ LinkBoard::LinkBoard(MainWindow* pMain, Capture* pCap, QString catName, bool isA
 void LinkBoard::initBoard()
 {
 #if 0
-	if (m_catName == "天天象棋") {        // 天天象棋
+	if (m_catName == "中游象棋") {        // 天天象棋
 		m_precision_chess = 0.57f; // was 0.52
 		m_precision_auto = 0.98f;
 		m_UseAdb = false;
@@ -52,20 +52,21 @@ void LinkBoard::initBoard()
 
 
 		//this->m_LxInfo.m_LX_name = "兵河五四小棋盘";
-		m_ParentKeyword = "中国象棋2017";           // 父窗口关键词
-		m_Parentclass = "QQChess";             // 父窗口类
-		m_titleKeyword = ""; // "BHGUI(test) - 新棋局";
-		m_class = ""; // "Afx:00400000:b:00010003:00000006:0A1D05FB";
+		m_ParentKeyword = "QQ新中国象棋";                          // 父窗口关键词
+		m_Parentclass = "";             // 父窗口类
+		m_titleKeyword = "CGameView"; // "BHGUI(test) - 新棋局";
+		m_class = "Afx:400000:0";
+		//m_class = "AfxOleControl42"; // "Afx:00400000:b:00010003:00000006:0A1D05FB";
 
 		//this->m_LxInfo.offx = 29.0f;
 		//this->m_LxInfo.offy = 138.0f;
 		//this->m_LxInfo.m_dx = 28.0f;
 		//this->m_LxInfo.m_dy = 28.0f;
 
-		m_offx_che = 73.0f;
-		m_offy_che = 175.0f;
-		m_dx = 68.0f;
-		m_dy = 68.0f;
+		m_offx_che = 266.0f;
+		m_offy_che = 88.0f;
+		m_dx = 57.0f;
+		m_dy = 57.0f;
 
 		this->m_Ready_LXset = false;
 
@@ -93,6 +94,69 @@ void LinkBoard::initBoard()
 
 		m_iLowVblack = 0;
 		m_iHighVblack = 140;
+		/* qq 新象
+		m_precision_chess = 0.57f; // was 0.52
+		m_precision_auto = 0.98f;
+		m_UseAdb = false;
+		m_sleepTimeMs = 50;
+		m_scaleX = 1.0f;
+		m_scaleY = 1.0f;
+
+		//m_Ready_LXset = false;
+		////m_chessWinOK = false;
+
+		//m_chessClip = 0.25f;
+
+		//this->m_board = BoardFactory::create("standard");
+		//this->m_board_second = BoardFactory::create("standard");
+		//m_board->reset();
+		//m_board_second->reset();
+
+
+		//this->m_LxInfo.m_LX_name = "兵河五四小棋盘";
+		m_ParentKeyword = "QQ新中国象棋";                          // 父窗口关键词
+		m_Parentclass = "";             // 父窗口类
+		m_titleKeyword = "CGameView"; // "BHGUI(test) - 新棋局";
+		m_class = "Afx:400000:0";
+		//m_class = "AfxOleControl42"; // "Afx:00400000:b:00010003:00000006:0A1D05FB";
+
+		//this->m_LxInfo.offx = 29.0f;
+		//this->m_LxInfo.offy = 138.0f;
+		//this->m_LxInfo.m_dx = 28.0f;
+		//this->m_LxInfo.m_dy = 28.0f;
+
+		m_offx_che = 266.0f;
+		m_offy_che = 88.0f;
+		m_dx = 57.0f;
+		m_dy = 57.0f;
+
+		this->m_Ready_LXset = false;
+
+		//this->m_LxInfo.m_PieceCatlog = "0";
+		//this->m_connectedBoard_OK = false;  // 
+
+		m_side = Side::NoSide;
+
+		m_flip = false;
+
+		m_iLowHred = 0;
+		m_iHighHred = 10;
+
+		m_iLowSred = 77;
+		m_iHighSred = 255;
+
+		m_iLowVred = 95;
+		m_iHighVred = 255;
+
+		m_iLowHblack = 0;
+		m_iHighHblack = 51;
+
+		m_iLowSblack = 0;
+		m_iHighSblack = 90;
+
+		m_iLowVblack = 0;
+		m_iHighVblack = 140;
+		*/
 	}
 	else if (m_catName == "王者象棋") {   // 王者象棋
 		m_precision_chess = 0.42f; // was 0.52
@@ -233,9 +297,9 @@ void LinkBoard::runAutoChess()
 
 	if (this->m_Ready_LXset == false) {
 		
-		this->GetLxInfo(this->m_catName, false);   // 不保存棋子
+		//this->GetLxInfo(this->m_catName, false);   // 不保存棋子
 
-		//this->GetLxInfo(this->m_catName, true);  // 保存棋子
+		this->GetLxInfo(this->m_catName, false);  // 保存棋子
 
 		if (this->m_Ready_LXset == false) {
 			m_pCap->SendMessageToMain("出错啦 01", "连线方案还没有准备好！");
@@ -787,7 +851,17 @@ bool LinkBoard::isFindChild(HWND hw)
 	QString wc = this->get_window_class(hw);
 	QString wt = this->get_window_title(hw);
 
-	if (wc == this->m_class && wt == this->m_titleKeyword) {
+	if (this->m_class == "") {
+		if (wt == this->m_titleKeyword) {
+			return true;
+		}
+	}
+	else if (this->m_titleKeyword == "") {
+		if (wc == this->m_class) {
+			return true;
+		}
+	}
+	else if (wc == this->m_class && wt == this->m_titleKeyword) {
 		this->m_hwnd = hw;		
 		return true;
 	}

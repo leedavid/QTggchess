@@ -86,9 +86,8 @@ class LIB_EXPORT ChessGame : public QObject
 			this->emitLastMove();
 		};
 
-		bool isGetSetting;    // 是否从设置文件中得到了设置数据
-		bool isLinkBoard;     // 是否要翻转棋盘
-		//EngineConfiguration m_engineConfig[2];
+		//bool isGetSetting;    // 是否从设置文件中得到了设置数据
+		bool isLinkBoard;       // 是否要翻转棋盘, 连线下棋不要翻转	
 
 	public slots:
 		void start();
@@ -100,6 +99,8 @@ class LIB_EXPORT ChessGame : public QObject
 		void onMoveMade(const Chess::Move& move);
 		void onAdjudication(const Chess::Result& result);
 		void onResignation(const Chess::Result& result);
+
+		void onAdjustTimePerMove(int timePerMove);
 
 	signals:
 		void humanEnabled(bool);

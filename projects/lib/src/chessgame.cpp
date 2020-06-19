@@ -64,7 +64,7 @@ ChessGame::ChessGame(Chess::Board* board, PgnGame* pgn, QObject* parent)
 	m_bookOwnership(false),
 	m_boardShouldBeFlipped(false),
 	m_pgn(pgn),
-	isGetSetting(false),
+	//isGetSetting(false),
 	isLinkBoard(false)
 {
 	Q_ASSERT(pgn != nullptr);
@@ -361,6 +361,16 @@ void ChessGame::onResignation(const Chess::Result& result)
 	m_result = result;
 
 	stop();
+}
+
+void ChessGame::onAdjustTimePerMove(int timePerMove)
+{
+	for (int i = 0; i < 2; i++) {
+		if (m_player[i]->isHuman() == false) {
+			//m_timeControl[i].setTimePerMove(timePerMove);
+			m_player[i]->setTimePerMove(timePerMove);
+		}
+	}
 }
 
 void ChessGame::onResultClaim(const Chess::Result& result)

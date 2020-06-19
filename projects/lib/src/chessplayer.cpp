@@ -154,6 +154,12 @@ void ChessPlayer::setTimeControl(const TimeControl& timeControl)
 	m_timeControl = timeControl;
 }
 
+void ChessPlayer::setTimePerMove(int timePerMove)
+{
+	this->m_timeControl.setTimePerMove(timePerMove);
+		//.m_timePerMove = timePerMove;
+}
+
 Chess::Side ChessPlayer::side() const
 {
 	return m_side;

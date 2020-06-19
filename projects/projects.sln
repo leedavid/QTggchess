@@ -17,24 +17,18 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		REL|x64 = REL|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7CFC224B-5466-38F2-AA06-A4110C6E7F08}.Debug|x64.ActiveCfg = Debug|x64
 		{7CFC224B-5466-38F2-AA06-A4110C6E7F08}.Debug|x64.Build.0 = Debug|x64
-		{7CFC224B-5466-38F2-AA06-A4110C6E7F08}.REL|x64.ActiveCfg = REL|x64
-		{7CFC224B-5466-38F2-AA06-A4110C6E7F08}.REL|x64.Build.0 = REL|x64
 		{7CFC224B-5466-38F2-AA06-A4110C6E7F08}.Release|x64.ActiveCfg = Release|x64
 		{7CFC224B-5466-38F2-AA06-A4110C6E7F08}.Release|x64.Build.0 = Release|x64
 		{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}.Debug|x64.ActiveCfg = Debug|x64
 		{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}.Debug|x64.Build.0 = Debug|x64
-		{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}.REL|x64.ActiveCfg = REL|x64
-		{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}.REL|x64.Build.0 = REL|x64
 		{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}.Release|x64.ActiveCfg = Release|x64
 		{581CC2F3-7A36-3D57-A1EE-AFFAA9632D77}.Release|x64.Build.0 = Release|x64
 		{9BACCAF7-8B86-3D3C-852A-DBDD5E64DC59}.Debug|x64.ActiveCfg = Debug|x64
-		{9BACCAF7-8B86-3D3C-852A-DBDD5E64DC59}.REL|x64.ActiveCfg = REL|x64
 		{9BACCAF7-8B86-3D3C-852A-DBDD5E64DC59}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution

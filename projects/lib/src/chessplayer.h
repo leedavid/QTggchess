@@ -107,6 +107,8 @@ class LIB_EXPORT ChessPlayer : public QObject
 		/*! Sets the time control for the player. */
 		void setTimeControl(const TimeControl& timeControl);
 
+		void setTimePerMove(int timePerMove);
+
 		/*! Returns the side of the player. */
 		Chess::Side side() const;
 

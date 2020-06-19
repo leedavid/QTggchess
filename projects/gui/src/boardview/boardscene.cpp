@@ -60,6 +60,8 @@ BoardScene::BoardScene(QObject* parent)
 	  m_moveArrows(nullptr)
 {
 	// default-rbok.svg
+	// QSettings().value("ui/highlight_legal_moves", true).toBool())
+	QSettings().setValue("ui/movechess_click_mode", false);          // 点击方式走棋 
 }
 
 BoardScene::~BoardScene()
@@ -135,26 +137,10 @@ void BoardScene::SetBackground()
 	this->setBackgroundBrush(QPixmap(pic));
 }
 
-
-//void BoardScene::drawBackground(QPainter* painter, const QRectF& rect){
-//	QString pic = QCoreApplication::applicationDirPath() + "/image/bg.jpg";
-//	//painter->drawImage()
-//	//painter->
-//
-//	QGraphicsPixmapItem* bgItem = new QGraphicsPixmapItem(QPixmap(pic));
-//	this->addItem(bgItem);
-//
-//	painter->
-//}
-
+// 连线走棋信息
 void BoardScene::LinkMove(const Chess::GenericMove& lmove) // , const Chess::Side& side)
 {	
-	//Chess::Move move = m_board->moveFromGenericMove(lmove);				// 
 
-	//if (m_board->isLegalMove(move) == false) {
-	//	return;
-	//}
-	
 	emit humanMove(lmove, m_board->sideToMove());
 
 	m_highlightPiece = nullptr;
@@ -319,20 +305,40 @@ void BoardScene::flip()
 
 void BoardScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-	GraphicsPiece* piece = pieceAt(event->scenePos());
-	if (piece == m_highlightPiece || m_anim != nullptr || m_chooser != nullptr)
-		return QGraphicsScene::mouseMoveEvent(event); // clazy:exclude=returning-void-expression
+	if (QSettings().value("ui/movechess_click_mode", true).toBool()) { // 点击方式走棋 
+		//GraphicsPiece* piece = pieceAt(event->scenePos());
+		//if (piece == m_highlightPiece || m_anim != nullptr || m_chooser != nullptr)
+		//	return QGraphicsScene::mouseMoveEvent(event); // clazy:exclude=returning-void-expression
 
-	if (m_targets.contains(piece)
-	&&  QSettings().value("ui/highlight_legal_moves", true).toBool())
-	{
-		m_highlightPiece = piece;
-		m_squares->setHighlights(m_targets.values(piece));
+		//if (m_targets.contains(piece)
+		//	&& QSettings().value("ui/highlight_legal_moves", true).toBool())
+		//{
+		//	m_highlightPiece = piece;
+		//	m_squares->setHighlights(m_targets.values(piece));
+		//}
+		//else
+		//{
+		//	m_highlightPiece = nullptr;
+		//	m_squares->clearHighlights();
+		//}
 	}
-	else
-	{
-		m_highlightPiece = nullptr;
-		m_squares->clearHighlights();
+	else {
+
+		GraphicsPiece* piece = pieceAt(event->scenePos());
+		if (piece == m_highlightPiece || m_anim != nullptr || m_chooser != nullptr)
+			return QGraphicsScene::mouseMoveEvent(event); // clazy:exclude=returning-void-expression
+
+		if (m_targets.contains(piece)
+			&& QSettings().value("ui/highlight_legal_moves", true).toBool())
+		{
+			m_highlightPiece = piece;
+			m_squares->setHighlights(m_targets.values(piece));
+		}
+		else
+		{
+			m_highlightPiece = nullptr;
+			m_squares->clearHighlights();
+		}
 	}
 
 	QGraphicsScene::mouseMoveEvent(event);
@@ -342,40 +348,123 @@ void BoardScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
 	stopAnimation();
 
-	if (m_chooser != nullptr)
-	{
-		bool ok = sendEvent(m_chooser, event);
-		Q_ASSERT(ok); Q_UNUSED(ok);
-		return;
+	// QSettings().value("ui/highlight_legal_moves", true).toBool())
+	//QSettings().setValue("ui/movechess_click_mode", true);          // 点击方式走棋 
+
+	if (QSettings().value("ui/movechess_click_mode", true).toBool()) { // 点击方式走棋 
+
+		//GraphicsPiece* piece = qgraphicsitem_cast<GraphicsPiece*>(mouseGrabberItem());
+		//if (event->button() == Qt::LeftButton) {
+		//	if (piece != nullptr) {  //当前有选择了棋子
+		//		
+		//	}
+		//	else { // 是不是可以选择一个新棋子
+
+		//	}
+		//}
+
+		//if (m_chooser != nullptr)
+		//{
+		//	bool ok = sendEvent(m_chooser, event);
+		//	Q_ASSERT(ok); Q_UNUSED(ok);
+		//	return;
+		//}
+
+		//GraphicsPiece* piece = pieceAt(event->scenePos());
+		//if (piece == nullptr || event->button() != Qt::LeftButton)
+		//	return;
+
+		//if (m_targets.contains(piece))
+		//{
+		//	piece->setFlag(QGraphicsItem::ItemIsMovable, true);
+		//	m_sourcePos = piece->scenePos();
+		//	piece->setParentItem(nullptr);
+		//	piece->setPos(m_sourcePos);
+
+		//	{
+		//		GraphicsPiece* piece2 = qgraphicsitem_cast<GraphicsPiece*>(mouseGrabberItem());
+		//		if (piece2 != nullptr && event->button() == Qt::LeftButton)
+		//		{
+		//			QPointF targetPos(m_squares->mapFromScene(event->scenePos()));
+		//			tryMove(piece2, targetPos);
+		//		}
+		//	}
+
+		//	QGraphicsScene::mousePressEvent(event);
+		//}
+		//else
+		//	piece->setFlag(QGraphicsItem::ItemIsMovable, false);
+
+		// 1. 选择一个棋子
+
+		// 2. 尝试走一个棋子
 	}
+	//-------------------------------------------------------------------------------------
+	else {   // 拖动模式走棋
 
-	GraphicsPiece* piece = pieceAt(event->scenePos());
-	if (piece == nullptr || event->button() != Qt::LeftButton)
-		return;
+		if (m_chooser != nullptr)
+		{
+			bool ok = sendEvent(m_chooser, event);
+			Q_ASSERT(ok); Q_UNUSED(ok);
+			return;
+		}
 
-	if (m_targets.contains(piece))
-	{
-		piece->setFlag(QGraphicsItem::ItemIsMovable, true);
-		m_sourcePos = piece->scenePos();
-		piece->setParentItem(nullptr);
-		piece->setPos(m_sourcePos);
+		GraphicsPiece* piece = pieceAt(event->scenePos());
+		if (piece == nullptr || event->button() != Qt::LeftButton)
+			return;
 
-		QGraphicsScene::mousePressEvent(event);
+		if (m_targets.contains(piece))
+		{
+			piece->setFlag(QGraphicsItem::ItemIsMovable, true);
+			m_sourcePos = piece->scenePos();
+			piece->setParentItem(nullptr);
+			piece->setPos(m_sourcePos);
+
+			
+
+			QGraphicsScene::mousePressEvent(event);
+		}
+		else
+			piece->setFlag(QGraphicsItem::ItemIsMovable, false);
 	}
-	else
-		piece->setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 
 void BoardScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-	GraphicsPiece* piece = qgraphicsitem_cast<GraphicsPiece*>(mouseGrabberItem());
-	if (piece != nullptr && event->button() == Qt::LeftButton)
-	{
-		QPointF targetPos(m_squares->mapFromScene(event->scenePos()));
-		tryMove(piece, targetPos);
-	}
+	if (QSettings().value("ui/movechess_click_mode", true).toBool()) { // 点击方式走棋 
+		//if (event->button() == Qt::LeftButton) {
+		//	GraphicsPiece* piece = qgraphicsitem_cast<GraphicsPiece*>(mouseGrabberItem());
+		//	//if (piece == nullptr) {  // 选定一个棋子
+		//	//	GraphicsPiece* piece = pieceAt(event->scenePos());
+		//	//	if (piece == nullptr || event->button() != Qt::LeftButton)
+		//	//		return;
 
-	//QGraphicsScene::contextMenuEvent()
+		//	//	// 选择一个棋子
+		//	//	if (m_targets.contains(piece)) {
+		//	//		piece->setFlag(QGraphicsItem::ItemIsMovable, true);
+		//	//		m_sourcePos = piece->scenePos();
+		//	//		piece->setParentItem(nullptr);
+		//	//		piece->setPos(m_sourcePos);
+		//	//	}
+		//	//	else
+		//	//		piece->setFlag(QGraphicsItem::ItemIsMovable, false);			
+
+		//	//}
+		//	//else {   // 放下一个棋子
+		//	//	QPointF targetPos(m_squares->mapFromScene(event->scenePos()));
+		//	//	tryMove(piece, targetPos);
+		//	//}
+		//}
+	}
+	//-------------------------------------------------------------------------------------
+	else {
+		GraphicsPiece* piece = qgraphicsitem_cast<GraphicsPiece*>(mouseGrabberItem());
+		if (piece != nullptr && event->button() == Qt::LeftButton)
+		{
+			QPointF targetPos(m_squares->mapFromScene(event->scenePos()));
+			tryMove(piece, targetPos);
+		}
+	}
 
 	QGraphicsScene::mouseReleaseEvent(event);
 }
@@ -388,26 +477,7 @@ void BoardScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 	QGraphicsScene::contextMenuEvent(event);
 }
 
-//void BoardScene::drawBackground(QPainter* painter, const QRectF& rect)
-//{
-//	int a = 0;
-//
-//	QString picPath = QCoreApplication::applicationDirPath() + "/image/backgroud/board.png";	
-//   QPixmap pix = QPixmap(picPath);
-//   QSize pixSize = pix.size();
-//   pixSize.scale(QSize(rect.width(), rect.height()), Qt::AspectRatioMode::KeepAspectRatioByExpanding);    // :KeepAspectRatio);
-//   QPixmap scaledPix = pix.scaled(pixSize,
-//	   Qt::AspectRatioMode::KeepAspectRatioByExpanding,
-//   	Qt::SmoothTransformation
-//   );
-//   //QPixmap scaledPix = pix.scaled(m_rect.width()+125, m_rect.height()+125);
-//
-//   //pixSize.scale(m_rect.size(), Qt::KeepAspectRatio);
-//   //painter->drawPixmap(0, 0, scaledPix);
-//
-//   painter->drawPixmap(-(rect.width()/2),-(rect.height()/2), scaledPix);
-//
-//}
+
 
 void BoardScene::onTransitionFinished()
 {

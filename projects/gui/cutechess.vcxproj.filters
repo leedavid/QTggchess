@@ -83,9 +83,6 @@
     <ClCompile Include="src\chessclock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cutechessapp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\evalhistory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -244,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="src\translatingslider.cpp">
       <Filter>Source Files\mainWin\状态栏</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cutechessapp.cpp">
+      <Filter>Source Files\mainWin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
