@@ -235,7 +235,7 @@ void MainWindow::createActions()
 	m_showSettingsAct = new QAction(tr("&通用设置"), this);
 	m_showSettingsAct->setMenuRole(QAction::PreferencesRole);
 
-	m_showGameDatabaseWindowAct = new QAction(tr("&对局数据库"), this);
+	m_showGameDatabaseWindowAct = new QAction(tr("&对局数据库(此功能暂时不可用)"), this);
 
 	m_showGameWallAct = new QAction(tr("&当前对局"), this);
 
@@ -441,8 +441,8 @@ void MainWindow::createToolBars()
 	connect(this->tbtnEnginePlayBlack, SIGNAL(toggled(bool)), this, SLOT(onPlayBlackToggled(bool)));
 
 	QWidget* empty2 = new QWidget();
-	empty2->setFixedSize(6, 20);
-	empty2->setStyleSheet(QString::fromUtf8("border:1px solid red"));
+	empty2->setFixedSize(2, 20);
+	empty2->setStyleSheet(QString::fromUtf8("border:1px solid gray"));
 	this->mainToolbar->addWidget(empty2);
 
 	// 让引擎立即出步
